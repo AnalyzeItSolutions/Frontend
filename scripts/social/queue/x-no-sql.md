@@ -1,5 +1,14 @@
 ---
+buffer_draft: 6acb53b5f91f772d45c1089e
 platform: x
-status: draft
+status: buffer-draft
 ---
-You don't need SQL to answer most business questions. Total by month as a line. Split by region or product. Look at what's unusual. Forecast last. In that order. https://www.analyzeit.in/guides/analyze-data-without-sql-or-code
+You don't need SQL to answer most business questions.
+
+The order that works:
+1. Total by month, as a line
+2. Split by region or product
+3. What's unusual?
+4. Forecast last
+
+https://www.analyzeit.in/guides/analyze-data-without-sql-or-code
