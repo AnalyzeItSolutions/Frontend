@@ -188,6 +188,28 @@ export function DownloadClient({ releases }: { releases: Releases }) {
         )}
       </section>
 
+      {/* Terminal install: no first-run warning */}
+      <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] p-6">
+        <h2 className="text-base font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Install from a terminal (no first-run warning)</h2>
+        <p className="mt-2 text-sm text-[#4A4238]/80 dark:text-[#C5B9AE]">
+          Files saved by a browser are flagged &ldquo;downloaded from the internet&rdquo;, which is what triggers the unidentified-developer warning. Files fetched by these commands are not flagged, so
+          nothing is blocked. The script checks the SHA-256 before installing, and you can read it first at <a className="text-[#E3836C] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E3836C] hover:underline" href="/install.ps1">/install.ps1</a>.
+        </p>
+        {os === 'windows' ? (
+          <pre className="mt-3 overflow-x-auto rounded-lg bg-[#4A4238]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
+irm https://www.analyzeit.in/install.ps1 | iex
+
+# Desktop app
+& ([scriptblock]::Create((irm https://www.analyzeit.in/install.ps1))) -App`}</pre>
+        ) : (
+          <pre className="mt-3 overflow-x-auto rounded-lg bg-[#4A4238]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
+curl -fsSL https://www.analyzeit.in/install.sh | sh
+
+# Desktop app
+curl -fsSL https://www.analyzeit.in/install.sh | sh -s -- --app`}</pre>
+        )}
+      </section>
+
       {/* First-run help */}
       <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] p-6">
         <h2 className="text-base font-semibold text-[#2B2620] dark:text-[#EDE6DD]">{OS_NOTES[os].title}</h2>
