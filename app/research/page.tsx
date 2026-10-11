@@ -812,9 +812,10 @@ function ChatInner() {
   };
 
   const sendMessage = useCallback(
-    async (raw?: string, modeOverride?: ComposerMode) => {
+    async (raw?: string, modeOverride?: ComposerMode, resend?: Array<{ attachment_id: string; filename: string }>) => {
       const value = (raw ?? input).trim();
-      const attachmentIds = sendableIds(pendingAttachments);
+      // A retry carries the files the original message had; they are no longer in the composer.
+      const attachmentIds = resend ? resend.map((a) => a.attachment_id) : sendableIds(pendingAttachments);
       if ((!value && !attachmentIds.length) || awaitingAd) return;
       if (isStreaming) {
         abortRef.current = true;
@@ -838,7 +839,7 @@ function ChatInner() {
       if (value) ingestChatRun({ query: value });
       const userId = `user-${Date.now()}`;
       const assistantId = `asst-${Date.now()}`;
-      const chipMeta = pendingAttachments.filter((a) => a.status !== 'failed').map((a) => ({
+      const chipMeta = (resend ?? pendingAttachments.filter((a) => a.status !== 'failed')).map((a) => ({
         attachment_id: a.attachment_id,
         filename: a.filename,
       }));
@@ -979,8 +980,8 @@ function ChatInner() {
         const scopedProjectId = projectId;
 
         // Clear chips once the request is about to leave — restore on hard failure.
-        chipsSnapshot = pendingAttachments;
-        setPendingAttachments([]);
+        chipsSnapshot = resend ? [] : pendingAttachments;
+        if (!resend) setPendingAttachments([]);
 
         const response = await streamChat({
           message: outbound,
@@ -1911,7 +1912,7 @@ function ChatInner() {
                               className="btn-secondary text-[11px]"
                               onClick={() => {
                                 const prior = [...messages].reverse().find((m) => m.role === 'user');
-                                if (prior) void sendMessage(prior.content, prior.mode);
+                                if (prior) void sendMessage(prior.attachments?.length ? (prior.content.startsWith('Attached: ') ? '' : prior.content) : prior.content, prior.mode, prior.attachments);
                               }}
                             >
                               Retry
@@ -1937,7 +1938,7 @@ function ChatInner() {
                           className="btn-secondary text-[11px]"
                           onClick={() => {
                             const prior = [...messages].reverse().find((m) => m.role === 'user');
-                            if (prior) void sendMessage(prior.content, prior.mode);
+                            if (prior) void sendMessage(prior.attachments?.length ? (prior.content.startsWith('Attached: ') ? '' : prior.content) : prior.content, prior.mode, prior.attachments);
                           }}
                         >
                           Retry
@@ -1954,7 +1955,7 @@ function ChatInner() {
                           onClick={() => {
                             stopStreaming();
                             const prior = [...messages].reverse().find((m) => m.role === 'user');
-                            if (prior) void sendMessage(prior.content, prior.mode);
+                            if (prior) void sendMessage(prior.attachments?.length ? (prior.content.startsWith('Attached: ') ? '' : prior.content) : prior.content, prior.mode, prior.attachments);
                           }}
                         >
                           Retry
