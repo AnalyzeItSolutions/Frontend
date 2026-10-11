@@ -773,9 +773,17 @@ function ChatInner() {
       if (!res.ok) throw new Error('share failed');
       const data = (await res.json()) as { path?: string };
       const url = `${window.location.origin}${data.path || ''}`;
-      await navigator.clipboard.writeText(url);
+      let copied = false;
+      try {
+        await navigator.clipboard.writeText(url);
+        copied = true;
+      } catch {
+        /* clipboard blocked: the link was still created, so show it instead of failing */
+      }
       setError(null);
-      setDashStatus('Report link copied. It works for 30 days; you can turn it off from Profile.');
+      setDashStatus(copied
+        ? 'Report link copied. It works for 30 days; you can turn it off from Profile.'
+        : `Report link created (copy it from here): ${url}. It works for 30 days; you can turn it off from Profile.`);
     } catch {
       setError('Could not create a share link.');
     }
@@ -2106,7 +2114,7 @@ function ChatInner() {
               </p>
             )}
             {dashStatus && (
-              <p className="mx-4 mb-1 text-[11px] text-[var(--text-muted)] sm:mx-6">{dashStatus}</p>
+              <p className="mx-4 mb-1 break-all select-text text-[11px] text-[var(--text-muted)] sm:mx-6">{dashStatus}</p>
             )}
 
             {showPostRunAd && !adsFree && (
