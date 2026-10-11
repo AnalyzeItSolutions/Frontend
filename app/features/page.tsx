@@ -53,8 +53,8 @@ export default function FeaturesPage() {
 
       <LegalSection title="Memory across sessions">
         <p>
-          Your workspace keeps history so questions like "since when?" and "compared with last
-          quarter" stay answerable. See <Link href="/docs/memory" className={link}>memory</Link>.
+          Your workspace keeps history so questions like &ldquo;since when?&rdquo; and &ldquo;compared with last
+          quarter&rdquo; stay answerable. See <Link href="/docs/memory" className={link}>memory</Link>.
         </p>
       </LegalSection>
 

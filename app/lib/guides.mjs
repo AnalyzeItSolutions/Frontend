@@ -2,7 +2,7 @@
 // and every claim about AnalyzeIt describes something that exists today (see /docs/discovery and the changelog).
 // Blocks: { p }, { h2 }, { ul: [...] }, { ol: [...] }.
 
-export const GUIDES_UPDATED = '2026-10-06';
+export const GUIDES_UPDATED = '2026-10-11';
 
 export const GUIDES = [
   {
@@ -154,6 +154,138 @@ export const GUIDES = [
       { p: 'Ask "forecast revenue for the next quarter". AnalyzeIt builds the series from your data, tests several simple methods against the past, uses the one that predicted best, and shows the forecast with an 80% range on a chart. It tells you how its typical miss compares with simply repeating the latest value, says when it could not beat that, and declines when there is too little history or too many gaps, with the reason.' },
     ],
     cta: { href: '/docs/discovery', label: 'How forecasts work' },
+  },
+  {
+    slug: 'chat-with-your-data',
+    title: 'Chat with your data: what it takes to trust the answers',
+    description: 'Asking questions of your data in plain words is easy. Trusting the reply is the hard part. What to check before you act on an answer.',
+    published: '2026-10-11',
+    blocks: [
+      { p: 'Typing a question and getting a confident paragraph back is the easy part of "chatting with your data". The hard part is knowing whether the paragraph is right. A fluent answer can be wrong in ways that read exactly like a correct one. This guide is what to look for, whatever tool you use.' },
+      { h2: '1. Who did the arithmetic?' },
+      { p: 'A language model is good at reading a question and writing a sentence. It is not a calculator. The safest tools run the sums with ordinary code or a database query, then let the model describe the result. Ask any tool: was this figure computed, or was it written? If you cannot tell, treat it as written.' },
+      { h2: '2. Can you see the working?' },
+      { p: 'A trustworthy answer comes with the query or calculation behind it, the number of rows it used and the columns it read. You should be able to take the same figure to a spreadsheet and reproduce it. If the tool offers only a paragraph, you are being asked to trust it on faith.' },
+      { h2: '3. Does it say how sure it is?' },
+      { ul: [
+        'A pattern across a handful of rows is a hint, not a finding. Good tools say how many records sit behind a claim.',
+        'A search over many segments will turn up odd-looking ones by luck. Good tools say how many things they checked.',
+        'When the data cannot answer the question, the right reply is "it cannot", with the reason.',
+      ] },
+      { h2: '4. Does it know what it did not read?' },
+      { p: 'Large files are often sampled. A tool that reads the first few thousand rows of a million-row file and answers as if it saw everything is misleading you. Ask what fraction of the data the answer rests on.' },
+      { h2: '5. Spot-check three numbers' },
+      { p: 'Pick a total you already know, such as last month’s revenue. Ask for it. Then ask for a figure you can check against another system, and one you can work out by hand from a small filter. If all three match, you can lean on the tool for the questions you cannot check. If one is off, find out why before trusting the rest.' },
+      { h2: 'How AnalyzeIt handles this' },
+      { p: 'AnalyzeIt runs the statistics first and uses the model to explain them. Numbers come from the data or from a named tool, a "Show the working" panel gives the figures and the query, and a check flags figures in the written answer that do not match what was computed. Findings are labelled by how sure the evidence is, and when a question cannot be answered from the data, it says so.' },
+    ],
+    cta: { href: '/docs/how-answers-work', label: 'How answers are produced' },
+  },
+  {
+    slug: 'analyze-data-without-sql-or-code',
+    title: 'How to analyze your data without SQL or code',
+    description: 'A practical path for people with a spreadsheet and a question but no analyst: what to ask, in what order, and where plain-language tools help.',
+    published: '2026-10-11',
+    blocks: [
+      { p: 'Most useful business questions are simple ones: what sold, what changed, who is slipping, what happens next quarter. You do not need SQL or Python to answer them. You need a clean table and the questions in the right order.' },
+      { h2: '1. Start from one tidy table' },
+      { p: 'One row per thing (an order, a customer, a day), one column per fact about it, one header row. Remove merged cells, subtotals and notes from the middle of the data. Dates should be real dates, not text. Most failed analyses fail here, not in the maths.' },
+      { h2: '2. Ask about totals over time' },
+      { p: 'Total by month as a line. This single view answers more questions than any other and shows what to ask next.' },
+      { h2: '3. Ask for splits' },
+      { p: 'Break the same total by region, product or channel. Look for the part that moved. A flat total often hides one rising and one falling segment.' },
+      { h2: '4. Ask what is unusual' },
+      { p: 'Outliers, sudden jumps and values that break a pattern are where mistakes and opportunities hide. Check each one against the source before you believe it: a "record day" is often a duplicated upload.' },
+      { h2: '5. Ask for a forecast only after the above' },
+      { p: 'A forecast built on a series you have not looked at is a guess. Once you know the shape, ask for one, and ask how it did when tested on past periods.' },
+      { h2: 'Where plain-language tools help, and where they do not' },
+      { ul: [
+        'They help with the lookups, groupings and charts that would take a few formulas or a pivot table, and with checking many splits quickly.',
+        'They help you describe a finding in a sentence you can send to someone.',
+        'They do not fix a messy file. Clean it first, or choose a tool that tells you what it had to change.',
+        'They do not replace knowing your business. A tool can say a segment fell; only you know a supplier closed that week.',
+      ] },
+      { h2: 'In AnalyzeIt' },
+      { p: 'Upload a CSV or spreadsheet and ask the questions above in your own words, for example "total revenue by month", "which region changed the most" or "what stands out?". Each answer shows its figures and the query behind them, so you can check it, and nothing needs to be written in SQL.' },
+    ],
+    cta: { href: '/try', label: 'Try it on your own question' },
+  },
+  {
+    slug: 'chatgpt-or-a-data-analysis-tool',
+    title: 'ChatGPT or a data analysis tool? How to choose',
+    description: 'General chatbots and purpose-built data tools both answer questions about your numbers. Where each is the right choice, and what to check either way.',
+    published: '2026-10-11',
+    blocks: [
+      { p: 'People now paste spreadsheets into general chatbots and ask what the numbers mean. Sometimes it works well. Sometimes it produces a confident answer that does not match the data. Here is how to decide which kind of tool to use, without assuming either is always better.' },
+      { h2: 'What a general chatbot is good at' },
+      { ul: [
+        'Explaining a concept, a method or a result in plain language.',
+        'Brainstorming what to look at, and drafting a summary of findings you have already checked.',
+        'Small, one-off files where you can check the output yourself.',
+      ] },
+      { h2: 'Where it can let you down' },
+      { ul: [
+        'Arithmetic and counting. Unless the tool actually runs code on your file, a figure may be written rather than computed.',
+        'Large files. Many chat tools only read part of a big file, and may not tell you which part.',
+        'Repeatability. Ask the same question twice and the method may differ, so the figures do too.',
+        'Your data stays in a conversation. There is usually no saved table, dashboard or schedule to come back to.',
+      ] },
+      { h2: 'What a purpose-built data tool adds' },
+      { ul: [
+        'The calculation is run on the full table by code, and the answer shows the query or steps used.',
+        'Standard checks are built in: change over time, segment splits, outliers, tested forecasts.',
+        'Connections to the places data lives, and saved views you can reopen next week.',
+      ] },
+      { h2: 'How to decide' },
+      { ol: [
+        'One small file, one question, and you can check the result by hand: a general chatbot is fine.',
+        'The same questions every week, a large file, or numbers that go to a customer, an investor or a tax form: use a tool that computes and shows its working.',
+        'Either way, check three numbers you already know before relying on the rest.',
+      ] },
+      { h2: 'Where AnalyzeIt fits' },
+      { p: 'AnalyzeIt is the second kind. It runs the statistics on your data first, uses a language model to explain them, shows the working behind each figure and says when the data cannot answer the question. It is not the right tool for essay writing or general chat, and a general chatbot is a better partner there.' },
+    ],
+    cta: { href: '/docs/how-answers-work', label: 'How AnalyzeIt answers' },
+  },
+  {
+    slug: 'spreadsheet-or-ai-data-tool',
+    title: 'Spreadsheet or AI data tool: which one for which job?',
+    description: 'Spreadsheets are still the right tool for many jobs. Where an AI data tool saves time, where it does not, and how to use both together.',
+    published: '2026-10-11',
+    blocks: [
+      { p: 'Spreadsheets are not going away, and they should not. They are transparent, familiar and flexible. The honest question is which jobs are better done another way.' },
+      { h2: 'Where a spreadsheet wins' },
+      { ul: [
+        'Data entry and small ledgers you maintain by hand.',
+        'Models with explicit assumptions that others will edit, such as a budget or a pricing sheet.',
+        'Anything where seeing every cell and formula matters more than speed.',
+      ] },
+      { h2: 'Where it slows you down' },
+      { ul: [
+        'Open-ended questions such as "what changed?". You have to guess which pivot to build, then repeat it for each segment.',
+        'Files that are too big or too messy. Slowdowns and silent formula errors rise with size.',
+        'Repeating the same analysis every month. Copying formulas across new data is where mistakes slip in.',
+        'Combining tables from different files or systems.',
+      ] },
+      { h2: 'Where an AI data tool helps' },
+      { ul: [
+        'Searching many splits at once for the part of the data that moved.',
+        'Answering a question in a sentence, with a chart, without building the pivot first.',
+        'Testing a forecast against past periods and reporting how wrong it typically is.',
+        'Writing the finding in words that you can forward.',
+      ] },
+      { h2: 'Where it does not' },
+      { p: 'If you need a transparent model that other people will edit, or you want to understand your data by handling it, stay in the spreadsheet. A tool that answers quickly can also tempt you to stop looking at the data. Keep a habit of spot-checking its figures against the sheet.' },
+      { h2: 'Using both' },
+      { ol: [
+        'Keep the source of truth where it is, whether that is a sheet, a database or a payment provider.',
+        'Ask the open questions in the data tool, and note the figures it gives with the working.',
+        'Verify the one or two that matter in the spreadsheet before acting.',
+      ] },
+      { h2: 'In AnalyzeIt' },
+      { p: 'You can upload a spreadsheet or CSV and ask questions in plain words. Each answer shows its figures and the exact query, so the check in your sheet takes a minute. Findings carry a note on how sure the evidence is, and the tool says how much of your file it read.' },
+    ],
+    cta: { href: '/try', label: 'Try it on a file' },
   },
 ];
 

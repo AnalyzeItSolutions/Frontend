@@ -29,7 +29,7 @@ export default function AboutPage() {
 
       <LegalSection title="How we work">
         <p>
-          Numbers come from calculation, not from a model's guess. Connectors are read-only. We
+          Numbers come from calculation, not from a model&apos;s guess. Connectors are read-only. We
           do not train public models on your private business data. Details are in our{' '}
           <Link href="/security" className="text-[#E3836C] hover:underline">security</Link> and{' '}
           <Link href="/privacy" className="text-[#E3836C] hover:underline">privacy</Link> pages,
