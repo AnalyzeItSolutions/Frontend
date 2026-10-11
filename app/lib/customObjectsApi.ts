@@ -690,7 +690,20 @@ export interface CustomSourceDraft {
   data_shape: 'flat_table' | 'nested_json' | 'time_series' | 'key_value';
   records_path: string;
   field_mappings: Array<{ target_name: string; path: string; role: string }>;
+  auth: CustomSourceAuth;
 }
+
+/** The key for an address that needs one. It is sent once, kept in the vault, and never shown again. */
+export interface CustomSourceAuth {
+  kind: 'none' | 'api_key' | 'bearer' | 'basic';
+  header: string;
+  value: string;
+  token: string;
+  username: string;
+  password: string;
+}
+
+export const NO_AUTH: CustomSourceAuth = { kind: 'none', header: 'X-Api-Key', value: '', token: '', username: '', password: '' };
 
 export interface CustomSourcePreview {
   status_code: number;
@@ -704,15 +717,22 @@ export interface CustomSource {
   name: string;
   status?: string;
   last_synced_at?: string | null;
-  last_sync_result?: { status?: string; record_count?: number; error?: string } | null;
+  last_sync_result?: { status?: string; record_count?: number; error?: string; object?: string; object_rows?: number } | null;
   config?: { guided?: { source_type?: string; url?: string } | null } | null;
 }
 
 function customSourceBody(projectId: string, draft: CustomSourceDraft) {
   const csv = draft.source_type === 'csv_feed_url';
+  const a = draft.auth;
+  const auth =
+    a.kind === 'api_key' ? { kind: 'api_key', header: a.header.trim(), value: a.value }
+    : a.kind === 'bearer' ? { kind: 'bearer', token: a.token }
+    : a.kind === 'basic' ? { kind: 'basic', username: a.username, password: a.password }
+    : undefined;
   return {
     name: draft.name.trim(),
     project_id: projectId,
+    ...(auth ? { auth } : {}),
     guided: {
       source_type: draft.source_type,
       url: draft.url.trim(),

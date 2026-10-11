@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { IconPlus, IconRefresh, IconTrash } from '@tabler/icons-react';
 import { useToast } from '../ui/Toast';
@@ -13,6 +14,7 @@ import {
   type Connector,
   type CustomSource,
   type CustomSourceDraft,
+  NO_AUTH,
   type CustomSourcePreview,
 } from '../../lib/customObjectsApi';
 
@@ -23,6 +25,7 @@ const EMPTY: CustomSourceDraft = {
   data_shape: 'flat_table',
   records_path: '$',
   field_mappings: [],
+  auth: NO_AUTH,
 };
 
 const SHAPES: Array<{ id: CustomSourceDraft['data_shape']; label: string }> = [
@@ -63,7 +66,13 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
   }, [load]);
 
   const csv = draft.source_type === 'csv_feed_url';
-  const ready = draft.name.trim() !== '' && /^https?:\/\//i.test(draft.url.trim());
+  const a = draft.auth;
+  const keyOk =
+    a.kind === 'none' ||
+    (a.kind === 'api_key' && a.header.trim() !== '' && a.value !== '') ||
+    (a.kind === 'bearer' && a.token !== '') ||
+    (a.kind === 'basic' && a.username !== '' && a.password !== '');
+  const ready = draft.name.trim() !== '' && /^https?:\/\//i.test(draft.url.trim()) && keyOk;
   const set = (patch: Partial<CustomSourceDraft>) => {
     setDraft((d) => ({ ...d, ...patch }));
     setPreview(null);
@@ -150,7 +159,7 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
         <div>
           <h2 id="custom-sources-title" className="font-serif text-xl text-[var(--text-primary)]">Your own sources</h2>
           <p className="mt-1 max-w-2xl text-xs leading-relaxed text-[var(--text-secondary)]">
-            Point AnalyzeIt at a public JSON address or a CSV link. It reads it read-only, keeps it in memory and re-reads it when you press Sync. Addresses that need a key are not supported here.
+            Point AnalyzeIt at a JSON address or a CSV link. It reads it read-only, keeps it in memory and re-reads it about once an hour. If the address needs a key, add it below: it is kept encrypted and is never shown again.
           </p>
         </div>
         {!open ? (
@@ -179,6 +188,37 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
             Address
             <input className={input} value={draft.url} onChange={(e) => set({ url: e.target.value })} placeholder="https://api.example.com/rates.json" inputMode="url" />
           </label>
+
+          <div className="space-y-2">
+            <label className="block text-xs text-[var(--text-muted)]">
+              Key
+              <select
+                className={input}
+                value={draft.auth.kind}
+                onChange={(e) => set({ auth: { ...draft.auth, kind: e.target.value as CustomSourceDraft['auth']['kind'] } })}
+              >
+                <option value="none">None, the address is open</option>
+                <option value="api_key">API key in a header</option>
+                <option value="bearer">Bearer token</option>
+                <option value="basic">Username and password</option>
+              </select>
+            </label>
+            {draft.auth.kind === 'api_key' ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input aria-label="Header name" className={`${input} font-mono`} value={draft.auth.header} placeholder="X-Api-Key" onChange={(e) => set({ auth: { ...draft.auth, header: e.target.value } })} />
+                <input aria-label="Key" type="password" autoComplete="off" className={input} value={draft.auth.value} placeholder="Key" onChange={(e) => set({ auth: { ...draft.auth, value: e.target.value } })} />
+              </div>
+            ) : null}
+            {draft.auth.kind === 'bearer' ? (
+              <input aria-label="Token" type="password" autoComplete="off" className={input} value={draft.auth.token} placeholder="Token" onChange={(e) => set({ auth: { ...draft.auth, token: e.target.value } })} />
+            ) : null}
+            {draft.auth.kind === 'basic' ? (
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input aria-label="Username" autoComplete="off" className={input} value={draft.auth.username} placeholder="Username" onChange={(e) => set({ auth: { ...draft.auth, username: e.target.value } })} />
+                <input aria-label="Password" type="password" autoComplete="off" className={input} value={draft.auth.password} placeholder="Password" onChange={(e) => set({ auth: { ...draft.auth, password: e.target.value } })} />
+              </div>
+            ) : null}
+          </div>
 
           {!csv ? (
             <div className="grid gap-3 sm:grid-cols-2">
@@ -267,6 +307,11 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
                 {failed ? <p className="text-[11px] text-[var(--danger)]">{s.last_sync_result?.error || 'The last read failed.'}</p> : null}
               </div>
               <div className="flex items-center gap-2">
+                {s.last_sync_result?.object ? (
+                  <Link href={`/objects?project=${encodeURIComponent(projectId)}&object=${encodeURIComponent(s.last_sync_result.object)}`} className="text-xs font-medium text-[var(--coral)] hover:underline">
+                    Open as table
+                  </Link>
+                ) : null}
                 <button type="button" disabled={busy === s.id} onClick={() => sync(s)} className="inline-flex min-h-9 items-center gap-1.5 rounded-xl border border-[var(--border)] px-3 text-xs font-medium disabled:opacity-50">
                   <IconRefresh className={`h-3.5 w-3.5 ${busy === s.id ? 'animate-spin' : ''}`} /> Sync
                 </button>
