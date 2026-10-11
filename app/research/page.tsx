@@ -2096,7 +2096,7 @@ function ChatInner() {
 
             {/* Errors */}
             {error && (
-              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#FFFCF8)]/95 px-3 py-2 text-xs text-[var(--text,#3A342D)] sm:mx-6">
+              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#E3836C]/60 bg-[var(--surface-2,#FFFCF8)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#3A342D))] sm:mx-6">
                 {error}
                 {upgradeHref ? (
                   <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-white">

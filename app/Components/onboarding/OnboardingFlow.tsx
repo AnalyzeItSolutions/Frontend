@@ -206,7 +206,7 @@ export function OnboardingFlow() {
     leave(CHAT_PATH);
   };
 
-  const onFile = async (file: File) => {
+  const onFile = async (file: File, extraFiles = 0) => {
     if (!progress || uploading) return;
     const choiceError = fileChoiceError(file.name);
     if (choiceError) {
@@ -214,7 +214,7 @@ export function OnboardingFlow() {
       return;
     }
     setUploading(true);
-    setUploadError('');
+    setUploadError(extraFiles > 0 ? 'Only the first file is used for this first answer. Attach the others in Chat afterwards.' : '');
     try {
       const pinned = await ensureWorkspaceId(progress);
       const uploaded = await uploadChatAttachment(pinned.projectId, file);
@@ -687,7 +687,7 @@ function DataStep({
   driveError: string;
   fileRef: RefObject<HTMLInputElement | null>;
   onBrowse: () => void;
-  onFile: (file: File) => void;
+  onFile: (file: File, extraFiles?: number) => void;
   onDragOver: (event: DragEvent<HTMLElement>) => void;
   onDragLeave: () => void;
   onChooseDrive: (drive: OnboardingConnector) => void;
@@ -702,8 +702,8 @@ function DataStep({
         onDrop={(event) => {
           event.preventDefault();
           onDragLeave();
-          const file = event.dataTransfer.files?.[0];
-          if (file) onFile(file);
+          const all = Array.from(event.dataTransfer.files || []);
+          if (all[0]) onFile(all[0], all.length - 1);
         }}
       >
         <div className="flex items-start gap-3">
@@ -720,13 +720,14 @@ function DataStep({
         <input
           ref={fileRef}
           type="file"
+          multiple
           accept={ATTACHMENT_ACCEPT_ATTR}
           aria-label="Upload a file"
           className="sr-only"
           onChange={(event) => {
-            const file = event.target.files?.[0];
+            const all = Array.from(event.target.files || []);
             event.target.value = '';
-            if (file) onFile(file);
+            if (all[0]) onFile(all[0], all.length - 1);
           }}
         />
         {uploading ? (
