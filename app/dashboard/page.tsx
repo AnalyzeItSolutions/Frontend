@@ -805,7 +805,7 @@ export default function DashboardPage() {
             </div>
 
             {hasWidgets ? (
-              <Link href="/research" className="btn-primary min-h-9 px-3 text-xs">
+              <Link href={activeProjectId ? `/research?project=${encodeURIComponent(activeProjectId)}` : '/research'} className="btn-primary min-h-9 px-3 text-xs">
                 Continue research
               </Link>
             ) : null}
