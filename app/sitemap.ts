@@ -8,6 +8,8 @@ const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number
   { path: '/demo', changeFrequency: 'monthly', priority: 0.95 },
   { path: '/try', changeFrequency: 'monthly', priority: 0.95 },
   { path: '/case', changeFrequency: 'monthly', priority: 0.9 },
+  { path: '/features', changeFrequency: 'monthly', priority: 0.9 },
+  { path: '/about', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/products', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/docs', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/docs/how-answers-work', changeFrequency: 'monthly', priority: 0.8 },

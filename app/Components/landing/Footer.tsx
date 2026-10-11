@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
             />
           </Link>
           <p className="text-sm text-[#4A4238]/70 dark:text-[#C5B9AE] max-w-xs leading-relaxed">
-            See what your data already knows. A quiet intelligence workspace engineered for focus.
+            Ask your data anything. A quiet intelligence workspace engineered for focus.
           </p>
         </div>
 

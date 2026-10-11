@@ -1,5 +1,5 @@
 export const SITE_URL = 'https://www.analyzeit.in';
 export const SITE_NAME = 'AnalyzeIt';
-export const SITE_TAGLINE = 'See what your data already knows';
+export const SITE_TAGLINE = 'Ask your data anything';
 export const SITE_DESCRIPTION =
-  'AnalyzeIt is an analytics workspace: ask in plain words, find what stands out, forecast with a tested range, and bring in public data, with every source shown.';
+  'Ask questions about your data in plain words. AnalyzeIt finds what changed and why, forecasts with a tested range, and shows the numbers and sources behind every answer.';
