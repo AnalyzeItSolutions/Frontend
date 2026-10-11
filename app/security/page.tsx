@@ -58,7 +58,25 @@ export default function SecurityPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="6. Reporting issues">
+      <LegalSection title="6. Desktop app and command line">
+        <p>
+          The <a href="/download" className="text-[#E3836C] hover:underline">desktop app and command line</a>{' '}
+          keep data you import on your own computer, in a vault encrypted at rest with a key held in
+          your system keychain. Nothing in the vault is uploaded; when you ask the online assistant
+          about a local dataset, only your question and a column summary you allowed are sent,
+          never rows. Sign-in happens in your browser (no password is typed into the app), and the
+          session token is stored in the system keychain. Queries you run on local data are
+          read-only and limited to your own datasets.
+        </p>
+        <p>
+          Updates are signed with a private key that is kept off our build servers; the app and
+          command line verify each update against a public key built into the program and refuse
+          anything that does not verify or is older than the installed version. Release files list
+          SHA-256 checksums on the download page. Builds are produced in private repositories.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="7. Reporting issues">
         <p>
           If you discover a vulnerability, email{' '}
           <a href="mailto:security@analyzeit.in" className="text-[#E3836C] hover:underline">

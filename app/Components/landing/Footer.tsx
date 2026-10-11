@@ -69,6 +69,7 @@ export const Footer: React.FC = () => {
             <li><Link href="/refund" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Cancellation and Refund</Link></li>
             <li><Link href="/shipping" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Shipping and Exchange</Link></li>
             <li><Link href="/products" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Products</Link></li>
+            <li><Link href="/download" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Download</Link></li>
             <li><Link href="/contact" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Contact Us</Link></li>
             <li><Link href="/cookies" className="hover:text-[#E3836C] dark:hover:text-[#E3836C] transition-colors">Cookies</Link></li>
           </ul>
