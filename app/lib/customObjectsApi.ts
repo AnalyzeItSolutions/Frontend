@@ -680,3 +680,78 @@ export async function uninstallProjectModule(
   });
   return res.ok;
 }
+
+// ─── Custom sources (public JSON / CSV feeds) ─────────────────────────────────
+
+export interface CustomSourceDraft {
+  name: string;
+  source_type: 'rest_api' | 'csv_feed_url';
+  url: string;
+  data_shape: 'flat_table' | 'nested_json' | 'time_series' | 'key_value';
+  records_path: string;
+  field_mappings: Array<{ target_name: string; path: string; role: string }>;
+}
+
+export interface CustomSourcePreview {
+  status_code: number;
+  record_count: number;
+  sample: Array<Record<string, unknown>>;
+  truncated: boolean;
+}
+
+export interface CustomSource {
+  id: string;
+  name: string;
+  status?: string;
+  last_synced_at?: string | null;
+  last_sync_result?: { status?: string; record_count?: number; error?: string } | null;
+  config?: { guided?: { source_type?: string; url?: string } | null } | null;
+}
+
+function customSourceBody(projectId: string, draft: CustomSourceDraft) {
+  const csv = draft.source_type === 'csv_feed_url';
+  return {
+    name: draft.name.trim(),
+    project_id: projectId,
+    guided: {
+      source_type: draft.source_type,
+      url: draft.url.trim(),
+      data_shape: draft.data_shape,
+      records_path: csv ? '$' : draft.records_path.trim() || '$',
+      field_mappings: csv ? [] : draft.field_mappings.filter((m) => m.target_name.trim() && m.path.trim()).map((m) => ({
+        role: m.role || 'other',
+        path: m.path.trim(),
+        target_name: m.target_name.trim(),
+      })),
+    },
+  };
+}
+
+export async function testCustomSource(projectId: string, draft: CustomSourceDraft): Promise<CustomSourcePreview> {
+  const res = await fetch(`${API_V1}/connectors/custom/test-fetch`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+    body: JSON.stringify(customSourceBody(projectId, draft)),
+  });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not fetch a sample from that address.');
+  return res.json();
+}
+
+export async function saveCustomSource(projectId: string, draft: CustomSourceDraft): Promise<CustomSource> {
+  const res = await fetch(`${API_V1}/projects/${projectId}/connectors/custom`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+    body: JSON.stringify(customSourceBody(projectId, draft)),
+  });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not save this source.');
+  return res.json();
+}
+
+export async function syncCustomSource(projectId: string, connectorId: string): Promise<{ status: string; record_count?: number; error?: string }> {
+  const res = await fetch(`${API_V1}/projects/${projectId}/connectors/custom/${connectorId}/sync`, {
+    method: 'POST',
+    headers: { ...getAuthHeaders() },
+  });
+  if (!res.ok) throw await apiErrorFrom(res, 'Sync failed');
+  return res.json();
+}

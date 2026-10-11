@@ -20,6 +20,8 @@ function ObjectsPageInner() {
   const requested = params.get('project') || params.get('projectId') || '';
   const [projectId, setProjectId] = useState<string>('');
   const [kitVersion, setKitVersion] = useState(0);
+  const [createRequest, setCreateRequest] = useState<{ nonce: number; sample?: boolean }>({ nonce: 0 });
+  const openCreate = (sample = false) => setCreateRequest((r) => ({ nonce: r.nonce + 1, sample }));
   const [status, setStatus] = useState<'loading' | 'empty' | 'error' | 'content'>('loading');
   const [errorBody, setErrorBody] = useState<string | undefined>();
 
@@ -74,12 +76,15 @@ function ObjectsPageInner() {
             Shape repeatable business records once, then use those objects across dashboards and research.
           </p>
         </div>
-        <Link
-          href={projectId ? `/dashboard?project=${encodeURIComponent(projectId)}` : '/dashboard'}
-          className="btn-primary w-fit gap-2 px-5 text-sm"
-        >
-          <IconPlus size={16} /> Create an object
-        </Link>
+        {projectId ? (
+          <button type="button" onClick={() => openCreate()} className="btn-primary w-fit gap-2 px-5 text-sm">
+            <IconPlus size={16} /> Create an object
+          </button>
+        ) : (
+          <Link href="/dashboard" className="btn-primary w-fit gap-2 px-5 text-sm">
+            <IconPlus size={16} /> Create a project
+          </Link>
+        )}
       </div>
       <WorkspaceStatus
         status={status}
@@ -104,7 +109,7 @@ function ObjectsPageInner() {
                 </details>
               </div>
             ) : null}
-            {projectId ? <ObjectBuilderView key={kitVersion} projectId={projectId} initialObject={params.get('object') || undefined} /> : null}
+            {projectId ? <ObjectBuilderView key={kitVersion} projectId={projectId} initialObject={params.get('object') || undefined} createRequest={createRequest} /> : null}
           </div>
           <aside className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6">
             <div className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--coral)]/12 text-[var(--coral)]"><IconBraces size={22} /></div>
@@ -115,12 +120,14 @@ function ObjectsPageInner() {
                 <div key={field} className="border-b border-[var(--border)] px-3 py-2.5 last:border-b-0 font-mono text-[11px] text-[var(--text-secondary)]">{field}</div>
               ))}
             </div>
-            <Link
-              href={projectId ? `/dashboard?project=${encodeURIComponent(projectId)}` : '/dashboard'}
-              className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[var(--coral)] hover:underline"
+            <button
+              type="button"
+              disabled={!projectId}
+              onClick={() => openCreate(true)}
+              className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-[var(--coral)] hover:underline disabled:opacity-50"
             >
               Build this object <IconArrowRight size={15} />
-            </Link>
+            </button>
           </aside>
         </div>
       </WorkspaceStatus>

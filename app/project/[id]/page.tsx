@@ -17,6 +17,7 @@ import {
   IconSparkles,
 } from '@tabler/icons-react';
 import { AppShell } from '../../Components/app/AppShell';
+import { ProjectRunHistory } from '../../Components/project/ProjectRunHistory';
 import { WorkspaceStatus } from '../../Components/app/WorkspaceStatus';
 import { redactClientError } from '../../lib/apiErrors';
 import { listProjectAttachments } from '../../lib/attachmentsApi';
@@ -536,12 +537,7 @@ function ProjectHomeBody({
               </li>
             ))}
           </ul>
-          <p
-            className="border-t border-[var(--border)] pt-4 text-xs leading-relaxed text-[var(--text-muted)]"
-            title={overview.runs.gap}
-          >
-            Run history for this project is on the way.
-          </p>
+          <ProjectRunHistory projectId={overview.id} unavailableNote={overview.runs.gap} researchHref={overview.links?.research || '/research'} />
         </section>
       </motion.div>
 

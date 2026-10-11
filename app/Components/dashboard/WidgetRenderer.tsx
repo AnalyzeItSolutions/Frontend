@@ -1166,7 +1166,10 @@ export function FunnelWidget({
 
         <div className="space-y-3">
           {stages.map((stg, idx) => {
-            const overallPct = Math.max(8, Math.round((stg.value / topValue) * 100));
+            // The printed share is the true one; only the bar keeps a minimum width so a small stage stays visible.
+            const sharePct = (stg.value / topValue) * 100;
+            const overallPct = sharePct >= 10 ? Math.round(sharePct) : Math.round(sharePct * 10) / 10;
+            const barPct = Math.max(8, Math.min(100, sharePct));
             const prevVal = idx > 0 ? stages[idx - 1].value : stg.value;
             const stepConvPct = idx > 0 ? Math.round((stg.value / prevVal) * 100) : 100;
             const dropPct = 100 - stepConvPct;
@@ -1189,7 +1192,7 @@ export function FunnelWidget({
 
                 <div className="w-full bg-black/5 dark:bg-[#292522] h-6 rounded-lg overflow-hidden flex items-center relative">
                   <div
-                    style={{ width: `${overallPct}%` }}
+                    style={{ width: `${barPct}%` }}
                     className="h-full rounded-lg bg-gradient-to-r from-[#EA8069] to-[#EBA58F] transition-all flex items-center justify-between px-2.5 text-[10px] font-mono text-[#FFF7F1] font-medium shadow-inner"
                   >
                     <span className="truncate">{stg.sublabel || `${overallPct}% total`}</span>

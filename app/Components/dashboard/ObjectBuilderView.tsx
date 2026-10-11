@@ -86,7 +86,16 @@ interface ObjectBuilderViewProps {
   projectId: string;
   /** api_name of the object to open first (e.g. linked from Connectors). */
   initialObject?: string;
+  /** Bump `nonce` to open the "Create Custom Object" modal from outside; `sample` prefills an example schema. */
+  createRequest?: { nonce: number; sample?: boolean };
 }
+
+const SAMPLE_OBJECT_FIELDS: ObjectField[] = [
+  { api_name: 'name', label: 'Name', type: 'text', required: true },
+  { api_name: 'plan', label: 'Plan', type: 'picklist', options: ['Free', 'Pro', 'Team'] },
+  { api_name: 'mrr', label: 'MRR', type: 'number' },
+  { api_name: 'renewal_date', label: 'Renewal date', type: 'date' },
+];
 
 const FIELD_TYPES: Array<{ value: ObjectField['type']; label: string; icon: React.ReactNode }> = [
   { value: 'text', label: 'Text', icon: <IconLetterCase className="w-4 h-4 text-[var(--coral)]" /> },
@@ -100,7 +109,7 @@ const FIELD_TYPES: Array<{ value: ObjectField['type']; label: string; icon: Reac
   { value: 'lookup', label: 'Relation (Lookup)', icon: <IconLink className="w-4 h-4 text-[var(--coral)]" /> },
 ];
 
-export function ObjectBuilderView({ projectId, initialObject }: ObjectBuilderViewProps) {
+export function ObjectBuilderView({ projectId, initialObject, createRequest }: ObjectBuilderViewProps) {
   const [schemas, setSchemas] = useState<ObjectSchema[]>([]);
   const [selectedSchema, setSelectedSchema] = useState<ObjectSchema | null>(null);
   const [records, setRecords] = useState<ObjectRecord[]>([]);
@@ -290,14 +299,22 @@ export function ObjectBuilderView({ projectId, initialObject }: ObjectBuilderVie
     setSelectedIds((prev) => pruneSelection(prev, records.map((r) => r.id)));
   }, [records]);
 
-  const openCreateSchemaModal = () => {
+  const openCreateSchemaModal = (sample = false) => {
     setIsEditingExistingSchema(false);
-    setSchemaLabel('');
-    setSchemaLabelPlural('');
-    setSchemaApiName('');
-    setSchemaFields([{ api_name: 'name', label: 'Name', type: 'text', required: true }]);
+    setSchemaLabel(sample ? 'Customer' : '');
+    setSchemaLabelPlural(sample ? 'Customers' : '');
+    setSchemaApiName(sample ? 'customer' : '');
+    setSchemaFields(sample ? SAMPLE_OBJECT_FIELDS.map((f) => ({ ...f })) : [{ api_name: 'name', label: 'Name', type: 'text', required: true }]);
     setIsSchemaModalOpen(true);
   };
+
+  const lastCreateNonce = useRef(createRequest?.nonce ?? 0);
+  useEffect(() => {
+    if (!createRequest || createRequest.nonce === lastCreateNonce.current) return;
+    lastCreateNonce.current = createRequest.nonce;
+    openCreateSchemaModal(!!createRequest.sample);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createRequest]);
 
   const openEditSchemaModal = (schema: ObjectSchema) => {
     setIsEditingExistingSchema(true);
@@ -727,7 +744,7 @@ export function ObjectBuilderView({ projectId, initialObject }: ObjectBuilderVie
             <span className="font-semibold text-[var(--text-primary)] text-sm">Custom Entities</span>
           </div>
           <button
-            onClick={openCreateSchemaModal}
+            onClick={() => openCreateSchemaModal()}
             className="p-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white transition-colors shadow-sm cursor-pointer"
             title="Create Custom Object"
           >

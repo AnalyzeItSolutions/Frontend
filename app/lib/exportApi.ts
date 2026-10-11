@@ -87,6 +87,19 @@ export async function createProjectShareLink(projectId: string): Promise<{ share
   return await res.json();
 }
 
+/** Turns the project's public link off. Anyone holding it gets "no longer shared". */
+export async function stopSharingProject(projectId: string): Promise<{ revoked: number }> {
+  const res = await fetch(`${API_V1}/projects/${projectId}/share`, {
+    method: 'DELETE',
+    headers: { ...getAuthHeaders() },
+  });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Could not turn the link off: ${errorText || res.statusText}`);
+  }
+  return res.json();
+}
+
 /**
  * Fetches a shared read-only project by token.
  */

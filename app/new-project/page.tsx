@@ -155,6 +155,7 @@ function NewProjectContent() {
   }, [activeView]);
 
   // Project Info & Layout Loading
+  const provisionedRef = useRef(false);
   useEffect(() => {
     const cu = getStoredUser();
     setUser(cu);
@@ -195,15 +196,20 @@ function NewProjectContent() {
         .finally(() => {
           setIsLayoutInitialLoading(false);
         });
-    } else if (!isIncognito) {
-      // Auto-provision a durable workspace in MongoDB so edits and runs are not lost
+    } else if (!isIncognito && !provisionedRef.current) {
+      // Auto-provision a durable workspace in MongoDB so edits and runs are not lost. Once per visit: this effect re-runs
+      // when incognito or the router settle, and every extra run would otherwise create (and bill against the plan) another project.
+      provisionedRef.current = true;
       createProject('Untitled Analysis Workspace', cu?.id)
         .then((newProj) => {
           setProjectId(newProj.id);
           setProjectTitle(newProj.name);
           router.replace(`/new-project?projectId=${newProj.id}`);
         })
-        .catch((err) => console.warn('Could not auto-provision project:', err));
+        .catch((err) => {
+          provisionedRef.current = false; // let a later render try again after a failure
+          console.warn('Could not auto-provision project:', err);
+        });
     }
   }, [urlProjectId, isIncognito, router]);
 

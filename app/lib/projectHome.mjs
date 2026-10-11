@@ -5,7 +5,7 @@
 import { isValidPersonalSlug } from './personalHost.mjs';
 
 export const RUN_HISTORY_GAP =
-  'Research runs for this project are not listed. The API can fetch one run by id, and it does not offer a project run history, so this page does not show a run count.';
+  'Run history could not be loaded for this project. The page shows no run count until it can.';
 
 export function projectLinks(projectId) {
   const id = String(projectId || '').trim();

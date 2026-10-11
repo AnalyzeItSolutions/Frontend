@@ -6,6 +6,7 @@ import { AgentAccessPanel } from './AgentAccessPanel';
 import { DigestPanel } from './DigestPanel';
 import { TeamPanel } from './TeamPanel';
 import { SyncedDataLinks } from './SyncedDataLinks';
+import { CustomSourcesPanel } from './CustomSourcesPanel';
 import { useConfirm } from '../ui/ConfirmDialog';
 import {
   IconPlugConnected,
@@ -758,7 +759,7 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
           const isComingSoon = !isLinked && setup.kind === 'coming_soon';
           const oauthReady = setup.kind === 'ready' && setup.oauth;
           const canConnectForm = setup.kind === 'ready' && setup.connection && (
-            p.id === 'postgres' || p.id === 'sqlite' || p.id === 'stripe' || p.id === 'salesforce'
+            p.id === 'postgres' || p.id === 'sqlite' || p.id === 'razorpay' || p.id === 'stripe' || p.id === 'salesforce'
             || p.id === 'kaggle' || p.id === 'huggingface' || p.id === 'openml'
           );
           const syncReport = activeConn ? syncReports[activeConn.id] : undefined;
@@ -784,7 +785,7 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
                           ? 'OAuth 2.0 · read-only'
                           : p.authMode === 'catalog'
                             ? 'Online dataset'
-                            : (p.id === 'stripe' || p.id === 'salesforce') && setup.connection && !setup.oauth
+                            : p.id === 'razorpay' || ((p.id === 'stripe' || p.id === 'salesforce') && setup.connection && !setup.oauth)
                               ? 'API key'
                               : p.authMode === 'connection'
                                 ? 'Read-only SQL'
@@ -975,6 +976,8 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
           );
         })}
       </div>
+
+      <CustomSourcesPanel projectId={projectId} />
     </div>
   );
 }

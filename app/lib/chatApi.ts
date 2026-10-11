@@ -765,6 +765,25 @@ export async function getRun(runId: string) {
   return response.json();
 }
 
+export interface ProjectRunSummary {
+  id: string;
+  question: string;
+  status?: string | null;
+  created_at?: string | null;
+  completed_at?: string | null;
+  tool_calls?: number;
+}
+
+/** The owner's recent research runs on one project, newest first. */
+export async function listProjectRuns(projectId: string, limit = 10): Promise<ProjectRunSummary[]> {
+  const response = await fetch(`${API_V1}/projects/${encodeURIComponent(projectId)}/runs?limit=${limit}`, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error(`Failed to list runs: ${response.status}`);
+  const rows = await response.json();
+  return Array.isArray(rows) ? rows : [];
+}
+
 /** Ask A to abort the active stream and mark the run cancelled. */
 export async function cancelRun(runId: string): Promise<void> {
   const response = await fetch(`${API_V1}/runs/${encodeURIComponent(runId)}/cancel`, {

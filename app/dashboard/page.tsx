@@ -62,7 +62,7 @@ import {
   changePassword,
   type UserProfile,
 } from '../lib/auth';
-import { downloadProjectZip, duplicateProject } from '../lib/exportApi';
+import { downloadProjectZip, duplicateProject, stopSharingProject } from '../lib/exportApi';
 import { buildDesignExport, downloadDesignExport } from '../lib/designExport';
 import { SandboxedWidgetRenderer } from '../Components/dashboard/WidgetRenderer';
 import { LayoutSwitcher } from '../Components/dashboard/LayoutSwitcher';
@@ -795,8 +795,26 @@ export default function DashboardPage() {
                         <IconShare size={16} className="shrink-0" />
                         <div>
                           <div className="font-medium">Copy Shareable Link</div>
-                          <div className="text-[10px] text-[var(--text-muted)]">Direct URL to active canvas</div>
+                          <div className="text-[10px] text-[var(--text-muted)]">Anyone with it can view this dashboard</div>
                         </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          setIsExportMenuOpen(false);
+                          try {
+                            if (!activeProjectId) throw new Error('Open a project first.');
+                            const { revoked } = await stopSharingProject(activeProjectId);
+                            setExportToastMsg(revoked ? 'Sharing turned off. The old link no longer works.' : 'This dashboard was not being shared.');
+                          } catch (err) {
+                            setExportToastMsg(err instanceof Error ? err.message : 'Could not turn sharing off');
+                          }
+                          setTimeout(() => setExportToastMsg(null), 4000);
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-[var(--text-muted)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer text-left"
+                      >
+                        <IconShare size={16} className="shrink-0 opacity-50" />
+                        <div className="font-medium">Stop sharing</div>
                       </button>
                     </div>
                   </motion.div>
