@@ -19,8 +19,8 @@ export async function listMembers(projectId: string): Promise<{ members: Member[
   return res.json();
 }
 
-export async function inviteMember(projectId: string, email: string): Promise<{ member: Member; link: string }> {
-  const res = await fetch(`${API_V1}/projects/${projectId}/members`, { method: 'POST', headers: { ...json, ...getAuthHeaders() }, body: JSON.stringify({ email }) });
+export async function inviteMember(projectId: string, email: string, role: 'viewer' | 'analyst' = 'viewer'): Promise<{ member: Member; link: string | null; role_changed?: boolean }> {
+  const res = await fetch(`${API_V1}/projects/${projectId}/members`, { method: 'POST', headers: { ...json, ...getAuthHeaders() }, body: JSON.stringify({ email, role }) });
   if (!res.ok) throw await apiErrorFrom(res, 'Could not send the invitation');
   return res.json();
 }

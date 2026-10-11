@@ -1,12 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { acceptErrorMessage, inviteErrorMessage, loginPathFor, memberLine, VIEWER_CAN, VIEWER_CANNOT } from './teamView.mjs';
+import { acceptErrorMessage, ANALYST_CAN, ANALYST_CANNOT, inviteErrorMessage, loginPathFor, memberLine, rolePower, VIEWER_CAN, VIEWER_CANNOT } from './teamView.mjs';
 
 test('members are described as they are: invited people are not yet members', () => {
   assert.equal(memberLine({ email: 'a@x.com', status: 'active' }), 'a@x.com, can view');
   assert.match(memberLine({ email: 'a@x.com', status: 'invited' }), /waiting for them to accept/);
   assert.equal(memberLine(null), '');
+});
+
+test('an analyst is described as a viewer who can also ask, and the invitation says which', () => {
+  assert.equal(memberLine({ email: 'a@x.com', status: 'active', role: 'analyst' }), 'a@x.com, can view and ask');
+  assert.match(memberLine({ email: 'a@x.com', status: 'invited', role: 'analyst' }), /invited as analyst/);
+  assert.ok(ANALYST_CAN.some((t) => /Ask the assistant/.test(t)));
+  assert.ok(ANALYST_CANNOT.some((t) => /Change or delete/.test(t)) && ANALYST_CANNOT.some((t) => /conversations/.test(t)));
+  assert.equal(rolePower('analyst').id, 'analyst');
+  assert.equal(rolePower('anything else').id, 'viewer');      // an unknown role is never described as more than a viewer
 });
 
 test('what a viewer can and cannot do is stated (the Backend tests enforce it)', () => {

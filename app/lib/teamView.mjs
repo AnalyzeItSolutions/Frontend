@@ -3,9 +3,26 @@
 export const VIEWER_CAN = ['See the project, its charts, objects and records', 'Open the weekly digests'];
 export const VIEWER_CANNOT = ['Change or delete anything', 'Ask the assistant about the project', 'Add files or connect accounts'];
 
+export const ANALYST_CAN = [
+  'See the project, its charts, objects and records',
+  'Open the weekly digests',
+  'Ask the assistant questions about the objects and connected data (read only, with their own history and their own plan’s runs)',
+];
+export const ANALYST_CANNOT = ['Change or delete anything', 'See your own conversations', 'Add files or connect accounts'];
+
+export const ROLES = [
+  { id: 'viewer', label: 'Viewer', can: VIEWER_CAN, cannot: VIEWER_CANNOT },
+  { id: 'analyst', label: 'Analyst', can: ANALYST_CAN, cannot: ANALYST_CANNOT },
+];
+
+export function rolePower(role) {
+  return ROLES.find((r) => r.id === role) || ROLES[0];
+}
+
 export function memberLine(m) {
   if (!m) return '';
-  return m.status === 'active' ? `${m.email}, can view` : `${m.email}, invited (waiting for them to accept)`;
+  const what = m.role === 'analyst' ? 'can view and ask' : 'can view';
+  return m.status === 'active' ? `${m.email}, ${what}` : `${m.email}, invited as ${m.role === 'analyst' ? 'analyst' : 'viewer'} (waiting for them to accept)`;
 }
 
 export function inviteErrorMessage(err) {

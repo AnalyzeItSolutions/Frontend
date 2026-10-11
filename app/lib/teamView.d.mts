@@ -1,6 +1,10 @@
 export const VIEWER_CAN: string[];
 export const VIEWER_CANNOT: string[];
-export function memberLine(m: { email: string; status: string } | null | undefined): string;
+export const ANALYST_CAN: string[];
+export const ANALYST_CANNOT: string[];
+export const ROLES: Array<{ id: string; label: string; can: string[]; cannot: string[] }>;
+export function rolePower(role: string | null | undefined): { id: string; label: string; can: string[]; cannot: string[] };
+export function memberLine(m: { email: string; status: string; role?: string } | null | undefined): string;
 export function inviteErrorMessage(err: { status?: number; message?: string } | null | undefined): string;
 export function acceptErrorMessage(err: { status?: number; message?: string } | null | undefined): string;
 export function loginPathFor(token: string): string;

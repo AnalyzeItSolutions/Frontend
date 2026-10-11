@@ -5,12 +5,12 @@ import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getStoredToken } from '../../lib/auth';
 import { acceptInvite, readInvite } from '../../lib/teamApi';
-import { acceptErrorMessage, loginPathFor, VIEWER_CAN, VIEWER_CANNOT } from '../../lib/teamView.mjs';
+import { acceptErrorMessage, loginPathFor, rolePower } from '../../lib/teamView.mjs';
 
 export default function InvitePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = use(params);
   const router = useRouter();
-  const [info, setInfo] = useState<{ project_name: string; email_hint: string } | null>(null);
+  const [info, setInfo] = useState<{ project_name: string; email_hint: string; role: string } | null>(null);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [signedIn, setSignedIn] = useState(false);
@@ -47,12 +47,12 @@ export default function InvitePage({ params }: { params: Promise<{ token: string
           <p className="text-sm text-[var(--text-muted)]">This invitation was sent to {info.email_hint}. Sign in with that address to accept it.</p>
           <div className="grid gap-3 text-sm sm:grid-cols-2">
             <ul className="list-disc space-y-1 pl-4">
-              {VIEWER_CAN.map((t: string) => (
+              {rolePower(info.role).can.map((t: string) => (
                 <li key={t}>{t}</li>
               ))}
             </ul>
             <ul className="list-disc space-y-1 pl-4 text-[var(--text-muted)]">
-              {VIEWER_CANNOT.map((t: string) => (
+              {rolePower(info.role).cannot.map((t: string) => (
                 <li key={t}>{t}</li>
               ))}
             </ul>

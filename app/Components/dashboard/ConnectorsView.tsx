@@ -6,6 +6,7 @@ import { AgentAccessPanel } from './AgentAccessPanel';
 import { DigestPanel } from './DigestPanel';
 import { AlertsPanel } from './AlertsPanel';
 import { WebhooksPanel } from './WebhooksPanel';
+import { ReportPanel } from './ReportPanel';
 import { TeamPanel } from './TeamPanel';
 import { SyncedDataLinks } from './SyncedDataLinks';
 import { CustomSourcesPanel } from './CustomSourcesPanel';
@@ -403,6 +404,7 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
       <AgentAccessPanel projectId={projectId} />
       <AlertsPanel projectId={projectId} />
       <DigestPanel projectId={projectId} />
+      <ReportPanel projectId={projectId} />
       <WebhooksPanel />
       <TeamPanel projectId={projectId} />
       <SyncedDataLinks projectId={projectId} />

@@ -1,14 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { inviteErrorMessage, memberLine, VIEWER_CAN, VIEWER_CANNOT } from '../../lib/teamView.mjs';
+import { inviteErrorMessage, memberLine, ROLES, rolePower } from '../../lib/teamView.mjs';
 import { inviteMember, listMembers, removeMember, type Member } from '../../lib/teamApi';
 
-/** Invite teammates to view this project. They can look, not change. */
+/** Invite teammates: a viewer can look, an analyst can also ask the assistant questions. Neither can change anything. */
 export function TeamPanel({ projectId }: { projectId: string }) {
   const [members, setMembers] = useState<Member[]>([]);
   const [max, setMax] = useState(10);
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState<'viewer' | 'analyst'>('viewer');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [fresh, setFresh] = useState('');
@@ -33,10 +34,14 @@ export function TeamPanel({ projectId }: { projectId: string }) {
     setMessage('');
     setFresh('');
     try {
-      const out = await inviteMember(projectId, email.trim());
+      const out = await inviteMember(projectId, email.trim(), role);
       setEmail('');
-      setFresh(out.link);
-      setMessage(`Invited ${out.member.email}. We queued an e-mail with the link. You can also send it yourself:`);
+      if (out.role_changed || !out.link) {
+        setMessage(`${out.member.email} is now ${out.member.role === 'analyst' ? 'an analyst' : 'a viewer'}.`);
+      } else {
+        setFresh(out.link);
+        setMessage(`Invited ${out.member.email}. We queued an e-mail with the link. You can also send it yourself:`);
+      }
       await load();
     } catch (err) {
       setMessage(inviteErrorMessage(err as { status?: number; message?: string }));
@@ -59,16 +64,30 @@ export function TeamPanel({ projectId }: { projectId: string }) {
     <section aria-label="Team" className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-3">
       <div>
         <h3 className="font-semibold text-[var(--text-primary)]">Team</h3>
-        <p className="text-xs text-[var(--text-muted)]">Invite people to view this project. Up to {max}.</p>
+        <p className="text-xs text-[var(--text-muted)]">Invite people to this project. Up to {max}.</p>
+      </div>
+      <div className="flex gap-2" role="radiogroup" aria-label="Access">
+        {ROLES.map((r: { id: string; label: string }) => (
+          <button
+            key={r.id}
+            type="button"
+            role="radio"
+            aria-checked={role === r.id}
+            onClick={() => setRole(r.id as 'viewer' | 'analyst')}
+            className={`rounded-full border px-3 py-1 text-xs ${role === r.id ? 'border-[var(--coral)] bg-[var(--coral)]/10 text-[var(--text-primary)]' : 'border-[var(--border)] text-[var(--text-muted)]'}`}
+          >
+            {r.label}
+          </button>
+        ))}
       </div>
       <div className="grid gap-3 text-xs text-[var(--text-muted)] sm:grid-cols-2">
         <ul className="list-disc space-y-0.5 pl-4">
-          {VIEWER_CAN.map((t: string) => (
+          {rolePower(role).can.map((t: string) => (
             <li key={t}>{t}</li>
           ))}
         </ul>
         <ul className="list-disc space-y-0.5 pl-4">
-          {VIEWER_CANNOT.map((t: string) => (
+          {rolePower(role).cannot.map((t: string) => (
             <li key={t}>Cannot: {t.toLowerCase()}</li>
           ))}
         </ul>
