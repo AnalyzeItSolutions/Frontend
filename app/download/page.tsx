@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   alternates: { canonical: '/download' },
 };
 
-export const revalidate = 300;
+export const revalidate = 60;
 
 async function loadReleases() {
   try {
-    const res = await fetch(`${DOWNLOAD_BASE.replace(/\/$/, '')}/releases.json`, { next: { revalidate: 300 } });
+    const res = await fetch(`${DOWNLOAD_BASE.replace(/\/$/, '')}/releases.json`, { next: { revalidate: 60 } });
     if (!res.ok) return null;
     return await res.json();
   } catch {
