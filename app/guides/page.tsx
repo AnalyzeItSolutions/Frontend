@@ -4,8 +4,8 @@ import { LegalLayout } from '../Components/legal/LegalLayout';
 import { GUIDES, readMinutes } from '../lib/guides.mjs';
 
 export const metadata: Metadata = {
-  title: 'Guides to working with data — AnalyzeIt',
-  description: 'Plain guides: find what changed in your numbers, tell real change from noise, find and check public data, and clean a messy CSV.',
+  title: 'Guides: analyze data without SQL, and trust the answers — AnalyzeIt',
+  description: 'Plain guides: chat with your data, analyze it without SQL, find what changed, tell noise from change, check public data, clean a CSV and forecast.',
   alternates: { canonical: '/guides' },
 };
 
