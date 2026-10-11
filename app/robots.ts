@@ -22,6 +22,7 @@ export default function robots(): MetadataRoute.Robots {
         '/onboarding',
         '/digest',
         '/invite',
+        '/native-login',
         '/api/',
       ],
     },
