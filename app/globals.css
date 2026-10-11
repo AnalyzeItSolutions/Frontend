@@ -156,6 +156,7 @@
   --bg: #0B0D10;
   --surface: #14171B;
   --surface-2: #1C2025;
+  --surface-muted: #23282F;
   --surface-3: #22262C;
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.15);
@@ -205,6 +206,7 @@ html[data-incognito='true'] {
   --bg: #F3EEF8;
   --surface: #FBF0FF;
   --surface-2: #F7F2FC;
+  --surface-muted: #ECE4F6;
   --surface-3: #EDE4F6;
   --border: #DDD0EC;
   --border-strong: #C9B6DE;
@@ -225,6 +227,7 @@ html.dark[data-incognito='true'] {
   --bg: #0C0A12;
   --surface: #15121C;
   --surface-2: #1C1826;
+  --surface-muted: #262034;
   --surface-3: #241F30;
   --border: rgba(167, 139, 250, 0.16);
   --border-strong: rgba(167, 139, 250, 0.28);

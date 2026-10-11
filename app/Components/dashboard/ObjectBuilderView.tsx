@@ -718,7 +718,7 @@ export function ObjectBuilderView({ projectId, initialObject }: ObjectBuilderVie
   useDialogA11y(Boolean(activeRecord), detailPanelRef, () => setActiveRecord(null), !isUpdatingRecord);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 w-full min-h-[640px]">
+    <div className="flex flex-col lg:flex-row gap-6 w-full min-w-0 min-h-[640px]">
       {/* ── Left Sidebar: Object Schemas Directory ── */}
       <div className="w-full lg:w-72 shrink-0 flex flex-col gap-4">
         <div className="flex items-center justify-between pb-2 border-b border-[var(--border)]">
@@ -783,7 +783,7 @@ export function ObjectBuilderView({ projectId, initialObject }: ObjectBuilderVie
       </div>
 
       {/* ── Right Content Area: Record List Data Grid ── */}
-      <div className="flex-1 flex flex-col bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
+      <div className="flex-1 min-w-0 flex flex-col bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
         {selectedSchema ? (
           <>
             {/* Header Toolbar */}
