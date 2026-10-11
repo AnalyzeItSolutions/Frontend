@@ -89,6 +89,7 @@ import {
   uploadChatAttachment,
   type ChatAttachment,
 } from '../lib/attachmentsApi';
+import { intakeMessage, planIntake, sendableIds, uploadAll } from '../lib/attachmentIntake.mjs';
 import { ComposerModeControl } from '../Components/research/ComposerModeControl';
 import { ResearchEmptyState } from '../Components/research/ResearchEmptyState';
 import { SourceChips, type ResearchSource } from '../Components/research/SourceChips';
@@ -405,6 +406,9 @@ function ChatInner() {
   const [promoteBusy, setPromoteBusy] = useState(false);
   const [pendingAttachments, setPendingAttachments] = useState<ChatAttachment[]>([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
+  const pendingAttachmentsRef = useRef<ChatAttachment[]>([]);
+  pendingAttachmentsRef.current = pendingAttachments;
   const abortRef = useRef(false);
   const streamAbortRef = useRef<AbortController | null>(null);
   const sendGenRef = useRef(0);
@@ -684,27 +688,30 @@ function ChatInner() {
         setError('Sign in to attach files.');
         return;
       }
+      const { take, skipped } = planIntake(files, pendingAttachmentsRef.current);
+      if (!take.length) {
+        setError(intakeMessage(skipped, []) || null);
+        return;
+      }
       setUploadingAttachment(true);
+      setUploadProgress({ done: 0, total: take.length });
       setError(null);
       try {
-        const uploaded: ChatAttachment[] = [];
-        for (const file of files.slice(0, 5)) {
-          // Chat attachments use ephemeral scope until the user promotes to a project.
-          const att = await uploadChatAttachment(projectId, file, runId);
-          if (att.status === 'failed') {
-            const note = att.notes?.[0] || 'Could not extract text from this file.';
-            setError(`${att.filename}: ${note}`);
-          }
-          uploaded.push(att);
-        }
+        // Chat attachments use ephemeral scope until the user promotes to a project.
+        const results = await uploadAll(take, (file) => uploadChatAttachment(projectId, file, runId), {
+          onProgress: (done, total) => setUploadProgress({ done, total }),
+        });
+        const uploaded = results.flatMap((r) => (r.attachment ? [r.attachment] : []));
         setPendingAttachments((prev) => {
           const seen = new Set(prev.map((a) => a.attachment_id));
           return [...prev, ...uploaded.filter((a) => !seen.has(a.attachment_id))];
         });
+        setError(intakeMessage(skipped, results) || null);
       } catch (attachErr: unknown) {
         setError(attachErr instanceof Error ? attachErr.message : 'Could not attach file.');
       } finally {
         setUploadingAttachment(false);
+        setUploadProgress(null);
       }
     },
     [projectId, runId],
@@ -807,7 +814,7 @@ function ChatInner() {
   const sendMessage = useCallback(
     async (raw?: string, modeOverride?: ComposerMode) => {
       const value = (raw ?? input).trim();
-      const attachmentIds = pendingAttachments.map((a) => a.attachment_id);
+      const attachmentIds = sendableIds(pendingAttachments);
       if ((!value && !attachmentIds.length) || awaitingAd) return;
       if (isStreaming) {
         abortRef.current = true;
@@ -831,7 +838,7 @@ function ChatInner() {
       if (value) ingestChatRun({ query: value });
       const userId = `user-${Date.now()}`;
       const assistantId = `asst-${Date.now()}`;
-      const chipMeta = pendingAttachments.map((a) => ({
+      const chipMeta = pendingAttachments.filter((a) => a.status !== 'failed').map((a) => ({
         attachment_id: a.attachment_id,
         filename: a.filename,
       }));
@@ -2272,8 +2279,8 @@ function ChatInner() {
                     onClick={handleAttachClick}
                     disabled={inputLocked || uploadingAttachment}
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] disabled:opacity-40"
-                    aria-label="Attach file"
-                    title="Attach a file (CSV, PDF, XLSX, JSON…)"
+                    aria-label="Attach files"
+                    title="Attach files (CSV, PDF, XLSX, JSON… up to 10, or drop them here)"
                   >
                     {uploadingAttachment ? (
                       <span className="h-4 w-4 animate-pulse rounded-full bg-[#E3836C]/40" />
@@ -2309,9 +2316,9 @@ function ChatInner() {
                       awaitingAd
                         ? 'Sponsored unit loading…'
                         : pendingAttachments.length
-                          ? 'Ask about the attached file…'
+                          ? pendingAttachments.length > 1 ? 'Ask about the attached files…' : 'Ask about the attached file…'
                           : uploadingAttachment
-                            ? 'Uploading file…'
+                            ? uploadProgress ? `Uploading ${uploadProgress.done} of ${uploadProgress.total}…` : 'Uploading…'
                             : composerMode === 'research'
                               ? 'Research a question, place, or trend…'
                               : 'Message AnalyzeIt… or drop a file here'
@@ -2370,7 +2377,7 @@ function ChatInner() {
                     <button
                       type="submit"
                       disabled={
-                        (!input.trim() && !pendingAttachments.length) ||
+                        (!input.trim() && !sendableIds(pendingAttachments).length) ||
                         awaitingAd ||
                         uploadingAttachment
                       }
