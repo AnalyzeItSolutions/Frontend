@@ -88,6 +88,12 @@ export const Navbar: React.FC = () => {
             >
               FAQ
             </button>
+            <Link
+              href="/download"
+              className="hover:text-[#C45A42] transition-colors cursor-pointer min-h-11 px-1 inline-flex items-center font-semibold text-[#C45A42]"
+            >
+              Download
+            </Link>
           </div>
 
           {/* Auth Actions */}
@@ -166,6 +172,12 @@ export const Navbar: React.FC = () => {
           >
             FAQ
           </button>
+          <Link
+            href="/download"
+            className="text-base font-semibold text-[#C45A42] hover:text-[#E3836C] transition-colors"
+          >
+            Download
+          </Link>
           <div className="pt-4 flex gap-4">
             <Link
               href="/login"

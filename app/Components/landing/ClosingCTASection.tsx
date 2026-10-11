@@ -27,6 +27,13 @@ export const ClosingCTASection: React.FC = () => {
         <div className="text-xs text-[#4A4238]/60 dark:text-[#91867E] font-mono">
           Preview access · billing not required
         </div>
+        <div className="pt-4 text-sm text-[#4A4238]/75 dark:text-[#C5B9AE]">
+          Or keep your data on your own computer:{' '}
+          <Link href="/download" className="font-semibold text-[#C45A42] dark:text-[#EBA58F] underline underline-offset-4">
+            download AnalyzeIt for desktop and the command line
+          </Link>
+          .
+        </div>
       </div>
     </section>
   );

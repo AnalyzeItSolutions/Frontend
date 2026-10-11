@@ -43,6 +43,13 @@ export const HeroSection: React.FC = () => {
               <span>Watch a real run, no signup</span>
             </Link>
           </div>
+          <p className="text-sm text-[#3F3830] dark:text-[#E6DCD2]">
+            Prefer your own computer?{' '}
+            <Link href="/download" className="font-semibold text-[#C45A42] dark:text-[#EBA58F] underline underline-offset-4 hover:text-[#322C28] dark:hover:text-[#F4EDE5]">
+              Download the desktop app and CLI
+            </Link>
+            {' '}for macOS, Windows and Linux. Works offline.
+          </p>
 
         </div>
         <HeroAnswer />
