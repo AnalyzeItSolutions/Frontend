@@ -4,13 +4,13 @@ import type { NextConfig } from "next";
 // Promote to `Content-Security-Policy` once a production pass shows no legitimate violations.
 const CSP_REPORT_ONLY = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://checkout.razorpay.com https://va.vercel-scripts.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://accounts.google.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://checkout.razorpay.com https://va.vercel-scripts.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https:",
   "connect-src 'self' https: wss: blob:",
   "worker-src 'self' blob:",
-  "frame-src 'self' https://accounts.google.com https://checkout.razorpay.com https://*.googlesyndication.com https://*.doubleclick.net",
+  "frame-src 'self' https://accounts.google.com https://checkout.razorpay.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://www.google.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
