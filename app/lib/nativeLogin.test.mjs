@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isSafeCallback, nativeLoginPath, parseNativeParams } from './nativeLogin.mjs';
+import { clientLabel, isSafeCallback, nativeLoginPath, parseNativeParams } from './nativeLogin.mjs';
 
 const state = 's'.repeat(24);
 const challenge = 'c'.repeat(43);
@@ -42,4 +42,11 @@ test('only navigates to the app’s own loopback callback', () => {
 
 test('the login redirect keeps the request intact', () => {
   assert.equal(nativeLoginPath(ok), `/native-login${ok}`);
+});
+
+test('accepts the Claude plugin as a client and labels it plainly', () => {
+  const r = parseNativeParams(ok.replace('client=cli', 'client=plugin'));
+  assert.equal(r?.client, 'plugin');
+  assert.equal(clientLabel('plugin'), 'the AnalyzeIt plugin for Claude');
+  assert.equal(clientLabel('cli'), 'the AnalyzeIt command line');
 });

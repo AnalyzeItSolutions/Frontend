@@ -7,13 +7,13 @@
 
 const B64URL = /^[A-Za-z0-9_-]+$/;
 
-/** @returns {{port:number,state:string,challenge:string,client:'desktop'|'cli'} | null} */
+/** @returns {{port:number,state:string,challenge:string,client:'desktop'|'cli'|'plugin'} | null} */
 export function parseNativeParams(search) {
   const p = new URLSearchParams(search);
   const portRaw = p.get('port') || '';
   const state = p.get('state') || '';
   const challenge = p.get('challenge') || '';
-  const client = p.get('client') === 'cli' ? 'cli' : p.get('client') === 'desktop' ? 'desktop' : null;
+  const client = ['cli', 'desktop', 'plugin'].includes(p.get('client')) ? p.get('client') : null;
   if (!/^\d{4,5}$/.test(portRaw)) return null;
   const port = Number(portRaw);
   if (port < 1024 || port > 65535) return null;
@@ -49,5 +49,6 @@ export function nativeLoginPath(search) {
 }
 
 export function clientLabel(client) {
+  if (client === 'plugin') return 'the AnalyzeIt plugin for Claude';
   return client === 'cli' ? 'the AnalyzeIt command line' : 'AnalyzeIt for desktop';
 }
