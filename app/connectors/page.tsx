@@ -19,6 +19,7 @@ function ConnectorsPageInner() {
   const router = useRouter();
   const params = useSearchParams();
   const requested = params.get('project') || params.get('projectId') || '';
+  const providerHint = (params.get('provider') || '').replace(/[^A-Za-z0-9_-]/g, '').slice(0, 60);
   const [projectId, setProjectId] = useState<string>('');
   const [status, setStatus] = useState<'loading' | 'empty' | 'error' | 'content'>('loading');
   const [errorBody, setErrorBody] = useState<string | undefined>();
@@ -113,7 +114,7 @@ function ConnectorsPageInner() {
         onRetry={load}
       >
         <div className="app-card mt-6 p-4">
-          {projectId ? <ConnectorsView projectId={projectId} notice={notice} /> : null}
+          {projectId ? <ConnectorsView projectId={projectId} notice={notice} initialSearch={providerHint} /> : null}
         </div>
       </WorkspaceStatus>
       <section className="mt-8">

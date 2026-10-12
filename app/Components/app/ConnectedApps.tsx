@@ -6,7 +6,7 @@ import { lastUsed } from '../../lib/oauthConsent.mjs';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-type Grant = { id: string; client_name: string; redirect_host?: string; created_at: number; last_used_at: number | null };
+type Grant = { id: string; client_name: string; redirect_host?: string; scope?: string; created_at: number; last_used_at: number | null };
 
 /** AI assistants the user has connected (ChatGPT, Claude, ...). Each can be disconnected at any time. */
 export function ConnectedApps() {
@@ -64,6 +64,9 @@ export function ConnectedApps() {
                   {g.redirect_host ? `${g.redirect_host} · ` : ''}
                   {lastUsed(g.last_used_at)}
                 </span>
+                {g.scope?.split(' ').includes('approve') ? (
+                  <span className="mt-0.5 block text-xs text-[#9B4D3B]">Can apply changes and open access when you tell it to in chat. Disconnect and reconnect to turn that off.</span>
+                ) : null}
               </span>
               <button type="button" disabled={busy} onClick={() => revoke(g.id)} className="shrink-0 rounded-xl border border-[var(--border)] px-3 py-1.5 text-xs hover:bg-[var(--surface-2)] disabled:opacity-60">
                 Disconnect

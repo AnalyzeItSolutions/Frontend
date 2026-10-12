@@ -68,6 +68,8 @@ import {
 interface ConnectorsViewProps {
   projectId: string;
   notice?: ConnectorCallback | null;
+  /** Pre-fills the provider search, so a link such as /connectors?provider=razorpay lands on that provider. */
+  initialSearch?: string;
 }
 
 type FormKind =
@@ -83,7 +85,7 @@ type FormKind =
 
 type AuthMode = 'oauth' | 'connection' | 'catalog';
 
-export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps) {
+export function ConnectorsView({ projectId, notice = null, initialSearch = '' }: ConnectorsViewProps) {
   const toast = useToast();
   const confirm = useConfirm();
   const [available, setAvailable] = useState<AvailableConnector[]>([]);
@@ -122,7 +124,7 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
   const [hfSplit, setHfSplit] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>(initialSearch);
 
   const loadData = async () => {
     if (!projectId) return;

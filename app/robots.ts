@@ -24,6 +24,7 @@ export default function robots(): MetadataRoute.Robots {
         '/invite',
         '/native-login',
         '/oauth',
+        '/approve',
         '/api/',
       ],
     },

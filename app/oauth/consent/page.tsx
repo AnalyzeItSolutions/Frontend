@@ -9,7 +9,8 @@ import { consentPath, isSafeRedirect, parseRequestId } from '../../lib/oauthCons
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 type Stage = 'checking' | 'invalid' | 'confirm' | 'working' | 'sent' | 'cancelled' | 'error';
-type Details = { client_name: string; redirect_host: string; scopes: { id: string; description: string }[] };
+type Scope = { id: string; description: string; required?: boolean; default?: boolean };
+type Details = { client_name: string; redirect_host: string; scopes: Scope[] };
 
 function ConsentInner() {
   const router = useRouter();
@@ -18,6 +19,7 @@ function ConsentInner() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [details, setDetails] = useState<Details | null>(null);
   const [requestId, setRequestId] = useState<string | null>(null);
+  const [chosen, setChosen] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const id = parseRequestId(window.location.search);
@@ -44,7 +46,9 @@ function ConsentInner() {
         const res = await fetch(`${API_BASE}/v1/oauth/requests/${encodeURIComponent(id)}`, { headers: { Authorization: `Bearer ${getStoredToken() || ''}` } });
         if (!res.ok) throw new Error('invalid');
         if (!cancelled) {
-          setDetails((await res.json()) as Details);
+          const d = (await res.json()) as Details;
+          setDetails(d);
+          setChosen(Object.fromEntries(d.scopes.map((x) => [x.id, Boolean(x.required || x.default)])));
           setStage('confirm');
         }
       } catch {
@@ -64,7 +68,7 @@ function ConsentInner() {
       const res = await fetch(`${API_BASE}/v1/oauth/requests/${encodeURIComponent(requestId)}/decision`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${getStoredToken() || ''}` },
-        body: JSON.stringify({ approve }),
+        body: JSON.stringify({ approve, scopes: Object.entries(chosen).filter(([, on]) => on).map(([id]) => id) }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -112,9 +116,23 @@ function ConsentInner() {
 
             <div className="mt-5 rounded-xl border border-[#E3836C]/20 p-4 text-sm text-[#3F3830] dark:text-[#E6DCD2]">
               <p className="font-medium">{app} will be able to:</p>
-              <ul className="mt-2 list-disc space-y-1.5 pl-5">
-                {details.scopes.map((s) => (
-                  <li key={s.id}>{s.description}</li>
+              <ul className="mt-2 space-y-2">
+                {details.scopes.map((sc) => (
+                  <li key={sc.id}>
+                    <label className="flex items-start gap-2">
+                      <input
+                        type="checkbox"
+                        className="mt-1"
+                        checked={Boolean(chosen[sc.id])}
+                        disabled={Boolean(sc.required) || stage === 'working'}
+                        onChange={(e) => setChosen((c) => ({ ...c, [sc.id]: e.target.checked }))}
+                      />
+                      <span>
+                        {sc.description}
+                        {!sc.required ? <span className="ml-1 text-xs text-[#4A4238]/60 dark:text-[#91867E]">(optional, off unless you tick it)</span> : null}
+                      </span>
+                    </label>
+                  </li>
                 ))}
               </ul>
               <p className="mt-3 text-xs text-[#4A4238]/70 dark:text-[#91867E]">
