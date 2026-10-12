@@ -4,13 +4,16 @@
  */
 
 const ACCESS_ID = /^ar_[A-Za-z0-9_-]{20,40}$/;
+const DATA_ID = /^dp_[A-Za-z0-9_-]{20,40}$/;
 const SAFE_ID = /^[A-Za-z0-9_-]{8,64}$/;
 
-/** @returns {{kind:'access', id:string} | {kind:'change', id:string, project:string} | null} */
+/** @returns {{kind:'access', id:string} | {kind:'data', id:string} | {kind:'change', id:string, project:string} | null} */
 export function parseApproval(search) {
   const p = new URLSearchParams(search);
   const access = p.get('request');
   if (access) return ACCESS_ID.test(access) ? { kind: 'access', id: access } : null;
+  const data = p.get('data');
+  if (data) return DATA_ID.test(data) ? { kind: 'data', id: data } : null;
   const change = p.get('change');
   const project = p.get('project');
   if (change && project && SAFE_ID.test(change) && /^[A-Za-z0-9_.-]{1,128}$/.test(project)) return { kind: 'change', id: change, project };
@@ -18,6 +21,7 @@ export function parseApproval(search) {
 }
 
 export function approvalPath(a) {
+  if (a.kind === 'data') return `/approve?data=${encodeURIComponent(a.id)}`;
   return a.kind === 'access' ? `/approve?request=${encodeURIComponent(a.id)}` : `/approve?change=${encodeURIComponent(a.id)}&project=${encodeURIComponent(a.project)}`;
 }
 
@@ -34,4 +38,11 @@ export function explainAccessError(status, message) {
   if (status === 404) return 'This request was not found. It may have expired, or it belongs to another account.';
   if (status === 409) return 'This request was already answered or has expired.';
   return typeof message === 'string' && message ? message : 'Something went wrong. Please try again.';
+}
+
+/** What approving a data proposal will do, in one line. */
+export function dataHeadline(client, snapshot) {
+  if (!snapshot) return '';
+  if (snapshot.kit) return `Add the “${snapshot.name}” sample data (${plural(snapshot.rows, 'row')})`;
+  return `Add ${plural(snapshot.rows, 'row')} in ${plural((snapshot.columns || []).length, 'column')} as a new table`;
 }

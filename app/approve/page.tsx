@@ -4,7 +4,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { clearAuthSession, fetchMe, getAuthHeaders, getStoredToken, type UserProfile } from '../lib/auth';
-import { accessHeadline, approvalPath, explainAccessError, parseApproval } from '../lib/approvals.mjs';
+import { accessHeadline, approvalPath, dataHeadline, explainAccessError, parseApproval } from '../lib/approvals.mjs';
 import { decideBulkChange, undoBulkChange } from '../lib/agentAccessApi';
 import { BulkChangeCard, type BulkChangeStatus } from '../Components/chat/BulkChangeCard';
 import { explainBulkError, parseBulkProposal, type BulkProposal } from '../lib/bulkChange.mjs';
@@ -134,6 +134,134 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
   );
 }
 
+
+type DataView = {
+  id: string;
+  kind: 'import' | 'kit';
+  status: string;
+  client_name: string;
+  project_id: string;
+  project_name: string;
+  filename?: string | null;
+  snapshot: {
+    rows: number;
+    columns?: { api_name: string; label?: string; type: string }[];
+    sample?: string[][];
+    notes?: string[];
+    truncated?: boolean;
+    kit?: string;
+    name?: string;
+    description?: string;
+    tables?: { api_name: string; label: string; fields: number; sample_rows: number }[];
+    try_asking?: string[];
+    note?: string;
+  };
+  result?: { tables?: string[]; rows?: number } | null;
+};
+
+function DataReview({ id }: { id: string }) {
+  const [view, setView] = useState<DataView | null>(null);
+  const [state, setState] = useState<'loading' | 'ready' | 'working' | 'done' | 'gone'>('loading');
+  const [allowRead, setAllowRead] = useState(true);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const res = await fetch(`${API_BASE}/v1/data-proposals/${encodeURIComponent(id)}`, { headers: getAuthHeaders() });
+      if (cancelled) return;
+      if (!res.ok) return setState('gone');
+      const v = (await res.json()) as DataView;
+      setView(v);
+      if (v.status === 'pending') setState('ready');
+      else {
+        setMessage(v.status === 'applied' ? 'Already added.' : v.status === 'rejected' ? 'You said no to this.' : 'This request has expired.');
+        setState('done');
+      }
+    })().catch(() => !cancelled && setState('gone'));
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  async function decide(approve: boolean) {
+    if (!view) return;
+    setState('working');
+    setError('');
+    const res = await fetch(`${API_BASE}/v1/data-proposals/${encodeURIComponent(id)}/decision`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+      body: JSON.stringify({ approve, allow_read: allowRead }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setError(explainAccessError(res.status, typeof body.detail === 'string' ? body.detail : ''));
+      setState('ready');
+      return;
+    }
+    const out = (await res.json()) as { rows?: number };
+    setMessage(approve ? `Added${out.rows ? ` ${out.rows.toLocaleString()} rows` : ''} to “${view.project_name}”.${allowRead ? ` ${view.client_name} can read it now: go back and tell it to continue.` : ''}` : 'Okay, nothing was added.');
+    setState('done');
+  }
+
+  if (state === 'loading') return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Loading" />;
+  if (state === 'gone' || !view) return <Gone onGone={() => {}} />;
+  const snap = view.snapshot;
+  return (
+    <div className="text-[#2B2620] dark:text-[#EDE6DD]">
+      <h1 className="text-lg font-semibold">{view.client_name} wants to add data to “{view.project_name}”</h1>
+      <p className="mt-2 text-sm font-medium">{dataHeadline(view.client_name, snap)}</p>
+      {snap.description ? <p className="mt-1 text-sm text-[#4A4238]/70 dark:text-[#91867E]">{snap.description}</p> : null}
+      <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Nothing has been added yet. {snap.kit ? 'This is made-up example data, and you can remove it in one click later.' : 'This is what it would create from the data you gave it.'}</p>
+
+      {snap.columns ? (
+        <div className="mt-3 overflow-x-auto rounded-xl border border-[#E3836C]/20 p-3">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-left text-[#4A4238]/60 dark:text-[#91867E]">
+                {snap.columns.map((c) => (
+                  <th key={c.api_name} className="py-1 pr-3 font-normal"><span className="font-mono">{c.api_name}</span> <span className="opacity-70">({c.type})</span></th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {(snap.sample || []).map((r, i) => (
+                <tr key={i}>{r.map((v, j) => <td key={j} className="py-0.5 pr-3">{v}</td>)}</tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-2 text-[11px] text-[#4A4238]/60 dark:text-[#91867E]">First {snap.sample?.length || 0} of {snap.rows.toLocaleString()} rows.{snap.truncated ? ' The file was cut at the row limit.' : ''}</p>
+          {(snap.notes || []).map((n) => <p key={n} className="mt-1 text-[11px] text-[#4A4238]/70 dark:text-[#91867E]">{n}</p>)}
+        </div>
+      ) : null}
+      {snap.tables ? (
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
+          {snap.tables.map((t) => <li key={t.api_name}>{t.label}: {t.sample_rows} rows, {t.fields} fields</li>)}
+        </ul>
+      ) : null}
+
+      {state === 'done' ? (
+        <p role="status" className="mt-4 text-sm">{message}</p>
+      ) : (
+        <>
+          <label className="mt-4 flex items-start gap-2 text-sm">
+            <input type="checkbox" className="mt-1" checked={allowRead} onChange={(e) => setAllowRead(e.target.checked)} />
+            <span>Also let {view.client_name} read the new table (it already has this data from the chat)</span>
+          </label>
+          {error ? <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p> : null}
+          <div className="mt-4 flex flex-col gap-2">
+            <button type="button" disabled={state === 'working'} onClick={() => decide(true)} className="rounded-lg bg-[#E3836C] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F] disabled:opacity-60">
+              {state === 'working' ? 'Adding…' : 'Add this data'}
+            </button>
+            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[#E3836C]/10 disabled:opacity-60">Don’t add</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function ChangeReview({ id, project, onGone }: { id: string; project: string; onGone: () => void }) {
   const [proposal, setProposal] = useState<BulkProposal | null>(null);
   const [client, setClient] = useState<string>('');
@@ -247,6 +375,7 @@ function ApproveInner() {
         {stage === 'checking' && <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />}
         {stage === 'invalid' && <Gone onGone={() => {}} />}
         {stage === 'ready' && what?.kind === 'access' && <AccessReview id={what.id} onGone={() => {}} />}
+        {stage === 'ready' && what?.kind === 'data' && <DataReview id={what.id} />}
         {stage === 'ready' && what?.kind === 'change' && <ChangeReview id={what.id} project={what.project} onGone={() => {}} />}
         {stage === 'ready' && user?.email ? <p className="mt-6 text-center text-xs text-[#4A4238]/50 dark:text-[#91867E]">Signed in as {user.email}</p> : null}
       </div>
