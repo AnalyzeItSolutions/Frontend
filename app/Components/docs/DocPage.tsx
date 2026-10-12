@@ -7,6 +7,7 @@ export const DOC_LINKS = [
   { href: '/docs/plans', label: 'What each plan includes' },
   { href: '/docs/memory', label: 'Memory' },
   { href: '/docs/connectors', label: 'Connectors' },
+  { href: '/docs/connect-assistant', label: 'Connect an AI assistant' },
   { href: '/guides', label: 'Guides' },
   { href: '/changelog', label: 'Changelog' },
 ] as const;

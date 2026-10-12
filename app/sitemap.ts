@@ -15,6 +15,7 @@ const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number
   { path: '/docs', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/docs/how-answers-work', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/docs/discovery', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/docs/connect-assistant', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/guides', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/docs/plans', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/docs/memory', changeFrequency: 'monthly', priority: 0.7 },

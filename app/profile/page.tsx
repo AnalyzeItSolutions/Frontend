@@ -21,6 +21,7 @@ import { getUserUsage, type UserUsageData } from '../lib/exportApi';
 import { parseLlmQuota } from '../lib/llmQuota';
 import { profileInitials, profileMonthUsage, profileTierName } from '../lib/profileHero.mjs';
 import { SharedLinks } from '../Components/app/SharedLinks';
+import { ConnectedApps } from '../Components/app/ConnectedApps';
 import { RetentionMeter } from '../Components/billing/RetentionMeter';
 import { ThemeToggle } from '../Components/ui/ThemeToggle';
 import { IncognitoToggle } from '../Components/ui/IncognitoToggle';
@@ -397,6 +398,15 @@ function ProfileInner() {
                   Sign out of all devices
                 </button>
               </div>
+            </motion.section>
+
+            <motion.section
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.28 }}
+              className="app-card space-y-4 p-5"
+            >
+              <ConnectedApps />
             </motion.section>
 
             <motion.section
