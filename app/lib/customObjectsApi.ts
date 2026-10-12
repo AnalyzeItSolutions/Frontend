@@ -467,6 +467,7 @@ export async function importRecords(projectId: string, schemaId: string, file: F
 export interface AvailableConnector {
   id: string;
   name?: string;
+  category?: string;
   description?: string;
   icon?: string;
   auth_mode?: 'oauth' | 'connection' | 'catalog' | string;
@@ -479,6 +480,7 @@ export interface AvailableConnector {
   status?: 'available' | 'configured' | 'not_configured' | string;
   live_pull_available?: boolean;
   unavailable_reason?: string | null;
+  config_fields?: string[];
 }
 
 export async function fetchAvailableConnectors(): Promise<AvailableConnector[]> {

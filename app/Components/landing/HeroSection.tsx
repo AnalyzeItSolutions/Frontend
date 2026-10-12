@@ -29,6 +29,14 @@ export const HeroSection: React.FC = () => {
             Get answers with the exact figures and the query behind each one, so you can check every number yourself.
           </p>
 
+          <ul className="flex flex-wrap gap-2 text-xs font-medium tracking-wide text-[#322C28] dark:text-[#F4EDE5]" aria-label="What makes it feel like superintelligence">
+            {['Superhuman speed', 'Every number checkable', 'Reasoning at analyst scale', 'Intelligence you can audit'].map((t) => (
+              <li key={t} className="px-3 py-1 rounded-full border border-[#4A4238]/15 dark:border-[#3A3430] bg-[#F3EDE4]/70 dark:bg-[#211E1C]/70">
+                {t}
+              </li>
+            ))}
+          </ul>
+
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <Link
               href="/try"

@@ -28,7 +28,19 @@ import {
   IconChartBar,
   IconSparkles,
   IconTable,
+  IconSearch,
 } from '@tabler/icons-react';
+
+const CATEGORIES = [
+  { id: 'all', label: 'All (100+)' },
+  { id: 'database', label: 'Databases' },
+  { id: 'ecommerce_payments', label: 'E-commerce & Payments' },
+  { id: 'crm_support', label: 'CRM & Support' },
+  { id: 'marketing_analytics', label: 'Marketing & Analytics' },
+  { id: 'engineering_ops', label: 'Engineering & Ops' },
+  { id: 'storage_files', label: 'Files & Storage' },
+  { id: 'unstructured_streams', label: 'Unstructured & Streams' },
+];
 import {
   fetchAvailableConnectors,
   fetchProjectConnectors,
@@ -109,6 +121,8 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
   const [hfConfig, setHfConfig] = useState('');
   const [hfSplit, setHfSplit] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const loadData = async () => {
     if (!projectId) return;
@@ -366,11 +380,22 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
     return {
       id,
       name: row?.name || meta?.name || providerLabel(id),
-      icon: meta?.icon || <IconDatabase className="w-6 h-6" />,
+      category: row?.category || (id === 'postgres' || id === 'sqlite' ? 'database' : id === 'razorpay' || id === 'stripe' ? 'ecommerce_payments' : id === 'salesforce' ? 'crm_support' : id === 'github' ? 'engineering_ops' : 'storage_files'),
+      icon: meta?.icon || <IconDatabase className="w-6 h-6 text-emerald-500" />,
       desc: row?.description || meta?.desc || '',
       authMode: (meta?.authMode || row?.auth_mode || 'oauth') as AuthMode,
       setup: connectorSetupState(row),
     };
+  });
+
+  const filteredProviders = allProviders.filter((p) => {
+    const matchesCat = selectedCategory === 'all' || p.category === selectedCategory;
+    const matchesSearch =
+      !searchQuery.trim() ||
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
   });
 
   const openForm = (kind: FormKind, connector?: Connector) => {
@@ -415,14 +440,14 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
             Your sources
           </h2>
           <p className="text-xs text-[var(--text-muted)] dark:text-neutral-400 mt-1">
-            Only sources this server reports as configured are listed. Credentials stay vault-encrypted.
+            Over 100+ connectors across databases, SaaS, files, APIs, and live streams with auto-schema detection &amp; PII cleaning.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium border border-emerald-500/20">
             <IconShieldLock className="w-4 h-4" />
-            <span>Vault Encrypted</span>
+            <span>Vault Encrypted · PII Safe</span>
           </div>
           <button
             onClick={loadData}
@@ -432,6 +457,34 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
           >
             <IconRefresh className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <div className="relative w-full">
+          <IconSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search 100+ connectors (e.g. Shopify, BigQuery, S3, Logs, Transcripts, Stripe)..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--coral)]"
+          />
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                selectedCategory === cat.id
+                  ? 'bg-[var(--coral)] text-white shadow-xs'
+                  : 'bg-[var(--surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]'
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -747,14 +800,16 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
         </div>
       ) : null}
 
-      {!loading && !loadError && allProviders.length === 0 ? (
+      {!loading && !loadError && filteredProviders.length === 0 ? (
         <p className="text-sm text-[var(--text-secondary)]">
-          No connectors are configured on this server.
+          {searchQuery || selectedCategory !== 'all'
+            ? 'No connectors match your search or filter.'
+            : 'No connectors are configured on this server.'}
         </p>
       ) : null}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {allProviders.map((p) => {
+        {filteredProviders.map((p) => {
           const activeConn = connectionForProvider(connectors, p.id);
           const isHealthy = Boolean(activeConn && (activeConn.status === 'connected' || activeConn.status === 'healthy'));
           const hasError = activeConn?.status === 'error';
@@ -821,6 +876,15 @@ export function ConnectorsView({ projectId, notice = null }: ConnectorsViewProps
                       Ready to connect
                     </span>
                   )}
+                </div>
+
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono bg-[var(--surface-muted)] text-[var(--text-muted)] border border-[var(--border)]">
+                    Auto-Schema
+                  </span>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Auto-Cleaned
+                  </span>
                 </div>
 
                 <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-4">{p.desc}</p>
