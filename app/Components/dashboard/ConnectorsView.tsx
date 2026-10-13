@@ -83,6 +83,17 @@ type FormKind =
   | 'openml'
   | null;
 
+const BUILT_IN_FORM_CONNECTORS = new Set([
+  'postgres',
+  'sqlite',
+  'stripe',
+  'razorpay',
+  'salesforce',
+  'kaggle',
+  'huggingface',
+  'openml',
+]);
+
 type AuthMode = 'oauth' | 'connection' | 'catalog';
 
 export function ConnectorsView({ projectId, notice = null, initialSearch = '' }: ConnectorsViewProps) {
@@ -97,6 +108,8 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
   const [authorizingId, setAuthorizingId] = useState<string | null>(null);
   const [authorizeErrors, setAuthorizeErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormKind>(null);
+  const [genericProvider, setGenericProvider] = useState<AvailableConnector | null>(null);
+  const [genericConnection, setGenericConnection] = useState<Record<string, string>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [sqlBusy, setSqlBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -234,18 +247,37 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
   };
 
   const handleConnectForm = async () => {
-    if (!form) return;
+    if (!form && !genericProvider) return;
     setSqlBusy(true);
     setFormError(null);
     try {
-      const connection = connectionPayload();
-      if (!connection) return;
-      if (editingId) {
-        const patch: Record<string, unknown> = { connection };
-        if (displayName.trim()) patch.name = displayName.trim();
-        await updateConnector(editingId, patch);
+      if (genericProvider) {
+        const connection = Object.fromEntries(
+          Object.entries(genericConnection)
+            .map(([key, value]) => [key, value.trim()])
+            .filter(([, value]) => value !== ''),
+        );
+        if (!Object.keys(connection).length) {
+          throw new Error('Enter the connection details before saving.');
+        }
+        await connectProvider(
+          projectId,
+          genericProvider.id,
+          connection,
+          displayName.trim() || genericProvider.name || undefined,
+        );
+        setGenericProvider(null);
+        setGenericConnection({});
       } else {
-        await connectProvider(projectId, form, connection, displayName.trim() || undefined);
+        const connection = connectionPayload();
+        if (!connection || !form) return;
+        if (editingId) {
+          const patch: Record<string, unknown> = { connection };
+          if (displayName.trim()) patch.name = displayName.trim();
+          await updateConnector(editingId, patch);
+        } else {
+          await connectProvider(projectId, form, connection, displayName.trim() || undefined);
+        }
       }
       setForm(null);
       setEditingId(null);
@@ -401,10 +433,21 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
   });
 
   const openForm = (kind: FormKind, connector?: Connector) => {
+    setGenericProvider(null);
+    setGenericConnection({});
     setForm(kind);
     setFormError(null);
     setEditingId(connector?.id || null);
     setDisplayName(connector?.name || '');
+  };
+
+  const openGenericForm = (provider: AvailableConnector) => {
+    setForm(null);
+    setEditingId(null);
+    setGenericProvider(provider);
+    setGenericConnection(Object.fromEntries((provider.config_fields || []).map((field) => [field, ''])));
+    setFormError(null);
+    setDisplayName('');
   };
 
   const formTitle =
@@ -778,6 +821,72 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
         </div>
       )}
 
+      {genericProvider && (
+        <div className="app-card space-y-4 p-5 border-[var(--success)]/30">
+          <div>
+            <h3 className="text-sm font-semibold text-[var(--text-primary)]">
+              Set up {genericProvider.name || providerLabel(genericProvider.id)}
+            </h3>
+            <p className="mt-1 text-xs text-[var(--text-muted)]">
+              Enter the connection details requested by this provider. Values are sent over HTTPS and kept in the encrypted credential vault.
+            </p>
+          </div>
+          <label className="block text-xs text-[var(--text-muted)]">
+            Display name (optional)
+            <input
+              className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm"
+              value={displayName}
+              onChange={(event) => setDisplayName(event.target.value)}
+              placeholder={genericProvider.name || genericProvider.id}
+            />
+          </label>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {(genericProvider.config_fields || []).map((field) => {
+              const label = field.replace(/_/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+              const isSecret = /secret|password|token|api.?key|credential|private|connection.?string/i.test(field);
+              return (
+                <label key={field} className="block text-xs text-[var(--text-muted)]">
+                  {label}
+                  <input
+                    type={isSecret ? 'password' : 'text'}
+                    autoComplete="off"
+                    spellCheck={false}
+                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm"
+                    value={genericConnection[field] || ''}
+                    onChange={(event) => setGenericConnection((current) => ({
+                      ...current,
+                      [field]: event.target.value,
+                    }))}
+                  />
+                </label>
+              );
+            })}
+          </div>
+          {formError && <p role="alert" className="text-xs text-[var(--danger)]">{formError}</p>}
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setGenericProvider(null);
+                setGenericConnection({});
+                setFormError(null);
+              }}
+              className="rounded-xl px-3 py-2 text-xs text-[var(--text-muted)]"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              disabled={sqlBusy || !Object.values(genericConnection).some((value) => value.trim())}
+              onClick={handleConnectForm}
+              className="rounded-xl bg-[var(--coral)] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
+            >
+              {sqlBusy ? 'Saving…' : 'Save connection'}
+            </button>
+          </div>
+        </div>
+      )}
+
       {notice && notice.kind !== 'none' ? (
         <div
           role={notice.kind === 'error' ? 'alert' : 'status'}
@@ -822,9 +931,13 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
           const isComingSoon = !isLinked && setup.kind === 'coming_soon';
           const oauthReady = setup.kind === 'ready' && setup.oauth;
           const canConnectForm = setup.kind === 'ready' && setup.connection && (
-            p.id === 'postgres' || p.id === 'sqlite' || p.id === 'razorpay' || p.id === 'stripe' || p.id === 'salesforce'
-            || p.id === 'kaggle' || p.id === 'huggingface' || p.id === 'openml'
+            BUILT_IN_FORM_CONNECTORS.has(p.id)
           );
+          const catalogRow = available.find((row) => row.id === p.id);
+          const canConnectGeneric = setup.kind === 'ready'
+            && setup.connection
+            && !BUILT_IN_FORM_CONNECTORS.has(p.id)
+            && Boolean(catalogRow?.config_fields?.length);
           const syncReport = activeConn ? syncReports[activeConn.id] : undefined;
           const authorizeError = authorizeErrors[p.id];
 
@@ -987,6 +1100,16 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                           className="min-h-11 px-3 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"
                         >
                           Edit
+                        </button>
+                      )}
+                      {canConnectGeneric && catalogRow && (
+                        <button
+                          type="button"
+                          onClick={() => openGenericForm(catalogRow)}
+                          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[var(--coral-dark)] sm:w-auto"
+                        >
+                          <span>Set up {p.name}</span>
+                          <IconArrowUpRight className="w-4 h-4" />
                         </button>
                       )}
                       <button
