@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import { BrandLogo } from '../ui/Brand';
 import { useRouter } from 'next/navigation';
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
@@ -165,14 +165,7 @@ export function AppNav({
             }
           }}
         >
-          <Image
-            src="/logo.png"
-            alt="AnalyzeIt"
-            width={120}
-            height={28}
-            className="h-6 w-auto object-contain dark:rounded-md dark:bg-[#E9DDD2] dark:px-1.5 dark:py-0.5"
-            priority
-          />
+          <BrandLogo size={24} />
         </Link>
 
         <LayoutGroup id={layoutId}>
@@ -308,7 +301,7 @@ export function AppNav({
               </Link>
               <Link
                 href="/login?tab=register"
-                className="hidden rounded-full bg-[var(--coral,#E3836C)] px-3 py-1.5 text-xs font-medium text-[#FFF7F1] shadow-xs transition-colors hover:bg-[#ED967F] sm:inline-flex"
+                className="hidden rounded-full bg-[var(--coral,#E3836C)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] shadow-xs transition-colors hover:bg-[var(--brand-hover)] sm:inline-flex"
               >
                 Get started
               </Link>
@@ -435,7 +428,7 @@ export function AppNav({
                     </Link>
                     <Link
                       href="/login?tab=register"
-                      className="inline-flex flex-1 items-center justify-center rounded-full bg-[var(--coral,#E3836C)] px-3 py-2 text-xs font-medium text-[#FFF7F1]"
+                      className="inline-flex flex-1 items-center justify-center rounded-full bg-[var(--coral,#E3836C)] px-3 py-2 text-xs font-medium text-[var(--brand-ink)]"
                       onClick={() => setMobileOpen(false)}
                     >
                       Get started

@@ -103,7 +103,7 @@ function GitHubOAuthInner() {
   }, [params, router]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#F3EDE4] dark:bg-[#171514] px-6 text-center">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[#F7F1E8] dark:bg-[#14110F] px-6 text-center">
       {error ? (
         <>
           <p className="text-sm text-red-600 dark:text-[#D97870] max-w-md">{error}</p>
@@ -130,7 +130,7 @@ export default function GitHubOAuthCallbackPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#F3EDE4] dark:bg-[#171514]">
+        <div className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F]">
           <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
         </div>
       }

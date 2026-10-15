@@ -746,7 +746,7 @@ export default function DashboardPage() {
                       }}
                       className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-[var(--text-primary)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer text-left"
                     >
-                      <IconCode size={16} className="text-[#3D6FE0] shrink-0" />
+                      <IconCode size={16} className="text-[var(--info)] shrink-0" />
                       <div>
                         <div className="font-medium">Design spec (JSON)</div>
                         <div className="text-[10px] text-[var(--text-muted)]">Layout + tokens — not app source</div>
@@ -1238,7 +1238,7 @@ export default function DashboardPage() {
                         type="button"
                         onClick={() => handleUseTemplate(template)}
                         disabled={isApplyingTemplate !== null}
-                        className="w-full py-2 px-3 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark,#C96551)] text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-transparent disabled:opacity-50"
+                        className="w-full py-2 px-3 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark,#C96551)] text-[var(--brand-ink)] text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-transparent disabled:opacity-50"
                       >
                         {isApplying ? (
                           <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -1376,7 +1376,7 @@ export default function DashboardPage() {
                           </button>
                           <button
                             onClick={() => setProjectToDelete(proj)}
-                            className="p-1.5 text-[var(--text-muted)] hover:text-[#EF6C6C] transition-colors"
+                            className="p-1.5 text-[var(--text-muted)] hover:text-[var(--danger)] transition-colors"
                             title="Delete"
                           >
                             <IconTrash size={14} />
@@ -1404,7 +1404,7 @@ export default function DashboardPage() {
                           setNewProjectName('');
                           setIsNewProjectOpen(true);
                         }}
-                        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[var(--coral)] px-3 py-1.5 text-xs font-medium text-white"
+                        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[var(--coral)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)]"
                       >
                         <IconPlus size={14} /> Create workspace
                       </button>
@@ -1421,7 +1421,7 @@ export default function DashboardPage() {
                     setNewProjectName('');
                     setIsNewProjectOpen(true);
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white text-xs font-medium cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium cursor-pointer"
                 >
                   <IconPlus size={14} />
                   <span>New Workspace</span>
@@ -1492,7 +1492,7 @@ export default function DashboardPage() {
                   <button
                     type="submit"
                     disabled={isCreatingProject || !newProjectName.trim()}
-                    className="px-4 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white text-xs font-medium shadow-sm transition-all disabled:opacity-50 cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium shadow-sm transition-all disabled:opacity-50 cursor-pointer"
                   >
                     {isCreatingProject ? 'Creating…' : 'Create Workspace'}
                   </button>
@@ -1544,7 +1544,7 @@ export default function DashboardPage() {
                   <button
                     type="submit"
                     disabled={isRenamingProject || !renameName.trim()}
-                    className="px-4 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white text-xs font-medium disabled:opacity-50"
+                    className="px-4 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium disabled:opacity-50"
                   >
                     {isRenamingProject ? 'Saving…' : 'Save Name'}
                   </button>
@@ -1679,7 +1679,7 @@ export default function DashboardPage() {
                   <button
                     type="submit"
                     disabled={isChangingPass || !currentPass || !newPass}
-                    className="px-3.5 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white text-xs font-medium disabled:opacity-50"
+                    className="px-3.5 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium disabled:opacity-50"
                   >
                     Update Password
                   </button>

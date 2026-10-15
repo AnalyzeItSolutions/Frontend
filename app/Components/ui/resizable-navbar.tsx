@@ -1,4 +1,5 @@
 "use client";
+import { BrandLogo } from './Brand';
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import {
   motion,
@@ -222,11 +223,7 @@ export const NavbarLogo = () => {
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal"
     >
-      <img
-        src="/logo.png"
-        alt="AnalyzeIt"
-        className="h-7 w-auto object-contain"
-      />
+      <BrandLogo size={24} />
     </Link>
   );
 };
@@ -255,9 +252,9 @@ export const NavbarButton = ({
     secondary:
       "bg-transparent text-muted-foreground hover:text-foreground hover:bg-muted",
     dark:
-      "bg-[#302824] text-[#FFF7F1] shadow-sm hover:bg-[#3A322C]",
+      "bg-[var(--text-primary)] text-[var(--bg)] shadow-sm hover:opacity-90",
     gradient:
-      "bg-[var(--coral,#EA8069)] hover:bg-[var(--coral-dark,#C96551)] text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.2)_inset]",
+      "bg-[var(--coral,#EA8069)] hover:bg-[var(--coral-dark,#C96551)] text-[var(--brand-ink)] shadow-[0px_2px_0px_0px_rgba(255,255,255,0.2)_inset]",
   };
 
   const Component = Tag as any;

@@ -163,7 +163,7 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
           </p>
         </div>
         {!open ? (
-          <button type="button" onClick={() => setOpen(true)} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-white hover:bg-[var(--coral-dark)]">
+          <button type="button" onClick={() => setOpen(true)} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-[var(--brand-ink)] hover:bg-[var(--coral-dark)]">
             <IconPlus className="h-4 w-4" /> Add a source
           </button>
         ) : null}
@@ -282,7 +282,7 @@ export function CustomSourcesPanel({ projectId }: { projectId: string }) {
             <button type="button" disabled={!ready || busy !== null} onClick={runTest} className="rounded-xl border border-[var(--border)] px-4 py-2 text-xs font-semibold text-[var(--text-primary)] disabled:opacity-50">
               {busy === 'test' ? 'Fetching…' : 'Test'}
             </button>
-            <button type="button" disabled={!ready || !preview || preview.record_count === 0 || busy !== null} onClick={save} className="rounded-xl bg-[var(--coral)] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50">
+            <button type="button" disabled={!ready || !preview || preview.record_count === 0 || busy !== null} onClick={save} className="rounded-xl bg-[var(--coral)] px-4 py-2 text-xs font-semibold text-[var(--brand-ink)] disabled:opacity-50">
               {busy === 'save' ? 'Saving…' : 'Save & read it'}
             </button>
           </div>

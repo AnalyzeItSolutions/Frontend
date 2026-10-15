@@ -19,7 +19,7 @@ const LEAKS = [
 export const LeaksSection: React.FC = () => (
   <section
     id="leaks"
-    className="relative z-10 bg-[#F3EDE4] dark:bg-[#171514] text-[#4A4238] dark:text-[#F4EDE5] py-20 md:py-28 px-6 md:px-16 scroll-mt-[calc(var(--nav-h,96px)+16px)]"
+    className="relative z-10 bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] py-20 md:py-28 px-6 md:px-16 scroll-mt-[calc(var(--nav-h,96px)+16px)]"
   >
     <div className="max-w-6xl mx-auto space-y-12">
       <div className="max-w-2xl space-y-4">
@@ -36,7 +36,7 @@ export const LeaksSection: React.FC = () => (
 
       <ul className="grid gap-6 md:grid-cols-3">
         {LEAKS.map((l) => (
-          <li key={l.title} className="rounded-3xl border border-[#4A4238]/10 dark:border-[#3A3430] bg-[#FFF7F1]/70 dark:bg-[#211E1C] p-6 space-y-3 shadow-sm">
+          <li key={l.title} className="rounded-3xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-[#FFF7F1]/70 dark:bg-[#1C1816] p-6 space-y-3 shadow-sm">
             <h3 className="font-serif text-xl text-[#322C28] dark:text-[#F4EDE5]">{l.title}</h3>
             <p className="text-sm leading-relaxed text-[#4A4238]/85 dark:text-[#C5B9AE]">{l.body}</p>
           </li>

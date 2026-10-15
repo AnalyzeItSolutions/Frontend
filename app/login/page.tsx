@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BrandLogo } from '../Components/ui/Brand';
 import { useRouter } from 'next/navigation';
 import { ThemeToggle } from '../Components/ui/ThemeToggle';
 import { motion, AnimatePresence } from 'motion/react';
@@ -71,7 +71,7 @@ const Field: React.FC<FieldProps> = ({
         className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#292522] border text-sm text-[#4A4238] dark:text-[#F4EDE5] placeholder-[#4A4238]/30 dark:placeholder-[#80766F] focus:outline-none focus:ring-2 transition-all duration-200 ${
           error
             ? 'border-red-400/60 dark:border-[#D97870]/60 focus:ring-red-300/40 dark:focus:ring-[#D97870]/30'
-            : 'border-[#4A4238]/10 dark:border-[#3A3430] focus:ring-[#E3836C]/30 focus:border-[#E3836C]/40'
+            : 'border-[#4A4238]/10 dark:border-[#2B2521] focus:ring-[#E3836C]/30 focus:border-[#E3836C]/40'
         }`}
       />
       {rightElement && (
@@ -225,7 +225,7 @@ const LoginForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void }> 
       <button
         type="submit"
         disabled={loading}
-        className="group flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] text-sm font-medium tracking-wide transition-all duration-200 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer mt-1"
+        className="group flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] text-sm font-medium tracking-wide transition-all duration-200 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer mt-1"
       >
         {loading ? (
           <span className="flex items-center gap-2">
@@ -377,8 +377,8 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
             onClick={() => setAgreed((v) => !v)}
             className={`mt-0.5 w-4 h-4 rounded flex-shrink-0 border flex items-center justify-center transition-all duration-200 cursor-pointer ${
               agreed
-                ? 'bg-[#E3836C] border-[#E3836C]'
-                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/20 dark:border-[#3A3430] group-hover:border-[#E3836C]/40'
+                ? 'bg-[var(--brand)] border-[#E3836C]'
+                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/20 dark:border-[#2B2521] group-hover:border-[#E3836C]/40'
             }`}
           >
             {agreed && <IconCheck size={10} stroke={3} className="text-white" />}
@@ -400,7 +400,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
       <button
         type="submit"
         disabled={loading}
-        className="group flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] text-sm font-medium tracking-wide transition-all duration-200 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer mt-1"
+        className="group flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] text-sm font-medium tracking-wide transition-all duration-200 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer mt-1"
       >
         {loading ? (
           <span className="flex items-center gap-2">
@@ -526,7 +526,7 @@ function LoginInner() {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[#F3EDE4] dark:bg-[#171514]">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[#F7F1E8] dark:bg-[#14110F]">
         <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
         <p className="font-mono text-[11px] uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
           Checking account…
@@ -536,18 +536,11 @@ function LoginInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3EDE4] dark:bg-[#171514] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
+    <div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
       {/* Minimal top nav */}
       <nav className="flex items-center justify-between px-6 sm:px-10 py-5">
         <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/logo.png"
-            alt="AnalyzeIt"
-            width={130}
-            height={30}
-            className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105 dark:bg-[#E9DDD2] dark:rounded-md dark:px-1.5 dark:py-0.5"
-            priority
-          />
+          <BrandLogo size={28} />
         </Link>
         <div className="flex items-center gap-4">
           <ThemeToggle />
@@ -594,11 +587,11 @@ function LoginInner() {
           </div>
 
           {/* Glass card */}
-          <div className="glass-card dark:bg-[#211E1C] dark:border dark:border-[#3A3430] rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div className="glass-card dark:bg-[#1C1816] dark:border dark:border-[#2B2521] rounded-2xl p-6 sm:p-8 shadow-xl">
             {!success ? (
               <>
                 {/* Tab switcher */}
-                <div className="flex gap-1 p-1 bg-black/5 dark:bg-[#292522] border border-transparent dark:border-[#3A3430] rounded-xl mb-6">
+                <div className="flex gap-1 p-1 bg-black/5 dark:bg-[#292522] border border-transparent dark:border-[#2B2521] rounded-xl mb-6">
                   {(['login', 'register'] as Tab[]).map((t) => (
                     <button
                       key={t}
@@ -675,7 +668,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#F3EDE4] dark:bg-[#171514]">
+        <div className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F]">
           <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
         </div>
       }

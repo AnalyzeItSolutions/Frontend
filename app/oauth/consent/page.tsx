@@ -92,7 +92,7 @@ function ConsentInner() {
 
   const app = details?.client_name || 'this app';
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F3EDE4] dark:bg-[#171514] px-6 py-10">
+    <main className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F] px-6 py-10">
       <div className="w-full max-w-md rounded-2xl border border-[#E3836C]/20 bg-white/70 dark:bg-white/[0.03] p-8 shadow-sm">
         {stage === 'checking' && (
           <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />
@@ -144,10 +144,10 @@ function ConsentInner() {
             <p className="mt-4 text-xs text-[#4A4238]/60 dark:text-[#91867E]">Only continue if you just started this from {app}. If you did not, choose Cancel.</p>
             {error && <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p>}
             <div className="mt-5 flex flex-col gap-2">
-              <button type="button" onClick={() => decide(true)} disabled={stage === 'working'} className="rounded-lg bg-[#E3836C] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F] disabled:opacity-60">
+              <button type="button" onClick={() => decide(true)} disabled={stage === 'working'} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60">
                 {stage === 'working' ? 'Connecting…' : 'Allow'}
               </button>
-              <button type="button" onClick={() => decide(false)} disabled={stage === 'working'} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm text-[#4A4238] dark:text-[#C9BFB5] hover:bg-[#E3836C]/10 disabled:opacity-60">
+              <button type="button" onClick={() => decide(false)} disabled={stage === 'working'} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm text-[#4A4238] dark:text-[#C9BFB5] hover:bg-[var(--brand)]/10 disabled:opacity-60">
                 Cancel
               </button>
               <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#E3836C]">
@@ -177,7 +177,7 @@ function ConsentInner() {
 
 export default function ConsentPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F3EDE4] dark:bg-[#171514]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F]" />}>
       <ConsentInner />
     </Suspense>
   );

@@ -517,7 +517,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 selectedCategory === cat.id
-                  ? 'bg-[var(--coral)] text-white shadow-xs'
+                  ? 'bg-[var(--coral)] text-[var(--brand-ink)] shadow-xs'
                   : 'bg-[var(--surface-2)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]'
               }`}
             >
@@ -807,7 +807,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
               type="button"
               disabled={sqlBusy}
               onClick={handleConnectForm}
-              className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] text-white font-semibold disabled:opacity-50"
+              className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] text-[var(--brand-ink)] font-semibold disabled:opacity-50"
             >
               {sqlBusy ? 'Working…' : editingId ? 'Save' : 'Save & import'}
             </button>
@@ -873,7 +873,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
               type="button"
               disabled={sqlBusy || !Object.values(genericConnection).some((value) => value.trim())}
               onClick={handleConnectForm}
-              className="rounded-xl bg-[var(--coral)] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
+              className="rounded-xl bg-[var(--coral)] px-4 py-2 text-xs font-semibold text-[var(--brand-ink)] disabled:opacity-50"
             >
               {sqlBusy ? 'Saving…' : 'Save connection'}
             </button>
@@ -899,7 +899,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
       {loadError ? (
         <div role="alert" className="rounded-2xl border border-[var(--danger)]/30 bg-[var(--danger)]/10 p-4 text-sm text-[var(--danger)]">
           <p>{loadError}</p>
-          <button type="button" onClick={loadData} className="mt-3 min-h-11 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-white">
+          <button type="button" onClick={loadData} className="mt-3 min-h-11 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-[var(--brand-ink)]">
             Try again
           </button>
         </div>
@@ -1075,7 +1075,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                       type="button"
                       onClick={() => handleSync(activeConn.id)}
                       disabled={isSyncing}
-                      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-3.5 text-xs font-medium text-white transition-colors hover:bg-[var(--coral-dark)] disabled:opacity-50 sm:w-auto"
+                      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-3.5 text-xs font-medium text-[var(--brand-ink)] transition-colors hover:bg-[var(--coral-dark)] disabled:opacity-50 sm:w-auto"
                     >
                       <IconRefresh className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
                       <span>
@@ -1100,7 +1100,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                         <button
                           type="button"
                           onClick={() => openGenericForm(catalogRow)}
-                          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[var(--coral-dark)] sm:w-auto"
+                          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-[var(--brand-ink)] shadow-sm transition-colors hover:bg-[var(--coral-dark)] sm:w-auto"
                         >
                           <span>Set up {p.name}</span>
                           <IconArrowUpRight className="w-4 h-4" />
@@ -1125,7 +1125,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                         type="button"
                         onClick={() => handleConnectOAuth(p.id)}
                         disabled={authorizingId === p.id}
-                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[var(--coral-dark)] disabled:opacity-50 sm:w-auto"
+                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-[var(--coral)] px-4 text-xs font-semibold text-[var(--brand-ink)] shadow-sm transition-colors hover:bg-[var(--coral-dark)] disabled:opacity-50 sm:w-auto"
                       >
                         <span>
                           {authorizingId === p.id
@@ -1142,7 +1142,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                         className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold shadow-sm transition-colors sm:w-auto ${
                           oauthReady
                             ? 'border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)]'
-                            : 'bg-[var(--coral)] text-white hover:bg-[var(--coral-dark)]'
+                            : 'bg-[var(--coral)] text-[var(--brand-ink)] hover:bg-[var(--coral-dark)]'
                         }`}
                       >
                         <span>

@@ -77,7 +77,7 @@ function NativeLoginInner() {
 
   const who = req ? clientLabel(req.client) : 'the app';
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F3EDE4] dark:bg-[#171514] px-6">
+    <main className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F] px-6">
       <div className="w-full max-w-sm rounded-2xl border border-[#E3836C]/20 bg-white/70 dark:bg-white/[0.03] p-8 text-center shadow-sm">
         {stage === 'checking' && (
           <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />
@@ -104,11 +104,11 @@ function NativeLoginInner() {
                 type="button"
                 onClick={allow}
                 disabled={stage === 'working'}
-                className="rounded-lg bg-[#E3836C] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F] disabled:opacity-60"
+                className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60"
               >
                 {stage === 'working' ? 'Connecting…' : 'Allow'}
               </button>
-              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm text-[#4A4238] dark:text-[#C9BFB5] hover:bg-[#E3836C]/10">
+              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm text-[#4A4238] dark:text-[#C9BFB5] hover:bg-[var(--brand)]/10">
                 Cancel
               </button>
               <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#E3836C]">
@@ -138,7 +138,7 @@ function NativeLoginInner() {
 
 export default function NativeLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F3EDE4] dark:bg-[#171514]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F]" />}>
       <NativeLoginInner />
     </Suspense>
   );

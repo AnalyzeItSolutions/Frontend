@@ -54,7 +54,7 @@ export const FAQSection: React.FC = () => {
           <details
             key={faq.question}
             open={idx < 2}
-            className="glass-card rounded-2xl overflow-hidden border border-[#4A4238]/10 dark:border-[#3A3430] transition-all duration-200 group"
+            className="glass-card rounded-2xl overflow-hidden border border-[#4A4238]/10 dark:border-[#2B2521] transition-all duration-200 group"
           >
             <summary className="w-full p-6 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-white/20 dark:hover:bg-[#292522]/50 transition-colors list-none">
               <span className="font-serif text-xl md:text-2xl text-[#4A4238] dark:text-[#F4EDE5] font-normal">
@@ -64,7 +64,7 @@ export const FAQSection: React.FC = () => {
                 +
               </span>
             </summary>
-            <div className="px-6 pb-6 pt-1 text-sm md:text-base text-[#4A4238]/75 dark:text-[#C5B9AE] leading-relaxed border-t border-[#4A4238]/6 dark:border-[#3A3430]">
+            <div className="px-6 pb-6 pt-1 text-sm md:text-base text-[#4A4238]/75 dark:text-[#C5B9AE] leading-relaxed border-t border-[#4A4238]/6 dark:border-[#2B2521]">
               {faq.answer}
             </div>
           </details>

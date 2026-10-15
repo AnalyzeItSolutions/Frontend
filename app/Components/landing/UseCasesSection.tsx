@@ -55,7 +55,7 @@ export const UseCasesSection: React.FC = () => {
         {USE_CASES.map((uc, idx) => (
           <div
             key={uc.role}
-            className="glass-card rounded-3xl p-8 md:p-10 space-y-4 border border-[#4A4238]/10 dark:border-[#3A3430] dark:bg-[#211E1C] hover:border-[#8FA98F]/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
+            className="glass-card rounded-3xl p-8 md:p-10 space-y-4 border border-[#4A4238]/10 dark:border-[#2B2521] dark:bg-[#1C1816] hover:border-[#8FA98F]/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
           >
             <div className="flex items-center justify-between">
               <span className="font-serif text-2xl text-[#4A4238] dark:text-[#F4EDE5] font-normal">

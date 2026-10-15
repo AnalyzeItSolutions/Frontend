@@ -23,7 +23,7 @@ export function GlobalFilterBar({
   const active = value.preset !== 'all';
   const invalid = value.preset === 'custom' && value.from && value.to && value.from > value.to;
   return (
-    <div role="group" aria-label="Dashboard date range" className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-xl border border-[#4A4238]/10 dark:border-[#3A3430] bg-[#4A4238]/[0.03] dark:bg-white/[0.02]">
+    <div role="group" aria-label="Dashboard date range" className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-[#4A4238]/[0.03] dark:bg-white/[0.02]">
       <IconCalendar size={14} className="text-[#EA8069]" aria-hidden="true" />
       <label className="sr-only" htmlFor="dash-date-preset">Date range</label>
       <select

@@ -47,7 +47,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
     >
       <div className="text-center max-w-2xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-[#C45A42]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E3836C]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           Plans
         </div>
         <h2 className="font-serif text-4xl md:text-5xl text-[#322C28] dark:text-[#F4EDE5] font-normal">
@@ -70,11 +70,11 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             className={`relative flex flex-col rounded-3xl border p-7 ${
               tier.popular
                 ? 'border-[#E3836C]/40 bg-[#FFF9F3] dark:bg-[#292522] shadow-lg'
-                : 'border-[#4A4238]/12 dark:border-[#3A3430] bg-[#F3EDE4]/50 dark:bg-[#211E1C]/60'
+                : 'border-[#4A4238]/12 dark:border-[#2B2521] bg-[#F7F1E8]/50 dark:bg-[#1C1816]/60'
             }`}
           >
             {tier.popular && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#E3836C] text-white">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 text-[11px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--brand)] text-[var(--brand-ink)]">
                 Recommended
               </span>
             )}
@@ -102,7 +102,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
               className={`inline-flex justify-center min-h-11 items-center rounded-full px-5 py-3 text-sm font-medium transition ${
                 tier.name === 'Free'
                   ? 'border border-[#4A4238]/20 dark:border-[#504740] text-[#322C28] dark:text-[#F4EDE5] hover:border-[var(--coral,#E3836C)] hover:text-[var(--coral,#E3836C)]'
-                  : 'bg-[var(--coral,#E3836C)] text-white hover:bg-[#ED967F]'
+                  : 'bg-[var(--coral,#E3836C)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
               }`}
             >
               {tier.cta}

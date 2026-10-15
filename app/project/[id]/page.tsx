@@ -338,7 +338,7 @@ function ProjectHomeBody({
             <button
               type="submit"
               aria-label="Ask in Research"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--coral)] text-white transition hover:bg-[var(--coral-dark)] active:scale-95"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--coral)] text-[var(--brand-ink)] transition hover:bg-[var(--coral-dark)] active:scale-95"
             >
               <IconArrowUp size={18} />
             </button>

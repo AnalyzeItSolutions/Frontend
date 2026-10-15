@@ -250,7 +250,7 @@ export default function BillingPage() {
             </div>
             <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[var(--border)]">
               <div
-                className="h-full rounded-full bg-[#E3836C]"
+                className="h-full rounded-full bg-[var(--brand)]"
                 style={{ width: `${Math.min(100, (usage.used / usage.cap) * 100)}%` }}
               />
             </div>

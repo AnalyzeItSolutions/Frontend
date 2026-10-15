@@ -30,7 +30,7 @@ export function LayoutSwitcher({ projectId, currentLayout, onLoadLayout }: Props
       </label>
       <select
         id="layout-switcher"
-        className="h-8 max-w-[10rem] rounded-lg border border-white/[0.08] bg-[#1C2025] px-2 text-xs text-[#EDEFF2]"
+        className="h-8 max-w-[10rem] rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-2 text-xs text-[var(--text-primary)]"
         onChange={(event) => {
           const found = layouts.find((row) => row.id === event.target.value);
           if (found?.layout_json) onLoadLayout(found.layout_json);
@@ -48,7 +48,7 @@ export function LayoutSwitcher({ projectId, currentLayout, onLoadLayout }: Props
         value={name}
         onChange={(event) => setName(event.target.value)}
         aria-label="New layout name"
-        className="h-8 w-28 rounded-lg border border-white/[0.08] bg-[#1C2025] px-2 text-xs text-[#EDEFF2]"
+        className="h-8 w-28 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-2 text-xs text-[var(--text-primary)]"
       />
       <button
         type="button"

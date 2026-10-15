@@ -88,6 +88,15 @@ describe('the landing page', () => {
     const code = read('app/Components/landing/HeroAnswer.tsx').replace(/className="[^"]*"/g, '').replace(/import .*;/g, '');
     assert.doesNotMatch(code, /\d{2,}/, 'no figure is typed into the component');
   });
+  it('leads with the token-savings story and marks the number as a placeholder until the benchmark is published', () => {
+    assert.match(read('app/Components/landing/HeroSection.tsx'), /<TokenStat \/>/);
+    const bench = read('app/lib/benchmark.ts');
+    const published = /published:\s*true/.test(bench.split('export const TOKEN_BENCHMARK')[1] || '');
+    const stat = read('app/Components/landing/TokenStat.tsx');
+    assert.match(stat, /Placeholder/);
+    if (!published) assert.match(bench, /reduction: 'XX%'/, 'an unpublished benchmark may only show the XX% placeholder');
+    assert.doesNotMatch(read('app/Components/landing/HeroSection.tsx') + read('app/Components/landing/Footer.tsx'), /superintelligence|superhuman/i);
+  });
   it('compares itself honestly with uploading a file to a chatbot', () => {
     const cmp = read('app/Components/landing/ComparisonSection.tsx');
     assert.match(cmp, /chatbot/);

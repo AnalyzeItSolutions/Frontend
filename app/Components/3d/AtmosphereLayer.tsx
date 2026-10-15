@@ -12,7 +12,7 @@ interface AtmosphereLayerProps {
 
 const GROUND_Y = -4;
 
-export const FOG_COLORS = { light: '#E6BF9B', dark: '#231C1A' } as const;
+export const FOG_COLORS = { light: '#EEDFCB', dark: '#1F1A17' } as const;
 
 function mulberry32(seed: number) {
   return () => {
@@ -267,7 +267,7 @@ export const AtmosphereLayer: React.FC<AtmosphereLayerProps> = ({ scrollProgress
         />
       </Environment>
 
-      <Ground color={isDark ? '#1A1412' : '#DDB596'} />
+      <Ground color={isDark ? '#17120F' : '#E4D1BA'} />
       <CrystalField isDark={isDark} />
       <FloatingShards scrollProgressRef={scrollProgressRef} isDark={isDark} />
       <Mist scrollProgressRef={scrollProgressRef} isDark={isDark} />

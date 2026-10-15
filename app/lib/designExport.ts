@@ -28,7 +28,7 @@ const TOKEN_SNAPSHOT = {
     mono: 'Space Mono, monospace',
   },
   colors: {
-    paper: '#F3EDE4',
+    paper: '#F7F1E8',
     ink: '#4A4238',
     coral: '#EA8069',
     peach: '#EBA58F',

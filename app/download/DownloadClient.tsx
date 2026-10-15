@@ -102,7 +102,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
             {desktop ? <p className="mt-1 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Version {desktop.version}{primary ? ` · ${formatSize(primary.size)}` : ''}</p> : null}
           </div>
           {primary ? (
-            <a href={primary.url} className="inline-flex items-center justify-center rounded-lg bg-[#E3836C] px-6 py-3 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F]">
+            <a href={primary.url} className="inline-flex items-center justify-center rounded-lg bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)]">
               Download for {osLabel}
             </a>
           ) : (
@@ -122,7 +122,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
               aria-selected={os === o.id}
               type="button"
               onClick={() => { setOs(o.id); if (o.id !== 'macos') setArch('x64'); }}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-[#E3836C] bg-[#E3836C]/15 text-[#2B2620] dark:text-[#EDE6DD] font-semibold' : 'border-[#4A4238]/15 dark:border-[#3A3430] hover:border-[#E3836C]/60'}`}
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-[#E3836C] bg-[var(--brand)]/15 text-[#2B2620] dark:text-[#EDE6DD] font-semibold' : 'border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#E3836C]/60'}`}
             >
               {o.label}
             </button>
@@ -137,7 +137,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                 aria-checked={arch === a}
                 type="button"
                 onClick={() => setArch(a)}
-                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-[#E3836C] bg-[#E3836C]/10 font-semibold' : 'border-[#4A4238]/15 dark:border-[#3A3430] hover:border-[#E3836C]/60'}`}
+                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-[#E3836C] bg-[var(--brand)]/10 font-semibold' : 'border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#E3836C]/60'}`}
               >
                 {ARCH_LABELS[a]}
               </button>
@@ -147,7 +147,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
 
         <h3 className="mt-6 text-sm font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Desktop app{desktop ? ` ${desktop.version}` : ''}</h3>
         {desktopFiles.length ? (
-          <ul className="mt-2 divide-y divide-[#4A4238]/10 dark:divide-[#3A3430] rounded-xl border border-[#4A4238]/10 dark:border-[#3A3430]">
+          <ul className="mt-2 divide-y divide-[#4A4238]/10 dark:divide-[#2B2521] rounded-xl border border-[#4A4238]/10 dark:border-[#2B2521]">
             {desktopFiles.map((f) => (
               <li key={f.name} className="p-4 flex flex-col gap-2">
                 <div className="flex flex-wrap items-center justify-between gap-3">
@@ -155,7 +155,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                     <div className="text-sm font-medium text-[#2B2620] dark:text-[#EDE6DD]">{KIND_LABELS[f.kind as keyof typeof KIND_LABELS] || f.kind}</div>
                     <div className="font-mono text-[11px] text-[#4A4238]/60 dark:text-[#91867E]">{f.name} · {formatSize(f.size)}</div>
                   </div>
-                  <a href={f.url} className="rounded-lg border border-[#E3836C]/50 px-4 py-1.5 text-sm hover:bg-[#E3836C]/10">Download</a>
+                  <a href={f.url} className="rounded-lg border border-[#E3836C]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
                   <span className="break-all">SHA-256 {f.sha256}</span>
@@ -170,10 +170,10 @@ export function DownloadClient({ releases }: { releases: Releases }) {
 
         <h3 className="mt-8 text-sm font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Command line{cli ? ` ${cli.version}` : ''}</h3>
         {cliFile ? (
-          <div className="mt-2 rounded-xl border border-[#4A4238]/10 dark:border-[#3A3430] p-4 flex flex-col gap-3">
+          <div className="mt-2 rounded-xl border border-[#4A4238]/10 dark:border-[#2B2521] p-4 flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-mono text-[11px] text-[#4A4238]/60 dark:text-[#91867E]">{cliFile.name} · {formatSize(cliFile.size)}</div>
-              <a href={cliFile.url} className="rounded-lg border border-[#E3836C]/50 px-4 py-1.5 text-sm hover:bg-[#E3836C]/10">Download</a>
+              <a href={cliFile.url} className="rounded-lg border border-[#E3836C]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
               <span className="break-all">SHA-256 {cliFile.sha256}</span>
@@ -189,7 +189,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
       </section>
 
       {/* Terminal install: no first-run warning */}
-      <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] p-6">
+      <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] p-6">
         <h2 className="text-base font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Install from a terminal (no first-run warning)</h2>
         <p className="mt-2 text-sm text-[#4A4238]/80 dark:text-[#C5B9AE]">
           Files saved by a browser are flagged &ldquo;downloaded from the internet&rdquo;, which is what triggers the unidentified-developer warning. Files fetched by these commands are not flagged, so
@@ -211,7 +211,7 @@ curl -fsSL https://www.analyzeit.in/install.sh | sh -s -- --app`}</pre>
       </section>
 
       {/* First-run help */}
-      <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] p-6">
+      <section className="rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] p-6">
         <h2 className="text-base font-semibold text-[#2B2620] dark:text-[#EDE6DD]">{OS_NOTES[os].title}</h2>
         <ul className="mt-3 list-disc pl-5 space-y-2 text-sm text-[#4A4238]/80 dark:text-[#C5B9AE]">
           {OS_NOTES[os].steps.map((s) => <li key={s}>{s}</li>)}
@@ -225,7 +225,7 @@ curl -fsSL https://www.analyzeit.in/install.sh | sh -s -- --app`}</pre>
           ['Signed updates', 'The app checks for updates itself. Every update is signed with our key and verified before it is installed, so a tampered file is rejected.'],
           ['Verify your download', 'Each file lists its SHA-256. Compare it with `shasum -a 256 <file>` (macOS, Linux) or `Get-FileHash <file>` (Windows).'],
         ].map(([t, d]) => (
-          <div key={t} className="rounded-xl border border-[#4A4238]/10 dark:border-[#3A3430] p-4">
+          <div key={t} className="rounded-xl border border-[#4A4238]/10 dark:border-[#2B2521] p-4">
             <div className="font-semibold text-[#2B2620] dark:text-[#EDE6DD]">{t}</div>
             <p className="mt-1 text-[#4A4238]/75 dark:text-[#C5B9AE]">{d}</p>
           </div>

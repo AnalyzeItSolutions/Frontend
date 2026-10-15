@@ -74,7 +74,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#211E1C]/60"
+            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#1C1816]/60"
           >
             {ex.label}
           </button>
@@ -94,7 +94,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
           maxLength={240}
           placeholder="Weather in Pune, EUR to USD, TSLA price, 15% of 8200…"
           aria-label="Your question"
-          className="min-w-0 flex-1 rounded-full border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#211E1C]"
+          className="min-w-0 flex-1 rounded-full border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#1C1816]"
         />
         <button
           type="submit"
@@ -115,7 +115,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#3A3430] dark:bg-[#211E1C]/60" aria-live="polite">
+        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#2B2521] dark:bg-[#1C1816]/60" aria-live="polite">
           <p className="text-xs font-mono uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">{turn.question}</p>
           <p className="mt-3 whitespace-pre-wrap text-lg leading-relaxed">{turn.result.answer || 'No answer came back.'}</p>
           {turn.result.zeroTool ? (

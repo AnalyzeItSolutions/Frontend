@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../design/tokens.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -10,7 +11,7 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Space Mono', monospace;
   
-  --color-paper: #F3EDE4;
+  --color-paper: #F7F1E8;
   --color-ink: #4A4238;
   --color-coral: #EA8069;
   --color-peach: #EBA58F;
@@ -31,16 +32,16 @@
   --text-xl: 24px;
 
   /* Technical Dark Instrument Tokens */
-  --color-canvas-base: #0B0D10;
-  --color-surface-card: #14171B;
-  --color-surface-secondary: #1C2025;
-  --color-surface-tertiary: #22262C;
+  --color-canvas-base: #14110F;
+  --color-surface-card: #1C1816;
+  --color-surface-secondary: #241F1C;
+  --color-surface-tertiary: #2B2521;
   --color-border-subtle: rgba(255, 255, 255, 0.08);
   --color-border-hover: rgba(255, 255, 255, 0.16);
-  --color-text-primary: #EDEFF2;
-  --color-text-secondary: #8B93A1;
-  --color-accent-cobalt: #3D6FE0;
-  --color-accent-cobalt-hover: #4D7FF0;
+  --color-text-primary: #F3EDE6;
+  --color-text-secondary: #BDB2A7;
+  --color-accent-cobalt: #E3836C;
+  --color-accent-cobalt-hover: #ED967F;
   --color-status-success: #3FB68C;
   --color-status-warning: #D98F3F;
   --color-status-danger: #EF6C6C;
@@ -53,65 +54,41 @@
 
   /* Provenance Identity Tokens */
   --color-prov-live: #3FB68C;
-  --color-prov-db: #3D6FE0;
+  --color-prov-db: #E3836C;
   --color-prov-ai: #9EBB9A;
 
   /* Backward compatibility aliases */
-  --color-dark-paper: #0B0D10;
-  --color-dark-ink: #EDEFF2;
-  --color-dark-bg: #0B0D10;
-  --color-dark-surface: #14171B;
-  --color-dark-surface-2: #1C2025;
-  --color-dark-surface-3: #22262C;
+  --color-dark-paper: #14110F;
+  --color-dark-ink: #F3EDE6;
+  --color-dark-bg: #14110F;
+  --color-dark-surface: #1C1816;
+  --color-dark-surface-2: #241F1C;
+  --color-dark-surface-3: #2B2521;
   --color-dark-border: rgba(255, 255, 255, 0.08);
   --color-dark-border-strong: rgba(255, 255, 255, 0.15);
-  --color-dark-text-primary: #EDEFF2;
-  --color-dark-text-secondary: #8B93A1;
+  --color-dark-text-primary: #F3EDE6;
+  --color-dark-text-secondary: #BDB2A7;
   --color-dark-text-muted: #6B7280;
   --color-dark-text-disabled: #4B5260;
-  --color-dark-brand: #3D6FE0;
-  --color-dark-brand-hover: #4D7FF0;
-  --color-dark-brand-pressed: #2C5BBF;
+  --color-dark-brand: #E3836C;
+  --color-dark-brand-hover: #ED967F;
+  --color-dark-brand-pressed: #CB6F58;
   --color-dark-brand-soft: rgba(61, 111, 224, 0.15);
 }
 
 :root {
-  /* P0 system tokens (Desiger brief) */
-  --bg: #F5EEE5;
-  --surface: #FFFCF8;
-  --surface-muted: #EEE4D6;
-  --surface-2: #FFFCF8;
-  --surface-3: #EEE4D6;
-  --border: #E2D7CA;
-  --border-strong: #D4C7B8;
-  --text: #3A342D;
-  --text-primary: #3A342D;
-  --text-secondary: #81786F;
-  --text-muted: #81786F; /* never lighter on --bg */
-  --text-disabled: #A89F96;
-  --coral: #EA8069;
-  --coral-dark: #C96551;
-  --coral-hover: #ED967F;
-  --brand: #EA8069;
-  --brand-hover: #C96551;
-  --brand-pressed: #B85745;
-  --brand-soft: rgba(234, 128, 105, 0.14);
-  --brand-light: #EA8069;
-  --nav-bg: #EEE4D6;
-  --nav-text: #3A342D;
+  /* Colors, type, spacing, radius and motion come from design/tokens.css (generated from design/tokens.mjs).
+     Everything below is a legacy alias or a layout constant, so older components keep working. */
+  --text: var(--text-primary);
+  --coral: var(--brand);
+  --coral-dark: var(--brand-hover);
+  --coral-hover: var(--brand-hover);
+  --brand-light: var(--brand);
+  --nav-text: var(--text-primary);
+  --error: var(--danger);
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 40px;
-  --space-8: 48px;
-  --space-9: 64px;
-
-  --radius-input: 8px;
-  --radius-card: 14px;
+  --radius-input: var(--radius-sm);
+  --radius-card: var(--radius-md);
   --radius-pill: 20px;
 
   --nav-h: 56px;
@@ -125,80 +102,16 @@
   --btn-h-sm: 32px;
   --label-min: 11px;
 
-  /* Charts / map: --info blue is data-only, not CTAs */
-  --chart-1: #EA8069;
-  --chart-2: #4FA886;
-  --chart-3: #79A8DF;
-  --chart-4: #06B6D4;
-  --chart-5: #D98F3F;
-  --chart-6: #C45B4A;
-  --chart-7: #81786F;
+  /* Discovery finding cards: one accent plus grey. */
+  --finding-accent: var(--accent-text);
+  --finding-soft: var(--text-secondary);
+  --finding-neutral: var(--text-muted);
 
-  --success: #4FA886;
-  --warning: #D98F3F;
-  --danger: #C45B4A;
-  --error: #C45B4A;
-  --info: #79A8DF;
-
-  /* Discovery finding cards: one accent plus grey. Contrast on --surface: accent 5.25:1, soft text 5.9:1, neutral marks 3.3:1. */
-  --finding-accent: #B5472F;
-  --finding-soft: #6A6158;
-  --finding-neutral: #948B82;
-
-  --background: #F5EEE5;
-  --foreground: #3A342D;
-  --card: #FFFCF8;
-  --muted: #81786F;
-  --accent: #EA8069;
-}
-
-.dark {
-  --bg: #0B0D10;
-  --surface: #14171B;
-  --surface-2: #1C2025;
-  --surface-muted: #23282F;
-  --surface-3: #22262C;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
-  --text-primary: #EDEFF2;
-  --text-secondary: #8B93A1;
-  --text-muted: #6B7280;
-  --text-disabled: #4B5260;
-  --coral: #EA8069;
-  --coral-dark: #C96551;
-  --coral-hover: #ED967F;
-  --brand: #EA8069;
-  --brand-hover: #C96551;
-  --brand-pressed: #B85745;
-  --brand-soft: rgba(234, 128, 105, 0.18);
-  --brand-light: #EA8069;
-  --nav-bg: #0E1014;
-  --nav-text: #EDEFF2;
-
-  --chart-1: #3D6FE0;
-  --chart-2: #3FB68C;
-  --chart-3: #79A8DF;
-  --chart-4: #06B6D4;
-  --chart-5: #D98F3F;
-  --chart-6: #EC4899;
-  --chart-7: #64748B;
-
-  --success: #3FB68C;
-  --warning: #D98F3F;
-  --error: #EF6C6C;
-  --info: #79A8DF;
-
-  /* Discovery finding cards (dark): accent 6.7:1, soft text 6.9:1, neutral marks 4.8:1 on --surface. */
-  --finding-accent: #EA8069;
-  --finding-soft: #9AA1AE;
-  --finding-neutral: #7C8493;
-  --danger: #C45B4A;
-
-  --background: #0B0D10;
-  --foreground: #EDEFF2;
-  --card: #14171B;
-  --muted: #8B93A1;
-  --accent: #EA8069;
+  --background: var(--bg);
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --muted: var(--text-muted);
+  --accent: var(--brand);
 }
 
 /* Incognito: violet-tinted surfaces on top of light or dark base */
@@ -292,7 +205,7 @@ html.lenis, body.lenis {
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #171514;
+  background: #14110F;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -301,7 +214,7 @@ html.lenis, body.lenis {
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #3A3430;
+  background: #2B2521;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -319,7 +232,7 @@ html, body {
 }
 
 .dark html, .dark body {
-  scrollbar-color: #3A3430 #171514;
+  scrollbar-color: #2B2521 #14110F;
 }
 
 /* Structured Data Platform: theme-aware workspace remaps for dark instrument hexes. */
@@ -335,27 +248,27 @@ html, body {
   color: var(--workspace-ink) !important;
 }
 
-:root:not(.dark) .structured-workspace .bg-\[\#0B0D10\],
+:root:not(.dark) .structured-workspace .bg-\[\#14110F\],
 :root:not(.dark) .structured-workspace .bg-\[\#0E1014\],
 :root:not(.dark) .structured-workspace .bg-\[\#0E1014\]\/90 { background-color: var(--workspace-paper) !important; }
-:root:not(.dark) .structured-workspace .bg-\[\#14171B\],
-:root:not(.dark) .structured-workspace .bg-\[\#14171B\]\/40 { background-color: var(--workspace-surface) !important; }
-:root:not(.dark) .structured-workspace .bg-\[\#1C2025\] { background-color: var(--workspace-surface-2) !important; }
+:root:not(.dark) .structured-workspace .bg-\[\#1C1816\],
+:root:not(.dark) .structured-workspace .bg-\[\#1C1816\]\/40 { background-color: var(--workspace-surface) !important; }
+:root:not(.dark) .structured-workspace .bg-\[\#241F1C\] { background-color: var(--workspace-surface-2) !important; }
 :root:not(.dark) .structured-workspace .border-white\/\[0\.08\],
 :root:not(.dark) .structured-workspace .border-white\/\[0\.06\],
 :root:not(.dark) .structured-workspace .border-white\/\[0\.12\],
 :root:not(.dark) .structured-workspace .border-white\/\[0\.16\] { border-color: var(--workspace-border) !important; }
-:root:not(.dark) .structured-workspace .text-\[\#EDEFF2\],
-:root:not(.dark) .structured-workspace .hover\:text-\[\#EDEFF2\]:hover { color: var(--workspace-ink) !important; }
-:root:not(.dark) .structured-workspace .text-\[\#8B93A1\],
-:root:not(.dark) .structured-workspace .text-\[\#8B93A1\]\/40 { color: var(--workspace-muted) !important; }
-:root:not(.dark) .structured-workspace .bg-\[\#3D6FE0\],
-:root:not(.dark) .structured-workspace .hover\:bg-\[\#3D6FE0\]:hover { background-color: var(--workspace-accent) !important; }
-:root:not(.dark) .structured-workspace .hover\:bg-\[\#4D7FF0\]:hover { background-color: #C96F5A !important; }
-:root:not(.dark) .structured-workspace .text-\[\#3D6FE0\],
+:root:not(.dark) .structured-workspace .text-\[\#F3EDE6\],
+:root:not(.dark) .structured-workspace .hover\:text-\[\#F3EDE6\]:hover { color: var(--workspace-ink) !important; }
+:root:not(.dark) .structured-workspace .text-\[\#BDB2A7\],
+:root:not(.dark) .structured-workspace .text-\[\#BDB2A7\]\/40 { color: var(--workspace-muted) !important; }
+:root:not(.dark) .structured-workspace .bg-\[\#E3836C\],
+:root:not(.dark) .structured-workspace .hover\:bg-\[\#E3836C\]:hover { background-color: var(--workspace-accent) !important; }
+:root:not(.dark) .structured-workspace .hover\:bg-\[\#ED967F\]:hover { background-color: #C96F5A !important; }
+:root:not(.dark) .structured-workspace .text-\[\#E3836C\],
 :root:not(.dark) .structured-workspace .text-\[\#5B8CF5\] { color: #B86450 !important; }
-:root:not(.dark) .structured-workspace .bg-\[\#3D6FE0\]\/15 { background-color: rgba(227, 131, 108, 0.14) !important; }
-:root:not(.dark) .structured-workspace .border-\[\#3D6FE0\]\/30 { border-color: rgba(227, 131, 108, 0.3) !important; }
+:root:not(.dark) .structured-workspace .bg-\[\#E3836C\]\/15 { background-color: rgba(227, 131, 108, 0.14) !important; }
+:root:not(.dark) .structured-workspace .border-\[\#E3836C\]\/30 { border-color: rgba(227, 131, 108, 0.3) !important; }
 :root:not(.dark) .structured-workspace .bg-white\/\[0\.03\]:hover,
 :root:not(.dark) .structured-workspace .bg-white\/\[0\.06\]:hover,
 :root:not(.dark) .structured-workspace .bg-white\/\[0\.08\]:hover { background-color: rgba(74, 66, 56, 0.06) !important; }
@@ -436,8 +349,8 @@ html, body {
 }
 
 .dark .glass-card {
-  background: #211E1C;
-  border-color: #3A3430;
+  background: #1C1816;
+  border-color: #2B2521;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
 }
 
@@ -460,8 +373,8 @@ html, body {
 }
 
 .dark .v3d-glass-card {
-  background: #211E1C;
-  border-color: #3A3430;
+  background: #1C1816;
+  border-color: #2B2521;
   box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
 }
 

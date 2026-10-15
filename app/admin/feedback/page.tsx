@@ -205,7 +205,7 @@ function AdminFeedbackInner() {
                       type="button"
                       disabled={busyId === item.id}
                       onClick={() => void save(item)}
-                      className="rounded-full bg-[var(--coral,#EA8069)] px-3 py-1 text-[11px] font-medium text-white disabled:opacity-50"
+                      className="rounded-full bg-[var(--coral,#EA8069)] px-3 py-1 text-[11px] font-medium text-[var(--brand-ink)] disabled:opacity-50"
                     >
                       {busyId === item.id ? 'Saving…' : 'Save reply'}
                     </button>

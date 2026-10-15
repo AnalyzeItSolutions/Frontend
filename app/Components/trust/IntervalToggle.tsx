@@ -11,7 +11,7 @@ export function IntervalToggle({ value, onChange }: { value: Interval; onChange:
       aria-checked={value === id}
       onClick={() => onChange(id)}
       className={`min-h-10 rounded-full px-4 text-sm transition-colors ${
-        value === id ? 'bg-[#E3836C] text-white' : 'text-[#5C534A] dark:text-[#C5B9AE] hover:text-[#C45A42]'
+        value === id ? 'bg-[var(--brand)] text-[var(--brand-ink)]' : 'text-[#5C534A] dark:text-[#C5B9AE] hover:text-[#C45A42]'
       }`}
     >
       {label}

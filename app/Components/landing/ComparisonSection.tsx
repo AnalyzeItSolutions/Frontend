@@ -39,7 +39,7 @@ export const ComparisonSection: React.FC = () => {
       {/* Header */}
       <div className="max-w-2xl space-y-4">
         <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[#4A4238]/60 dark:text-[#91867E]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E3836C]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           Why not a chatbot?
         </div>
         <h2 className="font-serif text-4xl md:text-5xl text-[#4A4238] dark:text-[#F4EDE5] font-normal leading-tight">
@@ -53,15 +53,15 @@ export const ComparisonSection: React.FC = () => {
         </p>
       </div>
 
-      <div className="glass-card rounded-3xl overflow-hidden border border-[#4A4238]/10 dark:border-[#3A3430] divide-y divide-[#4A4238]/8 dark:divide-[#3A3430] shadow-sm">
+      <div className="glass-card rounded-3xl overflow-hidden border border-[#4A4238]/10 dark:border-[#2B2521] divide-y divide-[#4A4238]/8 dark:divide-[#2B2521] shadow-sm">
         {/* Table Header */}
-        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F3EDE4]/90 dark:bg-[#292522] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[#4A4238]/70 dark:text-[#C5B9AE] border-b border-[#4A4238]/08 dark:border-[#3A3430]">
+        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F7F1E8]/90 dark:bg-[#292522] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[#4A4238]/70 dark:text-[#C5B9AE] border-b border-[#4A4238]/08 dark:border-[#2B2521]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#4A4238]/30 dark:bg-[#C5B9AE]/40" />
             Uploading a file to a chatbot
           </div>
           <div className="hidden md:flex items-center gap-2 text-[#E3836C]">
-            <span className="w-2 h-2 rounded-full bg-[#E3836C]" />
+            <span className="w-2 h-2 rounded-full bg-[var(--brand)]" />
             With AnalyzeIt
           </div>
         </div>
@@ -83,7 +83,7 @@ export const ComparisonSection: React.FC = () => {
             </div>
 
             {/* With AnalyzeIt */}
-            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#4A4238]/6 dark:border-[#3A3430]">
+            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#4A4238]/6 dark:border-[#2B2521]">
               <div className="md:hidden text-xs font-mono text-[#E3836C] uppercase tracking-wider">
                 With AnalyzeIt
               </div>

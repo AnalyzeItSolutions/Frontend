@@ -109,7 +109,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className="h-full antialiased selection:bg-[#E3836C]/30 selection:text-[#4A4238] dark:selection:bg-[#E3836C]/30 dark:selection:text-[#F4EDE5]"
+      className="h-full antialiased selection:bg-[var(--brand)]/30 selection:text-[#4A4238] dark:selection:bg-[var(--brand)]/30 dark:selection:text-[#F4EDE5]"
     >
       <head>
         {/* AdSense requires this exact tag in <head> when a publisher id is configured. */}
@@ -126,10 +126,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
@@ -152,6 +148,12 @@ export default function RootLayout({
         suppressHydrationWarning
         className="min-h-full flex flex-col bg-[var(--bg)] text-[var(--text-primary)] font-sans antialiased overflow-x-hidden transition-colors duration-300"
       >
+        {/* In <body>, not <head>: the AdSense library injects its own script into <head> before hydration, which
+            shifted React's positional match and raised a hydration mismatch on every page. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ThemeProvider>
           <UIProvider>
             <GlobeProvider>

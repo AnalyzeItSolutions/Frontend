@@ -63,7 +63,7 @@ export function TryoutClient() {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#211E1C]/60"
+            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#1C1816]/60"
           >
             {ex.label}
           </button>
@@ -84,7 +84,7 @@ export function TryoutClient() {
           rows={3}
           placeholder="Ask a question about analysing data, metrics or a business problem…"
           aria-label="Your question"
-          className="w-full resize-none rounded-2xl border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#211E1C]"
+          className="w-full resize-none rounded-2xl border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#1C1816]"
         />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-[#5C534A] dark:text-[#C5B9AE]" role="status">
@@ -107,7 +107,7 @@ export function TryoutClient() {
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#3A3430] dark:bg-[#211E1C]/60" aria-live="polite">
+        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#2B2521] dark:bg-[#1C1816]/60" aria-live="polite">
           <p className="text-xs font-mono uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">{turn.question}</p>
           <div className="mt-3 text-base leading-relaxed">
             <ChatMarkdown text={turn.result.answer || 'No answer came back.'} />
@@ -128,7 +128,7 @@ export function TryoutClient() {
       ) : null}
 
       {out && !turn?.failure ? (
-        <div className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 text-sm dark:border-[#3A3430] dark:bg-[#211E1C]/60">
+        <div className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 text-sm dark:border-[#2B2521] dark:bg-[#1C1816]/60">
           <p>
             You have used all {status?.limit} try-out runs. Create a free account to keep going
             {status && status.retry_after_seconds > 0 ? `, or come back in ${formatWait(status.retry_after_seconds)}.` : '.'}

@@ -11,7 +11,7 @@ import { IconTrash } from '@tabler/icons-react';
 import type { ProvenanceInfo, WidgetSpec } from '../../lib/chatApi';
 import { provenanceBadge, provenanceBadgeText } from '../../lib/dashboardView.mjs';
 
-const PALETTE = ['#EA8069', '#3D6FE0', '#3FB68C', '#D4A017', '#79A8DF', '#EF6C6C', '#5B8CF5', '#9EBB9A'];
+const PALETTE = ['#D9705A', '#6F9BC9', '#4FA886', '#D4A017', '#9C8CBE', '#C45B4A', '#79A8DF', '#9EBB9A'];
 
 function WidgetEmptyState({ title }: { title?: string }) {
   return (
@@ -34,7 +34,7 @@ function CitationFooter({
   const badge = provenanceBadge({ provenance, freshness });
   if (!badge) return null;
   return (
-    <div className="mt-3 pt-2.5 border-t border-[#4A4238]/10 dark:border-[#3A3430] text-[11px] font-sans text-[#4A4238]/60 dark:text-[#91867E]">
+    <div className="mt-3 pt-2.5 border-t border-[#4A4238]/10 dark:border-[#2B2521] text-[11px] font-sans text-[#4A4238]/60 dark:text-[#91867E]">
       <span className="truncate">{provenanceBadgeText(badge)}</span>
     </div>
   );
@@ -49,7 +49,7 @@ function shell(
   freshness?: string,
 ) {
   return (
-    <div className="glass-card dark:bg-[#211E1C] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#3A3430] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div className="min-w-0">
           <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
@@ -211,7 +211,7 @@ export function RadarChartWidget({
             key={t}
             fill="none"
             stroke="currentColor"
-            className="text-[#4A4238]/15 dark:text-[#3A3430]"
+            className="text-[#4A4238]/15 dark:text-[#2B2521]"
             strokeWidth="1"
             points={axes
               .map((_, i) => {
@@ -231,7 +231,7 @@ export function RadarChartWidget({
                 x2={x}
                 y2={y}
                 stroke="currentColor"
-                className="text-[#4A4238]/20 dark:text-[#3A3430]"
+                className="text-[#4A4238]/20 dark:text-[#2B2521]"
                 strokeWidth="1"
               />
               <text
@@ -327,7 +327,7 @@ export function ChoroplethMapWidget({
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', { dimension: metric, value: r.label })
             }
-            className="rounded-xl p-3 text-left border border-[#4A4238]/10 dark:border-[#3A3430] hover:border-[#EA8069]/40 transition-colors cursor-pointer"
+            className="rounded-xl p-3 text-left border border-[#4A4238]/10 dark:border-[#2B2521] hover:border-[#EA8069]/40 transition-colors cursor-pointer"
             style={{ background: colorAt(r.value / max) }}
           >
             <div className="text-[11px] font-medium text-[#4A4238] dark:text-[#F4EDE5] truncate">
@@ -386,7 +386,7 @@ export function TransactionListWidget({
     title,
     metric,
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
-    <div className="divide-y divide-[#4A4238]/8 dark:divide-[#3A3430]/50 max-h-64 overflow-auto">
+    <div className="divide-y divide-[#4A4238]/8 dark:divide-[#2B2521]/50 max-h-64 overflow-auto">
       {rows.map((raw, i) => {
         const row = normalize(raw);
         return (

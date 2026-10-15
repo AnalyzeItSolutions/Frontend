@@ -84,7 +84,7 @@ export function LandingExperience({ children }: { children: React.ReactNode }) {
       {showSkip && (
         <a
           href="#capabilities"
-          className="fixed bottom-5 right-5 z-30 min-h-11 px-4 rounded-full bg-[#322C28] text-[#FFF7F1] text-sm font-medium shadow-lg pointer-events-auto inline-flex items-center xl:right-8"
+          className="fixed bottom-5 right-5 z-30 hidden md:inline-flex min-h-11 px-4 rounded-full bg-[var(--text-primary)] text-[var(--bg)] text-sm font-medium shadow-lg pointer-events-auto items-center xl:right-8"
           onClick={(e) => {
             e.preventDefault();
             const el = document.getElementById('capabilities');

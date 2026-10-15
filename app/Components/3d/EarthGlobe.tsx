@@ -91,7 +91,7 @@ function createEditorialEarthTextures(isDark: boolean, quality: 'mini' | 'full' 
   // 1. Ocean Color: Clear separation from landmass
   if (isDark) {
     const oceanGrad = ctx.createRadialGradient(width / 2, height / 2, 100, width / 2, height / 2, width);
-    oceanGrad.addColorStop(0, '#171514');
+    oceanGrad.addColorStop(0, '#14110F');
     oceanGrad.addColorStop(1, '#0F0E0D');
     ctx.fillStyle = oceanGrad;
   } else {
@@ -958,7 +958,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
       {/* Loading Skeleton */}
       {!isSceneReady && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-xs font-mono text-xs text-[#4A4238]/60 dark:text-[#91867E]">
-          <span className="w-3 h-3 rounded-full bg-[#E3836C] animate-ping mr-2" />
+          <span className="w-3 h-3 rounded-full bg-[var(--brand)] animate-ping mr-2" />
           <span>{minimal ? 'Loading sources…' : 'Initializing 3D Planetary WebGL…'}</span>
         </div>
       )}
@@ -969,9 +969,9 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
           <button
             type="button"
             onClick={() => onToggleExpand(true)}
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full glass-card dark:bg-[#211E1C]/80 dark:border-[#3A3430] hover:border-[#E3836C]/50 text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] shadow-lg backdrop-blur-xl transition-all transform hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/50"
+            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full glass-card dark:bg-[#1C1816]/80 dark:border-[#2B2521] hover:border-[#E3836C]/50 text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] shadow-lg backdrop-blur-xl transition-all transform hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/50"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#E3836C] animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--brand)] animate-pulse" />
             <IconWorld size={16} className="text-[#E3836C]" />
             <span>Google Earth View · Expand</span>
           </button>
@@ -992,7 +992,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
               <button
                 type="button"
                 onClick={() => onToggleExpand(false)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/90 dark:bg-[#211E1C]/90 text-[#4A4238] dark:text-[#F4EDE5] border border-[#4A4238]/15 dark:border-[#3A3430] shadow-2xl backdrop-blur-xl font-mono text-xs uppercase tracking-wider transition-all transform hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/50 shrink-0"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/90 dark:bg-[#1C1816]/90 text-[#4A4238] dark:text-[#F4EDE5] border border-[#4A4238]/15 dark:border-[#2B2521] shadow-2xl backdrop-blur-xl font-mono text-xs uppercase tracking-wider transition-all transform hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/50 shrink-0"
               >
                 <IconX size={16} />
                 <span>Close</span>
@@ -1001,7 +1001,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
 
               {/* ─── INTERACTIVE SEARCH BAR FOR GLOBE ─────────────────────── */}
               <div className="relative flex-1 sm:w-80">
-                <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl glass-card backdrop-blur-xl border border-[#4A4238]/15 dark:border-[#3A3430] shadow-xl transition-all focus-within:border-[#E3836C] focus-within:ring-2 focus-within:ring-[#E3836C]/30">
+                <div className="flex items-center gap-2 px-3.5 py-2 rounded-2xl glass-card backdrop-blur-xl border border-[#4A4238]/15 dark:border-[#2B2521] shadow-xl transition-all focus-within:border-[#E3836C] focus-within:ring-2 focus-within:ring-[#E3836C]/30">
                   <IconSearch size={15} className="text-[#E3836C] shrink-0" />
                   <input
                     ref={searchInputRef}
@@ -1159,11 +1159,11 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
             </button>
 
             {/* Zoom In & Zoom Out Buttons */}
-            <div className="flex flex-col rounded-2xl glass-card border border-[#4A4238]/15 dark:border-[#3A3430] shadow-xl backdrop-blur-xl overflow-hidden">
+            <div className="flex flex-col rounded-2xl glass-card border border-[#4A4238]/15 dark:border-[#2B2521] shadow-xl backdrop-blur-xl overflow-hidden">
               <button
                 type="button"
                 onClick={() => handleZoom(-1.4)}
-                className="p-3 hover:bg-black/5 dark:hover:bg-white/10 text-[#4A4238] dark:text-[#F4EDE5] transition-colors cursor-pointer border-b border-[#4A4238]/10 dark:border-[#3A3430] focus:outline-none focus:ring-2 focus:ring-[#E3836C]/40"
+                className="p-3 hover:bg-black/5 dark:hover:bg-white/10 text-[#4A4238] dark:text-[#F4EDE5] transition-colors cursor-pointer border-b border-[#4A4238]/10 dark:border-[#2B2521] focus:outline-none focus:ring-2 focus:ring-[#E3836C]/40"
                 title="Zoom In"
               >
                 <IconPlus size={18} />
@@ -1179,13 +1179,13 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
             </div>
 
             {/* Layer Toggles: Grid View, Clouds, Telemetry */}
-            <div className="flex flex-col rounded-2xl glass-card border border-[#4A4238]/15 dark:border-[#3A3430] shadow-xl backdrop-blur-xl p-1 gap-1">
+            <div className="flex flex-col rounded-2xl glass-card border border-[#4A4238]/15 dark:border-[#2B2521] shadow-xl backdrop-blur-xl p-1 gap-1">
               <button
                 type="button"
                 onClick={() => setShowGrid((v) => !v)}
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/40 ${
                   showGrid
-                    ? 'bg-[#E3836C] text-white'
+                    ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
                     : 'text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-white'
                 }`}
                 title="Toggle Latitude/Longitude Grid Lines"
@@ -1198,7 +1198,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 onClick={() => setShowClouds((v) => !v)}
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/40 ${
                   showClouds
-                    ? 'bg-[#E3836C] text-white'
+                    ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
                     : 'text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-white'
                 }`}
                 title="Toggle Atmospheric Clouds"
@@ -1211,7 +1211,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 onClick={() => setShowTelemetry((v) => !v)}
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E3836C]/40 ${
                   showTelemetry
-                    ? 'bg-[#E3836C] text-white'
+                    ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
                     : 'text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-white'
                 }`}
                 title="Toggle Telemetry Flight Arcs"
@@ -1241,7 +1241,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
             )}
 
             {/* Bottom Google Earth Coordinate & Altitude Telemetry Status Bar */}
-            <div className="pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-full glass-card border border-[#4A4238]/15 dark:border-[#3A3430] shadow-xl backdrop-blur-xl font-mono text-xs text-[#4A4238]/80 dark:text-[#C5B9AE]">
+            <div className="pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-full glass-card border border-[#4A4238]/15 dark:border-[#2B2521] shadow-xl backdrop-blur-xl font-mono text-xs text-[#4A4238]/80 dark:text-[#C5B9AE]">
               <span>Heading: <strong className="text-[#E3836C]">{compassHeading}°</strong></span>
               <span className="opacity-40">|</span>
               <span>Altitude: <strong>{cameraAltitude.toLocaleString()} km</strong></span>

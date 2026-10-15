@@ -1,5 +1,6 @@
 import { LandingExperience } from './Components/landing/LandingExperience';
 import { HeroSection } from './Components/landing/HeroSection';
+import { MemorySection } from './Components/landing/MemorySection';
 import { LeaksSection } from './Components/landing/LeaksSection';
 import { DescentSection } from './Components/landing/DescentSection';
 import { CapabilitiesSection } from './Components/landing/CapabilitiesSection';
@@ -16,9 +17,10 @@ export default function Home() {
     <LandingExperience>
       <main className="relative z-10">
         <HeroSection />
+        <MemorySection />
         <LeaksSection />
         <DescentSection />
-        <div className="relative z-10 bg-[#F3EDE4] dark:bg-[#171514] text-[#4A4238] dark:text-[#F4EDE5] shadow-2xl transition-colors duration-500">
+        <div className="relative z-10 bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] shadow-2xl transition-colors duration-500">
           <CapabilitiesSection />
           <HowItWorksSection />
           <ComparisonSection />

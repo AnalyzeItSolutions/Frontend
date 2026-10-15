@@ -47,8 +47,8 @@ export function ProductsPlans({ initialQuote = null }: { initialQuote?: Marketin
             key={plan.id}
             className={`flex flex-col rounded-2xl border p-5 ${
               recommended
-                ? 'border-[#4A4238]/12 dark:border-[#3A3430] border-t-2 border-t-[#E3836C] bg-[#FFF9F3]/70 dark:bg-[#292522] shadow-[0_10px_28px_-14px_rgba(227,131,108,0.45)] -translate-y-0.5'
-                : 'border-[#4A4238]/12 dark:border-[#3A3430] bg-white/40 dark:bg-[#211E1C]/60'
+                ? 'border-[#4A4238]/12 dark:border-[#2B2521] border-t-2 border-t-[#E3836C] bg-[#FFF9F3]/70 dark:bg-[#292522] shadow-[0_10px_28px_-14px_rgba(227,131,108,0.45)] -translate-y-0.5'
+                : 'border-[#4A4238]/12 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816]/60'
             }`}
           >
             <h2 className="font-serif text-2xl text-[#322C28] dark:text-[#F4EDE5]">{plan.name}</h2>
@@ -72,7 +72,7 @@ export function ProductsPlans({ initialQuote = null }: { initialQuote?: Marketin
               href={HREF[plan.id]}
               className={`mt-auto inline-flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-medium transition-colors ${
                 plan.id === 'free'
-                  ? 'border border-[#E3836C]/55 bg-transparent text-[#C45A42] hover:border-[#E3836C] hover:bg-[#E3836C]/8'
+                  ? 'border border-[#E3836C]/55 bg-transparent text-[#C45A42] hover:border-[#E3836C] hover:bg-[var(--brand)]/8'
                   : 'bg-[#EA8069] text-white hover:bg-[#C96551]'
               }`}
             >

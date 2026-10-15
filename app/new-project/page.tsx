@@ -1369,7 +1369,7 @@ function NewProjectContent() {
         className={`sticky top-0 z-30 px-4 sm:px-8 py-3 flex items-center justify-between border-b backdrop-blur-xl transition-colors duration-300 ${
           isIncognito
             ? 'bg-[#100D16]/80 border-purple-500/20'
-            : 'bg-[#F3EDE4]/80 dark:bg-[#171514]/80 border-[#4A4238]/10 dark:border-[#3A3430]'
+            : 'bg-[#F7F1E8]/80 dark:bg-[#14110F]/80 border-[#4A4238]/10 dark:border-[#2B2521]'
         }`}
       >
         <div className="flex items-center gap-3 sm:gap-5">
@@ -1380,7 +1380,7 @@ function NewProjectContent() {
             className={`flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${
               isIncognito
                 ? 'border-purple-500/30 text-purple-300 hover:bg-purple-950/50'
-                : 'border-[#4A4238]/15 dark:border-[#3A3430] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] hover:bg-black/5 dark:hover:bg-[#292522]'
+                : 'border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] hover:bg-black/5 dark:hover:bg-[#292522]'
             }`}
           >
             <IconArrowLeft size={14} />
@@ -1418,7 +1418,7 @@ function NewProjectContent() {
         {/* View Switcher & Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* View Mode Segment Switcher */}
-          <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#292522] border border-[#4A4238]/10 dark:border-[#3A3430] text-xs font-mono">
+          <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#292522] border border-[#4A4238]/10 dark:border-[#2B2521] text-xs font-mono">
             {!isMobile && (
               <button
                 type="button"
@@ -1460,12 +1460,12 @@ function NewProjectContent() {
               <IconLayoutDashboard size={13} />
               <span>Canvas</span>
               {currentLayout.widgets.length > 0 && (
-                <span className="text-[10px] px-1.5 py-0.2 bg-[#E3836C]/20 text-[#E3836C] rounded-full font-bold">
+                <span className="text-[10px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#E3836C] rounded-full font-bold">
                   {currentLayout.widgets.length}
                 </span>
               )}
               {pendingCount > 0 && (
-                <span className="w-2 h-2 rounded-full bg-[#E3836C] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-pulse" />
               )}
             </button>
           </div>
@@ -1477,7 +1477,7 @@ function NewProjectContent() {
             className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
               isIncognito
                 ? 'bg-purple-900/60 border-purple-500 text-purple-200 shadow-md ring-2 ring-purple-500/30'
-                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#3A3430] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:border-[#E3836C]/40'
+                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:border-[#E3836C]/40'
             }`}
             title="When active, queries and session data are ephemeral and bypassed from storage"
           >
@@ -1528,7 +1528,7 @@ function NewProjectContent() {
         <div
           className={`relative flex min-h-0 flex-col overflow-hidden transition-all ${
             activeView === 'split'
-              ? 'w-full lg:w-[46%] xl:w-[44%] border-r border-[#4A4238]/10 dark:border-[#3A3430]'
+              ? 'w-full lg:w-[46%] xl:w-[44%] border-r border-[#4A4238]/10 dark:border-[#2B2521]'
               : activeView === 'chat'
               ? 'w-full'
               : 'hidden'
@@ -1555,7 +1555,7 @@ function NewProjectContent() {
                   {msg.sender === 'assistant' && (
                     <div
                       className={`w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center text-white font-serif font-bold text-xs shadow-xs ${
-                        msg.incognito ? 'bg-purple-600' : 'bg-[#E3836C]'
+                        msg.incognito ? 'bg-purple-600' : 'bg-[var(--brand)]'
                       }`}
                     >
                       A
@@ -1568,12 +1568,12 @@ function NewProjectContent() {
                         ? `${
                             msg.incognito
                               ? 'bg-purple-900/60 border border-purple-500/30 text-purple-100'
-                              : 'bg-[#4A4238] text-[#F3EDE4]'
+                              : 'bg-[#4A4238] text-[#F7F1E8]'
                           } p-4 rounded-2xl rounded-tr-xs text-sm leading-relaxed shadow-sm`
                         : `${
                             isIncognito
                               ? 'bg-[#1A1624] border border-purple-500/20 text-purple-100'
-                              : 'glass-card border border-[#4A4238]/08 dark:border-[#3A3430] dark:bg-[#211E1C] text-[#4A4238] dark:text-[#F4EDE5]'
+                              : 'glass-card border border-[#4A4238]/08 dark:border-[#2B2521] dark:bg-[#1C1816] text-[#4A4238] dark:text-[#F4EDE5]'
                           } p-5 rounded-2xl rounded-tl-xs text-sm leading-relaxed shadow-sm`
                     }`}
                   >
@@ -1584,7 +1584,7 @@ function NewProjectContent() {
                         <ChatMarkdown text={msg.content || (msg.streaming ? '' : 'No content generated.')} />
                       )}
                       {msg.streaming && (
-                        <span className="inline-block w-1.5 h-4 ml-0.5 bg-[#E3836C] animate-pulse align-middle" />
+                        <span className="inline-block w-1.5 h-4 ml-0.5 bg-[var(--brand)] animate-pulse align-middle" />
                       )}
                     </div>
 
@@ -1662,7 +1662,7 @@ function NewProjectContent() {
                               ? 'bg-black/5 dark:bg-[#292522] border-transparent opacity-60'
                               : inlineProposal.status === 'error'
                               ? 'bg-red-500/10 dark:bg-[#382522] border-red-500/30 dark:border-[#D97870]/30 text-red-600 dark:text-[#D97870]'
-                              : 'bg-[#E3836C]/10 dark:bg-[#5A332C]/40 border-[#E3836C]/30 dark:border-[#8A4D40]'
+                              : 'bg-[var(--brand)]/10 dark:bg-[#5A332C]/40 border-[#E3836C]/30 dark:border-[#8A4D40]'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2">
@@ -1721,14 +1721,14 @@ function NewProjectContent() {
                               <button
                                 type="button"
                                 onClick={() => handleRejectProposal(inlineProposal.actionId)}
-                                className="px-3 py-1.5 rounded-lg border border-[#4A4238]/20 dark:border-[#3A3430] hover:bg-black/5 dark:hover:bg-[#292522] text-[11px] font-mono text-[#4A4238] dark:text-[#F4EDE5] transition-all cursor-pointer"
+                                className="px-3 py-1.5 rounded-lg border border-[#4A4238]/20 dark:border-[#2B2521] hover:bg-black/5 dark:hover:bg-[#292522] text-[11px] font-mono text-[#4A4238] dark:text-[#F4EDE5] transition-all cursor-pointer"
                               >
                                 Reject
                               </button>
                               <button
                                 type="button"
                                 onClick={() => handleAcceptProposal(inlineProposal.actionId)}
-                                className="px-3.5 py-1.5 rounded-lg bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] text-[11px] font-mono font-semibold flex items-center gap-1 transition-all shadow-sm cursor-pointer"
+                                className="px-3.5 py-1.5 rounded-lg bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] text-[11px] font-mono font-semibold flex items-center gap-1 transition-all shadow-sm cursor-pointer"
                               >
                                 <IconCheck size={13} />
                                 <span>Accept &amp; Apply</span>
@@ -1771,7 +1771,7 @@ function NewProjectContent() {
                         <button
                           type="button"
                           onClick={() => handleAcceptProposal(inlineProposal.actionId)}
-                          className="px-3 py-1 rounded-md bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] text-[10px] font-mono flex items-center gap-1"
+                          className="px-3 py-1 rounded-md bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] text-[10px] font-mono flex items-center gap-1"
                         >
                           <IconRefresh size={12} /> Retry
                         </button>
@@ -1780,7 +1780,7 @@ function NewProjectContent() {
 
                     {/* Durable Output Artifacts Display */}
                     {msg.artifacts && msg.artifacts.length > 0 && (
-                      <div className="space-y-2 pt-2 border-t border-[#4A4238]/10 dark:border-[#3A3430]">
+                      <div className="space-y-2 pt-2 border-t border-[#4A4238]/10 dark:border-[#2B2521]">
                         {msg.artifacts.map((art: any, aIdx: number) => {
                           const artFmt = (art.format || art.type || '').toLowerCase();
                           const isAudio = artFmt === 'audio_mp3' || artFmt === 'audio';
@@ -1796,12 +1796,12 @@ function NewProjectContent() {
                           return (
                             <div
                               key={art.artifact_id || aIdx}
-                              className="p-3 rounded-2xl bg-white/70 dark:bg-[#292522] border border-[#4A4238]/15 dark:border-[#3A3430] space-y-2 text-xs font-mono"
+                              className="p-3 rounded-2xl bg-white/70 dark:bg-[#292522] border border-[#4A4238]/15 dark:border-[#2B2521] space-y-2 text-xs font-mono"
                             >
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
                                   {isAudio ? (
-                                    <div className="w-7 h-7 rounded-lg bg-[#E3836C]/20 text-[#E3836C] flex items-center justify-center">
+                                    <div className="w-7 h-7 rounded-lg bg-[var(--brand)]/20 text-[#E3836C] flex items-center justify-center">
                                       <IconVolume size={15} />
                                     </div>
                                   ) : isVideo ? (
@@ -1832,7 +1832,7 @@ function NewProjectContent() {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   download={art.filename}
-                                  className="px-2.5 py-1.5 rounded-lg bg-[#4A4238]/10 dark:bg-[#302B28] dark:text-[#F4EDE5] hover:bg-[#E3836C] hover:text-[#FFF7F1] transition-all flex items-center gap-1 text-[11px] font-mono cursor-pointer"
+                                  className="px-2.5 py-1.5 rounded-lg bg-[#4A4238]/10 dark:bg-[#302B28] dark:text-[#F4EDE5] hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] transition-all flex items-center gap-1 text-[11px] font-mono cursor-pointer"
                                 >
                                   <IconDownload size={13} />
                                   <span>Download</span>
@@ -1848,7 +1848,7 @@ function NewProjectContent() {
 
                               {/* Video Player if MP4 */}
                               {isVideo && (
-                                <video controls className="w-full rounded-xl mt-1 border border-black/10 dark:border-[#3A3430]" src={fullUrl}>
+                                <video controls className="w-full rounded-xl mt-1 border border-black/10 dark:border-[#2B2521]" src={fullUrl}>
                                   Your browser does not support the video tag.
                                 </video>
                               )}
@@ -1887,7 +1887,7 @@ function NewProjectContent() {
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-3 items-center">
                 <div
                   className={`w-8 h-8 rounded-xl flex items-center justify-center text-white font-serif font-bold text-xs ${
-                    isIncognito ? 'bg-purple-600' : 'bg-[#E3836C]'
+                    isIncognito ? 'bg-purple-600' : 'bg-[var(--brand)]'
                   }`}
                 >
                   A
@@ -1896,10 +1896,10 @@ function NewProjectContent() {
                   className={`px-4 py-3 rounded-2xl text-xs font-mono flex items-center gap-2 ${
                     isIncognito
                       ? 'bg-[#1A1624] border border-purple-500/20 text-purple-300'
-                      : 'glass-card border border-[#4A4238]/10 dark:border-[#3A3430] dark:bg-[#211E1C] text-[#4A4238]/70 dark:text-[#C5B9AE]'
+                      : 'glass-card border border-[#4A4238]/10 dark:border-[#2B2521] dark:bg-[#1C1816] text-[#4A4238]/70 dark:text-[#C5B9AE]'
                   }`}
                 >
-                  <span className="w-2 h-2 rounded-full bg-[#E3836C] animate-ping" />
+                  <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-ping" />
                   <span>{streamStatus || 'Synthesizing data stream and hypotheses…'}</span>
                   {activeTools.length > 0 && <span className="opacity-60">({activeTools.join(', ')})</span>}
                 </div>
@@ -1910,7 +1910,7 @@ function NewProjectContent() {
           </div>
 
           {/* ─── Bottom Chat Input Bar ────────────────────────────────────── */}
-          <div className="p-4 border-t border-[#4A4238]/10 dark:border-[#3A3430] space-y-2 bg-[#F3EDE4]/50 dark:bg-[#171514]/80 backdrop-blur-md">
+          <div className="p-4 border-t border-[#4A4238]/10 dark:border-[#2B2521] space-y-2 bg-[#F7F1E8]/50 dark:bg-[#14110F]/80 backdrop-blur-md">
             {uploadingFile && (
               <div className="mb-2 flex items-center gap-2 text-xs font-mono text-[#4A4238]/70 dark:text-[#91867E]">
                 <IconRefresh size={13} className="animate-spin text-[#E3836C]" />
@@ -1923,7 +1923,7 @@ function NewProjectContent() {
                 {attachedFiles.map((file) => (
                   <span
                     key={file.attachment_id}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border bg-white/80 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#3A3430] text-[#4A4238] dark:text-[#F4EDE5]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border bg-white/80 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238] dark:text-[#F4EDE5]"
                   >
                     <IconFileSpreadsheet size={13} className="text-[#E3836C]" />
                     <span className="max-w-[10rem] truncate">{file.filename}</span>
@@ -1949,7 +1949,7 @@ function NewProjectContent() {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="p-1.5 rounded-2xl border border-[#4A4238]/15 dark:border-[#3A3430] bg-white/70 dark:bg-[#292522] shadow-md flex items-center gap-2 transition-all focus-within:border-[#E3836C] focus-within:ring-2 focus-within:ring-[#E3836C]/20"
+              className="p-1.5 rounded-2xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/70 dark:bg-[#292522] shadow-md flex items-center gap-2 transition-all focus-within:border-[#E3836C] focus-within:ring-2 focus-within:ring-[#E3836C]/20"
             >
               <input
                 ref={fileInputRef}
@@ -1988,7 +1988,7 @@ function NewProjectContent() {
               <button
                 type="submit"
                 disabled={isThinking || !inputMessage.trim()}
-                className="px-4 py-2 rounded-xl bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] text-xs font-mono flex items-center gap-1.5 transition-all disabled:opacity-30 cursor-pointer shadow-sm"
+                className="px-4 py-2 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] text-xs font-mono flex items-center gap-1.5 transition-all disabled:opacity-30 cursor-pointer shadow-sm"
               >
                 <span>Send</span>
                 <IconSend size={13} />
@@ -2055,7 +2055,7 @@ function NewProjectContent() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="bg-[#FAF6F0] dark:bg-[#302B28] border border-[#4A4238]/20 dark:border-[#504740] rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-4"
             >
-              <div className="flex items-center gap-3 pb-3 border-b border-[#4A4238]/10 dark:border-[#3A3430]">
+              <div className="flex items-center gap-3 pb-3 border-b border-[#4A4238]/10 dark:border-[#2B2521]">
                 <div className="w-9 h-9 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-[#D9AD70] flex items-center justify-center flex-shrink-0">
                   <IconGitMerge size={20} />
                 </div>
@@ -2095,7 +2095,7 @@ function NewProjectContent() {
                     <button
                       type="button"
                       onClick={() => handleRebaseAndApply()}
-                      className="px-4 py-1.5 rounded-xl bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                      className="px-4 py-1.5 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
                     >
                       <IconGitMerge size={14} /> Rebase & Apply
                     </button>
@@ -2107,12 +2107,12 @@ function NewProjectContent() {
                     The widget &quot;{conflictState.proposal.widgetSpec?.title || conflictState.conflictingWidget?.title || 'Proposed Widget'}&quot; was modified concurrently. Choose which version to retain:
                   </p>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#3A3430] bg-white/40 dark:bg-[#211E1C] space-y-1">
+                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816] space-y-1">
                       <p className="font-semibold text-[#E3836C]">Your Proposal</p>
                       <p className="opacity-70 dark:text-[#C5B9AE] truncate">{conflictState.proposal.widgetSpec?.title || (conflictState.proposal.widgets && conflictState.proposal.widgets[0]?.title) || 'Proposed Widget'}</p>
                       <p className="opacity-50 dark:text-[#91867E]">Type: {conflictState.proposal.widgetSpec?.component || conflictState.proposal.widgetSpec?.type || (conflictState.proposal.widgets ? `Composite (${conflictState.proposal.widgets.length})` : 'Composite')}</p>
                     </div>
-                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#3A3430] bg-white/40 dark:bg-[#211E1C] space-y-1">
+                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816] space-y-1">
                       <p className="font-semibold text-[#91AEB5]">Canvas Version</p>
                       <p className="opacity-70 dark:text-[#C5B9AE] truncate">{conflictState.conflictingWidget?.title}</p>
                       <p className="opacity-50 dark:text-[#91867E]">Type: {conflictState.conflictingWidget?.component || conflictState.conflictingWidget?.type}</p>
@@ -2129,7 +2129,7 @@ function NewProjectContent() {
                     <button
                       type="button"
                       onClick={() => handleRebaseAndApply()}
-                      className="px-4 py-1.5 rounded-xl bg-[#E3836C] hover:bg-[#ED967F] text-[#FFF7F1] font-semibold cursor-pointer shadow-xs"
+                      className="px-4 py-1.5 rounded-xl bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] font-semibold cursor-pointer shadow-xs"
                     >
                       Keep Mine (Overwrite)
                     </button>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { BrandLogo } from '../ui/Brand';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import { Footer } from '../landing/Footer';
 import { OperatorBlock } from './OperatorBlock';
@@ -51,17 +51,10 @@ export function LegalLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#F3EDE4] dark:bg-[#171514] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
-      <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[#4A4238]/8 dark:border-[#3A3430]">
+    <div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
+      <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[#4A4238]/8 dark:border-[#2B2521]">
         <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/logo.png"
-            alt="AnalyzeIt"
-            width={130}
-            height={30}
-            className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105 dark:bg-[#E9DDD2] dark:rounded-md dark:px-1.5 dark:py-0.5"
-            priority
-          />
+          <BrandLogo size={26} />
         </Link>
         <div className="flex items-center gap-4">
           <ThemeToggle />
@@ -73,7 +66,7 @@ export function LegalLayout({
           </Link>
           <Link
             href="/login?tab=register"
-            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[#302824] hover:bg-[#E3836C] text-[#FFF7F1] transition-colors"
+            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[#302824] hover:bg-[var(--brand)] text-[var(--brand-ink)] transition-colors"
           >
             Create account
           </Link>
@@ -99,7 +92,7 @@ export function LegalLayout({
           />
         </article>
 
-        <nav className="mt-16 pt-8 border-t border-[#4A4238]/10 dark:border-[#3A3430] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+        <nav className="mt-16 pt-8 border-t border-[#4A4238]/10 dark:border-[#2B2521] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
           {LEGAL_NAV.map((item) => (
             <Link key={item.href} href={item.href} className="hover:text-[#E3836C] transition-colors">
               {item.label}
@@ -108,7 +101,7 @@ export function LegalLayout({
         </nav>
       </main>
 
-      <div className="bg-[#F3EDE4] dark:bg-[#171514]">
+      <div className="bg-[#F7F1E8] dark:bg-[#14110F]">
         <Footer />
       </div>
     </div>

@@ -122,7 +122,7 @@ export function AddWidgetModal({
           })}
           <div className="flex items-center justify-end gap-2 pt-1">
             <button type="button" onClick={reset} className="px-3 py-1.5 text-sm rounded-lg border border-[var(--border)] text-[var(--text-primary)] hover:bg-[var(--surface-2)] cursor-pointer">Back</button>
-            <button type="submit" disabled={Boolean(disabledReason)} className="px-3 py-1.5 text-sm rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white font-medium disabled:opacity-50 cursor-pointer">Add widget</button>
+            <button type="submit" disabled={Boolean(disabledReason)} className="px-3 py-1.5 text-sm rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] font-medium disabled:opacity-50 cursor-pointer">Add widget</button>
           </div>
         </form>
       ) : (<>

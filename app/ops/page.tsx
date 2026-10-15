@@ -157,7 +157,7 @@ export default function OpsPage() {
               key={name}
               type="button"
               onClick={() => setSection(name)}
-              className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm capitalize ${section === name ? 'bg-[var(--surface-2,#F3EDE4)]' : ''}`}
+              className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm capitalize ${section === name ? 'bg-[var(--surface-2,#F7F1E8)]' : ''}`}
             >
               {name}
               {name === 'feedback' && badges.feedback > 0 ? <span className="rounded-full bg-[var(--text,#3A342D)] px-1.5 text-[10px] text-white">{badges.feedback}</span> : null}
@@ -310,7 +310,7 @@ function Economics({
                   <td className="px-3 py-2 text-right tabular-nums">{runs ? money(cost / runs) : '—'}</td>
                   <td className="px-3 py-2 text-right">
                     <div className="tabular-nums">{money(cost)}{excBadge(row.foundry_usd)}</div>
-                    <div className="ml-auto mt-1 h-1 w-24 rounded bg-[var(--surface-2,#F3EDE4)]">
+                    <div className="ml-auto mt-1 h-1 w-24 rounded bg-[var(--surface-2,#F7F1E8)]">
                       <div className="h-1 rounded bg-[var(--text,#3A342D)]" style={{ width: `${share}%` }} />
                     </div>
                   </td>
@@ -433,7 +433,7 @@ function Users({
                 <td className="px-2 py-2">{String(user.subscription_state)}</td>
                 <td className="px-2 py-2 text-right">
                   <div className="tabular-nums">{used}{limit ? ` / ${limit}` : ''}</div>
-                  {limit ? <div className="ml-auto h-1 w-16 rounded bg-[var(--surface-2,#F3EDE4)]"><div className="h-1 rounded bg-[var(--text,#3A342D)]" style={{ width: `${pct}%` }} /></div> : null}
+                  {limit ? <div className="ml-auto h-1 w-16 rounded bg-[var(--surface-2,#F7F1E8)]"><div className="h-1 rounded bg-[var(--text,#3A342D)]" style={{ width: `${pct}%` }} /></div> : null}
                 </td>
                 <td className="px-2 py-2 text-right tabular-nums">{String(user.usage_tokens_used)}</td>
                 <td className="px-2 py-2">{user.last_active ? String(user.last_active).slice(0, 10) : '—'}</td>
@@ -490,7 +490,7 @@ function Feedback({
             key={String(item.id)}
             type="button"
             onClick={() => setSelected(item)}
-            className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${item.category === 'billing' ? 'border-amber-400' : 'border-[var(--border)]'} ${selected?.id === item.id ? 'bg-[var(--surface-2,#F3EDE4)]' : ''}`}
+            className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${item.category === 'billing' ? 'border-amber-400' : 'border-[var(--border)]'} ${selected?.id === item.id ? 'bg-[var(--surface-2,#F7F1E8)]' : ''}`}
           >
             <div className="flex gap-2 text-xs text-[var(--text-muted,#8A8178)]">
               {item.triage_status === 'new' ? <span className="h-2 w-2 rounded-full bg-[var(--text,#3A342D)]" /> : null}

@@ -1,26 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { BrandLogo } from '../ui/Brand';
 import { LEGAL_NAME, REGISTERED_ADDRESS } from '../../lib/legalEntity';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="border-t border-[#4A4238]/10 dark:border-[#3A3430] py-16 md:py-24 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto">
+    <footer className="border-t border-[#4A4238]/10 dark:border-[#2B2521] py-16 md:py-24 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto">
       {/* Top row: Brand + 4 Columns */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
         {/* Brand column */}
         <div className="col-span-2 space-y-4">
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo.png"
-              alt="AnalyzeIt"
-              width={140}
-              height={32}
-              className="h-8 w-auto object-contain dark:bg-[#E9DDD2] dark:rounded-md dark:px-1.5 dark:py-0.5"
-            />
+            <BrandLogo size={28} />
           </Link>
           <p className="text-sm text-[#4A4238]/70 dark:text-[#C5B9AE] max-w-xs leading-relaxed">
-            Ask your data anything. Superintelligence for your numbers: fast, thorough, and checkable line by line.
+            Ask your data anything. Memory that lasts, on far fewer tokens, with every number checkable line by line.
           </p>
         </div>
 
@@ -77,7 +71,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="pt-8 border-t border-[#4A4238]/8 dark:border-[#3A3430] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#4A4238]/60 dark:text-[#91867E] font-mono">
+      <div className="pt-8 border-t border-[#4A4238]/8 dark:border-[#2B2521] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#4A4238]/60 dark:text-[#91867E] font-mono">
         <div className="max-w-xl leading-relaxed">
           © {new Date().getFullYear()} AnalyzeIt. Operated by {LEGAL_NAME}, {REGISTERED_ADDRESS}.
         </div>

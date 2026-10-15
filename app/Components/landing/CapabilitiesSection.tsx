@@ -106,7 +106,7 @@ export const CapabilitiesSection: React.FC = () => {
     >
       <div className="max-w-2xl space-y-4">
         <div className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase text-[#C45A42]">
-          <span className="w-2 h-2 rounded-full bg-[#E3836C]" />
+          <span className="w-2 h-2 rounded-full bg-[var(--brand)]" />
           Also in the workspace
         </div>
         <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#4A4238] dark:text-[#F4EDE5] leading-tight">
@@ -121,7 +121,7 @@ export const CapabilitiesSection: React.FC = () => {
         {CAPABILITIES.map((cap) => (
           <div
             key={cap.id}
-            className="glass-card rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl border border-[#4A4238]/10 dark:border-[#3A3430]"
+            className="glass-card rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl border border-[#4A4238]/10 dark:border-[#2B2521]"
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export const CapabilitiesSection: React.FC = () => {
               <p className="text-sm md:text-base text-[#4A4238]/75 dark:text-[#C5B9AE] font-normal leading-relaxed">
                 {cap.body}
               </p>
-              <div className="pt-4 space-y-3 border-t border-[#4A4238]/8 dark:border-[#3A3430]">
+              <div className="pt-4 space-y-3 border-t border-[#4A4238]/8 dark:border-[#2B2521]">
                 <div className="text-[11px] font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
                   How it works
                 </div>
@@ -151,7 +151,7 @@ export const CapabilitiesSection: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#F3EDE4]/80 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#3A3430] flex items-baseline gap-3">
+            <div className="p-4 rounded-2xl bg-[#F7F1E8]/80 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#2B2521] flex items-baseline gap-3">
               <span className="font-serif text-2xl md:text-3xl font-medium text-[#E3836C]">
                 {cap.callout}
               </span>

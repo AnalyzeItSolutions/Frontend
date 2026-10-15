@@ -168,7 +168,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
         {HIGHLIGHTS.map((item) => (
           <div
             key={item.id}
-            className="rounded-3xl bg-[#F3EDE4]/95 dark:bg-[#211E1C]/95 border border-[#4A4238]/10 dark:border-[#3A3430] p-6 md:p-8 space-y-3 shadow-sm"
+            className="rounded-3xl bg-[#F7F1E8]/95 dark:bg-[#1C1816]/95 border border-[#4A4238]/10 dark:border-[#2B2521] p-6 md:p-8 space-y-3 shadow-sm"
           >
             <p className="text-xs font-medium uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">
               {item.category}
@@ -195,7 +195,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.4 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[#F3EDE4]/97 dark:bg-[#211E1C]/97 border border-[#4A4238]/12 dark:border-[#3A3430] shadow-lg p-6 sm:p-8 space-y-5 ${
+              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[#F7F1E8]/97 dark:bg-[#1C1816]/97 border border-[#4A4238]/12 dark:border-[#2B2521] shadow-lg p-6 sm:p-8 space-y-5 ${
                 isLeft ? 'mr-auto' : 'ml-auto'
               }`}
             >
@@ -220,7 +220,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 {item.specs.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-2xl bg-[#E9DDD2]/55 dark:bg-[#171514]/70 border border-[#4A4238]/08 dark:border-[#3A3430] px-3.5 py-3"
+                    className="rounded-2xl bg-[#E9DDD2]/55 dark:bg-[#14110F]/70 border border-[#4A4238]/08 dark:border-[#2B2521] px-3.5 py-3"
                   >
                     <div className="text-[10px] uppercase tracking-wider text-[#5C534A] dark:text-[#91867E] mb-1">
                       {s.label}

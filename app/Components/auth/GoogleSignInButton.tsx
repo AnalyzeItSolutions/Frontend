@@ -135,11 +135,11 @@ export function GoogleSignInButton({
         onLoad={() => initGis()}
       />
       <div className="relative flex items-center gap-3 py-1">
-        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#3A3430]" />
+        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#2B2521]" />
         <span className="text-[10px] font-mono uppercase tracking-wider text-[#4A4238]/45 dark:text-[#91867E]">
           or
         </span>
-        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#3A3430]" />
+        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#2B2521]" />
       </div>
       <div
         ref={buttonRef}

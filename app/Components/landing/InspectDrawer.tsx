@@ -32,7 +32,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
       />
 
       {/* Slide-out Panel */}
-      <div className="relative w-full max-w-lg bg-[#F3EDE4] dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] h-full shadow-2xl p-8 sm:p-12 overflow-y-auto z-10 border-l border-[#4A4238]/10 dark:border-[#504740] flex flex-col justify-between space-y-8 animate-in slide-in-from-right duration-300">
+      <div className="relative w-full max-w-lg bg-[#F7F1E8] dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] h-full shadow-2xl p-8 sm:p-12 overflow-y-auto z-10 border-l border-[#4A4238]/10 dark:border-[#504740] flex flex-col justify-between space-y-8 animate-in slide-in-from-right duration-300">
         {/* Header & Signature Diagonal Arrow Close Button */}
         <div className="space-y-6">
           <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#4A4238]/10 dark:border-[#504740]">
@@ -52,7 +52,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-[#4A4238]/5 dark:bg-white/10 hover:bg-[#E3836C] hover:text-white dark:hover:bg-[#E3836C] border border-[#4A4238]/10 dark:border-[#504740] flex items-center justify-center p-2.5 transition-all duration-200 cursor-pointer shrink-0 text-[#4A4238] dark:text-[#F4EDE5]"
+              className="w-10 h-10 rounded-full bg-[#4A4238]/5 dark:bg-white/10 hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] dark:hover:bg-[var(--brand)] border border-[#4A4238]/10 dark:border-[#504740] flex items-center justify-center p-2.5 transition-all duration-200 cursor-pointer shrink-0 text-[#4A4238] dark:text-[#F4EDE5]"
               title="Close Panel"
             >
               <svg viewBox="0 0 19.1 29.1" className="w-full h-full fill-current">
@@ -72,7 +72,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
             {detail.metrics.map((m, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-white/60 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#3A3430] space-y-1"
+                className="p-4 rounded-2xl bg-white/60 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#2B2521] space-y-1"
               >
                 <div className="text-[10px] font-mono uppercase text-[#4A4238]/50 dark:text-[#91867E]">
                   {m.label}
@@ -92,7 +92,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
             {detail.steps.map((step, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 text-xs sm:text-sm text-[#4A4238]/80 dark:text-[#C5B9AE] p-3 rounded-2xl bg-white/40 dark:bg-[#292522] border border-[#4A4238]/6 dark:border-[#3A3430]"
+                className="flex items-start gap-3 text-xs sm:text-sm text-[#4A4238]/80 dark:text-[#C5B9AE] p-3 rounded-2xl bg-white/40 dark:bg-[#292522] border border-[#4A4238]/6 dark:border-[#2B2521]"
               >
                 <span className="w-5 h-5 rounded-full bg-[#9EBB9A]/20 text-[#9EBB9A] flex items-center justify-center text-xs font-mono shrink-0 mt-0.5 font-medium">
                   {idx + 1}
@@ -107,7 +107,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
         <div className="pt-6 border-t border-[#4A4238]/10 dark:border-[#504740]">
           <Link
             href="/login?tab=register"
-            className="w-full py-3.5 rounded-full bg-[#E3836C] hover:bg-[#ED967F] active:bg-[#C96F5A] text-[#FFF7F1] text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 shadow-sm"
+            className="w-full py-3.5 rounded-full bg-[var(--brand)] hover:bg-[var(--brand-hover)] active:bg-[var(--brand-pressed)] text-[var(--brand-ink)] text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-200 shadow-sm"
           >
             <span>Create an account to start</span>
             <span className="text-sm">→</span>

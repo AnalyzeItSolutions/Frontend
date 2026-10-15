@@ -16,7 +16,7 @@ export const DOC_LINKS = [
 export function DocPage({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
     <LegalLayout title={title} eyebrow={false} showHeroUpdated={false} quietOperator subtitle={subtitle}>
-      <nav aria-label="Docs" className="mb-8 flex flex-wrap gap-x-5 gap-y-2 border-b border-[#4A4238]/10 pb-4 text-sm dark:border-[#3A3430]">
+      <nav aria-label="Docs" className="mb-8 flex flex-wrap gap-x-5 gap-y-2 border-b border-[#4A4238]/10 pb-4 text-sm dark:border-[#2B2521]">
         <Link href="/docs" className="font-medium text-[#C45A42] hover:underline">Docs</Link>
         {DOC_LINKS.map((l) => (
           <Link key={l.href} href={l.href} className="text-[#4A4238]/80 hover:text-[#C45A42] dark:text-[#C5B9AE]">{l.label}</Link>

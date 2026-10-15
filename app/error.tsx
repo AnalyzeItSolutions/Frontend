@@ -28,7 +28,7 @@ export default function GlobalRouteError({
         <button
           type="button"
           onClick={() => unstable_retry()}
-          className="rounded-md bg-[#E3836C] px-4 py-2 text-white hover:opacity-90"
+          className="rounded-md bg-[var(--brand)] px-4 py-2 text-[var(--brand-ink)] hover:opacity-90"
         >
           Try again
         </button>

@@ -26,7 +26,7 @@ export default function ContactPage() {
           <a
             key={item.email}
             href={`mailto:${item.email}`}
-            className="rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] bg-white/50 dark:bg-[#211E1C] p-5 hover:border-[#E3836C]/40 transition-colors"
+            className="rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-white/50 dark:bg-[#1C1816] p-5 hover:border-[#E3836C]/40 transition-colors"
           >
             <div className="font-mono text-[11px] uppercase tracking-widest text-[#4A4238]/45 dark:text-[#91867E] mb-1">
               {item.label}

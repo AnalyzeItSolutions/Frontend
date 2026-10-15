@@ -1729,7 +1729,7 @@ function ChatInner() {
                   onClick={() => setShowDashboard((v) => !v)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
                     showDashboard
-                      ? 'border-[#E3836C]/40 bg-[#E3836C]/15 text-[#E3836C]'
+                      ? 'border-[#E3836C]/40 bg-[var(--brand)]/15 text-[#E3836C]'
                       : 'border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                   }`}
                   title="Show dashboard panel only when you want it"
@@ -1762,7 +1762,7 @@ function ChatInner() {
                     type="button"
                     disabled={promoteBusy}
                     onClick={() => void handlePromoteToProject()}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#EA8069)] px-3 py-1.5 text-xs font-medium text-white disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#EA8069)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
                   >
                     <IconLayoutDashboard size={14} />
                     {promoteBusy ? 'Creating…' : 'Create project'}
@@ -1813,7 +1813,7 @@ function ChatInner() {
                       }`}
                     >
                       {!isUser && msg.mode === 'research' && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[#E3836C]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#E3836C]">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#E3836C]">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
@@ -1903,7 +1903,7 @@ function ChatInner() {
                           <ChatMarkdown text="…" />
                         )}
                         {msg.streaming && (
-                          <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse align-middle bg-[#E3836C]" />
+                          <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse align-middle bg-[var(--brand)]" />
                         )}
                       </div>
                       {!isUser && msg.softFail && !msg.streaming && (
@@ -1928,7 +1928,7 @@ function ChatInner() {
                             {msg.softFail.openUpgrade && msg.softFail.upgradeReason ? (
                               <button
                                 type="button"
-                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-white"
+                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                                 onClick={() => {
                                   const reason = msg.softFail?.upgradeReason;
                                   if (reason) setUpgradeModal({ open: true, reason });
@@ -2107,7 +2107,7 @@ function ChatInner() {
               <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#E3836C]/60 bg-[var(--surface-2,#FFFCF8)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#3A342D))] sm:mx-6">
                 {error}
                 {upgradeHref ? (
-                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-white">
+                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
                     Upgrade
                   </Link>
                 ) : null}
@@ -2143,7 +2143,7 @@ function ChatInner() {
                   <button
                     type="button"
                     onClick={() => setUpgradeModal({ open: true, reason: 'quota' })}
-                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-white"
+                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                   >
                     Upgrade
                   </button>
@@ -2193,7 +2193,7 @@ function ChatInner() {
                   <ComposerModeControl mode={composerMode} onMode={setComposerMode} />
                   <span
                     title="Message frequency hints prepared in your browser before send"
-                    className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface,#FFFCF8)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#81786F)]"
+                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FFFCF8)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#81786F)]"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#EA8069)]" aria-hidden />
                     Prepared on device
@@ -2282,17 +2282,17 @@ function ChatInner() {
                       ))}
                     </div>
                   )}
-                  <div className="flex items-end gap-2">
+                  <div className="flex flex-wrap items-end gap-2 sm:flex-nowrap">
                   <button
                     type="button"
                     onClick={handleAttachClick}
                     disabled={inputLocked || uploadingAttachment}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] disabled:opacity-40"
+                    className="order-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] disabled:opacity-40 sm:order-none"
                     aria-label="Attach files"
                     title="Attach files (CSV, PDF, XLSX, JSON… up to 10, or drop them here)"
                   >
                     {uploadingAttachment ? (
-                      <span className="h-4 w-4 animate-pulse rounded-full bg-[#E3836C]/40" />
+                      <span className="h-4 w-4 animate-pulse rounded-full bg-[var(--brand)]/40" />
                     ) : (
                       <IconPlus size={18} />
                     )}
@@ -2332,7 +2332,7 @@ function ChatInner() {
                               ? 'Research a question, place, or trend…'
                               : 'Message AnalyzeIt… or drop a file here'
                     }
-                    className="max-h-[140px] min-h-[40px] flex-1 resize-none bg-transparent px-2 py-2 text-sm outline-none placeholder:text-[var(--text-muted)] disabled:opacity-60"
+                    className="order-1 max-h-[140px] min-h-[40px] basis-full resize-none bg-transparent px-2 py-2 text-base outline-none sm:order-none sm:basis-0 sm:flex-1 sm:text-sm placeholder:text-[var(--text-muted)] disabled:opacity-60"
                   />
                   <label className="sr-only" htmlFor="research-model-access">
                     Model size
@@ -2362,7 +2362,7 @@ function ChatInner() {
                           ? 'Premium: Small or Medium'
                           : 'VIP: Small, Medium, or Large'
                     }
-                    className="h-10 max-w-[11rem] shrink-0 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3 text-xs font-medium text-[var(--text-secondary)] outline-none hover:bg-[var(--surface)] disabled:opacity-50"
+                    className="order-2 h-10 min-w-0 flex-1 rounded-full sm:order-none sm:max-w-[11rem] sm:flex-none sm:shrink-0 border border-[var(--border)] bg-[var(--surface-2)] px-3 text-xs font-medium text-[var(--text-secondary)] outline-none hover:bg-[var(--surface)] disabled:opacity-50"
                   >
                     {allModelSizes().map((size) => {
                       const locked = modelSizeLocked(size, modelSizeMax);
@@ -2377,7 +2377,7 @@ function ChatInner() {
                     <button
                       type="button"
                       onClick={stopStreaming}
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]"
+                      className="order-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)] sm:order-none"
                       aria-label="Stop"
                     >
                       <IconPlayerStop size={16} />
@@ -2391,7 +2391,7 @@ function ChatInner() {
                         uploadingAttachment
                       }
                       aria-label="Send"
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E3836C] text-white disabled:opacity-40"
+                      className="order-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--brand-ink)] disabled:opacity-40 sm:order-none"
                     >
                       <IconSend size={16} />
                     </button>

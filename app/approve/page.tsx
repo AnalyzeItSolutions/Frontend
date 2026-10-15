@@ -121,10 +121,10 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
           ) : null}
           {error ? <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p> : null}
           <div className="mt-5 flex flex-col gap-2">
-            <button type="button" disabled={state === 'working' || (!whole && count === 0)} onClick={() => decide(true)} className="rounded-lg bg-[#E3836C] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F] disabled:opacity-60">
+            <button type="button" disabled={state === 'working' || (!whole && count === 0)} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60">
               {state === 'working' ? 'Saving…' : accessHeadline(view.client_name, count, whole)}
             </button>
-            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[#E3836C]/10 disabled:opacity-60">Don’t allow</button>
+            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t allow</button>
           </div>
         </>
       ) : (
@@ -251,10 +251,10 @@ function DataReview({ id }: { id: string }) {
           </label>
           {error ? <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p> : null}
           <div className="mt-4 flex flex-col gap-2">
-            <button type="button" disabled={state === 'working'} onClick={() => decide(true)} className="rounded-lg bg-[#E3836C] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[#ED967F] disabled:opacity-60">
+            <button type="button" disabled={state === 'working'} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60">
               {state === 'working' ? 'Adding…' : 'Add this data'}
             </button>
-            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[#E3836C]/10 disabled:opacity-60">Don’t add</button>
+            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t add</button>
           </div>
         </>
       )}
@@ -370,7 +370,7 @@ function ApproveInner() {
   }, [router]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F3EDE4] dark:bg-[#171514] px-6 py-10">
+    <main className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F] px-6 py-10">
       <div className={card}>
         {stage === 'checking' && <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />}
         {stage === 'invalid' && <Gone onGone={() => {}} />}
@@ -385,7 +385,7 @@ function ApproveInner() {
 
 export default function ApprovePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F3EDE4] dark:bg-[#171514]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F]" />}>
       <ApproveInner />
     </Suspense>
   );

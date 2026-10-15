@@ -18,8 +18,8 @@ export function OperatorBlock({
     <section
       className={
         quiet
-          ? 'mt-16 space-y-1 rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] bg-white/30 dark:bg-[#211E1C]/40 p-5 text-xs text-[#4A4238]/65 dark:text-[#C5B9AE]/80'
-          : 'mt-4 space-y-1 rounded-2xl border border-[#4A4238]/10 dark:border-[#3A3430] bg-white/40 dark:bg-[#211E1C]/60 p-5 text-sm'
+          ? 'mt-16 space-y-1 rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-white/30 dark:bg-[#1C1816]/40 p-5 text-xs text-[#4A4238]/65 dark:text-[#C5B9AE]/80'
+          : 'mt-4 space-y-1 rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816]/60 p-5 text-sm'
       }
     >
       <p className="font-mono text-[11px] uppercase tracking-widest text-[#4A4238]/45 dark:text-[#91867E]">

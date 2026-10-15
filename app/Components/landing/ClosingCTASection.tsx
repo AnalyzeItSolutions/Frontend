@@ -5,7 +5,7 @@ export const ClosingCTASection: React.FC = () => {
   return (
     <section className="relative py-32 md:py-48 px-6 md:px-16 max-w-5xl mx-auto text-center space-y-8 pointer-events-auto">
       <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBA58F]/15 dark:bg-[#5A332C]/40 border border-[#EBA58F]/30 dark:border-[#8A4D40]/50 text-xs font-mono tracking-widest uppercase text-[#4A4238]/70 dark:text-[#C5B9AE]">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#E3836C]" />
+        <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
         Start with your payments
       </div>
 
@@ -20,7 +20,7 @@ export const ClosingCTASection: React.FC = () => {
       <div className="pt-4 space-y-3">
         <Link
           href="/login?tab=register"
-          className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#E3836C] hover:bg-[#ED967F] active:bg-[#C96F5A] text-[#FFF7F1] font-medium text-base transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 whitespace-nowrap"
+          className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[var(--brand)] hover:bg-[var(--brand-hover)] active:bg-[var(--brand-pressed)] text-[var(--brand-ink)] font-medium text-base transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 whitespace-nowrap"
         >
           Create an account
         </Link>

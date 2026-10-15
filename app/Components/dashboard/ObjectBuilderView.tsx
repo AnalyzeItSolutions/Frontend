@@ -745,7 +745,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
           </div>
           <button
             onClick={() => openCreateSchemaModal()}
-            className="p-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white transition-colors shadow-sm cursor-pointer"
+            className="p-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] transition-colors shadow-sm cursor-pointer"
             title="Create Custom Object"
           >
             <IconPlus className="w-4 h-4" />
@@ -840,7 +840,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                 </div>
                 <button
                   onClick={openNewRecordModal}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white text-xs font-medium transition-colors shadow-sm cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium transition-colors shadow-sm cursor-pointer"
                 >
                   <IconPlus className="w-3.5 h-3.5" />
                   <span>Add Record</span>
@@ -1018,7 +1018,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                   >
                     + Add filter
                   </button>
-                  <button type="button" onClick={applyFilters} className="px-2.5 py-1 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white font-medium cursor-pointer">
+                  <button type="button" onClick={applyFilters} className="px-2.5 py-1 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] font-medium cursor-pointer">
                     Apply
                   </button>
                   {(filterRows.length > 0 || appliedFilters.length > 0) && (
@@ -1071,7 +1071,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                   }
                   action={
                     !showTrash && !appliedFilters.length && !debouncedSearch ? (
-                      <button type="button" onClick={openNewRecordModal} className="px-3 py-1.5 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white font-medium cursor-pointer">
+                      <button type="button" onClick={openNewRecordModal} className="px-3 py-1.5 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] font-medium cursor-pointer">
                         Add Record
                       </button>
                     ) : undefined
@@ -1273,7 +1273,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                   <button
                     onClick={handleLoadMore}
                     disabled={loadingMore}
-                    className="px-3 py-1.5 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-white font-medium transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
+                    className="px-3 py-1.5 text-xs rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-[var(--brand-ink)] font-medium transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     {loadingMore ? 'Loading...' : `Load More (${totalRecords - records.length} remaining)`}
                   </button>
@@ -1483,7 +1483,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-white font-medium shadow-sm cursor-pointer"
+                    className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] font-medium shadow-sm cursor-pointer"
                   >
                     {isEditingExistingSchema ? 'Save Schema Updates' : 'Create Object'}
                   </button>
@@ -1598,7 +1598,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                   <button
                     type="submit"
                     disabled={isCreatingRecord}
-                    className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-white font-medium shadow-sm cursor-pointer flex items-center gap-1.5"
+                    className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-[var(--brand-ink)] font-medium shadow-sm cursor-pointer flex items-center gap-1.5"
                   >
                     {isCreatingRecord ? (
                       <>
@@ -1773,7 +1773,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                       <button
                         type="submit"
                         disabled={savingRecord || isUpdatingRecord}
-                        className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-white font-medium shadow-sm cursor-pointer flex items-center gap-1.5"
+                        className="px-4 py-2 text-xs rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] disabled:opacity-50 text-[var(--brand-ink)] font-medium shadow-sm cursor-pointer flex items-center gap-1.5"
                       >
                         {(savingRecord || isUpdatingRecord) ? (
                           <>

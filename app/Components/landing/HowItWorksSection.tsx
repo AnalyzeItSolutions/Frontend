@@ -54,7 +54,7 @@ export const HowItWorksSection: React.FC = () => {
         {STEPS.map((s, idx) => (
           <div
             key={s.step}
-            className="glass-card rounded-3xl p-8 space-y-5 relative border border-[#4A4238]/10 dark:border-[#3A3430] hover:border-[#E3836C]/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
+            className="glass-card rounded-3xl p-8 space-y-5 relative border border-[#4A4238]/10 dark:border-[#2B2521] hover:border-[#E3836C]/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
           >
             <div className="flex items-center justify-between">
               <span className="font-serif text-3xl text-[#E3836C] font-normal">{s.step}</span>

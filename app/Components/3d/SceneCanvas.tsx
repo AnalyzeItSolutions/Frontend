@@ -25,7 +25,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
   const [isCapable, setIsCapable] = useState(true);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const clearColor = isDark ? '#171514' : '#F3EDE4';
+  const clearColor = isDark ? '#14110F' : '#F7F1E8';
 
   useEffect(() => {
     setMounted(true);
@@ -46,7 +46,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
 
   if (!mounted || !isCapable) {
     return (
-      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#B8A9C9] via-[#E8C4A0] to-[#F3EDE4] dark:from-[#211B19] dark:via-[#29211E] dark:to-[#171514] pointer-events-none" />
+      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#EBDCC8] via-[#F2E5D4] to-[#F7F1E8] dark:from-[#241E1A] dark:via-[#1C1816] dark:to-[#14110F] pointer-events-none" />
     );
   }
 
@@ -79,7 +79,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
         <ambientLight intensity={isDark ? 0.32 : 1.1} color={isDark ? '#C9B8A8' : '#FFFFFF'} />
         <hemisphereLight
           intensity={isDark ? 0.28 : 0.7}
-          groundColor={isDark ? '#171514' : '#E8DFD3'}
+          groundColor={isDark ? '#14110F' : '#E8DFD3'}
           color={isDark ? '#4A3F52' : '#D5C5E5'}
         />
         <directionalLight
