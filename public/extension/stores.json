@@ -1,0 +1,22 @@
+{
+  "_comment": "The one place store addresses live. Set a store's url once its listing exists; the website, the Drafts page and `analyzeit extension` read this file. null means not listed yet.",
+  "version": "0.1.0",
+  "stores": {
+    "chromeWebStore": { "label": "Chrome Web Store", "url": null },
+    "edgeAddons": { "label": "Microsoft Edge Add-ons", "url": null },
+    "amo": { "label": "Firefox Add-ons", "url": null },
+    "appStore": { "label": "Mac App Store", "url": null }
+  },
+  "browsers": {
+    "chrome": { "label": "Chrome", "store": "chromeWebStore", "package": "chromium" },
+    "edge": { "label": "Edge", "store": "edgeAddons", "package": "chromium" },
+    "brave": { "label": "Brave", "store": "chromeWebStore", "package": "chromium" },
+    "firefox": { "label": "Firefox", "store": "amo", "package": "firefox" },
+    "safari": { "label": "Safari", "store": "appStore", "package": "safari-project" }
+  },
+  "packages": {
+    "chromium": "analyzeit-extension-0.1.0-chromium.zip",
+    "firefox": "analyzeit-extension-0.1.0-firefox.zip",
+    "safari-project": "analyzeit-extension-0.1.0-safari-project.zip"
+  }
+}

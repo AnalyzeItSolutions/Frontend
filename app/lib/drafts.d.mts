@@ -1,6 +1,5 @@
 export type Draft = { id: string; platform: string; text: string; status: 'draft' | 'approved' | 'sent' | 'cancelled'; text_sha256: string; limit: number; source?: string; created_at: string; updated_at: string };
 export const PLATFORMS: ReadonlyArray<{ id: string; label: string; limit: number; site: string }>;
-export const EXTENSION_STORE_URL: string | null;
 export function platform(id: string): { id: string; label: string; limit: number; site: string } | null;
 export function charsLeft(platformId: string, text: string): number;
 export function statusLabel(status: string): string;

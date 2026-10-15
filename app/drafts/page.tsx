@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { AppShell } from '../Components/app/AppShell';
 import { PageTitle } from '../Components/app/PageTitle';
+import { ExtensionInstall } from '../Components/extension/ExtensionInstall';
 import { createExtensionClient, type ExtensionState, type PlanEvent } from '../lib/extensionClient.mjs';
 import {
-  EXTENSION_STORE_URL,
   PLATFORMS,
   canApprove,
   charsLeft,
@@ -55,15 +55,7 @@ function ExtensionCard({ state }: { state: ExtensionState }) {
           ? 'Approved drafts can be posted from this browser, in your own logged-in session. The extension asks you to confirm in its own window, then fills the box and, if you chose Post it for me, presses Post. It works only while this browser is open.'
           : 'Optional. With the extension, an approved draft is put into your post box in this browser, in your own logged-in session. Without it you can open the compose page or copy the text.'}
       </p>
-      {!on ? (
-        <p className={`mt-2 ${small}`}>
-          {EXTENSION_STORE_URL ? (
-            <a className="underline" href={EXTENSION_STORE_URL} target="_blank" rel="noreferrer">Install the extension</a>
-          ) : (
-            'Not in the browser stores yet, so there is nothing to install for now. The compose-page and copy options below work without it.'
-          )}
-        </p>
-      ) : null}
+      {!on ? <ExtensionInstall compact /> : null}
       <p className={`mt-2 ${small}`}>Nothing is posted without your approval here and a second confirmation in the extension. Nothing is scheduled: there is no posting while your browser is closed. The extension only visits sites you allowed, never handles passwords, codes or payments, and has a stop switch and daily limits.</p>
     </section>
   );

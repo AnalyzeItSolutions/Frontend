@@ -1,0 +1,11 @@
+export type StoreConfig = { version: string; stores: Record<string, { label: string; url: string | null }>; browsers: Record<string, { label: string; store: string; package: string }>; packages: Record<string, string> };
+export type ResolvedBrowser = { id: string; label: string; store: string; url: string | null; listed: boolean; packageFile: string | null; packageKind: string };
+export const STORES_CONFIG: StoreConfig;
+export const BROWSER_IDS: string[];
+export const PREF_KEY: string;
+export function detectBrowser(userAgent?: string, isBrave?: boolean): string | null;
+export function resolveBrowser(id: string, cfg?: StoreConfig): ResolvedBrowser | null;
+export function readPreference(storage: Pick<Storage, 'getItem'> | null | undefined): string | null;
+export function savePreference(storage: Pick<Storage, 'setItem'> | null | undefined, id: string): void;
+export function chooseBrowser(storage: Pick<Storage, 'getItem'> | null | undefined, userAgent?: string, isBrave?: boolean): string | null;
+export function installSteps(kind: string, label: string): string[];

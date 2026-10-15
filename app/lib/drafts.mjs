@@ -8,9 +8,6 @@ export const PLATFORMS = [
   { id: 'reddit', label: 'Reddit', limit: 40000, site: 'https://www.reddit.com/submit' },
 ];
 
-/** Set when the extension has a store listing. Until then the page says so plainly instead of linking nowhere. */
-export const EXTENSION_STORE_URL = null;
-
 export function platform(id) {
   return PLATFORMS.find((p) => p.id === id) || null;
 }
