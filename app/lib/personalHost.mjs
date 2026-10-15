@@ -1,9 +1,9 @@
 /**
- * Personal dashboard hosts: yourname.analyzeit.in
+ * Personal dashboard hosts: yourname.analyzeit.si (yourname.analyzeit.in still accepted)
  *
  * The bearer token lives in localStorage, which the browser does not share
  * across subdomains. Middleware therefore sends a personal host to
- * www.analyzeit.in/auth/subdomain, which copies the www session into a
+ * www.analyzeit.si/auth/subdomain, which copies the www session into a
  * parent-domain cookie and sends the browser back. The boot script hydrates
  * localStorage on the personal host before the app calls the API.
  */
@@ -11,6 +11,16 @@
 export const AUTH_COOKIE = 'analyzeit_auth';
 export const SESSION_COOKIE = 'analyzeit_session';
 export const TOKEN_STORAGE_KEY = 'analyzeit_token';
+
+export const PRIMARY_DOMAIN = 'analyzeit.si';
+export const LEGACY_DOMAIN = 'analyzeit.in';
+const DOMAINS = [PRIMARY_DOMAIN, LEGACY_DOMAIN];
+
+/** The product apex ('analyzeit.si' or the legacy one) a hostname belongs to, else null. */
+export function appDomainOf(hostname) {
+  const h = String(hostname || '').split(':')[0].toLowerCase();
+  return DOMAINS.find((d) => h === d || h.endsWith('.' + d)) || null;
+}
 
 const RESERVED = new Set(['www', 'app']);
 const SLUG_RE = /^[a-z0-9](?:[a-z0-9-]{1,46}[a-z0-9])$/;
@@ -30,8 +40,7 @@ export function publicHost(hostHeader, forwardedHeader) {
   const forwardedName = forwarded.split(':')[0].toLowerCase();
   const internal = !hostname || hostname.endsWith('.vercel.app') || hostname.endsWith('.vercel.sh');
   const forwardedOk =
-    forwardedName === 'analyzeit.in' ||
-    forwardedName.endsWith('.analyzeit.in') ||
+    appDomainOf(forwardedName) !== null ||
     forwardedName === 'localhost' ||
     forwardedName.endsWith('.localhost') ||
     forwardedName === '127.0.0.1';
@@ -46,8 +55,9 @@ export function extractPersonalSlug(hostHeader) {
   let label = null;
   if (host.endsWith('.localhost') && host !== 'localhost') {
     label = host.slice(0, -'.localhost'.length);
-  } else if (host.endsWith('.analyzeit.in')) {
-    label = host.slice(0, -'.analyzeit.in'.length);
+  } else {
+    const d = DOMAINS.find((x) => host.endsWith('.' + x));
+    if (d) label = host.slice(0, -('.' + d).length);
   }
   if (!label || label.includes('.')) return null;
   return isValidPersonalSlug(label) ? label : null;
@@ -57,8 +67,8 @@ export function canonicalAppOrigin({ protocol, hostHeader }) {
   const raw = String(hostHeader || '');
   const hostname = raw.split(':')[0].toLowerCase();
   const port = raw.includes(':') ? raw.slice(raw.lastIndexOf(':') + 1) : '';
-  if (hostname === 'analyzeit.in' || hostname.endsWith('.analyzeit.in')) {
-    return 'https://www.analyzeit.in';
+  if (appDomainOf(hostname)) {
+    return `https://www.${PRIMARY_DOMAIN}`;
   }
   const proto = protocol && String(protocol).endsWith(':') ? String(protocol) : `${protocol || 'http'}:`;
   return `${proto}//localhost${port ? `:${port}` : ''}`;
@@ -73,8 +83,8 @@ export function decideHostRequest({ hostHeader, pathname, search = '', protocol 
   const path = pathname || '/';
   const query = search && !String(search).startsWith('?') ? `?${search}` : String(search || '');
 
-  if (host === 'analyzeit.in') {
-    return { action: 'redirect', status: 308, url: `https://www.analyzeit.in${path}${query}` };
+  if (host === PRIMARY_DOMAIN || host === LEGACY_DOMAIN) {
+    return { action: 'redirect', status: 308, url: `https://www.${PRIMARY_DOMAIN}${path}${query}` };
   }
 
   const slug = extractPersonalSlug(hostHeader);
@@ -103,8 +113,8 @@ export function decideHostRequest({ hostHeader, pathname, search = '', protocol 
 export function returnUrlForPersonalSlug(slug, loc, token) {
   if (!isValidPersonalSlug(slug)) return null;
   const hostname = String(loc?.hostname || '').toLowerCase();
-  if (hostname === 'analyzeit.in' || hostname.endsWith('.analyzeit.in')) {
-    return `https://${slug}.analyzeit.in/`;
+  if (appDomainOf(hostname)) {
+    return `https://${slug}.${PRIMARY_DOMAIN}/`;
   }
   const proto = loc?.protocol || 'http:';
   const port = loc?.port ? `:${loc.port}` : '';
@@ -134,7 +144,8 @@ export function classifySlugFailure(status, upgradeRequired) {
 export function buildSessionBootScript() {
   return `try{
 var host=location.hostname.toLowerCase();
-var onAnalyzeit=host==='analyzeit.in'||host.endsWith('.analyzeit.in');
+var apex=['${PRIMARY_DOMAIN}','${LEGACY_DOMAIN}'].filter(function(d){return host===d||host.endsWith('.'+d);})[0]||'';
+var onAnalyzeit=!!apex;
 var personal=(onAnalyzeit&&host.split('.').length===3&&host.split('.')[0]!=='www'&&host.split('.')[0]!=='app')||(host.endsWith('.localhost')&&host!=='localhost');
 function cookieVal(name){var m=document.cookie.match(new RegExp('(?:^|; )'+name+'=([^;]*)'));return m?decodeURIComponent(m[1]):'';}
 var token='';
@@ -149,7 +160,7 @@ if(location.hash&&location.hash.indexOf('session=')!==-1){
 }
 var session=cookieVal('${SESSION_COOKIE}');
 if(!token&&session){try{localStorage.setItem('${TOKEN_STORAGE_KEY}', session);token=session;}catch(e){}}
-var domain=onAnalyzeit?'; Domain=.analyzeit.in':'';
+var domain=onAnalyzeit?'; Domain=.'+apex:'';
 var secure=location.protocol==='https:'?'; Secure':'';
 if(token){
   document.cookie='${SESSION_COOKIE}='+encodeURIComponent(token)+'; Path=/; SameSite=Lax; Max-Age=2592000'+domain+secure;

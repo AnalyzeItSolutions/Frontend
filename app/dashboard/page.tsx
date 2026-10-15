@@ -921,9 +921,9 @@ export default function DashboardPage() {
                             onChange={(e) => setSlugDraft(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
                             placeholder="personal-link"
                             className="w-28 bg-transparent border-b border-[var(--border)] text-[11px] font-mono text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]/50"
-                            title="Premium personal subdomain: slug.analyzeit.in"
+                            title="Premium personal subdomain: slug.analyzeit.si"
                           />
-                          <span className="text-[10px] text-[var(--text-muted)] shrink-0">.analyzeit.in</span>
+                          <span className="text-[10px] text-[var(--text-muted)] shrink-0">.analyzeit.si</span>
                           {personalSlugAllowed(user) === false ? (
                             <Link href="/billing" className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--coral)]">
                               Premium
@@ -1019,7 +1019,7 @@ export default function DashboardPage() {
                   </h3>
                   <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{slugGateText}</p>
                   {slugGateName ? (
-                    <p className="font-mono text-[11px] text-[var(--text-muted)]">{slugGateName}.analyzeit.in</p>
+                    <p className="font-mono text-[11px] text-[var(--text-muted)]">{slugGateName}.analyzeit.si</p>
                   ) : null}
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     {slugGate === 'upgrade' || personalSlugAllowed(user) === false ? (

@@ -38,7 +38,7 @@ export default async function Image({ params }: { params: Promise<{ token: strin
           <div style={{ fontSize: 56, lineHeight: 1.1 }}>{title}</div>
           <div style={{ fontSize: 28, color: '#5C534A' }}>{text}</div>
         </div>
-        <div style={{ fontSize: 22 }}>analyzeit.in</div>
+        <div style={{ fontSize: 22 }}>analyzeit.si</div>
       </div>
     ),
     size,

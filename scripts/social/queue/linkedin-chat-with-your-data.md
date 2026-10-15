@@ -16,4 +16,4 @@ Four questions to ask before you act on any answer:
 
 Then check three numbers you already know. If they match, lean on it for the questions you can't check by hand.
 
-The full checklist: https://www.analyzeit.in/guides/chat-with-your-data
+The full checklist: https://www.analyzeit.si/guides/chat-with-your-data

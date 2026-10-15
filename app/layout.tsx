@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     : {}),
   keywords: [
     "AnalyzeIt",
-    "analyzeit.in",
+    "analyzeit.si",
     "analytics workspace",
     "data chat",
     "ask your data",

@@ -25,5 +25,5 @@ test('install.ps1 verifies the checksum, forces TLS 1.2 and needs no admin right
 });
 
 test('both scripts only talk to the site download base', () => {
-  for (const s of [sh, ps]) assert.match(s, /https:\/\/www\.analyzeit\.in\/downloads/);
+  for (const s of [sh, ps]) assert.match(s, /https:\/\/www\.analyzeit\.si\/downloads/);
 });

@@ -89,13 +89,14 @@ const TOKEN_KEY = 'analyzeit_token';
 const USER_KEY = 'analyzeit_user';
 export { AUTH_COOKIE };
 
-/** Host-only cookies break across analyzeit.in ↔ www and personal subdomains. */
+/** Host-only cookies break across the apex ↔ www and personal subdomains. */
 function authCookieSuffix(maxAge: number): string {
   const parts = [`Path=/`, `SameSite=Lax`, `Max-Age=${maxAge}`];
   if (typeof window !== 'undefined') {
     const host = window.location.hostname.toLowerCase();
-    if (host === 'analyzeit.in' || host.endsWith('.analyzeit.in')) {
-      parts.push('Domain=.analyzeit.in');
+    const apex = appDomainOf(host);
+    if (apex) {
+      parts.push(`Domain=.${apex}`);
     }
     if (window.location.protocol === 'https:') {
       parts.push('Secure');
@@ -111,10 +112,11 @@ function expireCookie(name: string) {
     `${name}=; Path=/; SameSite=Lax; Max-Age=0; Secure`,
   ];
   const host = window.location.hostname.toLowerCase();
-  if (host === 'analyzeit.in' || host.endsWith('.analyzeit.in')) {
+  const apex = appDomainOf(host);
+  if (apex) {
     rows.push(
-      `${name}=; Path=/; SameSite=Lax; Max-Age=0; Domain=.analyzeit.in`,
-      `${name}=; Path=/; SameSite=Lax; Max-Age=0; Domain=.analyzeit.in; Secure`,
+      `${name}=; Path=/; SameSite=Lax; Max-Age=0; Domain=.${apex}`,
+      `${name}=; Path=/; SameSite=Lax; Max-Age=0; Domain=.${apex}; Secure`,
     );
   }
   for (const row of rows) document.cookie = row;

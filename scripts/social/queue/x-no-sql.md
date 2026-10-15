@@ -11,4 +11,4 @@ The order that works:
 3. What's unusual?
 4. Forecast last
 
-https://www.analyzeit.in/guides/analyze-data-without-sql-or-code
+https://www.analyzeit.si/guides/analyze-data-without-sql-or-code

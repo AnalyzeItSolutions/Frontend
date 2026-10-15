@@ -90,13 +90,13 @@ function runBoot({
 
 describe('personal host routing', () => {
   it('reads a single personal label and ignores apex, www, and nested hosts', () => {
-    assert.equal(extractPersonalSlug('yourname.analyzeit.in'), 'yourname');
-    assert.equal(extractPersonalSlug('Your-Name.analyzeit.in:443'), 'your-name');
-    assert.equal(extractPersonalSlug('www.analyzeit.in'), null);
-    assert.equal(extractPersonalSlug('analyzeit.in'), null);
-    assert.equal(extractPersonalSlug('app.analyzeit.in'), null);
-    assert.equal(extractPersonalSlug('a.b.analyzeit.in'), null);
-    assert.equal(extractPersonalSlug('ab.analyzeit.in'), null);
+    assert.equal(extractPersonalSlug('yourname.analyzeit.si'), 'yourname');
+    assert.equal(extractPersonalSlug('Your-Name.analyzeit.si:443'), 'your-name');
+    assert.equal(extractPersonalSlug('www.analyzeit.si'), null);
+    assert.equal(extractPersonalSlug('analyzeit.si'), null);
+    assert.equal(extractPersonalSlug('app.analyzeit.si'), null);
+    assert.equal(extractPersonalSlug('a.b.analyzeit.si'), null);
+    assert.equal(extractPersonalSlug('ab.analyzeit.si'), null);
     assert.equal(extractPersonalSlug('foo.vercel.app'), null);
     assert.equal(extractPersonalSlug('yourname.localhost:3000'), 'yourname');
     assert.equal(extractPersonalSlug('localhost:3000'), null);
@@ -104,28 +104,28 @@ describe('personal host routing', () => {
 
   it('does not trust a forwarded host when the request already has a public host', () => {
     assert.equal(
-      publicHost('www.analyzeit.in', 'evil.analyzeit.in'),
-      'www.analyzeit.in',
+      publicHost('www.analyzeit.si', 'evil.analyzeit.si'),
+      'www.analyzeit.si',
     );
     assert.equal(
-      publicHost('frontend-abc.vercel.app', 'yourname.analyzeit.in'),
-      'yourname.analyzeit.in',
+      publicHost('frontend-abc.vercel.app', 'yourname.analyzeit.si'),
+      'yourname.analyzeit.si',
     );
   });
 
   it('sends an unknown personal host to the www session handoff', () => {
     const decision = decideHostRequest({
-      hostHeader: 'yourname.analyzeit.in',
+      hostHeader: 'yourname.analyzeit.si',
       pathname: '/',
       protocol: 'https:',
     });
     assert.equal(decision.action, 'redirect');
-    assert.equal(decision.url, 'https://www.analyzeit.in/auth/subdomain?slug=yourname');
+    assert.equal(decision.url, 'https://www.analyzeit.si/auth/subdomain?slug=yourname');
   });
 
   it('rewrites a signed-in personal host to the dashboard slug', () => {
     const decision = decideHostRequest({
-      hostHeader: 'yourname.analyzeit.in',
+      hostHeader: 'yourname.analyzeit.si',
       pathname: '/',
       sessionCookie: 'jwt-token',
     });
@@ -134,36 +134,36 @@ describe('personal host routing', () => {
 
   it('keeps other app routes on the canonical host', () => {
     const decision = decideHostRequest({
-      hostHeader: 'yourname.analyzeit.in',
+      hostHeader: 'yourname.analyzeit.si',
       pathname: '/research',
       sessionCookie: 'jwt-token',
     });
     assert.equal(decision.action, 'redirect');
-    assert.equal(decision.url, 'https://www.analyzeit.in/research');
+    assert.equal(decision.url, 'https://www.analyzeit.si/research');
   });
 
   it('keeps apex on www', () => {
     const decision = decideHostRequest({
-      hostHeader: 'analyzeit.in',
+      hostHeader: 'analyzeit.si',
       pathname: '/dashboard',
       search: '?project=1',
     });
     assert.equal(decision.action, 'redirect');
     assert.equal(decision.status, 308);
-    assert.equal(decision.url, 'https://www.analyzeit.in/dashboard?project=1');
+    assert.equal(decision.url, 'https://www.analyzeit.si/dashboard?project=1');
   });
 
   it('builds a same-site return URL and refuses anything that is not a slug', () => {
     assert.equal(
-      returnUrlForPersonalSlug('yourname', { hostname: 'www.analyzeit.in', protocol: 'https:' }),
-      'https://yourname.analyzeit.in/',
+      returnUrlForPersonalSlug('yourname', { hostname: 'www.analyzeit.si', protocol: 'https:' }),
+      'https://yourname.analyzeit.si/',
     );
     assert.equal(
       returnUrlForPersonalSlug('yourname', { hostname: 'localhost', protocol: 'http:', port: '3000' }, 'tok'),
       'http://yourname.localhost:3000/?handoff=1#session=tok',
     );
-    assert.equal(returnUrlForPersonalSlug('https://evil.com', { hostname: 'www.analyzeit.in' }), null);
-    assert.equal(returnUrlForPersonalSlug('../etc', { hostname: 'www.analyzeit.in' }), null);
+    assert.equal(returnUrlForPersonalSlug('https://evil.com', { hostname: 'www.analyzeit.si' }), null);
+    assert.equal(returnUrlForPersonalSlug('../etc', { hostname: 'www.analyzeit.si' }), null);
     assert.equal(isValidPersonalSlug('www'), false);
     assert.equal(canonicalAppOrigin({ protocol: 'http:', hostHeader: 'yourname.localhost:3000' }), 'http://localhost:3000');
   });
@@ -173,7 +173,7 @@ describe('session boot script', () => {
   it('hydrates localStorage from the parent cookie and does not clear it', () => {
     const encoded = encodeURIComponent('header.payload.sig');
     const { jar, local } = runBoot({
-      hostname: 'yourname.analyzeit.in',
+      hostname: 'yourname.analyzeit.si',
       cookie: `${SESSION_COOKIE}=${encoded}; ${AUTH_COOKIE}=1`,
     });
     assert.equal(local[TOKEN_STORAGE_KEY], 'header.payload.sig');
@@ -183,7 +183,7 @@ describe('session boot script', () => {
 
   it('does not clear the shared cookie when a personal host has no local token yet', () => {
     const { jar } = runBoot({
-      hostname: 'yourname.analyzeit.in',
+      hostname: 'yourname.analyzeit.si',
       cookie: `${AUTH_COOKIE}=1`,
     });
     assert.equal(jar.get(AUTH_COOKIE), '1');
@@ -191,7 +191,7 @@ describe('session boot script', () => {
 
   it('mirrors a www token into the shared session cookie', () => {
     const { jar } = runBoot({
-      hostname: 'www.analyzeit.in',
+      hostname: 'www.analyzeit.si',
       storage: { [TOKEN_STORAGE_KEY]: 'header.payload.sig' },
     });
     assert.equal(decodeURIComponent(jar.get(SESSION_COOKIE)), 'header.payload.sig');
@@ -200,7 +200,7 @@ describe('session boot script', () => {
 
   it('hydrates www from the shared session cookie', () => {
     const { jar, local } = runBoot({
-      hostname: 'www.analyzeit.in',
+      hostname: 'www.analyzeit.si',
       cookie: `${SESSION_COOKIE}=${encodeURIComponent('header.payload.sig')}`,
     });
     assert.equal(local[TOKEN_STORAGE_KEY], 'header.payload.sig');
@@ -209,7 +209,7 @@ describe('session boot script', () => {
 
   it('clears a stale auth flag on www when there is no session', () => {
     const { jar } = runBoot({
-      hostname: 'www.analyzeit.in',
+      hostname: 'www.analyzeit.si',
       cookie: `${AUTH_COOKIE}=1`,
     });
     assert.equal(jar.has(AUTH_COOKIE), false);

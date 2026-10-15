@@ -58,7 +58,7 @@ test('blob URLs stay inside the downloads container', () => {
 });
 
 test('manifests must be signed, versioned and https', () => {
-  const ok = { version: '0.3.0', platforms: { 'darwin-aarch64': { url: 'https://analyzeit.in/downloads/files/desktop/0.3.0/x', signature: 'x'.repeat(40) } } };
+  const ok = { version: '0.3.0', platforms: { 'darwin-aarch64': { url: 'https://analyzeit.si/downloads/files/desktop/0.3.0/x', signature: 'x'.repeat(40) } } };
   assert.equal(isValidManifest(ok), true);
   assert.equal(isValidManifest({ ...ok, version: 'latest' }), false);
   assert.equal(isValidManifest({ ...ok, platforms: { a: { url: 'http://x/y', signature: 'x'.repeat(40) } } }), false);

@@ -10,4 +10,4 @@ Mistake 2: looking at too many things. Check a hundred segments and a few will l
 ===
 Mistake 3: ignoring the calendar. A December spike that happens every December is a pattern, not news. Check earlier years first.
 ===
-The full guide, with the other two mistakes: https://www.analyzeit.in/guides/real-change-or-random-noise
+The full guide, with the other two mistakes: https://www.analyzeit.si/guides/real-change-or-random-noise

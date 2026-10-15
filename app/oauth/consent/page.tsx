@@ -102,7 +102,7 @@ function ConsentInner() {
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">This link is no longer valid</h1>
             <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Connection links expire after a few minutes. Start again from your AI assistant.</p>
-            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E3836C] hover:text-[#ED967F]">Back to analyzeit.in</Link>
+            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E3836C] hover:text-[#ED967F]">Back to analyzeit.si</Link>
           </div>
         )}
 

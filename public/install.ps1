@@ -1,7 +1,7 @@
 # AnalyzeIt installer for Windows (PowerShell).
 #
-#   irm https://www.analyzeit.in/install.ps1 | iex                  # the command line
-#   & ([scriptblock]::Create((irm https://www.analyzeit.in/install.ps1))) -App   # the desktop app
+#   irm https://www.analyzeit.si/install.ps1 | iex                  # the command line
+#   & ([scriptblock]::Create((irm https://www.analyzeit.si/install.ps1))) -App   # the desktop app
 #
 # Files downloaded by a browser carry a "downloaded from the internet" mark that makes SmartScreen warn
 # about publishers it does not know yet. Files fetched by PowerShell carry no such mark. This script is
@@ -11,7 +11,7 @@ param([switch]$App)
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-$Base = if ($env:ANALYZEIT_DOWNLOAD_BASE) { $env:ANALYZEIT_DOWNLOAD_BASE } else { 'https://www.analyzeit.in/downloads' }
+$Base = if ($env:ANALYZEIT_DOWNLOAD_BASE) { $env:ANALYZEIT_DOWNLOAD_BASE } else { 'https://www.analyzeit.si/downloads' }
 
 function Fail($m) { Write-Error "analyzeit install: $m"; exit 1 }
 

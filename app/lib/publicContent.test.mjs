@@ -173,7 +173,7 @@ describe('the changelog', () => {
 });
 
 describe('contact addresses', () => {
-  it('all use the product domain (analyzeit.in), never a second one', () => {
+  it('all use the product domain (analyzeit.si), never a second one', () => {
     const hits = [];
     for (const file of files(path.join(root, 'app'))) {
       const text = fs.readFileSync(file, 'utf8');

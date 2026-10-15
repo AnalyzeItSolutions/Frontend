@@ -5,7 +5,7 @@ import { createExtensionClient } from './extensionClient.mjs';
 
 function fakeWindow() {
   const w = new EventEmitter();
-  w.location = { origin: 'https://analyzeit.in' };
+  w.location = { origin: 'https://analyzeit.si' };
   w.sent = [];
   w.addEventListener = (t, f) => w.on(t, f);
   w.postMessage = (m) => w.sent.push(m);

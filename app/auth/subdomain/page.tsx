@@ -6,7 +6,7 @@ import { clearAuthSession, fetchMe, getStoredToken } from '../../lib/auth';
 import { isValidPersonalSlug, returnUrlForPersonalSlug } from '../../lib/personalHost.mjs';
 
 /**
- * Canonical-host bridge for yourname.analyzeit.in.
+ * Canonical-host bridge for yourname.analyzeit.si.
  * localStorage on www holds the bearer token; this page confirms it and
  * returns the browser to the personal host, which can then read the
  * parent-domain session cookie written by the boot script.
@@ -47,7 +47,7 @@ export default function SubdomainHandoffPage() {
           setMessage('That personal link is not valid.');
           return;
         }
-        setMessage(`Opening ${slug}.analyzeit.in…`);
+        setMessage(`Opening ${slug}.analyzeit.si…`);
         window.location.replace(dest);
       } catch (err) {
         if (cancelled) return;

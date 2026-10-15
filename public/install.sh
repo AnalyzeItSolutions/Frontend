@@ -1,8 +1,8 @@
 #!/bin/sh
 # AnalyzeIt installer for macOS and Linux.
 #
-#   curl -fsSL https://www.analyzeit.in/install.sh | sh              # the command line
-#   curl -fsSL https://www.analyzeit.in/install.sh | sh -s -- --app  # the desktop app
+#   curl -fsSL https://www.analyzeit.si/install.sh | sh              # the command line
+#   curl -fsSL https://www.analyzeit.si/install.sh | sh -s -- --app  # the desktop app
 #
 # Why this exists: files downloaded by a browser carry a "downloaded from the internet" flag that makes
 # macOS show an unidentified-developer warning for builds that are not notarized. Files fetched by curl
@@ -13,7 +13,7 @@
 # program itself (`analyzeit update`, or the app's own updater), so they do not rely on this script.
 set -eu
 
-BASE="${ANALYZEIT_DOWNLOAD_BASE:-https://www.analyzeit.in/downloads}"
+BASE="${ANALYZEIT_DOWNLOAD_BASE:-https://www.analyzeit.si/downloads}"
 WANT=cli
 
 die() { printf 'analyzeit install: %s\n' "$1" >&2; exit 1; }
@@ -30,7 +30,7 @@ done
 case "$(uname -s)" in
   Darwin) OS=macos ;;
   Linux) OS=linux ;;
-  *) die "this script is for macOS and Linux. On Windows use install.ps1: https://www.analyzeit.in/download" ;;
+  *) die "this script is for macOS and Linux. On Windows use install.ps1: https://www.analyzeit.si/download" ;;
 esac
 case "$(uname -m)" in
   arm64|aarch64) ARCH=arm64 ;;

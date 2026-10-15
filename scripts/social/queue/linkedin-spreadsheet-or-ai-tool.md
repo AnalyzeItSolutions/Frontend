@@ -14,4 +14,4 @@ Move the work out when:
 
 Rule of thumb: if you could explain every formula to a colleague, stay in the sheet. If the real question is "where should I even look?", hand that part to a tool and keep the sheet for the final check.
 
-Where each one fails, in more detail: https://www.analyzeit.in/guides/spreadsheet-or-ai-data-tool
+Where each one fails, in more detail: https://www.analyzeit.si/guides/spreadsheet-or-ai-data-tool

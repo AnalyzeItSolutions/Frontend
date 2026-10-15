@@ -30,7 +30,7 @@ export const PLAN_FEATURES = {
       ` · ${formatContextRetention(RETENTION_HOT_TOKENS.premium)} hot-searchable · 30-day artifacts`,
     ),
     'Reads long pasted documents section by section (about 150,000 characters)',
-    'Ad-free · personal link: yourname.analyzeit.in',
+    'Ad-free · personal link: yourname.analyzeit.si',
   ],
   premium_plus: [
     'Everything in Premium',

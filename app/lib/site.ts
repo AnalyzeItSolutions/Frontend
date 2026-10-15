@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://www.analyzeit.in';
+export const SITE_URL = 'https://www.analyzeit.si';
 export const SITE_NAME = 'AnalyzeIt';
 export const SITE_TAGLINE = 'Ask your data anything';
 export const SITE_DESCRIPTION =

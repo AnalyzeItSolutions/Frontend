@@ -31,7 +31,7 @@ export function subdomainHint(slug) {
   const clean = slug.trim();
   if (!clean) return null;
   if (!isValidPersonalSlug(clean)) return { slug: clean, host: null };
-  return { slug: clean, host: `${clean}.analyzeit.in` };
+  return { slug: clean, host: `${clean}.analyzeit.si` };
 }
 
 export function formatProjectTimestamp(value) {

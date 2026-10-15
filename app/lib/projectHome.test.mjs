@@ -44,11 +44,11 @@ describe('project home links', () => {
     const id = 'proj 1/alpha?';
     const links = projectLinks(id);
     for (const href of [links.research, links.dashboard, links.objects, links.connectors]) {
-      const url = new URL(href, 'https://www.analyzeit.in');
+      const url = new URL(href, 'https://www.analyzeit.si');
       assert.equal(url.searchParams.get('project'), id);
     }
-    assert.equal(new URL(links.home, 'https://www.analyzeit.in').pathname, `/project/${encodeURIComponent(id)}`);
-    assert.equal(new URL(links.research, 'https://www.analyzeit.in').searchParams.get('mode'), 'research');
+    assert.equal(new URL(links.home, 'https://www.analyzeit.si').pathname, `/project/${encodeURIComponent(id)}`);
+    assert.equal(new URL(links.research, 'https://www.analyzeit.si').searchParams.get('mode'), 'research');
   });
 
   it('reads the dynamic route param', () => {
@@ -76,7 +76,7 @@ describe('project home empty states', () => {
     assert.equal(overview.status.label, 'Empty');
     assert.equal(overview.runs.listed, false);
     assert.equal(overview.runs.gap, RUN_HISTORY_GAP);
-    assert.equal(overview.slug.host, 'field-notes.analyzeit.in');
+    assert.equal(overview.slug.host, 'field-notes.analyzeit.si');
     assert.equal(overview.links.dashboard.includes('project=p1'), true);
   });
 
@@ -149,7 +149,7 @@ describe('project scope on sibling pages', () => {
     assert.equal(subdomainHint(''), null);
     assert.equal(subdomainHint(null), null);
     assert.deepEqual(subdomainHint('www'), { slug: 'www', host: null });
-    assert.equal(subdomainHint('lab').host, 'lab.analyzeit.in');
+    assert.equal(subdomainHint('lab').host, 'lab.analyzeit.si');
   });
 });
 

@@ -197,16 +197,16 @@ export function DownloadClient({ releases }: { releases: Releases }) {
         </p>
         {os === 'windows' ? (
           <pre className="mt-3 overflow-x-auto rounded-lg bg-[#4A4238]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
-irm https://www.analyzeit.in/install.ps1 | iex
+irm https://www.analyzeit.si/install.ps1 | iex
 
 # Desktop app
-& ([scriptblock]::Create((irm https://www.analyzeit.in/install.ps1))) -App`}</pre>
+& ([scriptblock]::Create((irm https://www.analyzeit.si/install.ps1))) -App`}</pre>
         ) : (
           <pre className="mt-3 overflow-x-auto rounded-lg bg-[#4A4238]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
-curl -fsSL https://www.analyzeit.in/install.sh | sh
+curl -fsSL https://www.analyzeit.si/install.sh | sh
 
 # Desktop app
-curl -fsSL https://www.analyzeit.in/install.sh | sh -s -- --app`}</pre>
+curl -fsSL https://www.analyzeit.si/install.sh | sh -s -- --app`}</pre>
         )}
       </section>
 

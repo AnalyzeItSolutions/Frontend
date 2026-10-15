@@ -32,8 +32,8 @@ describe('social queue', () => {
     assert.equal(calls[1][1].reply.in_reply_to_tweet_id, '1');
     const bs = [];
     const g = async (url, o) => { const b = JSON.parse(o.body); bs.push(b); return { ok: true, text: async () => JSON.stringify({ accessJwt: 'j', did: 'd', uri: 'at://d/app.bsky.feed.post/abc', cid: 'c' }) }; };
-    await adapters.bluesky(['hi https://www.analyzeit.in/guides é'], { BLUESKY_HANDLE: 'h' }, g);
-    assert.equal(bs[1].record.facets[0].features[0].uri, 'https://www.analyzeit.in/guides');
+    await adapters.bluesky(['hi https://www.analyzeit.si/guides é'], { BLUESKY_HANDLE: 'h' }, g);
+    assert.equal(bs[1].record.facets[0].features[0].uri, 'https://www.analyzeit.si/guides');
     assert.equal(bs[1].record.facets[0].index.byteStart, 3);
   });
 });
