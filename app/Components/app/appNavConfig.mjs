@@ -23,6 +23,7 @@ export const APP_NAV_LINKS = [
   { id: 'connectors', href: '/connectors', label: 'Connectors' },
   { id: 'objects', href: '/objects', label: 'Objects' },
   { id: 'memory', href: '/memory', label: 'Memory' },
+  { id: 'drafts', href: '/drafts', label: 'Drafts' },
   { id: 'billing', href: '/billing', label: 'Billing' },
   { id: 'profile', href: '/profile', label: 'Profile' },
 ];

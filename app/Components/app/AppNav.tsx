@@ -32,6 +32,7 @@ export type AppNavId =
   | 'connectors'
   | 'objects'
   | 'memory'
+  | 'drafts'
   | 'billing'
   | 'profile'
   | 'project';
