@@ -38,14 +38,14 @@ export const HowItWorksSection: React.FC = () => {
       className="relative py-24 md:py-36 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[#4A4238]/60 dark:text-[#91867E]">
+        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#9EBB9A]" />
           Three Steps to Clarity
         </div>
-        <h2 className="font-serif text-4xl md:text-5xl text-[#4A4238] dark:text-[#F4EDE5] font-normal">
+        <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal">
           How it works
         </h2>
-        <p className="text-base text-[#4A4238]/70 dark:text-[#C5B9AE]">
+        <p className="text-base text-[var(--text-secondary)]">
           Keep the crystal descent. Skip when you are ready. Then connect, ask, and explore — without dashboard busywork.
         </p>
       </div>
@@ -54,19 +54,19 @@ export const HowItWorksSection: React.FC = () => {
         {STEPS.map((s, idx) => (
           <div
             key={s.step}
-            className="glass-card rounded-3xl p-8 space-y-5 relative border border-[#4A4238]/10 dark:border-[#2B2521] hover:border-[#E3836C]/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
+            className="glass-card rounded-3xl p-8 space-y-5 relative border border-[var(--border)] hover:border-[#E3836C]/30 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
           >
             <div className="flex items-center justify-between">
-              <span className="font-serif text-3xl text-[#E3836C] font-normal">{s.step}</span>
-              <span className="text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+              <span className="font-serif text-3xl text-[var(--accent-text)] font-normal">{s.step}</span>
+              <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] dark:text-[var(--text-muted)]">
                 Step {idx + 1}
               </span>
             </div>
             <div className="space-y-2">
-              <h3 className="font-serif text-2xl text-[#4A4238] dark:text-[#F4EDE5] font-normal">{s.title}</h3>
-              <p className="text-sm font-medium text-[#4A4238] dark:text-[#F4EDE5]">{s.tagline}</p>
+              <h3 className="font-serif text-2xl text-[var(--text-primary)] font-normal">{s.title}</h3>
+              <p className="text-sm font-medium text-[var(--text-primary)]">{s.tagline}</p>
             </div>
-            <p className="text-sm text-[#4A4238]/70 dark:text-[#C5B9AE] leading-relaxed">{s.description}</p>
+            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">{s.description}</p>
           </div>
         ))}
       </div>

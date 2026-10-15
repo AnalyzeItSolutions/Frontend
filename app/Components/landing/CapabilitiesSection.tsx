@@ -105,13 +105,13 @@ export const CapabilitiesSection: React.FC = () => {
       className="relative py-24 md:py-36 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase text-[#C45A42]">
+        <div className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase text-[var(--accent-text)]">
           <span className="w-2 h-2 rounded-full bg-[var(--brand)]" />
           Also in the workspace
         </div>
-        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#4A4238] dark:text-[#F4EDE5] leading-tight">
+        <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[var(--text-primary)] leading-tight">
           Everything you need to understand your business,{' '}
-          <em className="font-serif italic text-[#E3836C]">
+          <em className="font-serif italic text-[var(--accent-text)]">
             without the noise.
           </em>
         </h2>
@@ -121,29 +121,29 @@ export const CapabilitiesSection: React.FC = () => {
         {CAPABILITIES.map((cap) => (
           <div
             key={cap.id}
-            className="glass-card rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl border border-[#4A4238]/10 dark:border-[#2B2521]"
+            className="glass-card rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl border border-[var(--border)]"
           >
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-medium uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">
+                <span className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
                   {cap.category}
                 </span>
                 <span className="w-2 h-2 rounded-full bg-[#9EBB9A]" />
               </div>
-              <h3 className="font-serif text-2xl md:text-3xl text-[#4A4238] dark:text-[#F4EDE5] font-normal leading-snug">
+              <h3 className="font-serif text-2xl md:text-3xl text-[var(--text-primary)] font-normal leading-snug">
                 {cap.headline}
               </h3>
-              <p className="text-sm md:text-base text-[#4A4238]/75 dark:text-[#C5B9AE] font-normal leading-relaxed">
+              <p className="text-sm md:text-base text-[var(--text-secondary)] font-normal leading-relaxed">
                 {cap.body}
               </p>
-              <div className="pt-4 space-y-3 border-t border-[#4A4238]/8 dark:border-[#2B2521]">
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+              <div className="pt-4 space-y-3 border-t border-[var(--border)]">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)] dark:text-[var(--text-muted)]">
                   How it works
                 </div>
                 {cap.bullets.map((bullet) => (
                   <div
                     key={bullet}
-                    className="flex items-start gap-2.5 text-xs sm:text-sm text-[#4A4238]/85 dark:text-[#C5B9AE]"
+                    className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-secondary)]"
                   >
                     <span className="text-[#9EBB9A] text-sm mt-0.5">✓</span>
                     <span>{bullet}</span>
@@ -151,11 +151,11 @@ export const CapabilitiesSection: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#F7F1E8]/80 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#2B2521] flex items-baseline gap-3">
-              <span className="font-serif text-2xl md:text-3xl font-medium text-[#E3836C]">
+            <div className="p-4 rounded-2xl bg-[#F7F1E8]/80 dark:bg-[#292522] border border-[var(--border)] flex items-baseline gap-3">
+              <span className="font-serif text-2xl md:text-3xl font-medium text-[var(--accent-text)]">
                 {cap.callout}
               </span>
-              <span className="text-xs text-[#4A4238]/70 dark:text-[#C5B9AE] leading-tight">
+              <span className="text-xs text-[var(--text-secondary)] leading-tight">
                 {cap.calloutDesc}
               </span>
             </div>

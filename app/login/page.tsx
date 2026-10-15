@@ -53,7 +53,7 @@ const Field: React.FC<FieldProps> = ({
   <div className="flex flex-col gap-1.5">
     <label
       htmlFor={id}
-      className="text-xs font-mono tracking-wider uppercase text-[#4A4238]/60 dark:text-[#91867E]"
+      className="text-xs font-mono tracking-wider uppercase text-[var(--text-secondary)]"
     >
       {label}
     </label>
@@ -68,10 +68,10 @@ const Field: React.FC<FieldProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#292522] border text-sm text-[#4A4238] dark:text-[#F4EDE5] placeholder-[#4A4238]/30 dark:placeholder-[#80766F] focus:outline-none focus:ring-2 transition-all duration-200 ${
+        className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#292522] border text-sm text-[var(--text-primary)] placeholder-[#4A4238]/30 dark:placeholder-[#80766F] focus:outline-none focus:ring-2 transition-all duration-200 ${
           error
             ? 'border-red-400/60 dark:border-[#D97870]/60 focus:ring-red-300/40 dark:focus:ring-[#D97870]/30'
-            : 'border-[#4A4238]/10 dark:border-[#2B2521] focus:ring-[#E3836C]/30 focus:border-[#E3836C]/40'
+            : 'border-[var(--border)] focus:ring-[#E3836C]/30 focus:border-[#E3836C]/40'
         }`}
       />
       {rightElement && (
@@ -383,7 +383,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
           >
             {agreed && <IconCheck size={10} stroke={3} className="text-white" />}
           </button>
-          <span className="text-xs text-[#4A4238]/60 dark:text-[#C5B9AE] leading-relaxed">
+          <span className="text-xs text-[var(--text-secondary)] leading-relaxed">
             I agree to the{' '}
             <Link href="/terms" target="_blank" className="text-[#E3836C] hover:text-[#ED967F] hover:underline">Terms of Service</Link>
             {', '}
@@ -456,7 +456,7 @@ const SuccessState: React.FC<{ isNew: boolean }> = ({ isNew }) => {
         <IconCheck size={32} className="text-[#4A7C59] dark:text-[#9EBB9A]" />
       </div>
       <div>
-        <h3 className="font-serif text-xl text-[#4A4238] dark:text-[#F4EDE5] mb-1">
+        <h3 className="font-serif text-xl text-[var(--text-primary)] mb-1">
           {isNew ? 'Account created!' : 'Welcome back!'}
         </h3>
         <p className="text-sm text-[#4A4238]/55 dark:text-[#C5B9AE]">
@@ -526,7 +526,7 @@ function LoginInner() {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[#F7F1E8] dark:bg-[#14110F]">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[var(--bg)]">
         <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
         <p className="font-mono text-[11px] uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
           Checking account…
@@ -536,7 +536,7 @@ function LoginInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)] flex flex-col transition-colors duration-300">
       {/* Minimal top nav */}
       <nav className="flex items-center justify-between px-6 sm:px-10 py-5">
         <Link href="/" className="flex items-center gap-2 group">
@@ -570,7 +570,7 @@ function LoginInner() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.28 }}
-                className="font-serif text-3xl sm:text-4xl text-[#4A4238] dark:text-[#F4EDE5] mb-2"
+                className="font-serif text-3xl sm:text-4xl text-[var(--text-primary)] mb-2"
               >
                 {tab === 'login' ? (
                   <>Welcome <span className="italic text-[#E3836C]">back</span></>
@@ -599,7 +599,7 @@ function LoginInner() {
                       onClick={() => { setTab(t); setSuccess(false); }}
                       className={`flex-1 py-2 rounded-lg text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                         tab === t
-                          ? 'bg-white dark:bg-[#302B28] shadow-xs text-[#4A4238] dark:text-[#F4EDE5] font-semibold border border-[#4A4238]/10 dark:border-[#504740]'
+                          ? 'bg-white dark:bg-[#302B28] shadow-xs text-[var(--text-primary)] font-semibold border border-[#4A4238]/10 dark:border-[#504740]'
                           : 'text-[#4A4238]/45 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
                       }`}
                     >
@@ -668,7 +668,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F]">
+        <div className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
           <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
         </div>
       }

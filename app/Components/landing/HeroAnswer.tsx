@@ -15,16 +15,16 @@ export function HeroAnswer() {
   const parsed = { ...all, findings: all.findings.slice(0, 1) };
   return (
     <figure className="w-full max-w-xl lg:max-w-lg" aria-label="An example answer">
-      <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#5C534A] dark:text-[#C5B9AE]">
+      <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[var(--text-secondary)]">
         <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#C45A42]" />What you get
       </p>
       <div className="ml-auto mb-3 w-fit max-w-[90%] rounded-2xl rounded-br-md bg-[#322C28] px-4 py-2 text-sm text-[var(--brand-ink)] shadow-sm dark:bg-[var(--brand)] dark:text-[#14110F]">
         {example.question}
       </div>
-      <div className="rounded-3xl border border-[#4A4238]/10 bg-[#F7F1E8]/95 p-4 shadow-sm backdrop-blur-md dark:border-[#2B2521] dark:bg-[#14110F]/92 sm:p-5">
+      <div className="rounded-3xl border border-[#4A4238]/10 bg-[#F7F1E8]/95 p-4 shadow-sm backdrop-blur-md dark:border-[var(--border)] dark:bg-[#14110F]/92 sm:p-5">
         <FindingCards data={parsed} />
       </div>
-      <figcaption className="mt-2 text-xs leading-relaxed text-[#5C534A] dark:text-[#C5B9AE]">
+      <figcaption className="mt-2 text-xs leading-relaxed text-[var(--text-secondary)]">
         This is {example.dataset}. Bring your own data to see yours. Open &ldquo;Show the working&rdquo; on a card for the exact figures and the query behind it.
       </figcaption>
     </figure>

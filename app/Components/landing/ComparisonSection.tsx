@@ -38,29 +38,29 @@ export const ComparisonSection: React.FC = () => {
       <div id="why-calm" className="absolute -top-28 h-px w-px overflow-hidden" aria-hidden="true" />
       {/* Header */}
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[#4A4238]/60 dark:text-[#91867E]">
+        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           Why not a chatbot?
         </div>
-        <h2 className="font-serif text-4xl md:text-5xl text-[#4A4238] dark:text-[#F4EDE5] font-normal leading-tight">
+        <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal leading-tight">
           You can upload a file to a chatbot. Here is{' '}
-          <em className="font-serif italic text-[#E3836C]">
+          <em className="font-serif italic text-[var(--accent-text)]">
             what changes when it is every week.
           </em>
         </h2>
-        <p className="text-base text-[#4A4238]/70 dark:text-[#C5B9AE]">
+        <p className="text-base text-[var(--text-secondary)]">
           For a one-off question, a general chatbot is fine. For your payments, week after week, you want the data connected, the problem found without being asked, and numbers you can check.
         </p>
       </div>
 
-      <div className="glass-card rounded-3xl overflow-hidden border border-[#4A4238]/10 dark:border-[#2B2521] divide-y divide-[#4A4238]/8 dark:divide-[#2B2521] shadow-sm">
+      <div className="glass-card rounded-3xl overflow-hidden border border-[var(--border)] divide-y divide-[#4A4238]/8 dark:divide-[#2B2521] shadow-sm">
         {/* Table Header */}
-        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F7F1E8]/90 dark:bg-[#292522] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[#4A4238]/70 dark:text-[#C5B9AE] border-b border-[#4A4238]/08 dark:border-[#2B2521]">
+        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F7F1E8]/90 dark:bg-[#292522] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] border-b border-[#4A4238]/08 dark:border-[var(--border)]">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#4A4238]/30 dark:bg-[#C5B9AE]/40" />
             Uploading a file to a chatbot
           </div>
-          <div className="hidden md:flex items-center gap-2 text-[#E3836C]">
+          <div className="hidden md:flex items-center gap-2 text-[var(--accent-text)]">
             <span className="w-2 h-2 rounded-full bg-[var(--brand)]" />
             With AnalyzeIt
           </div>
@@ -74,20 +74,20 @@ export const ComparisonSection: React.FC = () => {
           >
             {/* The Old Way */}
             <div className="space-y-1.5">
-              <div className="text-xs font-mono text-[#4A4238]/50 dark:text-[#91867E] uppercase tracking-wider">
+              <div className="text-xs font-mono text-[var(--text-muted)] dark:text-[var(--text-muted)] uppercase tracking-wider">
                 {row.topic}
               </div>
-              <p className="text-sm md:text-base text-[#4A4238]/70 dark:text-[#C5B9AE] leading-relaxed">
+              <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed">
                 {row.oldWay}
               </p>
             </div>
 
             {/* With AnalyzeIt */}
-            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#4A4238]/6 dark:border-[#2B2521]">
-              <div className="md:hidden text-xs font-mono text-[#E3836C] uppercase tracking-wider">
+            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#4A4238]/6 dark:border-[var(--border)]">
+              <div className="md:hidden text-xs font-mono text-[var(--accent-text)] uppercase tracking-wider">
                 With AnalyzeIt
               </div>
-              <p className="text-sm md:text-base text-[#4A4238] dark:text-[#F4EDE5] font-medium leading-relaxed">
+              <p className="text-sm md:text-base text-[var(--text-primary)] font-medium leading-relaxed">
                 {row.analyzeIt}
               </p>
             </div>

@@ -39,7 +39,7 @@ export function LegalLayout({
   children: React.ReactNode;
 }) {
   const heroMeta = subtitle ? (
-    <p className="text-base text-[#4A4238]/70 dark:text-[#C5B9AE] mb-10 max-w-2xl leading-relaxed">
+    <p className="text-base text-[var(--text-secondary)] mb-10 max-w-2xl leading-relaxed">
       {subtitle}
     </p>
   ) : showHeroUpdated && updated ? (
@@ -51,8 +51,8 @@ export function LegalLayout({
   );
 
   return (
-    <div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] flex flex-col transition-colors duration-300">
-      <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[#4A4238]/8 dark:border-[#2B2521]">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)] flex flex-col transition-colors duration-300">
+      <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[var(--border)]">
         <Link href="/" className="flex items-center gap-2 group">
           <BrandLogo size={26} />
         </Link>
@@ -79,12 +79,12 @@ export function LegalLayout({
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="font-serif text-4xl sm:text-5xl text-[#4A4238] dark:text-[#F4EDE5] mb-3">
+        <h1 className="font-serif text-4xl sm:text-5xl text-[var(--text-primary)] mb-3">
           {title}
         </h1>
         {heroMeta}
 
-        <article className="legal-prose space-y-8 text-sm sm:text-[15px] leading-relaxed text-[#4A4238]/80 dark:text-[#C5B9AE]">
+        <article className="legal-prose space-y-8 text-sm sm:text-[15px] leading-relaxed text-[var(--text-secondary)]">
           {children}
           <OperatorBlock
             quiet={quietOperator}
@@ -92,7 +92,7 @@ export function LegalLayout({
           />
         </article>
 
-        <nav className="mt-16 pt-8 border-t border-[#4A4238]/10 dark:border-[#2B2521] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+        <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
           {LEGAL_NAV.map((item) => (
             <Link key={item.href} href={item.href} className="hover:text-[#E3836C] transition-colors">
               {item.label}
@@ -101,7 +101,7 @@ export function LegalLayout({
         </nav>
       </main>
 
-      <div className="bg-[#F7F1E8] dark:bg-[#14110F]">
+      <div className="bg-[var(--bg)]">
         <Footer />
       </div>
     </div>
@@ -117,7 +117,7 @@ export function LegalSection({
 }) {
   return (
     <section className="space-y-3">
-      <h2 className="font-serif text-2xl text-[#4A4238] dark:text-[#F4EDE5]">{title}</h2>
+      <h2 className="font-serif text-2xl text-[var(--text-primary)]">{title}</h2>
       {children}
     </section>
   );

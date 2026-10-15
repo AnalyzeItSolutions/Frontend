@@ -19,16 +19,16 @@ const LEAKS = [
 export const LeaksSection: React.FC = () => (
   <section
     id="leaks"
-    className="relative z-10 bg-[#F7F1E8] dark:bg-[#14110F] text-[#4A4238] dark:text-[#F4EDE5] py-20 md:py-28 px-6 md:px-16 scroll-mt-[calc(var(--nav-h,96px)+16px)]"
+    className="relative z-10 bg-[var(--bg)] text-[var(--text-primary)] py-20 md:py-28 px-6 md:px-16 scroll-mt-[calc(var(--nav-h,96px)+16px)]"
   >
     <div className="max-w-6xl mx-auto space-y-12">
       <div className="max-w-2xl space-y-4">
-        <p className="text-xs font-mono uppercase tracking-widest text-[#4A4238]/60 dark:text-[#91867E]">The problem</p>
+        <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-secondary)]">The problem</p>
         <h2 className="font-serif text-3xl md:text-5xl leading-tight">
           Your total can look fine while{' '}
-          <em className="font-serif italic text-[#C45A42] dark:text-[#EBA58F]">money leaks.</em>
+          <em className="font-serif italic text-[var(--accent-text)]">money leaks.</em>
         </h2>
-        <p className="text-base md:text-lg text-[#4A4238]/80 dark:text-[#C5B9AE] leading-relaxed">
+        <p className="text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
           A healthy-looking month can hide a payment method that fails far more than the others. You only find out if you already suspect it and know where to look.
           AnalyzeIt looks everywhere for you, and shows what is out of line.
         </p>
@@ -36,9 +36,9 @@ export const LeaksSection: React.FC = () => (
 
       <ul className="grid gap-6 md:grid-cols-3">
         {LEAKS.map((l) => (
-          <li key={l.title} className="rounded-3xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-[#FFF7F1]/70 dark:bg-[#1C1816] p-6 space-y-3 shadow-sm">
-            <h3 className="font-serif text-xl text-[#322C28] dark:text-[#F4EDE5]">{l.title}</h3>
-            <p className="text-sm leading-relaxed text-[#4A4238]/85 dark:text-[#C5B9AE]">{l.body}</p>
+          <li key={l.title} className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-3 shadow-sm">
+            <h3 className="font-serif text-xl text-[var(--text-primary)]">{l.title}</h3>
+            <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{l.body}</p>
           </li>
         ))}
       </ul>
@@ -50,14 +50,14 @@ export const LeaksSection: React.FC = () => (
           ['3. Check', 'Each finding shows the exact figures and the query behind it, so you can verify it or hand it to your developer.'],
         ].map(([h, b]) => (
           <li key={h} className="space-y-1.5">
-            <p className="font-medium text-[#322C28] dark:text-[#F4EDE5]">{h}</p>
-            <p className="text-[#4A4238]/85 dark:text-[#C5B9AE]">{b}</p>
+            <p className="font-medium text-[var(--text-primary)]">{h}</p>
+            <p className="text-[var(--text-secondary)]">{b}</p>
           </li>
         ))}
       </ol>
 
-      <p className="text-sm text-[#4A4238]/75 dark:text-[#C5B9AE]">
-        Prefer not to connect? Upload any payments or orders file and ask the same question. <Link href="/docs/discovery" className="text-[#C45A42] underline underline-offset-2">How it works</Link>.
+      <p className="text-sm text-[var(--text-secondary)]">
+        Prefer not to connect? Upload any payments or orders file and ask the same question. <Link href="/docs/discovery" className="text-[var(--accent-text)] underline underline-offset-2">How it works</Link>.
       </p>
     </div>
   </section>

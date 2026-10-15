@@ -46,14 +46,14 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
       className="relative py-24 md:py-36 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="text-center max-w-2xl mx-auto space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-[#C45A42]">
+        <div className="inline-flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-[var(--accent-text)]">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
           Plans
         </div>
-        <h2 className="font-serif text-4xl md:text-5xl text-[#322C28] dark:text-[#F4EDE5] font-normal">
+        <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal">
           Fair pricing for quiet research.
         </h2>
-        <p className="text-base text-[#3F3830] dark:text-[#E6DCD2]">
+        <p className="text-base text-[var(--text-primary)]">
           Chat, dashboards, Globe, and connectors need an account. Paid plans are billed through our payment processor in your
           local currency (INR in India). The USD figure is a reference; the exact price is confirmed at checkout.
         </p>
@@ -70,7 +70,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             className={`relative flex flex-col rounded-3xl border p-7 ${
               tier.popular
                 ? 'border-[#E3836C]/40 bg-[#FFF9F3] dark:bg-[#292522] shadow-lg'
-                : 'border-[#4A4238]/12 dark:border-[#2B2521] bg-[#F7F1E8]/50 dark:bg-[#1C1816]/60'
+                : 'border-[#4A4238]/12 dark:border-[var(--border)] bg-[var(--surface)]'
             }`}
           >
             {tier.popular && (
@@ -79,18 +79,18 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
               </span>
             )}
             <div className="space-y-1 mb-6">
-              <h3 className="font-serif text-2xl text-[#322C28] dark:text-[#F4EDE5]">{tier.name}</h3>
+              <h3 className="font-serif text-2xl text-[var(--text-primary)]">{tier.name}</h3>
               <p className="text-sm text-[#3F3830] dark:text-[#C5B9AE]">{tier.tagline}</p>
             </div>
             <div className="mb-2">
-              <span className="font-serif text-4xl text-[#322C28] dark:text-[#F4EDE5]">{tier.price}</span>
-              <span className="text-sm text-[#5C534A] dark:text-[#C5B9AE]">{tier.period}</span>
+              <span className="font-serif text-4xl text-[var(--text-primary)]">{tier.price}</span>
+              <span className="text-sm text-[var(--text-secondary)]">{tier.period}</span>
             </div>
-            <p className="text-xs text-[#5C534A] dark:text-[#C5B9AE] mb-6 leading-relaxed">{tier.note}</p>
+            <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">{tier.note}</p>
             <ul className="space-y-2.5 mb-8 flex-1">
               {tier.features.map((feature) => (
                 <li key={feature} className="text-sm text-[#3F3830] dark:text-[#C5B9AE] flex gap-2">
-                  <span className="text-[#C45A42]" aria-hidden="true">
+                  <span className="text-[var(--accent-text)]" aria-hidden="true">
                     ·
                   </span>
                   {feature}
@@ -101,7 +101,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
               href={tier.href}
               className={`inline-flex justify-center min-h-11 items-center rounded-full px-5 py-3 text-sm font-medium transition ${
                 tier.name === 'Free'
-                  ? 'border border-[#4A4238]/20 dark:border-[#504740] text-[#322C28] dark:text-[#F4EDE5] hover:border-[var(--coral,#E3836C)] hover:text-[var(--coral,#E3836C)]'
+                  ? 'border border-[#4A4238]/20 dark:border-[#504740] text-[var(--text-primary)] hover:border-[var(--coral,#E3836C)] hover:text-[var(--coral,#E3836C)]'
                   : 'bg-[var(--coral,#E3836C)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
               }`}
             >
@@ -113,7 +113,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
 
       <CountryTrust className="max-w-4xl mx-auto" />
 
-      <p className="text-center text-sm text-[#5C534A] dark:text-[#C5B9AE] max-w-2xl mx-auto">
+      <p className="text-center text-sm text-[var(--text-secondary)] max-w-2xl mx-auto">
         Hit a Free limit mid-research? Upgrade from Billing after sign-in — your work stays;
         entitlements change.
       </p>

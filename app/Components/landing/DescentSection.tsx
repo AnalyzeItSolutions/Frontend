@@ -168,13 +168,13 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
         {HIGHLIGHTS.map((item) => (
           <div
             key={item.id}
-            className="rounded-3xl bg-[#F7F1E8]/95 dark:bg-[#1C1816]/95 border border-[#4A4238]/10 dark:border-[#2B2521] p-6 md:p-8 space-y-3 shadow-sm"
+            className="rounded-3xl bg-[var(--surface)] border border-[var(--border)] p-6 md:p-8 space-y-3 shadow-sm"
           >
-            <p className="text-xs font-medium uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">
+            <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
               {item.category}
             </p>
-            <h3 className="font-serif text-2xl text-[#322C28] dark:text-[#F4EDE5]">{item.name}</h3>
-            <p className="text-sm text-[#3F3830] dark:text-[#E6DCD2] leading-relaxed">{item.tagline}</p>
+            <h3 className="font-serif text-2xl text-[var(--text-primary)]">{item.name}</h3>
+            <p className="text-sm text-[var(--text-primary)] leading-relaxed">{item.tagline}</p>
           </div>
         ))}
       </section>
@@ -195,20 +195,20 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.4 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[#F7F1E8]/97 dark:bg-[#1C1816]/97 border border-[#4A4238]/12 dark:border-[#2B2521] shadow-lg p-6 sm:p-8 space-y-5 ${
+              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[var(--surface)] border border-[#4A4238]/12 dark:border-[var(--border)] shadow-lg p-6 sm:p-8 space-y-5 ${
                 isLeft ? 'mr-auto' : 'ml-auto'
               }`}
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-[#C45A42] dark:text-[#EBA58F]">
+                <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-[var(--accent-text)]">
                   {item.category}
                 </span>
-                <span className="text-[11px] font-mono tabular-nums text-[#5C534A] dark:text-[#91867E]">
+                <span className="text-[11px] font-mono tabular-nums text-[#5C534A] dark:text-[var(--text-muted)]">
                   {item.index} / 04
                 </span>
               </div>
 
-              <h3 className="font-serif text-2xl sm:text-3xl text-[#322C28] dark:text-[#F4EDE5] tracking-tight leading-tight">
+              <h3 className="font-serif text-2xl sm:text-3xl text-[var(--text-primary)] tracking-tight leading-tight">
                 {item.name}
               </h3>
 
@@ -220,12 +220,12 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 {item.specs.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-2xl bg-[#E9DDD2]/55 dark:bg-[#14110F]/70 border border-[#4A4238]/08 dark:border-[#2B2521] px-3.5 py-3"
+                    className="rounded-2xl bg-[#E9DDD2]/55 dark:bg-[#14110F]/70 border border-[#4A4238]/08 dark:border-[var(--border)] px-3.5 py-3"
                   >
-                    <div className="text-[10px] uppercase tracking-wider text-[#5C534A] dark:text-[#91867E] mb-1">
+                    <div className="text-[10px] uppercase tracking-wider text-[#5C534A] dark:text-[var(--text-muted)] mb-1">
                       {s.label}
                     </div>
-                    <div className="font-serif text-sm text-[#322C28] dark:text-[#F4EDE5]">
+                    <div className="font-serif text-sm text-[var(--text-primary)]">
                       {s.value}
                     </div>
                   </div>
@@ -236,7 +236,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => onInspect(item.detail)}
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-[#322C28] dark:text-[#F4EDE5] hover:text-[#C45A42] transition-colors pt-1"
+                  className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--text-primary)] hover:text-[var(--accent-text)] transition-colors pt-1"
                 >
                   <span>Learn more</span>
                   <span className="transform group-hover:translate-x-1 transition-transform duration-200">

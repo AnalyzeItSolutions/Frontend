@@ -4,16 +4,16 @@ import Link from 'next/link';
 export const ClosingCTASection: React.FC = () => {
   return (
     <section className="relative py-32 md:py-48 px-6 md:px-16 max-w-5xl mx-auto text-center space-y-8 pointer-events-auto">
-      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBA58F]/15 dark:bg-[#5A332C]/40 border border-[#EBA58F]/30 dark:border-[#8A4D40]/50 text-xs font-mono tracking-widest uppercase text-[#4A4238]/70 dark:text-[#C5B9AE]">
+      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBA58F]/15 dark:bg-[#5A332C]/40 border border-[#EBA58F]/30 dark:border-[#8A4D40]/50 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
         <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
         Start with your payments
       </div>
 
-      <h2 className="font-serif text-5xl sm:text-6xl md:text-7xl text-[#4A4238] dark:text-[#F4EDE5] font-normal leading-[1.08] max-w-3xl mx-auto">
+      <h2 className="font-serif text-5xl sm:text-6xl md:text-7xl text-[var(--text-primary)] font-normal leading-[1.08] max-w-3xl mx-auto">
         Find out what your payments are quietly losing.
       </h2>
 
-      <p className="text-base md:text-lg text-[#4A4238]/70 dark:text-[#C5B9AE] max-w-xl mx-auto leading-relaxed">
+      <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
         Connect your payments, ask what is going wrong, and check every figure yourself.
       </p>
 
@@ -24,12 +24,12 @@ export const ClosingCTASection: React.FC = () => {
         >
           Create an account
         </Link>
-        <div className="text-xs text-[#4A4238]/60 dark:text-[#91867E] font-mono">
+        <div className="text-xs text-[var(--text-secondary)] font-mono">
           Preview access · billing not required
         </div>
-        <div className="pt-4 text-sm text-[#4A4238]/75 dark:text-[#C5B9AE]">
+        <div className="pt-4 text-sm text-[var(--text-secondary)]">
           Or keep your data on your own computer:{' '}
-          <Link href="/download" className="font-semibold text-[#C45A42] dark:text-[#EBA58F] underline underline-offset-4">
+          <Link href="/download" className="font-semibold text-[var(--accent-text)] underline underline-offset-4">
             download AnalyzeIt for desktop and the command line
           </Link>
           .

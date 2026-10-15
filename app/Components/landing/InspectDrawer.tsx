@@ -32,18 +32,18 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
       />
 
       {/* Slide-out Panel */}
-      <div className="relative w-full max-w-lg bg-[#F7F1E8] dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] h-full shadow-2xl p-8 sm:p-12 overflow-y-auto z-10 border-l border-[#4A4238]/10 dark:border-[#504740] flex flex-col justify-between space-y-8 animate-in slide-in-from-right duration-300">
+      <div className="relative w-full max-w-lg bg-[#F7F1E8] dark:bg-[#302B28] text-[var(--text-primary)] h-full shadow-2xl p-8 sm:p-12 overflow-y-auto z-10 border-l border-[#4A4238]/10 dark:border-[#504740] flex flex-col justify-between space-y-8 animate-in slide-in-from-right duration-300">
         {/* Header & Signature Diagonal Arrow Close Button */}
         <div className="space-y-6">
           <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#4A4238]/10 dark:border-[#504740]">
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#E3836C] font-medium">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[var(--accent-text)] font-medium">
                 [ ARCHITECTURE SPEC ] // {detail.category}
               </span>
-              <h2 className="font-serif text-2xl sm:text-3xl text-[#4A4238] dark:text-[#F4EDE5] font-normal tracking-tight">
+              <h2 className="font-serif text-2xl sm:text-3xl text-[var(--text-primary)] font-normal tracking-tight">
                 {detail.title}
               </h2>
-              <p className="text-xs sm:text-sm text-[#4A4238]/70 dark:text-[#C5B9AE] font-medium">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-medium">
                 {detail.subtitle}
               </p>
             </div>
@@ -52,7 +52,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-[#4A4238]/5 dark:bg-white/10 hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] dark:hover:bg-[var(--brand)] border border-[#4A4238]/10 dark:border-[#504740] flex items-center justify-center p-2.5 transition-all duration-200 cursor-pointer shrink-0 text-[#4A4238] dark:text-[#F4EDE5]"
+              className="w-10 h-10 rounded-full bg-[#4A4238]/5 dark:bg-white/10 hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] dark:hover:bg-[var(--brand)] border border-[#4A4238]/10 dark:border-[#504740] flex items-center justify-center p-2.5 transition-all duration-200 cursor-pointer shrink-0 text-[var(--text-primary)]"
               title="Close Panel"
             >
               <svg viewBox="0 0 19.1 29.1" className="w-full h-full fill-current">
@@ -63,7 +63,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
           </div>
 
           {/* Narrative Overview */}
-          <div className="text-xs sm:text-sm text-[#4A4238]/80 dark:text-[#C5B9AE] leading-relaxed font-normal">
+          <div className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed font-normal">
             {detail.narrative}
           </div>
 
@@ -72,12 +72,12 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
             {detail.metrics.map((m, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-white/60 dark:bg-[#292522] border border-[#4A4238]/8 dark:border-[#2B2521] space-y-1"
+                className="p-4 rounded-2xl bg-white/60 dark:bg-[#292522] border border-[var(--border)] space-y-1"
               >
-                <div className="text-[10px] font-mono uppercase text-[#4A4238]/50 dark:text-[#91867E]">
+                <div className="text-[10px] font-mono uppercase text-[var(--text-muted)] dark:text-[var(--text-muted)]">
                   {m.label}
                 </div>
-                <div className="font-serif text-lg text-[#E3836C] font-medium">
+                <div className="font-serif text-lg text-[var(--accent-text)] font-medium">
                   {m.value}
                 </div>
               </div>
@@ -86,13 +86,13 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
 
           {/* Execution Pipeline Steps */}
           <div className="space-y-3 pt-4 border-t border-[#4A4238]/10 dark:border-[#504740]">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-[#E3836C]">
+            <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--accent-text)]">
               Automated Data Pipeline
             </div>
             {detail.steps.map((step, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-3 text-xs sm:text-sm text-[#4A4238]/80 dark:text-[#C5B9AE] p-3 rounded-2xl bg-white/40 dark:bg-[#292522] border border-[#4A4238]/6 dark:border-[#2B2521]"
+                className="flex items-start gap-3 text-xs sm:text-sm text-[var(--text-secondary)] p-3 rounded-2xl bg-white/40 dark:bg-[#292522] border border-[#4A4238]/6 dark:border-[var(--border)]"
               >
                 <span className="w-5 h-5 rounded-full bg-[#9EBB9A]/20 text-[#9EBB9A] flex items-center justify-center text-xs font-mono shrink-0 mt-0.5 font-medium">
                   {idx + 1}
