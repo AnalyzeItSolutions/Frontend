@@ -44,3 +44,20 @@ test('results reach listeners', () => {
   w.deliver({ source: 'analyzeit-extension', type: 'result', draftId: 'd', ok: true, state: 'filled' });
   assert.equal(got[0].state, 'filled');
 });
+
+test('plans: sends the plan with its hash and reports progress and the result', async () => {
+  const w = fakeWindow();
+  const c = createExtensionClient(w);
+  w.deliver({ source: 'analyzeit-extension', type: 'hello', version: '1' });
+  const events = [];
+  c.onPlan((m) => events.push(m.type));
+  const p = c.runPlan({ id: 'bp_1', title: 'T', mode: 'fill_only', steps: [{ type: 'wait', ms: 1 }], plan_sha256: 'abc' });
+  assert.deepEqual(w.sent.at(-1), { source: 'analyzeit-app', type: 'plan', plan: { id: 'bp_1', title: 'T', mode: 'fill_only', steps: [{ type: 'wait', ms: 1 }] }, sha256: 'abc' });
+  w.deliver({ source: 'analyzeit-extension', type: 'plan-accepted', planId: 'bp_1', ok: true });
+  assert.equal((await p).ok, true);
+  w.deliver({ source: 'analyzeit-extension', type: 'plan-progress', planId: 'bp_1', index: 0, status: 'running' });
+  w.deliver({ source: 'analyzeit-extension', type: 'plan-result', planId: 'bp_1', ok: true, results: [] });
+  assert.deepEqual(events, ['plan-progress', 'plan-result']);
+  const c2 = createExtensionClient(fakeWindow());
+  assert.equal((await c2.runPlan({ id: 'x', steps: [], mode: 'fill_only', plan_sha256: '' })).ok, false);
+});

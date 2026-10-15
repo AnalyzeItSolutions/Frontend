@@ -32,3 +32,11 @@ export const composeLink = (id: string) => call<{ url: string }>('GET', `/drafts
 export const getVoice = () => call<VoiceProfile>('GET', '/voice/profile');
 export const addVoiceSamples = (texts: string[]) => call<{ stored: number }>('POST', '/voice/samples', { texts });
 export const forgetVoice = () => call<{ deleted: number }>('DELETE', '/voice');
+
+import type { BrowserPlan } from './drafts.mjs';
+export const listPlans = () => call<{ plans: BrowserPlan[] }>('GET', '/browser-plans').then((r) => r.plans);
+export const getPlan = (id: string) => call<BrowserPlan>('GET', `/browser-plans/${encodeURIComponent(id)}`);
+export const planFromDraft = (draftId: string, commit: boolean) => call<BrowserPlan>('POST', `/drafts/${encodeURIComponent(draftId)}/plan`, { commit });
+export const approvePlan = (p: BrowserPlan) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(p.id)}/approve`, { plan_sha256: p.plan_sha256 });
+export const cancelPlan = (id: string) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/cancel`);
+export const reportPlan = (id: string, body: { ok: boolean; reason?: string; cancelled?: boolean; results?: unknown[] }) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/result`, body);

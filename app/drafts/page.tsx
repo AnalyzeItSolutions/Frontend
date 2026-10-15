@@ -3,12 +3,18 @@
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { AppShell } from '../Components/app/AppShell';
 import { PageTitle } from '../Components/app/PageTitle';
-import { createExtensionClient, type ExtensionState } from '../lib/extensionClient.mjs';
+import { createExtensionClient, type ExtensionState, type PlanEvent } from '../lib/extensionClient.mjs';
 import {
   EXTENSION_STORE_URL,
   PLATFORMS,
   canApprove,
   charsLeft,
+  describePlanStep,
+  planBlock,
+  planOutcomeMessage,
+  planPostsForYou,
+  planStatusLabel,
+  type BrowserPlan,
   extensionBlock,
   extensionLabel,
   fillMessage,
@@ -17,7 +23,7 @@ import {
   statusLabel,
   type Draft,
 } from '../lib/drafts.mjs';
-import { addVoiceSamples, approveDraft, cancelDraft, composeLink, createDraft, forgetVoice, getVoice, listDrafts, markSent, saveDraft, type VoiceProfile } from '../lib/draftsApi';
+import { addVoiceSamples, approveDraft, approvePlan, cancelDraft, cancelPlan, listPlans, planFromDraft, reportPlan, composeLink, createDraft, forgetVoice, getVoice, listDrafts, markSent, saveDraft, type VoiceProfile } from '../lib/draftsApi';
 
 type Client = ReturnType<typeof createExtensionClient>;
 
@@ -46,7 +52,7 @@ function ExtensionCard({ state }: { state: ExtensionState }) {
       </div>
       <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
         {on
-          ? 'Approved drafts can be put into your post box in this browser. You check the text, press Fill, then press Post yourself. It works only while this browser is open.'
+          ? 'Approved drafts can be posted from this browser, in your own logged-in session. The extension asks you to confirm in its own window, then fills the box and, if you chose Post it for me, presses Post. It works only while this browser is open.'
           : 'Optional. With the extension, an approved draft is put into your post box in this browser, in your own logged-in session. Without it you can open the compose page or copy the text.'}
       </p>
       {!on ? (
@@ -58,12 +64,12 @@ function ExtensionCard({ state }: { state: ExtensionState }) {
           )}
         </p>
       ) : null}
-      <p className={`mt-2 ${small}`}>Nothing is ever posted for you and nothing is scheduled: there is no posting while your browser is closed. AnalyzeIt never sees your passwords.</p>
+      <p className={`mt-2 ${small}`}>Nothing is posted without your approval here and a second confirmation in the extension. Nothing is scheduled: there is no posting while your browser is closed. The extension only visits sites you allowed, never handles passwords, codes or payments, and has a stop switch and daily limits.</p>
     </section>
   );
 }
 
-function DraftCard({ draft, ext, client, onChange, onGone }: { draft: Draft; ext: ExtensionState; client: Client; onChange: (d: Draft) => void; onGone: (id: string) => void }) {
+function DraftCard({ draft, ext, client, onChange, onGone, onRefresh }: { draft: Draft; ext: ExtensionState; client: Client; onChange: (d: Draft) => void; onGone: (id: string) => void; onRefresh: () => void }) {
   const [text, setText] = useState<string | undefined>(undefined);
   const [busy, setBusy] = useState('');
   const [note, setNote] = useState('');
@@ -108,6 +114,34 @@ function DraftCard({ draft, ext, client, onChange, onGone }: { draft: Draft; ext
     await navigator.clipboard.writeText(draft.text);
     window.open(p?.site, '_blank', 'noopener');
   }, () => setNote('Text copied. Paste it into the site that just opened and press Post yourself.'));
+  const postForMe = async () => {
+    setBusy('post');
+    setError('');
+    setNote('');
+    try {
+      const plan = await planFromDraft(draft.id, true);
+      const off = client.onPlan((m) => {
+        if (m.planId !== plan.id || m.type !== 'plan-result') return;
+        off();
+        reportPlan(plan.id, { ok: !!m.ok, reason: m.reason, cancelled: !!m.cancelled, results: m.results }).catch(() => {}).finally(onRefresh);
+        setNote(planOutcomeMessage({ ...m, plan }));
+        if (!m.ok && !m.cancelled) setError(m.reason || 'It stopped.');
+        setBusy('');
+      });
+      const r = await client.runPlan(plan);
+      if (!r.ok) {
+        off();
+        await cancelPlan(plan.id).catch(() => {});
+        setError(r.reason || 'The extension refused.');
+        setBusy('');
+        return;
+      }
+      setNote('A window from the extension is asking you to confirm. It shows this exact text and what it will do.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong.');
+      setBusy('');
+    }
+  };
   const fill = async () => {
     setBusy('fill');
     setError('');
@@ -147,7 +181,8 @@ function DraftCard({ draft, ext, client, onChange, onGone }: { draft: Draft; ext
           ) : null}
           {draft.status === 'approved' && !isDirty(draft, text) ? (
             <>
-              {ext.connected ? <button type="button" className="btn-primary" disabled={!!busy || !!block} onClick={fill} title={block ?? undefined}>{busy === 'fill' ? 'Sending…' : 'Fill it in my browser'}</button> : null}
+              {ext.connected && p?.id !== 'reddit' ? <button type="button" className="btn-primary" disabled={!!busy || !!block} onClick={postForMe} title={block ?? 'The extension asks you to confirm, then fills the box and presses Post'}>{busy === 'post' ? 'Waiting for you…' : 'Post it for me'}</button> : null}
+              {ext.connected ? <button type="button" className="btn-secondary" disabled={!!busy || !!block} onClick={fill} title={block ?? undefined}>{busy === 'fill' ? 'Sending…' : 'Fill it, I will press Post'}</button> : null}
               {p && p.id !== 'reddit' ? <button type="button" className="btn-secondary" disabled={!!busy} onClick={openCompose}>Open compose page</button> : null}
               <button type="button" className="btn-secondary" disabled={!!busy} onClick={copyOpen}>Copy text &amp; open site</button>
               <button type="button" className="btn-secondary" disabled={!!busy} onClick={sent}>I posted it</button>
@@ -212,6 +247,73 @@ function VoiceCard() {
   );
 }
 
+
+function PlanCard({ plan, ext, client, highlight, onChange }: { plan: BrowserPlan; ext: ExtensionState; client: Client; highlight: boolean; onChange: (p: BrowserPlan) => void }) {
+  const [busy, setBusy] = useState('');
+  const [error, setError] = useState('');
+  const [note, setNote] = useState('');
+  const [progress, setProgress] = useState<Record<number, string>>({});
+  const block = planBlock(plan, ext);
+
+  async function approve() {
+    setBusy('approve'); setError('');
+    try { onChange(await approvePlan(plan)); } catch (e) { setError(e instanceof Error ? e.message : 'Could not approve.'); } finally { setBusy(''); }
+  }
+  async function cancel() {
+    setBusy('cancel'); setError('');
+    try { onChange(await cancelPlan(plan.id)); } catch (e) { setError(e instanceof Error ? e.message : 'Could not cancel.'); } finally { setBusy(''); }
+  }
+  async function run() {
+    setBusy('run'); setError(''); setNote(''); setProgress({});
+    const off = client.onPlan((m: PlanEvent) => {
+      if (m.planId !== plan.id) return;
+      if (m.type === 'plan-progress' && typeof m.index === 'number') { setProgress((p) => ({ ...p, [m.index as number]: m.status || '' })); return; }
+      off();
+      setProgress(Object.fromEntries((m.results || []).map((r) => [r.index, r.ok ? 'done' : 'stopped'])));
+      reportPlan(plan.id, { ok: !!m.ok, reason: m.reason, cancelled: !!m.cancelled, results: m.results }).then(onChange).catch(() => {});
+      setNote(planOutcomeMessage({ ...m, plan }));
+      if (!m.ok && !m.cancelled) setError(m.reason || 'It stopped.');
+      setBusy('');
+    });
+    const r = await client.runPlan(plan);
+    if (!r.ok) { off(); setError(r.reason || 'The extension refused.'); setBusy(''); return; }
+    setNote('A window from the extension is asking you to confirm.');
+  }
+
+  return (
+    <li className={`app-card p-4 ${highlight ? 'ring-2 ring-[var(--brand)]' : ''}`} data-testid="plan-card">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-[var(--brand-soft)] px-2.5 py-0.5 text-xs font-medium text-[var(--accent-text)]">{plan.source === 'assistant' ? 'Proposed by your assistant' : 'Browser steps'}</span>
+        <span className="text-xs font-medium text-[var(--text-secondary)]" data-testid="plan-status">{planStatusLabel(plan.status)}</span>
+      </div>
+      <h3 className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{plan.title}</h3>
+      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-[var(--text-secondary)]">
+        {plan.steps.map((s, i) => (
+          <li key={i} className="break-words">{describePlanStep(s)}{progress[i] ? <span className={`ml-2 ${small}`}>{progress[i]}</span> : null}</li>
+        ))}
+      </ol>
+      {plan.steps.map((s, i) => (s.type === 'post' ? <div key={`t${i}`} className="mt-2 whitespace-pre-wrap break-words rounded-lg bg-[var(--surface-muted)] p-2 text-sm text-[var(--text-primary)]">{s.text}</div> : null))}
+      {planPostsForYou(plan) ? <p className="mt-2 text-sm font-medium text-[var(--accent-text)]">This plan presses Post for you, once, after you confirm in the extension.</p> : null}
+      <p className={`mt-2 ${small}`}>It only visits sites you allowed in the extension, never fills passwords, codes or payment details, and stops if a page asks for them.</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {plan.status === 'proposed' ? <button type="button" className="btn-primary" disabled={!!busy} onClick={approve}>{busy === 'approve' ? 'Approving…' : 'I have read these steps: approve'}</button> : null}
+        {plan.status === 'approved' ? <button type="button" className="btn-primary" disabled={!!busy || !!block} onClick={run} title={block ?? undefined}>{busy === 'run' ? 'Waiting for you…' : 'Run in my browser'}</button> : null}
+        {plan.status === 'proposed' || plan.status === 'approved' ? <button type="button" className="btn-ghost" disabled={!!busy} onClick={cancel}>Cancel</button> : null}
+      </div>
+      {plan.status === 'approved' && block ? <p className={`mt-2 ${small}`}>Extension: {block}</p> : null}
+      {note ? <p role="status" className="mt-2 text-sm text-[var(--text-secondary)]">{note}</p> : null}
+      {error ? <p role="alert" className="mt-2 text-sm text-[var(--danger)]">{error}</p> : null}
+      {plan.reason && (plan.status === 'failed') ? <p className="mt-2 text-sm text-[var(--danger)]">{plan.reason}</p> : null}
+      {(plan.results || []).filter((r) => r.text).map((r) => (
+        <details key={r.index} className="mt-2 text-sm">
+          <summary className="cursor-pointer text-[var(--text-secondary)]">Page content from step {r.index + 1} (untrusted text from the website)</summary>
+          <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap break-words rounded-lg bg-[var(--surface-muted)] p-2 text-xs">{r.text}</pre>
+        </details>
+      ))}
+    </li>
+  );
+}
+
 export default function DraftsPage() {
   const client = useSyncExternalStore(noop, getClient, serverClient);
   const ext = useSyncExternalStore(
@@ -223,6 +325,8 @@ export default function DraftsPage() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [hidden, setHidden] = useState<string[]>([]);
+  const [plans, setPlans] = useState<BrowserPlan[]>([]);
+  const [focusPlan] = useState(() => (typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('plan') || ''));
   const [newPlatform, setNewPlatform] = useState('x');
   const [newText, setNewText] = useState('');
   const [creating, setCreating] = useState(false);
@@ -236,6 +340,14 @@ export default function DraftsPage() {
       .finally(() => !cancelled && setLoading(false));
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    listPlans().then((p) => !cancelled && setPlans(p)).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  const refreshDrafts = useCallback(() => { listDrafts().then(setDrafts).catch(() => {}); }, []);
 
   async function create() {
     setCreating(true);
@@ -253,16 +365,26 @@ export default function DraftsPage() {
 
   const shown = useMemo(() => drafts.filter((d) => !hidden.includes(d.id)), [drafts, hidden]);
   const left = charsLeft(newPlatform, newText);
+  const shownPlans = useMemo(() => plans.filter((p) => p.source !== 'draft' && p.status !== 'cancelled').slice(0, 10), [plans]);
 
   return (
     <AppShell active="drafts">
       <PageTitle title="Drafts" />
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[var(--text-secondary)]">
-        Write or edit a post, approve the exact text, then post it yourself. Nothing leaves AnalyzeIt until you approve it, and you always press Post.
+        Write or edit a post, or let your assistant suggest one in your voice. You approve the exact text, then post it yourself or let the extension do it after one more confirmation.
       </p>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
         <div className="flex min-w-0 flex-col gap-4">
+          {shownPlans.length ? (
+            <section aria-label="Browser steps" className="flex flex-col gap-3">
+              <h2 className="text-sm font-semibold text-[var(--text-primary)]">Browser steps waiting for you</h2>
+              <ul className="flex flex-col gap-4">
+                {client ? shownPlans.map((p) => <PlanCard key={p.id} plan={p} ext={ext} client={client} highlight={p.id === focusPlan} onChange={(n) => setPlans((all) => all.map((x) => (x.id === n.id ? n : x)))} />) : null}
+              </ul>
+            </section>
+          ) : null}
+
           <section className="app-card p-4" aria-label="New draft">
             <h2 className="text-sm font-semibold text-[var(--text-primary)]">New draft</h2>
             <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Platform">
@@ -286,7 +408,7 @@ export default function DraftsPage() {
           {!loading && !loadError && !shown.length ? <p className="text-sm text-[var(--text-muted)]">No drafts yet. Write one above, or ask in chat or the CLI to draft something in your voice.</p> : null}
           <ul className="flex flex-col gap-4">
             {client ? shown.map((d) => (
-              <DraftCard key={d.id} draft={d} ext={ext} client={client} onChange={(n) => setDrafts((all) => all.map((x) => (x.id === n.id ? n : x)))} onGone={(id) => setHidden((h) => [...h, id])} />
+              <DraftCard key={d.id} draft={d} ext={ext} client={client} onChange={(n) => setDrafts((all) => all.map((x) => (x.id === n.id ? n : x)))} onGone={(id) => setHidden((h) => [...h, id])} onRefresh={refreshDrafts} />
             )) : null}
           </ul>
         </div>

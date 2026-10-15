@@ -58,3 +58,46 @@ export function extensionBlock(state, platformId) {
   if (p.used >= p.cap) return `Daily limit reached for ${p.label} (${p.cap}).`;
   return null;
 }
+
+// ---- browser plans ----
+
+export function describePlanStep(s) {
+  switch (s.type) {
+    case 'open': return `Open ${s.url}`;
+    case 'read': return `Read the page ${s.what === 'text' ? 'text' : s.what === 'links' ? 'links' : 'form field names (no values)'}`;
+    case 'fill': return `Type ${s.text.length} characters into “${s.target.label || s.target.name}”`;
+    case 'click': return `Click “${s.target.name || s.target.label}”`;
+    case 'scroll': return `Scroll ${s.direction}`;
+    case 'wait': return `Wait ${s.ms} ms`;
+    case 'post': return s.commit ? `Put the post in the ${s.platform} box and press Post` : `Put the post in the ${s.platform} box (you press Post)`;
+    default: return s.type;
+  }
+}
+
+export function planStatusLabel(status) {
+  return { proposed: 'Needs your approval', approved: 'Approved', done: 'Done', failed: 'Stopped', cancelled: 'Cancelled' }[status] || status;
+}
+
+export function planPostsForYou(plan) {
+  return Boolean(plan?.steps?.some((s) => s.type === 'post' && s.commit));
+}
+
+/** Why a plan can not be run in the browser right now, or null. */
+export function planBlock(plan, state) {
+  if (!state?.connected) return 'The extension is not connected.';
+  if (state.paused) return 'Paused in the extension.';
+  for (const s of plan.steps) {
+    if (s.type === 'post') {
+      const b = extensionBlock(state, s.platform);
+      if (b) return b;
+    }
+  }
+  return null;
+}
+
+export function planOutcomeMessage(m) {
+  if (!m) return '';
+  if (m.cancelled) return 'You cancelled in the extension. Nothing ran.';
+  if (m.ok) return planPostsForYou(m.plan) ? 'Done. The post was filled in and Post was pressed.' : 'Done.';
+  return m.reason || 'The plan stopped.';
+}

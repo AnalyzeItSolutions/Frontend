@@ -37,3 +37,23 @@ test('fill messages tell the person to press Post themselves', () => {
   assert.equal(fillMessage({ ok: false, reason: 'Nope' }), 'Nope');
   assert.equal(fillMessage(null), '');
 });
+
+import { describePlanStep, planBlock, planOutcomeMessage, planPostsForYou, planStatusLabel } from './drafts.mjs';
+
+test('plan wording is explicit about pressing Post', () => {
+  assert.match(describePlanStep({ type: 'post', platform: 'x', text: 'hi', commit: true }), /press Post/);
+  assert.match(describePlanStep({ type: 'post', platform: 'x', text: 'hi' }), /you press Post/);
+  assert.equal(planPostsForYou({ steps: [{ type: 'post', platform: 'x', text: 'hi', commit: true }] }), true);
+  assert.equal(planPostsForYou({ steps: [{ type: 'read', what: 'text' }] }), false);
+  assert.equal(planStatusLabel('proposed'), 'Needs your approval');
+});
+
+test('a plan can only run when the extension is connected, not paused, and allows the posting site', () => {
+  const plan = { steps: [{ type: 'post', platform: 'x', text: 'hi', commit: true }] };
+  assert.match(planBlock(plan, null), /not connected/);
+  assert.match(planBlock(plan, { connected: true, paused: true, platforms: {} }), /Paused/);
+  assert.match(planBlock(plan, { connected: true, paused: false, platforms: { x: { label: 'X', allowed: false, cap: 5, used: 0, paused: false } } }), /Allow X/);
+  assert.equal(planBlock({ steps: [{ type: 'read', what: 'text' }] }, { connected: true, paused: false, platforms: {} }), null);
+  assert.match(planOutcomeMessage({ cancelled: true }), /Nothing ran/);
+  assert.match(planOutcomeMessage({ ok: true, plan }), /Post was pressed/);
+});
