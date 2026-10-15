@@ -2,6 +2,9 @@ export const AUTH_COOKIE: string;
 export const SESSION_COOKIE: string;
 export const TOKEN_STORAGE_KEY: string;
 
+export const PRIMARY_DOMAIN: string;
+export const LEGACY_DOMAIN: string;
+export function appDomainOf(hostname: string | null | undefined): string | null;
 export function isValidPersonalSlug(slug: string): boolean;
 export function publicHost(hostHeader: string | null | undefined, forwardedHeader?: string | null): string;
 export function extractPersonalSlug(hostHeader: string | null | undefined): string | null;

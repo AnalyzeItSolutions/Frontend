@@ -1,4 +1,4 @@
-import { AUTH_COOKIE, SESSION_COOKIE } from './personalHost.mjs';
+import { AUTH_COOKIE, SESSION_COOKIE, appDomainOf } from './personalHost.mjs';
 import { withRetry } from './retry.mjs';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
