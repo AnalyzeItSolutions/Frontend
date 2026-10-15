@@ -200,13 +200,13 @@ export default function BillingPage() {
           ) : (
             <>
               Paid plans are charged in <strong className="font-medium text-[var(--text,#3A342D)]">{premiumCcy} via Razorpay</strong>.
-              Each payment covers {annual ? 'one year' : '30 days'}, and you can pay again any time. USD amounts are for reference only — same story as{' '}
+              Each payment covers {annual ? 'one year' : '30 days'}, and you can pay again any time. USD amounts are for reference only. See{' '}
             </>
           )}
           <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#C45A42]">
-            marketing pricing
+            pricing
           </Link>
-          .
+          {' '}for what each plan includes.
         </p>
         <div className="flex justify-center">
           <IntervalToggle value={interval} onChange={setInterval} />
@@ -256,10 +256,10 @@ export default function BillingPage() {
             </div>
             <p className="mt-2 text-xs text-[var(--text-muted)]">
               {usage.exhausted
-                ? 'You are at this month’s token cap. This is a warning only — chat is not stopped while token logging is still incomplete.'
+                ? 'You are at this month’s token cap. Upgrade your plan to get more.'
                 : usage.near
-                  ? 'You are past 90% of this month’s token cap. Warning only for now.'
-                  : 'Input and output tokens this calendar month. Separate from context retention. Warning only until metering is complete.'}
+                  ? 'You are past 90% of this month’s token cap. Upgrade if you expect to need more.'
+                  : 'Input and output tokens this calendar month. Output tokens count four times. Memory is measured separately.'}
             </p>
           </section>
         ) : null}

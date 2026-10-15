@@ -46,9 +46,6 @@ export function RetentionMeter() {
       {!usage.writes_allowed ? (
         <p className="mt-2 text-xs text-[#9B4D3B]">Stored memory is full. New writes are paused until you delete sources or upgrade. Existing memory stays.</p>
       ) : null}
-      {!usage.enforce ? (
-        <p className="mt-1 text-xs text-[var(--text-muted)]">Caps are measured and not enforced yet.</p>
-      ) : null}
     </div>
   );
 }

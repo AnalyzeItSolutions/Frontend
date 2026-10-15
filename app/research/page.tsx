@@ -2212,7 +2212,7 @@ function ChatInner() {
                   ) : null}
                   {liveBudget && (
                     <span
-                      title="Live context budget from the research stream"
+                      title="Context used by this answer, out of what your plan allows per answer"
                       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium ${
                         liveBudget.truncated
                           ? 'bg-amber-500/15 text-amber-800 dark:text-amber-200'
