@@ -36,9 +36,12 @@ export default function EmbeddingsPage() {
             </p>
             <div className="h-2 rounded-full bg-[var(--border)]"><div className="h-full bg-[var(--coral)]" style={{ width: `${monthPct}%` }} /></div>
             <p className="text-xs text-[var(--text-muted)]">
-              Stored {usage.storage_tokens_current.toLocaleString()} / {usage.storage_cap.toLocaleString()}
+              Document embeddings stored {usage.storage_tokens_current.toLocaleString()} / {usage.storage_cap.toLocaleString()}
             </p>
             <div className="h-2 rounded-full bg-[var(--border)]"><div className="h-full bg-[var(--coral)]" style={{ width: `${storePct}%` }} /></div>
+            <p className="text-xs text-[var(--text-muted)]">
+              This counts documents you embedded. What the assistant remembers from your chats and analyses is counted separately on the <Link href="/memory" className="underline">Memory page</Link>.
+            </p>
             {(usage.warn_monthly || usage.warn_storage) ? (
               <p className="text-sm">You are at or above 80% of a cap. <Link href="/billing" className="underline">Review plan</Link></p>
             ) : null}
