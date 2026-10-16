@@ -395,7 +395,7 @@ export default function DashboardPage() {
       if (reuse) {
         const saved = await updateProjectLayout(reuse, layoutVersion || 1, { widgets }, 'user');
         setCurrentLayout({ widgets });
-        setLayoutVersion((saved as { version?: number } | undefined)?.version ?? (layoutVersion || 1) + 1);
+        setLayoutVersion(saved.version);
         setStudioTab('canvas');
         setExportToastMsg(`Added the "${name}" template to this project`);
         setTimeout(() => setExportToastMsg(null), 3000);
