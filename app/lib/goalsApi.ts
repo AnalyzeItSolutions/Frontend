@@ -22,7 +22,8 @@ export interface GoalRun {
   id: string;
   created_at: string | null;
   text: string;
-  change: { new?: string[]; gone?: string[] };
+  change: { new?: string[]; gone?: string[]; figures_changed?: boolean };
+  used_llm?: boolean;
   delivery: Record<string, string>;
 }
 

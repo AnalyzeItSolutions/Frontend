@@ -22,8 +22,10 @@ export function goalStatusLine(goal) {
 export function changeLine(change) {
   const n = (change && change.new && change.new.length) || 0;
   const g = (change && change.gone && change.gone.length) || 0;
-  if (!n && !g) return 'Nothing changed since the run before.';
+  const figs = Boolean(change && change.figures_changed);
+  if (!n && !g && !figs) return 'Nothing changed since the run before.';
   const parts = [];
+  if (figs) parts.push('the figures changed');
   if (n) parts.push(`${n} new`);
   if (g) parts.push(`${g} no longer showing`);
   return parts.join(', ') + '.';
@@ -45,7 +47,11 @@ export function runGoalMessage(res, err) {
   switch (res && res.status) {
     case 'ok': return 'Ran it. The answer is below.';
     case 'needs_ai_access': return 'Allow the assistant to read this project first (AI data access, above).';
-    case 'no_data': return 'Scheduled runs only use the automatic checks, so this question could not be answered. Try an open one like "What stands out in my data?".';
+    case 'no_data': return 'This question could not be answered from the data. If your plan has no model runs left, only open questions like "What stands out in my data?" work.';
     default: return 'It did not finish. Try again.';
   }
+}
+
+export function runKindLabel(run) {
+  return run && run.used_llm ? 'written by the assistant' : 'automatic checks';
 }

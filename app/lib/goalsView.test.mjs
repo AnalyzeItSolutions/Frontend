@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { changeLine, everyLabel, goalStatusLine, reconcileSummary, runGoalMessage } from './goalsView.mjs';
+import { runKindLabel, changeLine, everyLabel, goalStatusLine, reconcileSummary, runGoalMessage } from './goalsView.mjs';
 
 test('a goal says what state it is in', () => {
   assert.equal(goalStatusLine({ enabled: false }), 'Paused.');
@@ -15,6 +15,10 @@ test('change between runs is counted', () => {
   assert.equal(changeLine({ new: [], gone: [] }), 'Nothing changed since the run before.');
   assert.equal(changeLine({ new: ['a', 'b'], gone: ['c'] }), '2 new, 1 no longer showing.');
   assert.equal(changeLine(undefined), 'Nothing changed since the run before.');
+  assert.equal(changeLine({ new: [], gone: [], figures_changed: true }), 'the figures changed.');
+  assert.equal(changeLine({ new: ['a'], gone: [], figures_changed: true }), 'the figures changed, 1 new.');
+  assert.equal(runKindLabel({ used_llm: true }), 'written by the assistant');
+  assert.equal(runKindLabel({}), 'automatic checks');
 });
 
 test('reconcile says what it did and did not check', () => {
@@ -30,5 +34,5 @@ test('running now answers every outcome', () => {
   assert.match(runGoalMessage({ status: 'needs_ai_access' }), /Allow the assistant/);
   assert.match(runGoalMessage(null, { status: 429 }), /last hour/);
   assert.match(runGoalMessage({ status: 'failed' }), /Try again/);
-  assert.match(runGoalMessage({ status: 'no_data' }), /automatic checks/);
+  assert.match(runGoalMessage({ status: 'no_data' }), /could not be answered/);
 });

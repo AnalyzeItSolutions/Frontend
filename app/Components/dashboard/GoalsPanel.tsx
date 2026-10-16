@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { changeLine, goalStatusLine, runGoalMessage } from '../../lib/goalsView.mjs';
+import { changeLine, goalStatusLine, runGoalMessage, runKindLabel } from '../../lib/goalsView.mjs';
 import { createGoal, deleteGoal, listGoalRuns, listGoals, runGoalNow, updateGoal, type GoalEvery, type GoalRun, type StandingGoal } from '../../lib/goalsApi';
 
 /** Questions the owner wants answered on a schedule, with what changed since the last answer. */
@@ -77,7 +77,7 @@ export function GoalsPanel({ projectId }: { projectId: string }) {
     <section aria-label="Standing questions" className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-3">
       <div>
         <h3 className="font-semibold text-[var(--text-primary)]">Standing questions</h3>
-        <p className="text-xs text-[var(--text-muted)]">Get an answer on a schedule and see what changed since last time. Scheduled runs use the automatic checks, so open questions work best, like “What is going wrong with my payments?” or “What stands out in my data?”. Up to {max} per project.</p>
+        <p className="text-xs text-[var(--text-muted)]">Get an answer on a schedule and see what changed since last time. Each run is written by the assistant and counts against your plan’s monthly runs and tokens like a chat message; if your plan has none left, it falls back to the automatic checks, which answer open questions like “What stands out in my data?”. Up to {max} per project.</p>
       </div>
 
       {goals.length ? (
@@ -106,7 +106,7 @@ export function GoalsPanel({ projectId }: { projectId: string }) {
                   <ul className="space-y-2 rounded-lg bg-[var(--surface-2)] p-3 text-xs">
                     {runs.map((r) => (
                       <li key={r.id} className="space-y-1">
-                        <div className="text-[var(--text-muted)]">{r.created_at ? new Date(r.created_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : ''} · {changeLine(r.change)}</div>
+                        <div className="text-[var(--text-muted)]">{r.created_at ? new Date(r.created_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : ''} · {runKindLabel(r)} · {changeLine(r.change)}</div>
                         <p className="whitespace-pre-line text-[var(--text-secondary)]">{r.text}</p>
                       </li>
                     ))}
