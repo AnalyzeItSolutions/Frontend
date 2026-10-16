@@ -45,7 +45,7 @@ function hostOf(url?: string): string {
   }
 }
 
-/** Public JSON endpoints and CSV links the person points the assistant at. No keys are stored here. */
+/** Public JSON endpoints and CSV links the person points the assistant at. Keys, when needed, are kept encrypted in the vault and never shown again. */
 export function CustomSourcesPanel({ projectId }: { projectId: string }) {
   const toast = useToast();
   const confirm = useConfirm();
