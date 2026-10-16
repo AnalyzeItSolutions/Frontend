@@ -111,7 +111,6 @@
   --foreground: var(--text-primary);
   --card: var(--surface);
   --muted: var(--text-muted);
-  --accent: var(--brand);
 }
 
 /* Incognito: violet-tinted surfaces on top of light or dark base */
