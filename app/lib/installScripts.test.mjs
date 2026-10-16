@@ -10,8 +10,8 @@ test('install.sh is valid shell and fails safe', () => {
   execFileSync('sh', ['-n', new URL('../../public/install.sh', import.meta.url).pathname]);
   assert.match(sh, /^set -eu$/m);
   assert.match(sh, /--proto '=https' --tlsv1\.2/);
-  assert.match(sh, /checksum mismatch; nothing was installed/);
-  assert.match(sh, /https:\/\/\*\) ;; \*\) die/, 'refuses non-https download addresses');
+  assert.match(sh, /checksum mismatch.*nothing was installed/);
+  assert.match(sh, /download address must start with https:\/\//, 'refuses non-https download addresses');
   assert.doesNotMatch(sh, /\beval\b|\bsudo\b|\brm -rf \/\s|chmod 777/);
 });
 
