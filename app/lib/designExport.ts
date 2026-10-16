@@ -23,21 +23,21 @@ export type DesignExportPayload = {
 
 const TOKEN_SNAPSHOT = {
   fonts: {
-    serif: 'Fraunces, Georgia, serif',
+    serif: 'Inter, system-ui, sans-serif',
     sans: 'Inter, system-ui, sans-serif',
     mono: 'Space Mono, monospace',
   },
   colors: {
-    paper: '#F7F1E8',
-    ink: '#4A4238',
-    coral: '#EA8069',
-    peach: '#EBA58F',
-    surface: '#FFFCF8',
-    border: '#E2D7CA',
-    canvasDark: '#0B0D10',
-    surfaceDark: '#14171B',
-    textDark: '#EDEFF2',
-    cobalt: '#3D6FE0',
+    paper: '#F8F8F8',
+    ink: '#414141',
+    coral: '#F2F2F2',
+    peach: '#F2F2F2',
+    surface: '#FCFCFC',
+    border: '#D6D6D6',
+    canvasDark: '#0E0E0E',
+    surfaceDark: '#181818',
+    textDark: '#F0F0F0',
+    cobalt: '#0A0A0A',
   },
   spacing: {
     '1': '4px',

@@ -624,7 +624,7 @@ export function OnboardingFlow() {
             </div>
           ) : null}
           {askError ? (
-            <p role="alert" className="text-sm text-[var(--danger,#C45B4A)]">{askError}</p>
+            <p role="alert" className="text-sm text-[var(--danger,#F2F2F2)]">{askError}</p>
           ) : null}
           {stopped && !askError ? (
             <p className="text-sm text-[var(--text-secondary)]">Stopped before the answer finished.</p>
@@ -737,7 +737,7 @@ function DataStep({
         ) : (
           <p className="text-sm text-[var(--text-secondary)]">No file chosen yet.</p>
         )}
-        {uploadError ? <p role="alert" className="text-sm text-[var(--danger,#C45B4A)]">{uploadError}</p> : null}
+        {uploadError ? <p role="alert" className="text-sm text-[var(--danger,#F2F2F2)]">{uploadError}</p> : null}
         <button type="button" onClick={onBrowse} disabled={uploading} className="btn-primary h-auto min-h-11 px-5 disabled:opacity-50">
           <IconFile size={16} className="mr-1" />
           {uploading ? 'Uploading…' : progress.attachment ? 'Choose a different file' : 'Choose a file'}
@@ -764,7 +764,7 @@ function DataStep({
         ) : null}
         {drivePhase === 'error' ? (
           <div role="alert" className="space-y-3">
-            <p className="text-sm text-[var(--danger,#C45B4A)]">{driveError}</p>
+            <p className="text-sm text-[var(--danger,#F2F2F2)]">{driveError}</p>
             <button type="button" onClick={onRetryDrive} className="btn-secondary h-auto min-h-11 px-5">
               <IconRefresh size={15} className="mr-1" />
               Check again

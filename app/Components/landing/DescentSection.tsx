@@ -195,7 +195,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.4 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[var(--surface)] border border-[#4A4238]/12 dark:border-[var(--border)] shadow-lg p-6 sm:p-8 space-y-5 ${
+              className={`pointer-events-auto w-full max-w-md rounded-3xl bg-[var(--surface)] border border-[#414141]/12 dark:border-[var(--border)] shadow-lg p-6 sm:p-8 space-y-5 ${
                 isLeft ? 'mr-auto' : 'ml-auto'
               }`}
             >
@@ -203,7 +203,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-[var(--accent-text)]">
                   {item.category}
                 </span>
-                <span className="text-[11px] font-mono tabular-nums text-[#5C534A] dark:text-[var(--text-muted)]">
+                <span className="text-[11px] font-mono tabular-nums text-[#535353] dark:text-[var(--text-muted)]">
                   {item.index} / 04
                 </span>
               </div>
@@ -212,7 +212,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 {item.name}
               </h3>
 
-              <p className="text-sm sm:text-base text-[#3F3830] dark:text-[#C5B9AE] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#383838] dark:text-[#BABABA] leading-relaxed">
                 {item.tagline}
               </p>
 
@@ -220,9 +220,9 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 {item.specs.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-2xl bg-[#E9DDD2]/55 dark:bg-[#14110F]/70 border border-[#4A4238]/08 dark:border-[var(--border)] px-3.5 py-3"
+                    className="rounded-2xl bg-[#DEDEDE]/55 dark:bg-[#121212]/70 border border-[#414141]/08 dark:border-[var(--border)] px-3.5 py-3"
                   >
-                    <div className="text-[10px] uppercase tracking-wider text-[#5C534A] dark:text-[var(--text-muted)] mb-1">
+                    <div className="text-[10px] uppercase tracking-wider text-[#535353] dark:text-[var(--text-muted)] mb-1">
                       {s.label}
                     </div>
                     <div className="font-serif text-sm text-[var(--text-primary)]">

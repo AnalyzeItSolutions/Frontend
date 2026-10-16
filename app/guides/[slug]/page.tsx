@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <LegalLayout title={g.title} eyebrow={false} showHeroUpdated={false} quietOperator subtitle={`${readMinutes(g)} min read · ${new Date(g.published).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}`}>
       <JsonLd data={article} />
       <JsonLd data={breadcrumbs(SITE_URL, [{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides' }, { name: g.title, path: `/guides/${g.slug}` }])} />
-      <article className="max-w-2xl space-y-5 text-[15px] leading-relaxed text-[#3F3830] dark:text-[#E6DCD2] [&_h2]:mt-8 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:text-[#322C28] dark:[&_h2]:text-[#F4EDE5] [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
+      <article className="max-w-2xl space-y-5 text-[15px] leading-relaxed text-[#383838] dark:text-[#DCDCDC] [&_h2]:mt-8 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:text-[#2D2D2D] dark:[&_h2]:text-[#EDEDED] [&_ol]:list-decimal [&_ol]:space-y-1.5 [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
         {g.blocks.map((b, i) =>
           b.h2 ? (
             <h2 key={i}>{b.h2}</h2>
@@ -57,16 +57,16 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           ),
         )}
         <p>
-          Read more: <Link href={g.cta.href} className="text-[#C45A42] underline underline-offset-2">{g.cta.label}</Link>, or{' '}
-          <Link href="/demo" className="text-[#C45A42] underline underline-offset-2">try the live demo</Link> with no account.
+          Read more: <Link href={g.cta.href} className="text-[#0A0A0A] underline underline-offset-2">{g.cta.label}</Link>, or{' '}
+          <Link href="/demo" className="text-[#0A0A0A] underline underline-offset-2">try the live demo</Link> with no account.
         </p>
       </article>
       <section className="mt-10 max-w-2xl">
-        <h2 className="font-serif text-xl text-[#322C28] dark:text-[#F4EDE5]">More guides</h2>
+        <h2 className="font-serif text-xl text-[#2D2D2D] dark:text-[#EDEDED]">More guides</h2>
         <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[15px]">
           {others.map((o) => (
             <li key={o.slug}>
-              <Link href={`/guides/${o.slug}`} className="text-[#C45A42] underline underline-offset-2">{o.title}</Link>
+              <Link href={`/guides/${o.slug}`} className="text-[#0A0A0A] underline underline-offset-2">{o.title}</Link>
             </li>
           ))}
         </ul>

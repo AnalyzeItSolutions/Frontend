@@ -384,14 +384,14 @@ export function DashboardCanvas({
 
     ctx.scale(2, 2);
 
-    ctx.fillStyle = '#14110F';
+    ctx.fillStyle = '#121212';
     ctx.fillRect(0, 0, width, height);
 
-    ctx.fillStyle = '#F4EDE5';
+    ctx.fillStyle = '#EDEDED';
     ctx.font = 'bold 24px serif';
     ctx.fillText(projectName, padding, 50);
 
-    ctx.fillStyle = '#91867E';
+    ctx.fillStyle = '#888888';
     ctx.font = '12px monospace';
     ctx.fillText(
       `AnalyzeIt Dashboard Export · v${layoutVersion} · ${new Date().toLocaleDateString()} · ${widgets.length} Widgets`,
@@ -399,7 +399,7 @@ export function DashboardCanvas({
       75
     );
 
-    ctx.strokeStyle = '#2B2521';
+    ctx.strokeStyle = '#262626';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(padding, 95);
@@ -416,8 +416,8 @@ export function DashboardCanvas({
       const isSandboxed =
         w.render_mode === 'sandboxed' || w.type === 'sandboxed' || w.component === 'sandboxed';
 
-      ctx.fillStyle = isSandboxed ? 'rgba(227, 131, 108, 0.08)' : '#1C1816';
-      ctx.strokeStyle = isSandboxed ? 'rgba(227, 131, 108, 0.4)' : '#2B2521';
+      ctx.fillStyle = isSandboxed ? 'rgba(255, 255, 255, 0.08)' : '#191919';
+      ctx.strokeStyle = isSandboxed ? 'rgba(255, 255, 255, 0.4)' : '#262626';
       ctx.lineWidth = 1;
 
       ctx.beginPath();
@@ -428,26 +428,26 @@ export function DashboardCanvas({
       const title = w.title || (w.props as any)?.title || w.metric || 'Widget';
       const comp = (w.component || w.type || 'native') as string;
 
-      ctx.fillStyle = '#EA8069';
+      ctx.fillStyle = '#F2F2F2';
       ctx.font = '10px monospace';
       ctx.fillText(comp.toUpperCase(), x + 16, y + 24);
 
-      ctx.fillStyle = '#F4EDE5';
+      ctx.fillStyle = '#EDEDED';
       ctx.font = 'bold 14px serif';
       ctx.fillText(title, x + 16, y + 44);
 
       if (isSandboxed) {
-        ctx.fillStyle = '#EA8069';
+        ctx.fillStyle = '#F2F2F2';
         ctx.font = 'italic 11px monospace';
         ctx.fillText('[ ⛨ Security Boundary Isolated ]', x + 16, y + 80);
-        ctx.fillStyle = '#91867E';
+        ctx.fillStyle = '#888888';
         ctx.font = '10px monospace';
         ctx.fillText('Sandboxed iframe DOM strictly isolated from host.', x + 16, y + 100);
         ctx.fillText(`Widget ID: ${w.id}`, x + 16, y + 118);
       } else if (comp === 'metric_card') {
         const val = String(w.value || (w.props as any)?.value || '—');
         const chg = String(w.change || (w.props as any)?.change || '');
-        ctx.fillStyle = '#F4EDE5';
+        ctx.fillStyle = '#EDEDED';
         ctx.font = 'bold 26px serif';
         ctx.fillText(val, x + 16, y + 90);
         if (chg) {
@@ -456,7 +456,7 @@ export function DashboardCanvas({
           ctx.fillText(chg, x + 16, y + 115);
         }
       } else {
-        ctx.fillStyle = '#91867E';
+        ctx.fillStyle = '#888888';
         ctx.font = '11px monospace';
         ctx.fillText(`[Visual Primitive: ${comp}]`, x + 16, y + 85);
         if (w.freshness) {
@@ -465,7 +465,7 @@ export function DashboardCanvas({
       }
 
       if (w.provenance) {
-        ctx.fillStyle = '#91867E';
+        ctx.fillStyle = '#888888';
         ctx.font = '9px monospace';
         ctx.fillText(`Prov: ${w.provenance.kind} (${w.provenance.source})`, x + 16, y + cardHeight - 12);
       }
@@ -504,17 +504,17 @@ export function DashboardCanvas({
       <div
         data-lenis-prevent
         className={`flex-1 flex flex-col h-full overflow-y-auto space-y-6 p-4 sm:p-6 lg:p-8 ${
-          isPresentationMode ? 'fixed inset-0 z-40 bg-[#0E0C0B] overflow-auto' : ''
+          isPresentationMode ? 'fixed inset-0 z-40 bg-[#0D0D0D] overflow-auto' : ''
         }`}
       >
         {/* ─── Presentation mode exit hint ──────────────────────────────── */}
         {isPresentationMode && (
           <div className="flex items-center justify-between mb-2">
-            <h1 className="text-lg font-semibold text-[#F4EDE5]">{projectName}</h1>
+            <h1 className="text-lg font-semibold text-[#EDEDED]">{projectName}</h1>
             <button
               type="button"
               onClick={togglePresentationMode}
-              className="text-[11px] font-mono px-3 py-1.5 rounded-lg border border-white/10 text-[#91867E] hover:text-[#F4EDE5] hover:border-white/20 transition-colors cursor-pointer"
+              className="text-[11px] font-mono px-3 py-1.5 rounded-lg border border-white/10 text-[#888888] hover:text-[#EDEDED] hover:border-white/20 transition-colors cursor-pointer"
             >
               Exit presentation  Esc
             </button>
@@ -523,7 +523,7 @@ export function DashboardCanvas({
 
       {/* ─── Persistent Status Strip ─────────────────────────────────────── */}
       {!isPresentationMode && (
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-3.5 py-2 rounded-xl bg-black/[0.03] dark:bg-[#1C1816] border border-[#4A4238]/10 dark:border-[#2B2521] text-[11px] font-mono">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-3.5 py-2 rounded-xl bg-black/[0.03] dark:bg-[#191919] border border-[#414141]/10 dark:border-[#262626] text-[11px] font-mono">
         <div className="flex items-center gap-2 flex-wrap">
           <span
             className={`w-2 h-2 rounded-full flex-shrink-0 ${
@@ -532,29 +532,29 @@ export function DashboardCanvas({
                 : 'bg-emerald-500'
             }`}
           />
-          <span className="font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+          <span className="font-semibold text-[#414141] dark:text-[#EDEDED]">
             {activeProposals.length}{' '}
             {activeProposals.length === 1 ? 'pending proposal' : 'pending proposals'}
           </span>
-          <span className="text-[#4A4238]/40 dark:text-[#91867E]">·</span>
-          <span className="text-[#4A4238]/70 dark:text-[#C5B9AE]">
+          <span className="text-[#414141]/40 dark:text-[#888888]">·</span>
+          <span className="text-[#414141]/70 dark:text-[#BABABA]">
             {widgets.length} {widgets.length === 1 ? 'widget' : 'widgets'} applied
           </span>
-          <span className="text-[#4A4238]/40 dark:text-[#91867E]">·</span>
-          <span className="text-[#4A4238]/70 dark:text-[#C5B9AE]">
+          <span className="text-[#414141]/40 dark:text-[#888888]">·</span>
+          <span className="text-[#414141]/70 dark:text-[#BABABA]">
             v{layoutVersion}
           </span>
         </div>
 
         {activeProposals.length > 0 && (
-          <div className="flex items-center gap-2 text-[10px] text-[#4A4238]/60 dark:text-[#91867E]">
+          <div className="flex items-center gap-2 text-[10px] text-[#414141]/60 dark:text-[#888888]">
             <span>
               Press{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-[#302B28] font-bold text-[#4A4238] dark:text-[#F4EDE5]">
+              <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-[#2C2C2C] font-bold text-[#414141] dark:text-[#EDEDED]">
                 ↵ Enter
               </kbd>{' '}
               to accept ·{' '}
-              <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-[#302B28] font-bold text-[#4A4238] dark:text-[#F4EDE5]">
+              <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-[#2C2C2C] font-bold text-[#414141] dark:text-[#EDEDED]">
                 Esc
               </kbd>{' '}
               to reject
@@ -568,7 +568,7 @@ export function DashboardCanvas({
             type="button"
             title="Command palette (⌘K)"
             onClick={() => setIsPaletteOpen(true)}
-            className="p-1.5 rounded-lg text-[#91867E] hover:text-[#F4EDE5] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[#888888] hover:text-[#EDEDED] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
           >
             <IconCommand size={13} />
           </button>
@@ -576,7 +576,7 @@ export function DashboardCanvas({
             type="button"
             title={isPresentationMode ? 'Exit presentation' : 'Presentation mode'}
             onClick={togglePresentationMode}
-            className="p-1.5 rounded-lg text-[#91867E] hover:text-[#F4EDE5] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[#888888] hover:text-[#EDEDED] hover:bg-[var(--surface-muted)] transition-colors cursor-pointer"
           >
             <IconPresentation size={13} />
           </button>
@@ -587,8 +587,8 @@ export function DashboardCanvas({
             title="View mode"
             className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
               mode === 'view'
-                ? 'text-[#EA8069] bg-[#EA8069]/10'
-                : 'text-[#91867E] hover:text-[#F4EDE5] hover:bg-[var(--surface-muted)]'
+                ? 'text-[#F2F2F2] bg-[#F2F2F2]/10'
+                : 'text-[#888888] hover:text-[#EDEDED] hover:bg-[var(--surface-muted)]'
             }`}
           >
             <IconEye size={13} />
@@ -599,8 +599,8 @@ export function DashboardCanvas({
             title="Edit mode"
             className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
               mode === 'edit'
-                ? 'text-[#EA8069] bg-[#EA8069]/10'
-                : 'text-[#91867E] hover:text-[#F4EDE5] hover:bg-[var(--surface-muted)]'
+                ? 'text-[#F2F2F2] bg-[#F2F2F2]/10'
+                : 'text-[#888888] hover:text-[#EDEDED] hover:bg-[var(--surface-muted)]'
             }`}
           >
             <IconEdit size={13} />
@@ -613,7 +613,7 @@ export function DashboardCanvas({
                 onClick={openAddWidget}
                 title="Add a widget"
                 aria-label="Add a widget"
-                className="px-2 py-1 rounded-lg text-[11px] font-semibold text-[#EA8069] hover:bg-[#EA8069]/10 transition-colors cursor-pointer"
+                className="px-2 py-1 rounded-lg text-[11px] font-semibold text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-colors cursor-pointer"
               >
                 + Widget
               </button>
@@ -625,13 +625,13 @@ export function DashboardCanvas({
 
       {/* ─── Widget cap upgrade prompt ────────────────────────────────────── */}
       {widgetCapReached && !isPresentationMode && (
-        <div className="flex items-center justify-between rounded-2xl border border-dashed border-[#EA8069]/40 bg-[#EA8069]/5 px-4 py-3">
-          <span className="text-xs font-mono text-[#91867E]">
+        <div className="flex items-center justify-between rounded-2xl border border-dashed border-[#F2F2F2]/40 bg-[#F2F2F2]/5 px-4 py-3">
+          <span className="text-xs font-mono text-[#888888]">
             Widget limit reached · {widgetCapLimit}/{widgetCapLimit} on your plan
           </span>
           <a
             href="/billing"
-            className="text-xs font-medium text-[#EA8069] hover:underline flex items-center gap-1"
+            className="text-xs font-medium text-[#F2F2F2] hover:underline flex items-center gap-1"
           >
             Upgrade for more
             <IconArrowUpRight size={12} />
@@ -657,21 +657,21 @@ export function DashboardCanvas({
 
       {/* ─── Active Filter Bus Strip ────────────────────────────────────── */}
       {activeFilter && (
-        <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#EA8069]/10 border border-[#EA8069]/30 text-xs font-mono text-[#EA8069]">
+        <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#F2F2F2]/10 border border-[#F2F2F2]/30 text-xs font-mono text-[#F2F2F2]">
           <div className="flex items-center gap-2 flex-wrap">
             <IconFilter size={14} />
             <span className="font-semibold">Reactive Filter Active:</span>
-            <span className="px-2 py-0.5 rounded-md bg-[#EA8069]/20 font-bold">
+            <span className="px-2 py-0.5 rounded-md bg-[#F2F2F2]/20 font-bold">
               {activeFilter.dimension} = &quot;{activeFilter.value}&quot;
             </span>
-            <span className="text-[10px] text-[#4A4238]/60 dark:text-[#91867E]">
+            <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
               (Only widgets tagged with &apos;{activeFilter.dimension}&apos; react)
             </span>
           </div>
           <button
             type="button"
             onClick={() => setActiveFilter(null)}
-            className="px-2 py-0.5 rounded-md hover:bg-[#EA8069]/20 transition-colors flex items-center gap-1 cursor-pointer font-semibold"
+            className="px-2 py-0.5 rounded-md hover:bg-[#F2F2F2]/20 transition-colors flex items-center gap-1 cursor-pointer font-semibold"
           >
             <IconX size={12} />
             <span>Clear Filter</span>
@@ -680,9 +680,9 @@ export function DashboardCanvas({
       )}
 
       {/* ─── Canvas Header Bar ─────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#4A4238]/10 dark:border-[#2B2521]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#414141]/10 dark:border-[#262626]">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#EA8069]/15 text-[#EA8069] flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-2xl bg-[#F2F2F2]/15 text-[#F2F2F2] flex items-center justify-center flex-shrink-0">
             <IconLayoutDashboard size={22} />
           </div>
           <div>
@@ -710,7 +710,7 @@ export function DashboardCanvas({
                     }
                   }}
                   autoFocus
-                  className="font-serif text-lg sm:text-xl font-medium tracking-tight bg-transparent border-b border-[#EA8069] text-[#4A4238] dark:text-[#F4EDE5] focus:outline-none"
+                  className="font-serif text-lg sm:text-xl font-medium tracking-tight bg-transparent border-b border-[#F2F2F2] text-[#414141] dark:text-[#EDEDED] focus:outline-none"
                 />
               ) : (
                 <div
@@ -718,23 +718,23 @@ export function DashboardCanvas({
                   className="group flex items-center gap-1.5 cursor-pointer"
                   title="Click to rename workspace"
                 >
-                  <h2 className="font-serif text-lg sm:text-xl font-medium tracking-tight text-[#4A4238] dark:text-[#F4EDE5] hover:text-[var(--coral-hover,#ED967F)] transition-colors">
+                  <h2 className="font-serif text-lg sm:text-xl font-medium tracking-tight text-[#414141] dark:text-[#EDEDED] hover:text-[var(--coral-hover,#F2F2F2)] transition-colors">
                     {projectName}
                   </h2>
                   <IconPencil
                     size={14}
-                    className="opacity-0 group-hover:opacity-60 text-[#4A4238]/50 dark:text-[#91867E] transition-opacity"
+                    className="opacity-0 group-hover:opacity-60 text-[#414141]/50 dark:text-[#888888] transition-opacity"
                   />
                 </div>
               )}
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EA8069]/10 text-[#EA8069] font-semibold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F2F2F2]/10 text-[#F2F2F2] font-semibold">
                 v{layoutVersion}
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#302B28] text-[#4A4238]/60 dark:text-[#C5B9AE]">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#2C2C2C] text-[#414141]/60 dark:text-[#BABABA]">
                 {widgets.length} {widgets.length === 1 ? 'widget' : 'widgets'}
               </span>
             </div>
-            <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] mt-0.5 flex items-center gap-2 flex-wrap">
+            <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5 flex items-center gap-2 flex-wrap">
               {projectId ? (
                 <>
                   Project ID: <span className="underline">{projectId.slice(0, 8)}…</span> ·{' '}
@@ -751,7 +751,7 @@ export function DashboardCanvas({
                       return (
                         <span
                           key={u.user_id}
-                          className="w-4 h-4 rounded-full bg-[#EA8069] text-white text-[8px] font-bold flex items-center justify-center ring-1 ring-white dark:ring-[#1C1816]"
+                          className="w-4 h-4 rounded-full bg-[#F2F2F2] text-white text-[8px] font-bold flex items-center justify-center ring-1 ring-white dark:ring-[#191919]"
                           title={`${u.user_name}${u.focused_widget_id ? ` (viewing ${u.focused_widget_id})` : ''}`}
                         >
                           {init}
@@ -771,13 +771,13 @@ export function DashboardCanvas({
             <button
               type="button"
               onClick={() => setIsHistoryOpen(true)}
-              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#EA8069] hover:bg-[#EA8069]/10 text-[#4A4238] dark:text-[#F4EDE5] transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/10 text-[#414141] dark:text-[#EDEDED] transition-all flex items-center gap-1.5 cursor-pointer"
               title="View layout history snapshots and rollback"
             >
               <IconHistory size={13} />
               <span>History</span>
               {layoutHistory.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-[#EA8069]/15 text-[#EA8069] text-[9px] font-semibold">
+                <span className="px-1.5 py-0.2 rounded-full bg-[#F2F2F2]/15 text-[#F2F2F2] text-[9px] font-semibold">
                   {layoutHistory.length}
                 </span>
               )}
@@ -786,7 +786,7 @@ export function DashboardCanvas({
             <button
               type="button"
               onClick={() => setIsExportOpen(true)}
-              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#EA8069] hover:bg-[#EA8069]/10 text-[#4A4238] dark:text-[#F4EDE5] transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/10 text-[#414141] dark:text-[#EDEDED] transition-all flex items-center gap-1.5 cursor-pointer"
               title="Export canvas as High-DPI PNG or Markdown"
             >
               <IconDownload size={13} />
@@ -804,7 +804,7 @@ export function DashboardCanvas({
                   setAvailableTemplates(tpls);
                 } catch {}
               }}
-              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#EA8069] hover:bg-[#EA8069]/10 text-[#4A4238] dark:text-[#F4EDE5] transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-2.5 py-1 rounded-lg text-[11px] font-mono border border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/10 text-[#414141] dark:text-[#EDEDED] transition-all flex items-center gap-1.5 cursor-pointer"
               title="Save canvas as parameterized template or load existing"
             >
               <IconTemplate size={13} />
@@ -818,7 +818,7 @@ export function DashboardCanvas({
                 type="button"
                 onClick={() => onPromptChip('Add a line chart for Nasdaq QQQ trend')}
                 disabled={isAgentRunning}
-                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#4A4238]/05 dark:bg-[#1C1816] dark:border dark:border-[#2B2521] hover:bg-[#EA8069]/15 hover:text-[#EA8069] text-[#4A4238] dark:text-[#C5B9AE] transition-all cursor-pointer disabled:opacity-40"
+                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#414141]/05 dark:bg-[#191919] dark:border dark:border-[#262626] hover:bg-[#F2F2F2]/15 hover:text-[#F2F2F2] text-[#414141] dark:text-[#BABABA] transition-all cursor-pointer disabled:opacity-40"
               >
                 + QQQ Chart
               </button>
@@ -826,7 +826,7 @@ export function DashboardCanvas({
                 type="button"
                 onClick={() => onPromptChip('Add a metric card for Active Telemetry Nodes')}
                 disabled={isAgentRunning}
-                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#4A4238]/05 dark:bg-[#1C1816] dark:border dark:border-[#2B2521] hover:bg-[#EA8069]/15 hover:text-[#EA8069] text-[#4A4238] dark:text-[#C5B9AE] transition-all cursor-pointer disabled:opacity-40"
+                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#414141]/05 dark:bg-[#191919] dark:border dark:border-[#262626] hover:bg-[#F2F2F2]/15 hover:text-[#F2F2F2] text-[#414141] dark:text-[#BABABA] transition-all cursor-pointer disabled:opacity-40"
               >
                 + Telemetry KPI
               </button>
@@ -834,7 +834,7 @@ export function DashboardCanvas({
                 type="button"
                 onClick={() => onPromptChip('Add a table widget for Regional Health')}
                 disabled={isAgentRunning}
-                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#4A4238]/05 dark:bg-[#1C1816] dark:border dark:border-[#2B2521] hover:bg-[#EA8069]/15 hover:text-[#EA8069] text-[#4A4238] dark:text-[#C5B9AE] transition-all cursor-pointer disabled:opacity-40"
+                className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#414141]/05 dark:bg-[#191919] dark:border dark:border-[#262626] hover:bg-[#F2F2F2]/15 hover:text-[#F2F2F2] text-[#414141] dark:text-[#BABABA] transition-all cursor-pointer disabled:opacity-40"
               >
                 + Regional Table
               </button>
@@ -868,13 +868,13 @@ export function DashboardCanvas({
               className={`rounded-2xl p-5 border shadow-lg space-y-4 transition-all ${
                 isError
                   ? 'bg-red-500/10 border-red-500/40'
-                  : 'bg-[#FAF6F0] dark:bg-[#1C1816] border-[#4A4238]/20 dark:border-[#2B2521]'
+                  : 'bg-[#F5F5F5] dark:bg-[#191919] border-[#414141]/20 dark:border-[#262626]'
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[#4A4238]/80 dark:text-[#C5B9AE] font-semibold uppercase tracking-wider">
-                    <IconSparkles size={15} className="text-[#EA8069]" />
+                  <div className="flex items-center gap-2 text-xs font-mono text-[#414141]/80 dark:text-[#BABABA] font-semibold uppercase tracking-wider">
+                    <IconSparkles size={15} className="text-[#F2F2F2]" />
                     Agent Proposed Dashboard Modification
                     {isStale && (
                       <span className="inline-flex items-center gap-1 text-[10px] text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full font-normal">
@@ -883,13 +883,13 @@ export function DashboardCanvas({
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2 flex-wrap text-sm font-serif text-[#4A4238] dark:text-[#F4EDE5]">
+                  <div className="flex items-center gap-2 flex-wrap text-sm font-serif text-[#414141] dark:text-[#EDEDED]">
                     <span>Action:</span>
-                    <span className="font-semibold capitalize px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#302B28] text-xs font-mono">
+                    <span className="font-semibold capitalize px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#2C2C2C] text-xs font-mono">
                       {proposal.action.replace('_', ' ')}
                     </span>
                     <span>Type:</span>
-                    <span className="font-semibold px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#302B28] text-xs font-mono">
+                    <span className="font-semibold px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#2C2C2C] text-xs font-mono">
                       {isMultiWidget ? `${proposal.widgets!.length} widgets composed` : componentType}
                     </span>
                     {!isMultiWidget && proposal.widgetSpec && (
@@ -909,7 +909,7 @@ export function DashboardCanvas({
                             onUpdateProposalSpec(proposal.actionId, updated);
                           }
                         }}
-                        className="px-2 py-0.5 rounded-md border border-[#4A4238]/20 dark:border-[#504740] bg-transparent text-xs font-serif font-medium text-[#4A4238] dark:text-[#F4EDE5] focus:border-[#EA8069] focus:outline-none"
+                        className="px-2 py-0.5 rounded-md border border-[#414141]/20 dark:border-[#484848] bg-transparent text-xs font-serif font-medium text-[#414141] dark:text-[#EDEDED] focus:border-[#F2F2F2] focus:outline-none"
                         title="Edit title before accepting"
                       />
                     )}
@@ -949,7 +949,7 @@ export function DashboardCanvas({
                     </div>
                   )}
 
-                  <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                  <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
                     Action ID: {proposal.actionId} · Safety Gate: Human Confirmation Required
                   </p>
                 </div>
@@ -961,14 +961,14 @@ export function DashboardCanvas({
                       <button
                         type="button"
                         onClick={() => onDismissProposal(proposal.actionId)}
-                        className="px-3 py-1.5 rounded-xl border border-[#4A4238]/20 dark:border-[#2B2521] text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] hover:bg-black/5 transition-all cursor-pointer"
+                        className="px-3 py-1.5 rounded-xl border border-[#414141]/20 dark:border-[#262626] text-xs font-mono text-[#414141] dark:text-[#EDEDED] hover:bg-black/5 transition-all cursor-pointer"
                       >
                         Dismiss
                       </button>
                       <button
                         type="button"
                         onClick={() => onAcceptProposal(proposal.actionId)}
-                        className="px-3.5 py-1.5 rounded-xl bg-[#EA8069] hover:bg-[var(--coral-hover,#ED967F)] text-white text-xs font-mono flex items-center gap-1 transition-all shadow-sm cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-[#F2F2F2] hover:bg-[var(--coral-hover,#F2F2F2)] text-white text-xs font-mono flex items-center gap-1 transition-all shadow-sm cursor-pointer"
                       >
                         <IconRefresh size={14} />
                         <span>Retry</span>
@@ -980,11 +980,11 @@ export function DashboardCanvas({
                         type="button"
                         onClick={() => onRejectProposal(proposal.actionId)}
                         disabled={isApplying}
-                        className="px-3.5 py-2 rounded-xl border border-[#4A4238]/20 dark:border-[#2B2521] hover:bg-black/5 dark:hover:bg-[#302B28] text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-40"
+                        className="px-3.5 py-2 rounded-xl border border-[#414141]/20 dark:border-[#262626] hover:bg-black/5 dark:hover:bg-[#2C2C2C] text-xs font-mono text-[#414141] dark:text-[#EDEDED] flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-40"
                       >
                         <IconX size={14} />
                         <span>Reject</span>
-                        <kbd className="hidden sm:inline-block text-[9px] px-1 py-0.2 rounded bg-black/10 dark:bg-[#302B28] opacity-70">
+                        <kbd className="hidden sm:inline-block text-[9px] px-1 py-0.2 rounded bg-black/10 dark:bg-[#2C2C2C] opacity-70">
                           Esc
                         </kbd>
                       </button>
@@ -992,7 +992,7 @@ export function DashboardCanvas({
                         type="button"
                         onClick={() => onAcceptProposal(proposal.actionId)}
                         disabled={isApplying}
-                        className="px-4 py-2 rounded-xl bg-[#EA8069] hover:bg-[var(--coral-hover,#ED967F)] text-white text-xs font-mono flex items-center gap-1.5 transition-all shadow-md cursor-pointer disabled:opacity-50 font-semibold"
+                        className="px-4 py-2 rounded-xl bg-[#F2F2F2] hover:bg-[var(--coral-hover,#F2F2F2)] text-white text-xs font-mono flex items-center gap-1.5 transition-all shadow-md cursor-pointer disabled:opacity-50 font-semibold"
                       >
                         {isApplying ? (
                           <>
@@ -1016,8 +1016,8 @@ export function DashboardCanvas({
 
               {/* Edit-Before-Accept: Timeframe Selector for charts */}
               {!isMultiWidget && proposal.widgetSpec && (componentType === 'line_chart' || componentType === 'bar_chart') && (
-                <div className="flex items-center gap-2 pt-2 border-t border-[#4A4238]/10 dark:border-[#2B2521] text-xs font-mono">
-                  <span className="text-[#4A4238]/60 dark:text-[#91867E]">Timeframe:</span>
+                <div className="flex items-center gap-2 pt-2 border-t border-[#414141]/10 dark:border-[#262626] text-xs font-mono">
+                  <span className="text-[#414141]/60 dark:text-[#888888]">Timeframe:</span>
                   {(['1D', '1W', '1M', '1Y'] as const).map((tf) => {
                     const currentTf = proposal.widgetSpec?.timeframe || proposal.widgetSpec?.props?.timeframe || '1D';
                     const isSelected = currentTf === tf;
@@ -1040,8 +1040,8 @@ export function DashboardCanvas({
                         }}
                         className={`px-2 py-0.5 rounded-md text-[10px] font-mono transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-[#EA8069] text-white font-semibold'
-                            : 'bg-black/5 dark:bg-[#292522] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:bg-black/10'
+                            ? 'bg-[#F2F2F2] text-white font-semibold'
+                            : 'bg-black/5 dark:bg-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:bg-black/10'
                         }`}
                       >
                         {tf}
@@ -1060,10 +1060,10 @@ export function DashboardCanvas({
               )}
 
               {/* Live Preview Box of the Proposed Widget (or Multi-Widget Grid) */}
-              <div className="mt-3 pt-3 border-t border-[#4A4238]/10 dark:border-[#2B2521]">
-                <div className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider mb-2 flex items-center justify-between">
+              <div className="mt-3 pt-3 border-t border-[#414141]/10 dark:border-[#262626]">
+                <div className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider mb-2 flex items-center justify-between">
                   <span>Widget Preview</span>
-                  <span className="text-[9px] text-[#91867E]">Interactive sandbox preview</span>
+                  <span className="text-[9px] text-[#888888]">Interactive sandbox preview</span>
                 </div>
 
                 {isMultiWidget ? (
@@ -1110,7 +1110,7 @@ export function DashboardCanvas({
               <div
                 key={widget.id}
                 className={`${isWide ? 'col-span-1 md:col-span-2' : 'col-span-1'} ${
-                  mode === 'edit' && dragIndex !== null && overIndex === idx && dragIndex !== idx ? 'ring-2 ring-[#EA8069] rounded-2xl' : ''
+                  mode === 'edit' && dragIndex !== null && overIndex === idx && dragIndex !== idx ? 'ring-2 ring-[#F2F2F2] rounded-2xl' : ''
                 } ${mode === 'edit' && dragIndex === idx ? 'opacity-50' : ''}`}
                 draggable={mode === 'edit' && Boolean(onMoveWidget)}
                 onDragStart={(e) => {
@@ -1153,15 +1153,15 @@ export function DashboardCanvas({
         </div>
       ) : activeProposals.length === 0 ? (
         /* ─── Empty State Placeholder ─────────────────────────────────────── */
-        <div className="flex-1 flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-3xl border-2 border-dashed border-[#4A4238]/15 dark:border-[#2B2521] space-y-4 my-auto">
-          <div className="w-16 h-16 rounded-3xl bg-[#EA8069]/10 text-[#EA8069] flex items-center justify-center">
+        <div className="flex-1 flex flex-col items-center justify-center p-8 sm:p-12 text-center rounded-3xl border-2 border-dashed border-[#414141]/15 dark:border-[#262626] space-y-4 my-auto">
+          <div className="w-16 h-16 rounded-3xl bg-[#F2F2F2]/10 text-[#F2F2F2] flex items-center justify-center">
             <IconChartLine size={32} />
           </div>
           <div className="max-w-md space-y-1.5">
-            <h3 className="font-serif text-xl font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-xl font-medium text-[#414141] dark:text-[#EDEDED]">
               Interactive Dashboard Canvas
             </h3>
-            <p className="text-xs text-[#4A4238]/60 dark:text-[#91867E] leading-relaxed">
+            <p className="text-xs text-[#414141]/60 dark:text-[#888888] leading-relaxed">
               Your generated widgets, trend lines, and KPI metrics will render here as you explore data. Ask the AI agent in the chat or tap a starter below to build your canvas.
             </p>
           </div>
@@ -1172,18 +1172,18 @@ export function DashboardCanvas({
                 type="button"
                 onClick={() => onPromptChip('Build a dashboard for Nasdaq-100 (QQQ)')}
                 disabled={isAgentRunning}
-                className="px-3 py-1.5 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#EA8069] hover:bg-[#EA8069]/5 text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl border border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/5 text-xs font-mono text-[#414141] dark:text-[#EDEDED] transition-all cursor-pointer flex items-center gap-1.5"
               >
-                <IconPlus size={13} className="text-[#EA8069]" />
+                <IconPlus size={13} className="text-[#F2F2F2]" />
                 <span>Build Nasdaq QQQ Dashboard</span>
               </button>
               <button
                 type="button"
                 onClick={() => onPromptChip('Add a line chart for Revenue Trend')}
                 disabled={isAgentRunning}
-                className="px-3 py-1.5 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] hover:border-[#EA8069] hover:bg-[#EA8069]/5 text-xs font-mono text-[#4A4238] dark:text-[#F4EDE5] transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl border border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/5 text-xs font-mono text-[#414141] dark:text-[#EDEDED] transition-all cursor-pointer flex items-center gap-1.5"
               >
-                <IconPlus size={13} className="text-[#EA8069]" />
+                <IconPlus size={13} className="text-[#F2F2F2]" />
                 <span>Add Revenue Trend</span>
               </button>
             </div>
@@ -1198,7 +1198,7 @@ export function DashboardCanvas({
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 bg-[#1C1816] text-[#F4EDE5] px-4 py-3 rounded-2xl shadow-2xl border border-[#2B2521] flex items-center gap-3 text-xs font-mono"
+            className="fixed bottom-6 right-6 z-50 bg-[#191919] text-[#EDEDED] px-4 py-3 rounded-2xl shadow-2xl border border-[#262626] flex items-center gap-3 text-xs font-mono"
           >
             <span>{lastActionToast.message}</span>
             {onUndo && (
@@ -1208,7 +1208,7 @@ export function DashboardCanvas({
                   onUndo();
                   onDismissToast?.();
                 }}
-                className="px-2.5 py-1 rounded-lg bg-[#EA8069] text-white hover:bg-[var(--coral-hover,#ED967F)] font-semibold cursor-pointer transition-all flex items-center gap-1"
+                className="px-2.5 py-1 rounded-lg bg-[#F2F2F2] text-white hover:bg-[var(--coral-hover,#F2F2F2)] font-semibold cursor-pointer transition-all flex items-center gap-1"
               >
                 <IconArrowBackUp size={12} />
                 <span>Undo</span>
@@ -1234,16 +1234,16 @@ export function DashboardCanvas({
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="w-full max-w-md h-full bg-[#FAF6F0] dark:bg-[#302B28] border-l border-[#4A4238]/15 dark:border-[#504740] p-6 flex flex-col shadow-2xl space-y-4"
+              className="w-full max-w-md h-full bg-[#F5F5F5] dark:bg-[#2C2C2C] border-l border-[#414141]/15 dark:border-[#484848] p-6 flex flex-col shadow-2xl space-y-4"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#4A4238]/10 dark:border-[#504740]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#414141]/10 dark:border-[#484848]">
                 <div className="flex items-center gap-2">
-                  <IconHistory size={20} className="text-[#EA8069]" />
+                  <IconHistory size={20} className="text-[#F2F2F2]" />
                   <div>
-                    <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+                    <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
                       Layout Version History
                     </h3>
-                    <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
                       Current: v{layoutVersion} · Monotonic OCC
                     </p>
                   </div>
@@ -1251,7 +1251,7 @@ export function DashboardCanvas({
                 <button
                   type="button"
                   onClick={() => setIsHistoryOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={16} />
                 </button>
@@ -1259,30 +1259,30 @@ export function DashboardCanvas({
 
               <div className="flex-1 overflow-y-auto space-y-3 pr-1">
                 {(!layoutHistory || layoutHistory.length === 0) ? (
-                  <div className="p-8 text-center text-xs font-mono text-[#4A4238]/60 dark:text-[#91867E] border border-dashed border-[#4A4238]/20 dark:border-[#504740] rounded-2xl">
+                  <div className="p-8 text-center text-xs font-mono text-[#414141]/60 dark:text-[#888888] border border-dashed border-[#414141]/20 dark:border-[#484848] rounded-2xl">
                     No previous snapshots yet. Canvas mutations create checkpoints here.
                   </div>
                 ) : (
                   [...layoutHistory].reverse().map((snap) => (
                     <div
                       key={snap.id}
-                      className="p-4 rounded-xl border border-[#4A4238]/10 dark:border-[#504740] bg-black/[0.02] dark:bg-[#292522] space-y-2 hover:border-[#EA8069]/40 transition-all"
+                      className="p-4 rounded-xl border border-[#414141]/10 dark:border-[#484848] bg-black/[0.02] dark:bg-[#262626] space-y-2 hover:border-[#F2F2F2]/40 transition-all"
                     >
                       <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="font-semibold px-2 py-0.5 rounded-md bg-[#EA8069]/10 text-[#EA8069]">
+                        <span className="font-semibold px-2 py-0.5 rounded-md bg-[#F2F2F2]/10 text-[#F2F2F2]">
                           v{snap.version}
                         </span>
-                        <span className="text-[10px] text-[#4A4238]/60 dark:text-[#91867E]">
+                        <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
                           {snap.timestamp}
                         </span>
                       </div>
 
-                      <p className="text-xs font-serif text-[#4A4238] dark:text-[#F4EDE5]">
+                      <p className="text-xs font-serif text-[#414141] dark:text-[#EDEDED]">
                         {snap.actionSummary || `${snap.widgets.length} widgets on canvas`}
                       </p>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-[#4A4238]/5 dark:border-[#504740]">
-                        <span className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                      <div className="flex items-center justify-between pt-2 border-t border-[#414141]/5 dark:border-[#484848]">
+                        <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
                           {snap.widgets.length} widgets
                         </span>
                         {onRollback && (
@@ -1292,7 +1292,7 @@ export function DashboardCanvas({
                               await onRollback(snap);
                               setIsHistoryOpen(false);
                             }}
-                            className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#EA8069] hover:bg-[var(--coral-hover,#ED967F)] text-white font-medium cursor-pointer transition-all flex items-center gap-1 shadow-xs"
+                            className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-[#F2F2F2] hover:bg-[var(--coral-hover,#F2F2F2)] text-white font-medium cursor-pointer transition-all flex items-center gap-1 shadow-xs"
                           >
                             <IconArrowBackUp size={12} />
                             <span>Rollback</span>
@@ -1304,7 +1304,7 @@ export function DashboardCanvas({
                 )}
               </div>
 
-              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-[#292522] text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-[#262626] text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
                 Rolling back applies the snapshot layout and advances version to <strong>v{layoutVersion + 1}</strong> monotonically.
               </div>
             </motion.div>
@@ -1320,25 +1320,25 @@ export function DashboardCanvas({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-lg bg-[#FAF6F0] dark:bg-[#302B28] border border-[#4A4238]/20 dark:border-[#504740] rounded-3xl p-6 shadow-2xl space-y-4"
+              className="w-full max-w-lg bg-[#F5F5F5] dark:bg-[#2C2C2C] border border-[#414141]/20 dark:border-[#484848] rounded-3xl p-6 shadow-2xl space-y-4"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#4A4238]/10 dark:border-[#504740]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#414141]/10 dark:border-[#484848]">
                 <div className="flex items-center gap-2">
-                  <IconDownload size={20} className="text-[#EA8069]" />
-                  <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+                  <IconDownload size={20} className="text-[#F2F2F2]" />
+                  <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
                     Export Dashboard Canvas
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsExportOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={16} />
                 </button>
               </div>
 
-              <p className="text-xs font-mono text-[#4A4238]/70 dark:text-[#C5B9AE]">
+              <p className="text-xs font-mono text-[#414141]/70 dark:text-[#BABABA]">
                 Choose an export format for &quot;{projectName}&quot; (v{layoutVersion}, {widgets.length} widgets).
               </p>
 
@@ -1350,16 +1350,16 @@ export function DashboardCanvas({
                     exportCanvasAsPng();
                     setIsExportOpen(false);
                   }}
-                  className="p-4 rounded-2xl border border-[#4A4238]/15 dark:border-[#504740] hover:border-[#EA8069] hover:bg-[#EA8069]/5 dark:bg-[#292522] transition-all text-left space-y-2 cursor-pointer group"
+                  className="p-4 rounded-2xl border border-[#414141]/15 dark:border-[#484848] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/5 dark:bg-[#262626] transition-all text-left space-y-2 cursor-pointer group"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-[#EA8069]/10 text-[#EA8069] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-[#F2F2F2]/10 text-[#F2F2F2] flex items-center justify-center">
                     <IconDownload size={18} />
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-semibold text-[#4A4238] dark:text-[#F4EDE5] group-hover:text-[#EA8069]">
+                    <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED] group-hover:text-[#F2F2F2]">
                       High-DPI Image (.PNG)
                     </h4>
-                    <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] mt-0.5">
+                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5">
                       Full visual snapshot. Sandboxed iframes isolated with security boundary card.
                     </p>
                   </div>
@@ -1377,16 +1377,16 @@ export function DashboardCanvas({
                       setIsExportOpen(false);
                     }, 1500);
                   }}
-                  className="p-4 rounded-2xl border border-[#4A4238]/15 dark:border-[#504740] hover:border-[#EA8069] hover:bg-[#EA8069]/5 dark:bg-[#292522] transition-all text-left space-y-2 cursor-pointer group"
+                  className="p-4 rounded-2xl border border-[#414141]/15 dark:border-[#484848] hover:border-[#F2F2F2] hover:bg-[#F2F2F2]/5 dark:bg-[#262626] transition-all text-left space-y-2 cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-xl bg-[#0284C7]/10 text-[#0284C7] flex items-center justify-center">
                     {copiedMarkdown ? <IconCheck size={18} /> : <IconCopy size={18} />}
                   </div>
                   <div>
-                    <h4 className="font-serif text-sm font-semibold text-[#4A4238] dark:text-[#F4EDE5] group-hover:text-[#0284C7]">
+                    <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED] group-hover:text-[#0284C7]">
                       {copiedMarkdown ? 'Copied to Clipboard!' : 'Markdown Report'}
                     </h4>
-                    <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] mt-0.5">
+                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5">
                       Structured Markdown tables, KPI metrics, and data provenance.
                     </p>
                   </div>
@@ -1405,18 +1405,18 @@ export function DashboardCanvas({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#FAF6F0] dark:bg-[#302B28] border border-[#4A4238]/20 dark:border-[#504740] rounded-3xl p-6 w-full max-w-xl shadow-2xl space-y-5"
+              className="bg-[#F5F5F5] dark:bg-[#2C2C2C] border border-[#414141]/20 dark:border-[#484848] rounded-3xl p-6 w-full max-w-xl shadow-2xl space-y-5"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-[#4A4238]/10 dark:border-[#504740]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#414141]/10 dark:border-[#484848]">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#EA8069]/10 text-[#EA8069] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-[#F2F2F2]/10 text-[#F2F2F2] flex items-center justify-center">
                     <IconTemplate size={18} />
                   </div>
                   <div>
-                    <h3 className="font-serif text-lg font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+                    <h3 className="font-serif text-lg font-semibold text-[#414141] dark:text-[#EDEDED]">
                       Dashboard Templates
                     </h3>
-                    <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
                       Export reusable canvas blueprints or load existing recipes
                     </p>
                   </div>
@@ -1424,21 +1424,21 @@ export function DashboardCanvas({
                 <button
                   type="button"
                   onClick={() => setIsTemplateModalOpen(false)}
-                  className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] cursor-pointer"
+                  className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={18} />
                 </button>
               </div>
 
               {/* Tabs */}
-              <div className="flex gap-2 border-b border-[#4A4238]/10 dark:border-[#504740] pb-2 text-xs font-mono">
+              <div className="flex gap-2 border-b border-[#414141]/10 dark:border-[#484848] pb-2 text-xs font-mono">
                 <button
                   type="button"
                   onClick={() => setActiveTemplateTab('save')}
                   className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors ${
                     activeTemplateTab === 'save'
-                      ? 'bg-[#EA8069]/15 text-[#EA8069] font-semibold'
-                      : 'text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                      ? 'bg-[#F2F2F2]/15 text-[#F2F2F2] font-semibold'
+                      : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                   }`}
                 >
                   Save Current Canvas
@@ -1454,8 +1454,8 @@ export function DashboardCanvas({
                   }}
                   className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors ${
                     activeTemplateTab === 'browse'
-                      ? 'bg-[#EA8069]/15 text-[#EA8069] font-semibold'
-                      : 'text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                      ? 'bg-[#F2F2F2]/15 text-[#F2F2F2] font-semibold'
+                      : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                   }`}
                 >
                   Browse Library ({availableTemplates.length})
@@ -1466,7 +1466,7 @@ export function DashboardCanvas({
               {activeTemplateTab === 'save' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-[11px] font-mono font-medium text-[#4A4238] dark:text-[#F4EDE5] mb-1">
+                    <label className="block text-[11px] font-mono font-medium text-[#414141] dark:text-[#EDEDED] mb-1">
                       Template Name
                     </label>
                     <input
@@ -1474,12 +1474,12 @@ export function DashboardCanvas({
                       value={templateName}
                       onChange={(e) => setTemplateName(e.target.value)}
                       placeholder="e.g. Fintech KPI Dashboard"
-                      className="w-full px-3 py-2 rounded-xl border border-[#4A4238]/20 dark:border-[#504740] text-xs font-mono bg-white dark:bg-[#292522] text-[#2D2621] dark:text-[#F4EDE5] outline-none focus:border-[#EA8069]"
+                      className="w-full px-3 py-2 rounded-xl border border-[#414141]/20 dark:border-[#484848] text-xs font-mono bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] outline-none focus:border-[#F2F2F2]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-mono font-medium text-[#4A4238] dark:text-[#F4EDE5] mb-1">
+                    <label className="block text-[11px] font-mono font-medium text-[#414141] dark:text-[#EDEDED] mb-1">
                       Description (Optional)
                     </label>
                     <textarea
@@ -1487,12 +1487,12 @@ export function DashboardCanvas({
                       onChange={(e) => setTemplateDesc(e.target.value)}
                       rows={2}
                       placeholder="e.g. Standard layout with telemetry KPI cards, distribution table, and annotated chart."
-                      className="w-full px-3 py-2 rounded-xl border border-[#4A4238]/20 dark:border-[#504740] text-xs font-mono bg-white dark:bg-[#292522] text-[#2D2621] dark:text-[#F4EDE5] outline-none focus:border-[#EA8069]"
+                      className="w-full px-3 py-2 rounded-xl border border-[#414141]/20 dark:border-[#484848] text-xs font-mono bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] outline-none focus:border-[#F2F2F2]"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-mono font-medium text-[#4A4238] dark:text-[#F4EDE5] mb-1">
+                    <label className="block text-[11px] font-mono font-medium text-[#414141] dark:text-[#EDEDED] mb-1">
                       Tags (Comma-separated)
                     </label>
                     <input
@@ -1500,14 +1500,14 @@ export function DashboardCanvas({
                       value={templateTags}
                       onChange={(e) => setTemplateTags(e.target.value)}
                       placeholder="finance, kpi, monitoring"
-                      className="w-full px-3 py-2 rounded-xl border border-[#4A4238]/20 dark:border-[#504740] text-xs font-mono bg-white dark:bg-[#292522] text-[#2D2621] dark:text-[#F4EDE5] outline-none focus:border-[#EA8069]"
+                      className="w-full px-3 py-2 rounded-xl border border-[#414141]/20 dark:border-[#484848] text-xs font-mono bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] outline-none focus:border-[#F2F2F2]"
                     />
                   </div>
 
                   <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] font-mono text-amber-800 dark:text-amber-200">
                     <p className="font-semibold mb-0.5">🛡️ Sanitized Export Pipeline</p>
                     <p className="opacity-80">
-                      Literal series arrays and credentials are automatically stripped. Query bindings are tokenized (e.g. <code className="px-1 py-0.5 rounded bg-black/10 dark:bg-[#302B28]">{'{{TICKER}}'}</code>) so this recipe can be safely cloned across workspaces without data leaks.
+                      Literal series arrays and credentials are automatically stripped. Query bindings are tokenized (e.g. <code className="px-1 py-0.5 rounded bg-black/10 dark:bg-[#2C2C2C]">{'{{TICKER}}'}</code>) so this recipe can be safely cloned across workspaces without data leaks.
                     </p>
                   </div>
 
@@ -1515,7 +1515,7 @@ export function DashboardCanvas({
                     <button
                       type="button"
                       onClick={() => setIsTemplateModalOpen(false)}
-                      className="px-4 py-2 rounded-xl text-xs font-mono border border-[#4A4238]/20 dark:border-[#504740] hover:bg-black/5 dark:hover:bg-white/5 text-[#4A4238] dark:text-[#F4EDE5] cursor-pointer"
+                      className="px-4 py-2 rounded-xl text-xs font-mono border border-[#414141]/20 dark:border-[#484848] hover:bg-black/5 dark:hover:bg-white/5 text-[#414141] dark:text-[#EDEDED] cursor-pointer"
                     >
                       Cancel
                     </button>
@@ -1544,7 +1544,7 @@ export function DashboardCanvas({
                           setIsSavingTemplate(false);
                         }
                       }}
-                      className="px-4 py-2 rounded-xl bg-[#EA8069] hover:bg-[var(--coral-hover,#ED967F)] text-white font-mono text-xs font-semibold cursor-pointer disabled:opacity-50 transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl bg-[#F2F2F2] hover:bg-[var(--coral-hover,#F2F2F2)] text-white font-mono text-xs font-semibold cursor-pointer disabled:opacity-50 transition-all flex items-center gap-1.5"
                     >
                       {templateSaveSuccess ? (
                         <>
@@ -1564,25 +1564,25 @@ export function DashboardCanvas({
               {activeTemplateTab === 'browse' && (
                 <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
                   {availableTemplates.length === 0 ? (
-                    <div className="text-center py-8 text-xs font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                    <div className="text-center py-8 text-xs font-mono text-[#414141]/60 dark:text-[#888888]">
                       No templates saved yet. Click &quot;Save Current Canvas&quot; to create one.
                     </div>
                   ) : (
                     availableTemplates.map((tpl) => (
                       <div
                         key={tpl.id}
-                        className="p-3.5 rounded-2xl border border-[#4A4238]/15 dark:border-[#504740] bg-white/50 dark:bg-[#292522] space-y-2"
+                        className="p-3.5 rounded-2xl border border-[#414141]/15 dark:border-[#484848] bg-white/50 dark:bg-[#262626] space-y-2"
                       >
                         <div className="flex items-center justify-between">
-                          <h4 className="font-serif text-sm font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+                          <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED]">
                             {tpl.name}
                           </h4>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EA8069]/10 text-[#EA8069] font-semibold">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F2F2F2]/10 text-[#F2F2F2] font-semibold">
                             {tpl.widgets?.length || 0} widgets
                           </span>
                         </div>
                         {tpl.description && (
-                          <p className="text-[11px] font-mono text-[#4A4238]/70 dark:text-[#C5B9AE]">
+                          <p className="text-[11px] font-mono text-[#414141]/70 dark:text-[#BABABA]">
                             {tpl.description}
                           </p>
                         )}
@@ -1591,7 +1591,7 @@ export function DashboardCanvas({
                             {tpl.tags?.map((t) => (
                               <span
                                 key={t}
-                                className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-black/5 dark:bg-[#302B28] text-[#4A4238]/60 dark:text-[#91867E]"
+                                className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-black/5 dark:bg-[#2C2C2C] text-[#414141]/60 dark:text-[#888888]"
                               >
                                 #{t}
                               </span>
@@ -1604,7 +1604,7 @@ export function DashboardCanvas({
                                 onLoadTemplate(tpl);
                                 setIsTemplateModalOpen(false);
                               }}
-                              className="px-3 py-1 rounded-lg bg-[#EA8069]/15 hover:bg-[#EA8069] hover:text-white text-[#EA8069] text-[11px] font-mono font-semibold transition-all cursor-pointer"
+                              className="px-3 py-1 rounded-lg bg-[#F2F2F2]/15 hover:bg-[#F2F2F2] hover:text-white text-[#F2F2F2] text-[11px] font-mono font-semibold transition-all cursor-pointer"
                             >
                               Load Recipe
                             </button>

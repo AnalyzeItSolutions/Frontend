@@ -254,7 +254,7 @@ export const NavbarButton = ({
     dark:
       "bg-[var(--text-primary)] text-[var(--bg)] shadow-sm hover:opacity-90",
     gradient:
-      "bg-[var(--coral,#EA8069)] hover:bg-[var(--coral-dark,#C96551)] text-[var(--brand-ink)] shadow-[0px_2px_0px_0px_rgba(255,255,255,0.2)_inset]",
+      "bg-[var(--coral,#F2F2F2)] hover:bg-[var(--coral-dark,#F2F2F2)] text-[var(--brand-ink)] shadow-[0px_2px_0px_0px_rgba(255,255,255,0.2)_inset]",
   };
 
   const Component = Tag as any;

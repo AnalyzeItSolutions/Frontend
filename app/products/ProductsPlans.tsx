@@ -47,23 +47,23 @@ export function ProductsPlans({ initialQuote = null }: { initialQuote?: Marketin
             key={plan.id}
             className={`flex flex-col rounded-2xl border p-5 ${
               recommended
-                ? 'border-[#4A4238]/12 dark:border-[#2B2521] border-t-2 border-t-[#E3836C] bg-[#FFF9F3]/70 dark:bg-[#292522] shadow-[0_10px_28px_-14px_rgba(227,131,108,0.45)] -translate-y-0.5'
-                : 'border-[#4A4238]/12 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816]/60'
+                ? 'border-[#414141]/12 dark:border-[#262626] border-t-2 border-t-[#F2F2F2] bg-[#F9F9F9]/70 dark:bg-[#262626] shadow-[0_10px_28px_-14px_rgba(255, 255, 255,0.45)] -translate-y-0.5'
+                : 'border-[#414141]/12 dark:border-[#262626] bg-white/40 dark:bg-[#191919]/60'
             }`}
           >
-            <h2 className="font-serif text-2xl text-[#322C28] dark:text-[#F4EDE5]">{plan.name}</h2>
-            <p className="mt-1 min-h-[2.75rem] text-sm text-[#5C534A] dark:text-[#C5B9AE]">{plan.tagline}</p>
+            <h2 className="font-serif text-2xl text-[#2D2D2D] dark:text-[#EDEDED]">{plan.name}</h2>
+            <p className="mt-1 min-h-[2.75rem] text-sm text-[#535353] dark:text-[#BABABA]">{plan.tagline}</p>
             <div className="mt-4 min-h-[4.75rem]">
-              <p className="font-serif text-3xl text-[#322C28] dark:text-[#F4EDE5]">
+              <p className="font-serif text-3xl text-[#2D2D2D] dark:text-[#EDEDED]">
                 {plan.price}
                 <span className="font-sans text-base">{plan.id === 'free' ? '/mo' : plan.period}</span>
               </p>
-              <p className="text-xs text-[#5C534A] dark:text-[#C5B9AE]">{plan.note}</p>
+              <p className="text-xs text-[#535353] dark:text-[#BABABA]">{plan.note}</p>
             </div>
             <ul className="mb-5 mt-4 flex-1 space-y-1.5 text-sm">
               {plan.features.map((f) => (
                 <li key={f} className="flex gap-2">
-                  <span className="text-[#C45A42]" aria-hidden>·</span>
+                  <span className="text-[#0A0A0A]" aria-hidden>·</span>
                   {f}
                 </li>
               ))}
@@ -72,8 +72,8 @@ export function ProductsPlans({ initialQuote = null }: { initialQuote?: Marketin
               href={HREF[plan.id]}
               className={`mt-auto inline-flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-medium transition-colors ${
                 plan.id === 'free'
-                  ? 'border border-[#E3836C]/55 bg-transparent text-[#C45A42] hover:border-[#E3836C] hover:bg-[var(--brand)]/8'
-                  : 'bg-[#EA8069] text-white hover:bg-[#C96551]'
+                  ? 'border border-[#F2F2F2]/55 bg-transparent text-[#0A0A0A] hover:border-[#F2F2F2] hover:bg-[var(--brand)]/8'
+                  : 'bg-[#F2F2F2] text-white hover:bg-[#F2F2F2]'
               }`}
             >
               {CTA[plan.id]}

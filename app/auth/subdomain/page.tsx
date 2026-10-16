@@ -63,7 +63,7 @@ export default function SubdomainHandoffPage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[var(--bg)] px-6 text-center text-[var(--text-primary)]">
-      <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
+      <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" />
       <p className="max-w-md text-sm text-[var(--text-muted)]">{message}</p>
     </div>
   );

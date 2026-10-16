@@ -74,7 +74,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#1C1816]/60"
+            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#F2F2F2] hover:text-[#0A0A0A] disabled:opacity-50 dark:border-[#484848] dark:bg-[#191919]/60"
           >
             {ex.label}
           </button>
@@ -94,29 +94,29 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
           maxLength={240}
           placeholder="Weather in Pune, EUR to USD, TSLA price, 15% of 8200…"
           aria-label="Your question"
-          className="min-w-0 flex-1 rounded-full border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#1C1816]"
+          className="min-w-0 flex-1 rounded-full border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#191919]"
         />
         <button
           type="submit"
           disabled={busy || out || !input.trim()}
-          className="rounded-full bg-[#EA8069] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#C96551] disabled:opacity-50"
+          className="rounded-full bg-[#F2F2F2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#F2F2F2] disabled:opacity-50"
         >
           {busy ? 'Asking…' : 'Ask'}
         </button>
       </form>
-      <p className="text-xs text-[#5C534A] dark:text-[#C5B9AE]" role="status">
+      <p className="text-xs text-[#535353] dark:text-[#BABABA]" role="status">
         {tries ? triesLabel(tries.remaining, tries.limit) : ''}
       </p>
 
       {busy ? (
-        <p className="text-sm text-[#5C534A] dark:text-[#C5B9AE]" role="status">
+        <p className="text-sm text-[#535353] dark:text-[#BABABA]" role="status">
           {slow ? 'Waking the agent. The first question after a quiet spell can take about 15 seconds…' : 'Looking it up…'}
         </p>
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#2B2521] dark:bg-[#1C1816]/60" aria-live="polite">
-          <p className="text-xs font-mono uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">{turn.question}</p>
+        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#191919]/60" aria-live="polite">
+          <p className="text-xs font-mono uppercase tracking-wider text-[#535353] dark:text-[#BABABA]">{turn.question}</p>
           <p className="mt-3 whitespace-pre-wrap text-lg leading-relaxed">{turn.result.answer || 'No answer came back.'}</p>
           {turn.result.zeroTool ? (
             <p className="mt-3">
@@ -129,17 +129,17 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
             </p>
           ) : null}
           {turn.result.failedTool ? (
-            <p className="mt-3 text-xs text-[#9B4D3B]">The {toolLabel(turn.result.failedTool)} tool did not return a result, so nothing here is a live figure.</p>
+            <p className="mt-3 text-xs text-[#0A0A0A]">The {toolLabel(turn.result.failedTool)} tool did not return a result, so nothing here is a live figure.</p>
           ) : null}
           <SourceChips sources={turn.result.sources} />
         </article>
       ) : null}
 
       {turn?.failure ? (
-        <div role="alert" className="rounded-2xl border border-[#9B4D3B]/25 bg-[#9B4D3B]/5 p-5">
+        <div role="alert" className="rounded-2xl border border-[#0A0A0A]/25 bg-[#0A0A0A]/5 p-5">
           <p className="text-sm">{turn.failure.message}</p>
           {turn.failure.kind === 'limit' || turn.failure.kind === 'needs_account' ? (
-            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#EA8069] px-5 py-2 text-sm font-medium text-white hover:bg-[#C96551]">
+            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
               Create a free account
             </Link>
           ) : null}
@@ -149,7 +149,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
       {out && !turn?.failure ? (
         <p className="text-sm">
           That is all for today without an account.{' '}
-          <Link href="/login?tab=register" className="text-[#C45A42] underline underline-offset-2">Create a free account</Link> to keep going.
+          <Link href="/login?tab=register" className="text-[#0A0A0A] underline underline-offset-2">Create a free account</Link> to keep going.
         </p>
       ) : null}
     </div>

@@ -26,7 +26,7 @@ export function PermissionRequestCard({
 }) {
   const settings = `/connectors?project=${encodeURIComponent(projectId)}#ai-access`;
   return (
-    <div role="group" aria-label="Data access request" className="mt-3 rounded-xl border border-[var(--coral,#E3836C)]/40 bg-[var(--coral,#E3836C)]/5 p-3">
+    <div role="group" aria-label="Data access request" className="mt-3 rounded-xl border border-[var(--coral,#F2F2F2)]/40 bg-[var(--coral,#F2F2F2)]/5 p-3">
       <p className="text-sm font-medium text-[var(--text-primary)]">Allow the assistant to read the data in this project?</p>
       <p className="mt-1 text-xs text-[var(--text-muted)]">
         This covers your custom objects and data synced from connectors. Credentials are never shared with the AI. Changes the assistant

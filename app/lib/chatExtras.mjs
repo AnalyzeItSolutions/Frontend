@@ -2,7 +2,7 @@
 // (charts / map places / follow-ups), chart geometry, markdown tables and safe links.
 // Everything here is defensive: the payload crosses a network boundary and must never crash the UI.
 
-export const SERIES_COLORS = ['#E3836C', '#5B8DEF', '#3FB68B', '#B58CE8', '#E0B04A', '#7A8896'];
+export const SERIES_COLORS = ['#F2F2F2', '#8C8C8C', '#3FB68B', '#E0B04A', '#B58CE8', '#5C5C5C'];
 
 const finite = (n) => typeof n === 'number' && Number.isFinite(n);
 

@@ -121,7 +121,7 @@ export function GoogleSignInButton({
 
   if (!GOOGLE_CLIENT_ID) {
     return (
-      <p className="text-center text-xs text-[#5C534A]/80 dark:text-[#C5B9AE]">
+      <p className="text-center text-xs text-[#535353]/80 dark:text-[#BABABA]">
         Google Sign-In is not configured for this environment.
       </p>
     );
@@ -135,11 +135,11 @@ export function GoogleSignInButton({
         onLoad={() => initGis()}
       />
       <div className="relative flex items-center gap-3 py-1">
-        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#2B2521]" />
-        <span className="text-[10px] font-mono uppercase tracking-wider text-[#4A4238]/45 dark:text-[#91867E]">
+        <div className="h-px flex-1 bg-[#414141]/12 dark:bg-[#262626]" />
+        <span className="text-[10px] font-mono uppercase tracking-wider text-[#414141]/45 dark:text-[#888888]">
           or
         </span>
-        <div className="h-px flex-1 bg-[#4A4238]/12 dark:bg-[#2B2521]" />
+        <div className="h-px flex-1 bg-[#414141]/12 dark:bg-[#262626]" />
       </div>
       <div
         ref={buttonRef}
@@ -147,10 +147,10 @@ export function GoogleSignInButton({
         aria-busy={busy}
       />
       {!ready && !localError ? (
-        <p className="text-center text-[11px] text-[#4A4238]/45 dark:text-[#91867E]">Loading Google…</p>
+        <p className="text-center text-[11px] text-[#414141]/45 dark:text-[#888888]">Loading Google…</p>
       ) : null}
       {busy ? (
-        <p className="text-center text-[11px] font-mono text-[#E3836C]">Signing in with Google…</p>
+        <p className="text-center text-[11px] font-mono text-[#F2F2F2]">Signing in with Google…</p>
       ) : null}
       {localError ? (
         <p className="text-center text-xs text-red-500 dark:text-[#D97870]">{localError}</p>

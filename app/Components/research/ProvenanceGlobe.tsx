@@ -53,7 +53,7 @@ export function ProvenanceGlobe({ sources }: { sources: ResearchSource[] }) {
             <span key={cat} className="inline-flex items-center gap-1 text-[10px] text-[var(--text-secondary)]">
               <span
                 className="h-1.5 w-1.5 rounded-full"
-                style={{ background: CATEGORY_COLOR[cat] || '#E3836C' }}
+                style={{ background: CATEGORY_COLOR[cat] || '#F2F2F2' }}
               />
               {categoryLabel(cat)}
             </span>

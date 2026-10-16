@@ -142,7 +142,7 @@ export default function OpsPage() {
     return (
       <main className="mx-auto max-w-md px-6 py-16">
         <h1 className="text-2xl font-semibold">Operator console</h1>
-        <p className="mt-2 text-sm text-[var(--text-muted,#8A8178)]">{error || 'Checking your sign-in…'}</p>
+        <p className="mt-2 text-sm text-[var(--text-muted,#818181)]">{error || 'Checking your sign-in…'}</p>
       </main>
     );
   }
@@ -150,19 +150,19 @@ export default function OpsPage() {
   return (
     <div className="flex min-h-screen">
       <aside className="w-48 shrink-0 border-r border-[var(--border)] px-3 py-6">
-        <p className="px-2 text-xs uppercase tracking-wide text-[var(--text-muted,#8A8178)]">Operator</p>
+        <p className="px-2 text-xs uppercase tracking-wide text-[var(--text-muted,#818181)]">Operator</p>
         <nav className="mt-3 space-y-1">
           {NAV.map((name) => (
             <button
               key={name}
               type="button"
               onClick={() => setSection(name)}
-              className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm capitalize ${section === name ? 'bg-[var(--surface-2,#F7F1E8)]' : ''}`}
+              className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm capitalize ${section === name ? 'bg-[var(--surface-2,#F8F8F8)]' : ''}`}
             >
               {name}
-              {name === 'feedback' && badges.feedback > 0 ? <span className="rounded-full bg-[var(--text,#3A342D)] px-1.5 text-[10px] text-white">{badges.feedback}</span> : null}
+              {name === 'feedback' && badges.feedback > 0 ? <span className="rounded-full bg-[var(--text,#343434)] px-1.5 text-[10px] text-white">{badges.feedback}</span> : null}
               {name === 'health' && badges.health ? <span className="h-2 w-2 rounded-full bg-red-600" /> : null}
-              {name === 'audit' && badges.audit > 0 ? <span className="text-[10px] text-[var(--text-muted,#8A8178)]">{badges.audit}</span> : null}
+              {name === 'audit' && badges.audit > 0 ? <span className="text-[10px] text-[var(--text-muted,#818181)]">{badges.audit}</span> : null}
             </button>
           ))}
         </nav>
@@ -177,7 +177,7 @@ export default function OpsPage() {
                 key={key}
                 type="button"
                 onClick={() => setWindowKey(key)}
-                className={`rounded-full border px-3 py-1 ${windowKey === key ? 'border-[var(--text,#3A342D)]' : 'border-[var(--border)]'}`}
+                className={`rounded-full border px-3 py-1 ${windowKey === key ? 'border-[var(--text,#343434)]' : 'border-[var(--border)]'}`}
                 title={key === 'month' ? 'This UTC month' : key === '30d' ? 'Last 30 days' : 'All time'}
               >
                 {key === 'month' ? 'This month' : key === '30d' ? 'Last 30 days' : 'All time'}
@@ -185,7 +185,7 @@ export default function OpsPage() {
             ))}
           </div>
         </header>
-        {error ? <p className="mb-3 text-sm text-[#9B4D3B]">{error}</p> : null}
+        {error ? <p className="mb-3 text-sm text-[#0A0A0A]">{error}</p> : null}
         {busy ? <p className="text-sm">Loading…</p> : null}
         {section === 'retention' && data ? <RetentionOps data={data} onFlag={(f, b) => post(`retention/flags/${f}`, b)} onKill={(on) => post(`retention/kill-switch?on=${on}`, {})} /> : null}
         {section === 'economics' && data ? (
@@ -251,20 +251,20 @@ function Economics({
   return (
     <div className="max-w-[1400px] space-y-6">
       <section>
-        <h2 className="text-sm text-[var(--text-muted,#8A8178)]">Free-tier health</h2>
+        <h2 className="text-sm text-[var(--text-muted,#818181)]">Free-tier health</h2>
         <div className="mt-2 grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs text-[var(--text-muted,#8A8178)]" title="modeled_free_user_at_75_cap_usd">Modeled cost per Free user (at 75-run cap)</p>
+            <p className="text-xs text-[var(--text-muted,#818181)]" title="modeled_free_user_at_75_cap_usd">Modeled cost per Free user (at 75-run cap)</p>
             <p className="mt-1 text-3xl tabular-nums">{money(modeled)}</p>
             {excBadge(vs.modeled_free_user_at_75_cap_usd)}
           </div>
           <div className="rounded-2xl border border-[var(--border)] p-4">
-            <p className="text-xs text-[var(--text-muted,#8A8178)]" title="measured_foundry_per_free_user_usd">Measured Foundry per Free user</p>
+            <p className="text-xs text-[var(--text-muted,#818181)]" title="measured_foundry_per_free_user_usd">Measured Foundry per Free user</p>
             <p className="mt-1 text-3xl tabular-nums">{money(measured)}</p>
             <span className="mt-2 inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-900">{delta.toFixed(1)}%</span>
           </div>
         </div>
-        <p className="mt-2 text-xs text-[var(--text-muted,#8A8178)]">
+        <p className="mt-2 text-xs text-[var(--text-muted,#818181)]">
           Sample size {n} runs{n < 50 ? ' · low sample, n<50' : ''}. Window: {String(data.window || 'month')}. Token sums use public Foundry list rates.
         </p>
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -275,7 +275,7 @@ function Economics({
             ['Ad-extend claims', funnel.ad_extend_claims_this_month],
           ] as Array<[string, Labeled | undefined]>).map(([label, row]) => (
             <div key={String(label)} className="rounded-xl border border-[var(--border)] px-3 py-2 text-sm">
-              <div className="text-xs text-[var(--text-muted,#8A8178)]">{label}</div>
+              <div className="text-xs text-[var(--text-muted,#818181)]">{label}</div>
               <div className="tabular-nums">{val(row)}{excBadge(row)}</div>
             </div>
           ))}
@@ -284,7 +284,7 @@ function Economics({
 
       <div className="max-h-[420px] overflow-auto rounded-xl border border-[var(--border)]">
         <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-[var(--surface,#FFFCF8)] text-left text-xs text-[var(--text-muted,#8A8178)]">
+          <thead className="sticky top-0 bg-[var(--surface,#FCFCFC)] text-left text-xs text-[var(--text-muted,#818181)]">
             <tr>
               <th className="px-3 py-2">Tier</th>
               <th className="px-3 py-2">Size</th>
@@ -310,8 +310,8 @@ function Economics({
                   <td className="px-3 py-2 text-right tabular-nums">{runs ? money(cost / runs) : '—'}</td>
                   <td className="px-3 py-2 text-right">
                     <div className="tabular-nums">{money(cost)}{excBadge(row.foundry_usd)}</div>
-                    <div className="ml-auto mt-1 h-1 w-24 rounded bg-[var(--surface-2,#F7F1E8)]">
-                      <div className="h-1 rounded bg-[var(--text,#3A342D)]" style={{ width: `${share}%` }} />
+                    <div className="ml-auto mt-1 h-1 w-24 rounded bg-[var(--surface-2,#F8F8F8)]">
+                      <div className="h-1 rounded bg-[var(--text,#343434)]" style={{ width: `${share}%` }} />
                     </div>
                   </td>
                 </tr>
@@ -322,13 +322,13 @@ function Economics({
       </div>
 
       <section>
-        <h2 className="text-sm text-[var(--text-muted,#8A8178)]">Revenue</h2>
+        <h2 className="text-sm text-[var(--text-muted,#818181)]">Revenue</h2>
         <div className="mt-2 grid gap-2 sm:grid-cols-3">
           {((data.net_per_tier || []) as Array<Record<string, unknown>>).map((row) => (
             <div key={String(row.tier)} className="rounded-xl border border-[var(--border)] p-3 text-sm">
               <div className="font-medium">{tierLabel(String(row.tier))}</div>
               <div>Net {money(val(row.net_usd))}{excBadge(row.net_usd)}</div>
-              <div className="text-[var(--text-muted,#8A8178)]">Foundry {money(val(row.foundry_usd))} · Ads {money(val(row.ads_usd))}{excBadge(row.ads_usd)}</div>
+              <div className="text-[var(--text-muted,#818181)]">Foundry {money(val(row.foundry_usd))} · Ads {money(val(row.ads_usd))}{excBadge(row.ads_usd)}</div>
             </div>
           ))}
         </div>
@@ -355,7 +355,7 @@ function Economics({
             </label>
           ))}
         </div>
-        <p className="mt-3 text-xs text-[var(--text-muted,#8A8178)]">
+        <p className="mt-3 text-xs text-[var(--text-muted,#818181)]">
           Live scenario (small model, $19 Premium, $0.062 ads estimate, $35 fixed): Foundry {money(scenarioFoundry)}, net {money(scenarioNet)}. This recomputes in the browser. It does not write the README.
         </p>
         <button
@@ -405,13 +405,13 @@ function Users({
       </div>
       <div className="mb-3 flex flex-wrap gap-2 text-xs">
         {['all', 'free', 'premium', 'vip', 'grace', 'cap'].map((chip) => (
-          <button key={chip} type="button" onClick={() => setFilter(chip)} className={`rounded-full border px-2 py-1 ${filter === chip ? 'border-[var(--text,#3A342D)]' : 'border-[var(--border)]'}`}>
+          <button key={chip} type="button" onClick={() => setFilter(chip)} className={`rounded-full border px-2 py-1 ${filter === chip ? 'border-[var(--text,#343434)]' : 'border-[var(--border)]'}`}>
             {chip === 'cap' ? 'Near cap' : chip}
           </button>
         ))}
       </div>
       <table className="w-full text-sm">
-        <thead className="text-left text-xs text-[var(--text-muted,#8A8178)]">
+        <thead className="text-left text-xs text-[var(--text-muted,#818181)]">
           <tr>
             <th className="px-2 py-2">Email</th>
             <th className="px-2 py-2">Tier</th>
@@ -433,7 +433,7 @@ function Users({
                 <td className="px-2 py-2">{String(user.subscription_state)}</td>
                 <td className="px-2 py-2 text-right">
                   <div className="tabular-nums">{used}{limit ? ` / ${limit}` : ''}</div>
-                  {limit ? <div className="ml-auto h-1 w-16 rounded bg-[var(--surface-2,#F7F1E8)]"><div className="h-1 rounded bg-[var(--text,#3A342D)]" style={{ width: `${pct}%` }} /></div> : null}
+                  {limit ? <div className="ml-auto h-1 w-16 rounded bg-[var(--surface-2,#F8F8F8)]"><div className="h-1 rounded bg-[var(--text,#343434)]" style={{ width: `${pct}%` }} /></div> : null}
                 </td>
                 <td className="px-2 py-2 text-right tabular-nums">{String(user.usage_tokens_used)}</td>
                 <td className="px-2 py-2">{user.last_active ? String(user.last_active).slice(0, 10) : '—'}</td>
@@ -443,10 +443,10 @@ function Users({
         </tbody>
       </table>
       {selected ? (
-        <aside className="fixed inset-y-0 right-0 w-full max-w-md overflow-auto border-l border-[var(--border)] bg-[var(--surface,#FFFCF8)] p-5 shadow-xl">
+        <aside className="fixed inset-y-0 right-0 w-full max-w-md overflow-auto border-l border-[var(--border)] bg-[var(--surface,#FCFCFC)] p-5 shadow-xl">
           <button type="button" className="text-sm underline" onClick={() => setSelected(null)}>Close</button>
           <h2 className="mt-3 text-lg">{String(selected.email)}</h2>
-          <p className="text-sm text-[var(--text-muted,#8A8178)]">{tierLabel(String(selected.tier))} · {String(selected.subscription_state)}</p>
+          <p className="text-sm text-[var(--text-muted,#818181)]">{tierLabel(String(selected.tier))} · {String(selected.subscription_state)}</p>
           <p className="mt-2 text-sm">Runs {String(selected.llm_runs_used)} · tokens {String(selected.usage_tokens_used)}</p>
           <div className="mt-6 space-y-2 border-t border-red-200 pt-4">
             <p className="text-xs uppercase text-red-800">Account actions</p>
@@ -490,10 +490,10 @@ function Feedback({
             key={String(item.id)}
             type="button"
             onClick={() => setSelected(item)}
-            className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${item.category === 'billing' ? 'border-amber-400' : 'border-[var(--border)]'} ${selected?.id === item.id ? 'bg-[var(--surface-2,#F7F1E8)]' : ''}`}
+            className={`block w-full rounded-lg border px-3 py-2 text-left text-sm ${item.category === 'billing' ? 'border-amber-400' : 'border-[var(--border)]'} ${selected?.id === item.id ? 'bg-[var(--surface-2,#F8F8F8)]' : ''}`}
           >
-            <div className="flex gap-2 text-xs text-[var(--text-muted,#8A8178)]">
-              {item.triage_status === 'new' ? <span className="h-2 w-2 rounded-full bg-[var(--text,#3A342D)]" /> : null}
+            <div className="flex gap-2 text-xs text-[var(--text-muted,#818181)]">
+              {item.triage_status === 'new' ? <span className="h-2 w-2 rounded-full bg-[var(--text,#343434)]" /> : null}
               <span>{tierLabel(String((item.tier_now as Labeled)?.value || ''))}</span>
               <span>{String(item.category)}</span>
               {item.run_id ? <span>run</span> : null}
@@ -506,7 +506,7 @@ function Feedback({
         {selected ? (
           <div className="space-y-3 text-sm">
             <p>{String(selected.preview)}</p>
-            <p className="text-xs text-[var(--text-muted,#8A8178)]">{String(selected.route || '')} · {String(selected.created_at || '').slice(0, 16)}</p>
+            <p className="text-xs text-[var(--text-muted,#818181)]">{String(selected.route || '')} · {String(selected.created_at || '').slice(0, 16)}</p>
             <label className="block text-xs">
               Internal notes
               <textarea value={notes} onChange={(e) => setNotes(e.target.value)} className="mt-1 h-20 w-full rounded-lg border border-[var(--border)] bg-transparent p-2" />
@@ -524,7 +524,7 @@ function Feedback({
             ) : <p className="text-xs">No run linked.</p>}
             {runView ? <pre className="max-h-80 overflow-auto rounded-lg border border-[var(--border)] p-3 text-xs">{JSON.stringify(runView, null, 2)}</pre> : null}
           </div>
-        ) : <p className="text-sm text-[var(--text-muted,#8A8178)]">Select a note.</p>}
+        ) : <p className="text-sm text-[var(--text-muted,#818181)]">Select a note.</p>}
       </div>
     </div>
   );
@@ -549,14 +549,14 @@ function Health({ data, onRefresh }: { data: Record<string, unknown>; onRefresh:
                 <span className="font-medium">{name.replaceAll('_', ' ')}</span>
               </div>
               <p className="mt-2 text-xs">{text}{excBadge(row)}</p>
-              {row?.note ? <p className="mt-1 text-xs text-[var(--text-muted,#8A8178)]">{row.note}</p> : null}
+              {row?.note ? <p className="mt-1 text-xs text-[var(--text-muted,#818181)]">{row.note}</p> : null}
             </div>
           );
         })}
       </div>
       <p className="text-sm">Delivery failures {val(delivery.failures)} · queue {val(delivery.queue_depth)}</p>
       <table className="w-full text-sm">
-        <thead className="text-left text-xs text-[var(--text-muted,#8A8178)]"><tr><th className="px-2 py-2">Cron</th><th className="px-2 py-2">Last signal</th></tr></thead>
+        <thead className="text-left text-xs text-[var(--text-muted,#818181)]"><tr><th className="px-2 py-2">Cron</th><th className="px-2 py-2">Last signal</th></tr></thead>
         <tbody>
           {Object.entries(crons).map(([name, row]) => (
             <tr key={name} className="border-t border-[var(--border)]"><td className="px-2 py-2">{name}</td><td className="px-2 py-2">{String(row?.value ?? '—')}{excBadge(row)}</td></tr>
@@ -579,7 +579,7 @@ function Research({ data }: { data: Record<string, unknown> }) {
     <div className="max-w-[1400px] space-y-3">
       <p className="text-sm">0-token hit rate {(rate * 100).toFixed(1)}%</p>
       <table className="w-full text-sm">
-        <thead className="text-left text-xs text-[var(--text-muted,#8A8178)]">
+        <thead className="text-left text-xs text-[var(--text-muted,#818181)]">
           <tr>
             <th className="px-2 py-2">Time</th>
             <th className="px-2 py-2">Route</th>
@@ -626,7 +626,7 @@ function Content({ data }: { data: Record<string, unknown> }) {
           <div key={key} className="rounded-xl border border-[var(--border)] p-4 text-sm">
             <h2 className="font-medium">{key === 'artifact_docs' ? 'Artifacts' : key === 'analysis_memory_docs' ? 'Memory' : 'Connectors'}</h2>
             <p className="mt-2 text-2xl tabular-nums">{row?.value == null ? '—' : String(row.value)}{excBadge(row)}</p>
-            {row?.note ? <p className="mt-1 text-xs text-[var(--text-muted,#8A8178)]">{row.note}</p> : null}
+            {row?.note ? <p className="mt-1 text-xs text-[var(--text-muted,#818181)]">{row.note}</p> : null}
           </div>
         );
       })}
@@ -661,7 +661,7 @@ function Audit({ data }: { data: Record<string, unknown> }) {
         Export CSV
       </button>
       <table className="w-full text-sm">
-        <thead className="text-left text-xs text-[var(--text-muted,#8A8178)]">
+        <thead className="text-left text-xs text-[var(--text-muted,#818181)]">
           <tr><th className="px-2 py-2">Time</th><th className="px-2 py-2">Actor</th><th className="px-2 py-2">Action</th><th className="px-2 py-2">Target</th></tr>
         </thead>
         <tbody>

@@ -11,7 +11,7 @@ export default function DpaPage() {
     <LegalLayout title="Data Processing Addendum" updated="September 11, 2026">
       <p>
         This Data Processing Addendum (“DPA”) forms part of the{' '}
-        <a href="/terms" className="text-[#E3836C] hover:underline">
+        <a href="/terms" className="text-[#F2F2F2] hover:underline">
           Terms of Service
         </a>{' '}
         when you use AnalyzeIt to process personal data in your workspace. AnalyzeIt acts as
@@ -30,7 +30,7 @@ export default function DpaPage() {
         <p>
           We process that data only to provide, secure, and support the Service, and as otherwise
           documented in the{' '}
-          <a href="/privacy" className="text-[#E3836C] hover:underline">
+          <a href="/privacy" className="text-[#F2F2F2] hover:underline">
             Privacy Policy
           </a>
           , unless required by law.
@@ -47,7 +47,7 @@ export default function DpaPage() {
         <p>
           We remain responsible for subprocessors we engage. A current list is available on request
           at{' '}
-          <a href="mailto:privacy@analyzeit.in" className="text-[#E3836C] hover:underline">
+          <a href="mailto:privacy@analyzeit.in" className="text-[#F2F2F2] hover:underline">
             privacy@analyzeit.in
           </a>
           .
@@ -57,7 +57,7 @@ export default function DpaPage() {
       <LegalSection title="4. Security">
         <p>
           We implement technical and organizational measures described on our{' '}
-          <a href="/security" className="text-[#E3836C] hover:underline">
+          <a href="/security" className="text-[#F2F2F2] hover:underline">
             Security
           </a>{' '}
           page, including authentication, transport encryption, and credential encryption when a

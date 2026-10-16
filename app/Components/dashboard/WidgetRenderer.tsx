@@ -270,13 +270,13 @@ export function LineChartWidget({
           {/* Area fill */}
           <polygon
             points={`30,90 ${points} 270,90`}
-            fill="rgba(234, 128, 105, 0.14)"
+            fill="rgba(255, 255, 255, 0.14)"
           />
 
           {/* Technical Cobalt curve */}
           <polyline
             fill="none"
-            stroke="#EA8069"
+            stroke="#F2F2F2"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -287,7 +287,7 @@ export function LineChartWidget({
             const cy = 90 - ((d.value - minVal) / range) * 70;
             return (
               <g key={i}>
-                <circle cx={cx} cy={cy} r="3" fill="var(--surface)" stroke="#EA8069" strokeWidth="2" />
+                <circle cx={cx} cy={cy} r="3" fill="var(--surface)" stroke="#F2F2F2" strokeWidth="2" />
                 <text
                   x={cx}
                   y={104}
@@ -368,7 +368,7 @@ export function BarChartWidget({
                 {item.value}
               </span>
               <div
-                className="w-full max-w-[32px] bg-[#EA8069] hover:bg-[#C96551] rounded-t transition-all shadow-xs"
+                className="w-full max-w-[32px] bg-[#F2F2F2] hover:bg-[#F2F2F2] rounded-t transition-all shadow-xs"
                 style={{ height: `${Math.max(heightPct, 8)}%` }}
               />
               <span className="text-[10px] font-medium text-[var(--text-muted)]">
@@ -506,9 +506,9 @@ export function TextBlockWidget({
 
   const variantStyles = {
     insight: {
-      border: 'border-[#EA8069]/30',
-      badge: 'bg-[#EA8069]/10 text-[#C96551]',
-      dot: 'bg-[#EA8069]',
+      border: 'border-[#F2F2F2]/30',
+      badge: 'bg-[#F2F2F2]/10 text-[#F2F2F2]',
+      dot: 'bg-[#F2F2F2]',
       label: 'Insight',
     },
     warning: {
@@ -570,7 +570,7 @@ export function TextBlockWidget({
           if (pText.trim().startsWith('- ') || pText.trim().startsWith('• ')) {
             const bullets = pText.split('\n').map((l) => l.replace(/^[-•]\s*/, '').trim()).filter(Boolean);
             return (
-              <ul key={idx} className="space-y-1 pl-4 list-disc marker:text-[#EA8069]">
+              <ul key={idx} className="space-y-1 pl-4 list-disc marker:text-[#F2F2F2]">
                 {bullets.map((b, bIdx) => (
                   <li key={bIdx} className="font-sans text-[var(--text-muted)]">{b}</li>
                 ))}
@@ -611,13 +611,13 @@ export function ProgressRingWidget({
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
             {metric}
           </span>
-          <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+          <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
             {title}
           </h3>
         </div>
@@ -625,7 +625,7 @@ export function ProgressRingWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -640,7 +640,7 @@ export function ProgressRingWidget({
               cx="50"
               cy="50"
               r={radius}
-              className="stroke-[#4A4238]/10 dark:stroke-[#302B28]"
+              className="stroke-[#414141]/10 dark:stroke-[#2C2C2C]"
               strokeWidth="8"
               fill="none"
             />
@@ -648,7 +648,7 @@ export function ProgressRingWidget({
               cx="50"
               cy="50"
               r={radius}
-              stroke="#EA8069"
+              stroke="#F2F2F2"
               strokeWidth="8"
               strokeLinecap="round"
               fill="none"
@@ -658,18 +658,18 @@ export function ProgressRingWidget({
             />
           </svg>
           <div className="absolute flex flex-col items-center justify-center">
-            <span className="font-serif text-xl font-bold text-[#4A4238] dark:text-[#F4EDE5]">
+            <span className="font-serif text-xl font-bold text-[#414141] dark:text-[#EDEDED]">
               {percent}%
             </span>
           </div>
         </div>
 
         <div className="space-y-1 text-left flex-1 min-w-0">
-          <p className="text-xs font-mono font-semibold text-[#4A4238] dark:text-[#F4EDE5] truncate">
+          <p className="text-xs font-mono font-semibold text-[#414141] dark:text-[#EDEDED] truncate">
             {label}
           </p>
           {sublabel && (
-            <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] truncate">
+            <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] truncate">
               {sublabel}
             </p>
           )}
@@ -704,13 +704,13 @@ export function ComparisonPairWidget({
   }
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
             {metric}
           </span>
-          <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+          <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
             {title}
           </h3>
         </div>
@@ -718,7 +718,7 @@ export function ComparisonPairWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -726,30 +726,30 @@ export function ComparisonPairWidget({
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-black/[0.02] dark:bg-[#292522] border border-[#4A4238]/05 dark:border-[#2B2521] relative">
+      <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-black/[0.02] dark:bg-[#262626] border border-[#414141]/05 dark:border-[#262626] relative">
         <div className="space-y-1">
-          <span className="text-[10px] font-mono uppercase text-[#4A4238]/60 dark:text-[#91867E]">
+          <span className="text-[10px] font-mono uppercase text-[#414141]/60 dark:text-[#888888]">
             {a.label}
           </span>
-          <div className="font-serif text-xl font-bold text-[#4A4238] dark:text-[#F4EDE5]">
+          <div className="font-serif text-xl font-bold text-[#414141] dark:text-[#EDEDED]">
             {a.value}
           </div>
           {a.sub && (
-            <span className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E] block">
+            <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] block">
               {a.sub}
             </span>
           )}
         </div>
 
-        <div className="space-y-1 border-l border-[#4A4238]/10 dark:border-[#2B2521] pl-3">
-          <span className="text-[10px] font-mono uppercase text-[#4A4238]/60 dark:text-[#91867E]">
+        <div className="space-y-1 border-l border-[#414141]/10 dark:border-[#262626] pl-3">
+          <span className="text-[10px] font-mono uppercase text-[#414141]/60 dark:text-[#888888]">
             {b.label}
           </span>
-          <div className="font-serif text-xl font-bold text-[#EA8069]">
+          <div className="font-serif text-xl font-bold text-[#F2F2F2]">
             {b.value}
           </div>
           {b.sub && (
-            <span className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E] block">
+            <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] block">
               {b.sub}
             </span>
           )}
@@ -758,8 +758,8 @@ export function ComparisonPairWidget({
 
       {delta && (
         <div className="mt-3 flex items-center justify-between text-xs font-mono">
-          <span className="text-[#4A4238]/60 dark:text-[#91867E]">Variance:</span>
-          <span className="px-2 py-0.5 rounded-full bg-[#EA8069]/15 text-[#EA8069] font-semibold">
+          <span className="text-[#414141]/60 dark:text-[#888888]">Variance:</span>
+          <span className="px-2 py-0.5 rounded-full bg-[#F2F2F2]/15 text-[#F2F2F2] font-semibold">
             {delta}
           </span>
         </div>
@@ -793,13 +793,13 @@ export function TimelineWidget({
   }
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
             {metric}
           </span>
-          <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+          <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
             {title}
           </h3>
         </div>
@@ -807,7 +807,7 @@ export function TimelineWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -815,19 +815,19 @@ export function TimelineWidget({
         )}
       </div>
 
-      <div className="relative pl-4 space-y-4 border-l-2 border-[#4A4238]/10 dark:border-[#2B2521] ml-2">
+      <div className="relative pl-4 space-y-4 border-l-2 border-[#414141]/10 dark:border-[#262626] ml-2">
         {events.map((ev, idx) => (
           <div key={idx} className="relative group/item">
-            <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-[#EA8069] border-2 border-white dark:border-[#1C1816]" />
+            <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-[#F2F2F2] border-2 border-white dark:border-[#191919]" />
             <div className="space-y-0.5">
-              <span className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+              <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
                 {ev.date}
               </span>
-              <h4 className="text-xs font-mono font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+              <h4 className="text-xs font-mono font-semibold text-[#414141] dark:text-[#EDEDED]">
                 {ev.label}
               </h4>
               {ev.description && (
-                <p className="text-[11px] font-sans text-[#4A4238]/70 dark:text-[#C5B9AE]">
+                <p className="text-[11px] font-sans text-[#414141]/70 dark:text-[#BABABA]">
                   {ev.description}
                 </p>
               )}
@@ -878,18 +878,18 @@ export function HeatmapWidget({
     if (colorScale === 'cool') {
       return `rgba(145, 174, 181, ${t})`;
     }
-    return `rgba(227, 131, 108, ${t})`;
+    return `rgba(255, 255, 255, ${t})`;
   };
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
-            <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
               {metric}
             </span>
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
           </div>
@@ -897,7 +897,7 @@ export function HeatmapWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -908,7 +908,7 @@ export function HeatmapWidget({
         {/* Heatmap Matrix */}
         <div className="overflow-x-auto py-2">
           <div className="min-w-[240px]">
-            <div className="flex items-center text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E] mb-1 ml-12">
+            <div className="flex items-center text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] mb-1 ml-12">
               {cols.map((col, idx) => (
                 <div key={idx} className="flex-1 text-center truncate px-0.5">
                   {col}
@@ -921,7 +921,7 @@ export function HeatmapWidget({
                 const rowVals = rawValues[rIdx] || [];
                 return (
                   <div key={rIdx} className="flex items-center gap-1.5">
-                    <span className="w-10 text-[10px] font-mono text-[#4A4238]/70 dark:text-[#91867E] text-right truncate">
+                    <span className="w-10 text-[10px] font-mono text-[#414141]/70 dark:text-[#888888] text-right truncate">
                       {row}
                     </span>
                     <div className="flex-1 flex items-center gap-1">
@@ -942,7 +942,7 @@ export function HeatmapWidget({
                               });
                             }}
                             style={{ backgroundColor: getCellBg(val) }}
-                            className="flex-1 h-6 rounded-md transition-all hover:scale-105 hover:ring-2 hover:ring-white dark:hover:ring-[#504740] cursor-pointer relative"
+                            className="flex-1 h-6 rounded-md transition-all hover:scale-105 hover:ring-2 hover:ring-white dark:hover:ring-[#484848] cursor-pointer relative"
                             title={`${row} ${col}: ${val}`}
                           />
                         );
@@ -956,10 +956,10 @@ export function HeatmapWidget({
         </div>
 
         {/* Hover detail */}
-        <div className="min-h-[18px] text-[10px] font-mono text-[#4A4238]/70 dark:text-[#C5B9AE] mt-1">
+        <div className="min-h-[18px] text-[10px] font-mono text-[#414141]/70 dark:text-[#BABABA] mt-1">
           {hoveredCell ? (
             <span className="flex items-center gap-2">
-              <span className="font-semibold text-[#EA8069]">
+              <span className="font-semibold text-[#F2F2F2]">
                 {hoveredCell.r} · {hoveredCell.c}
               </span>
               <span>Value: <strong>{hoveredCell.v}</strong></span>
@@ -1018,7 +1018,7 @@ export function SparklineListWidget({
       .join(' ');
 
     const strokeColor =
-      trend === 'down' ? '#D97870' : trend === 'up' ? '#9EBB9A' : '#EA8069';
+      trend === 'down' ? '#D97870' : trend === 'up' ? '#9EBB9A' : '#F2F2F2';
 
     return (
       <svg width={width} height={height} className="overflow-visible">
@@ -1043,14 +1043,14 @@ export function SparklineListWidget({
   };
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-3">
           <div>
-            <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
               {metric}
             </span>
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
           </div>
@@ -1058,7 +1058,7 @@ export function SparklineListWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1066,7 +1066,7 @@ export function SparklineListWidget({
           )}
         </div>
 
-        <div className="divide-y divide-[#4A4238]/5 dark:divide-[#2B2521]/40">
+        <div className="divide-y divide-[#414141]/5 dark:divide-[#262626]/40">
           {items.map((item, idx) => {
             const isPositive = item.trend === 'up' || (item.change && item.change.startsWith('+'));
             return (
@@ -1076,15 +1076,15 @@ export function SparklineListWidget({
                   const symbol = item.label.split(/[\s·]/)[0];
                   onWidgetAction?.(widget.id, 'filter', { dimension: 'ticker', value: symbol });
                 }}
-                className="py-2.5 flex items-center justify-between hover:bg-black/[0.02] dark:hover:bg-[#292522] px-1 rounded-lg cursor-pointer transition-colors"
+                className="py-2.5 flex items-center justify-between hover:bg-black/[0.02] dark:hover:bg-[#262626] px-1 rounded-lg cursor-pointer transition-colors"
                 title={`Filter by ${item.label}`}
               >
                 <div className="min-w-0 pr-2">
-                  <h4 className="text-xs font-mono font-medium text-[#4A4238] dark:text-[#F4EDE5] truncate">
+                  <h4 className="text-xs font-mono font-medium text-[#414141] dark:text-[#EDEDED] truncate">
                     {item.label}
                   </h4>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[10px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                    <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
                       {item.value}
                     </span>
                     {item.change && (
@@ -1141,14 +1141,14 @@ export function FunnelWidget({
   const topValue = stages[0]?.value || 1;
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
               {metric}
             </span>
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
           </div>
@@ -1156,7 +1156,7 @@ export function FunnelWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1177,23 +1177,23 @@ export function FunnelWidget({
             return (
               <div key={idx} className="space-y-1">
                 <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+                  <span className="font-medium text-[#414141] dark:text-[#EDEDED]">
                     {stg.label}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-[#4A4238] dark:text-[#F4EDE5]">
+                    <span className="font-bold text-[#414141] dark:text-[#EDEDED]">
                       {stg.value.toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-[#4A4238]/60 dark:text-[#91867E]">
+                    <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
                       ({overallPct}%)
                     </span>
                   </div>
                 </div>
 
-                <div className="w-full bg-black/5 dark:bg-[#292522] h-6 rounded-lg overflow-hidden flex items-center relative">
+                <div className="w-full bg-black/5 dark:bg-[#262626] h-6 rounded-lg overflow-hidden flex items-center relative">
                   <div
                     style={{ width: `${barPct}%` }}
-                    className="h-full rounded-lg bg-gradient-to-r from-[#EA8069] to-[#EBA58F] transition-all flex items-center justify-between px-2.5 text-[10px] font-mono text-[#2E2924] font-medium shadow-inner"
+                    className="h-full rounded-lg bg-gradient-to-r from-[#F2F2F2] to-[#F2F2F2] transition-all flex items-center justify-between px-2.5 text-[10px] font-mono text-[#292929] font-medium shadow-inner"
                   >
                     <span className="truncate">{stg.sublabel || `${overallPct}% total`}</span>
                   </div>
@@ -1243,14 +1243,14 @@ export function DistributionWidget({
   const totalCount = buckets.reduce((acc, b) => acc + b.count, 0) || 1;
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
               {metric}
             </span>
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
           </div>
@@ -1258,7 +1258,7 @@ export function DistributionWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1266,25 +1266,25 @@ export function DistributionWidget({
           )}
         </div>
 
-        <div className="h-36 flex items-end gap-2 pt-4 pb-1 border-b border-[#4A4238]/10 dark:border-[#2B2521]">
+        <div className="h-36 flex items-end gap-2 pt-4 pb-1 border-b border-[#414141]/10 dark:border-[#262626]">
           {buckets.map((b, idx) => {
             const pct = Math.max(6, Math.round((b.count / maxCount) * 100));
             const share = Math.round((b.count / totalCount) * 100);
             return (
               <div key={idx} className="flex-1 flex flex-col items-center h-full justify-end group/bar relative">
-                <div className="opacity-0 group-hover/bar:opacity-100 transition-opacity absolute -top-5 text-[9px] font-mono bg-black/80 dark:bg-[#302B28] border border-transparent dark:border-[#504740] text-white dark:text-[#F4EDE5] px-1.5 py-0.5 rounded shadow whitespace-nowrap z-10">
+                <div className="opacity-0 group-hover/bar:opacity-100 transition-opacity absolute -top-5 text-[9px] font-mono bg-black/80 dark:bg-[#2C2C2C] border border-transparent dark:border-[#484848] text-white dark:text-[#EDEDED] px-1.5 py-0.5 rounded shadow whitespace-nowrap z-10">
                   {b.count.toLocaleString()} {unit} ({share}%)
                 </div>
                 <div
                   style={{ height: `${pct}%` }}
-                  className="w-full bg-[#EA8069]/80 hover:bg-[#EA8069] rounded-t-md transition-all cursor-pointer shadow-xs"
+                  className="w-full bg-[#F2F2F2]/80 hover:bg-[#F2F2F2] rounded-t-md transition-all cursor-pointer shadow-xs"
                 />
               </div>
             );
           })}
         </div>
 
-        <div className="flex items-center gap-2 mt-1.5 text-[9px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+        <div className="flex items-center gap-2 mt-1.5 text-[9px] font-mono text-[#414141]/60 dark:text-[#888888]">
           {buckets.map((b, idx) => (
             <div key={idx} className="flex-1 text-center truncate" title={b.range}>
               {b.range}
@@ -1341,7 +1341,7 @@ export function NodeGraphWidget({
       case 'ingress':
         return '#91AEB5';
       case 'core':
-        return '#EA8069';
+        return '#F2F2F2';
       case 'storage':
         return '#9EBBB0';
       case 'async':
@@ -1351,14 +1351,14 @@ export function NodeGraphWidget({
   };
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
-            <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
               {metric} ({rawNodes.length} nodes)
             </span>
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
           </div>
@@ -1366,7 +1366,7 @@ export function NodeGraphWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1374,7 +1374,7 @@ export function NodeGraphWidget({
           )}
         </div>
 
-        <div className="relative w-full h-48 rounded-xl bg-black/[0.02] dark:bg-[#14110F] border border-[#4A4238]/5 dark:border-[#2B2521] overflow-hidden">
+        <div className="relative w-full h-48 rounded-xl bg-black/[0.02] dark:bg-[#121212] border border-[#414141]/5 dark:border-[#262626] overflow-hidden">
           <svg viewBox="0 0 380 190" className="w-full h-full">
             <defs>
               <marker
@@ -1386,7 +1386,7 @@ export function NodeGraphWidget({
                 markerHeight="6"
                 orient="auto-start-reverse"
               >
-                <path d="M 0 1 L 10 5 L 0 9 z" fill="#888" className="dark:fill-[#91867E]" opacity="0.6" />
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#888" className="dark:fill-[#888888]" opacity="0.6" />
               </marker>
             </defs>
 
@@ -1402,7 +1402,7 @@ export function NodeGraphWidget({
                   x2={tgt.x}
                   y2={tgt.y}
                   stroke="#888"
-                  className="dark:stroke-[#504740]"
+                  className="dark:stroke-[#484848]"
                   strokeWidth="1.25"
                   strokeOpacity="0.4"
                   markerEnd="url(#arrow)"
@@ -1430,7 +1430,7 @@ export function NodeGraphWidget({
                     fillOpacity="0.85"
                     stroke="#fff"
                     strokeWidth="2"
-                    className="group-hover/node:scale-110 transition-transform dark:stroke-[#1C1816]"
+                    className="group-hover/node:scale-110 transition-transform dark:stroke-[#191919]"
                   />
                   <text
                     x={pos.x}
@@ -1439,7 +1439,7 @@ export function NodeGraphWidget({
                     fontSize="9"
                     fontFamily="monospace"
                     fill="currentColor"
-                    className="font-medium fill-[#4A4238] dark:fill-[#F4EDE5] select-none pointer-events-none"
+                    className="font-medium fill-[#414141] dark:fill-[#EDEDED] select-none pointer-events-none"
                   >
                     {node.label}
                   </text>
@@ -1524,8 +1524,8 @@ export function AnnotatedChartWidget({
   const getAnnotationBadge = (type?: string, isUser = false) => {
     if (isUser) {
       return {
-        bg: 'bg-[#81786F]/15 text-[#81786F] border-[#81786F]/30',
-        dot: 'bg-[#81786F]',
+        bg: 'bg-[#787878]/15 text-[#787878] border-[#787878]/30',
+        dot: 'bg-[#787878]',
       };
     }
     switch (type) {
@@ -1542,8 +1542,8 @@ export function AnnotatedChartWidget({
       case 'event':
       default:
         return {
-          bg: 'bg-[#EA8069]/15 text-[#C96551] border-[#EA8069]/30',
-          dot: 'bg-[#EA8069]',
+          bg: 'bg-[#F2F2F2]/15 text-[#F2F2F2] border-[#F2F2F2]/30',
+          dot: 'bg-[#F2F2F2]',
         };
     }
   };
@@ -1579,7 +1579,7 @@ export function AnnotatedChartWidget({
 
             <polyline
               fill="none"
-              stroke="#EA8069"
+              stroke="#F2F2F2"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -1593,7 +1593,7 @@ export function AnnotatedChartWidget({
                 cy={pt.py}
                 r="3"
                 fill="var(--surface)"
-                stroke="#EA8069"
+                stroke="#F2F2F2"
                 strokeWidth="2"
                 className="cursor-pointer hover:opacity-80 transition-all"
                 onClick={(e) => {
@@ -1616,7 +1616,7 @@ export function AnnotatedChartWidget({
                     y1="14"
                     x2={matchedPt.px}
                     y2={matchedPt.py}
-                    stroke={isUser ? "#81786F" : "#EA8069"}
+                    stroke={isUser ? "#787878" : "#F2F2F2"}
                     strokeWidth="1.25"
                     strokeDasharray="2,2"
                     strokeOpacity="0.75"
@@ -1625,7 +1625,7 @@ export function AnnotatedChartWidget({
                     cx={matchedPt.px}
                     cy={matchedPt.py}
                     r={isUser ? "5" : "4"}
-                    fill={isUser ? "#81786F" : "#EF6C6C"}
+                    fill={isUser ? "#787878" : "#EF6C6C"}
                     stroke="var(--surface)"
                     strokeWidth="1.5"
                   />
@@ -1666,7 +1666,7 @@ export function AnnotatedChartWidget({
 
         {/* Dimension 4: User Click-to-Annotate Popover */}
         {selectedPoint && (
-          <div className="mt-2.5 p-2.5 rounded-xl border border-[#91AEB5]/30 bg-[#253034]/20 dark:bg-[#302B28] dark:border-[#504740] space-y-2 text-xs">
+          <div className="mt-2.5 p-2.5 rounded-xl border border-[#91AEB5]/30 bg-[#253034]/20 dark:bg-[#2C2C2C] dark:border-[#484848] space-y-2 text-xs">
             <div className="flex items-center justify-between font-mono text-[10px] text-[#91AEB5] font-semibold">
               <span className="flex items-center gap-1">
                 <IconPin size={11} /> Add note at {selectedPoint.x} ({unit}{selectedPoint.y})
@@ -1674,7 +1674,7 @@ export function AnnotatedChartWidget({
               <button
                 type="button"
                 onClick={() => setSelectedPoint(null)}
-                className="text-[#91867E] hover:text-[#F4EDE5] cursor-pointer"
+                className="text-[#888888] hover:text-[#EDEDED] cursor-pointer"
               >
                 ✕
               </button>
@@ -1688,13 +1688,13 @@ export function AnnotatedChartWidget({
                   if (e.key === 'Enter') handleAddUserAnnotation();
                 }}
                 placeholder="e.g. Campaign launched, market update..."
-                className="flex-1 px-2.5 py-1 rounded-lg border border-[#4A4238]/20 dark:border-[#2B2521] text-xs bg-white dark:bg-[#292522] text-[#2D2621] dark:text-[#F4EDE5] placeholder-[#91867E] outline-none focus:ring-1 focus:ring-[#EA8069]/40"
+                className="flex-1 px-2.5 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-xs bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] placeholder-[#888888] outline-none focus:ring-1 focus:ring-[#F2F2F2]/40"
                 autoFocus
               />
               <select
                 value={noteType}
                 onChange={(e) => setNoteType(e.target.value as any)}
-                className="px-2 py-1 rounded-lg border border-[#4A4238]/20 dark:border-[#2B2521] text-[10px] font-mono bg-white dark:bg-[#292522] text-[#4A4238] dark:text-[#F4EDE5]"
+                className="px-2 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-[10px] font-mono bg-white dark:bg-[#262626] text-[#414141] dark:text-[#EDEDED]"
               >
                 <option value="note">Note</option>
                 <option value="event">Event</option>
@@ -1711,7 +1711,7 @@ export function AnnotatedChartWidget({
           </div>
         )}
 
-        <div className="flex items-center justify-between text-[9px] font-mono text-[#4A4238]/60 dark:text-[#91867E] mt-1 px-1">
+        <div className="flex items-center justify-between text-[9px] font-mono text-[#414141]/60 dark:text-[#888888] mt-1 px-1">
           <span>{series[0]?.x} · {unit}{series[0]?.y}</span>
           <span>{series[series.length - 1]?.x} · {unit}{series[series.length - 1]?.y}</span>
         </div>
@@ -1831,15 +1831,15 @@ export function CompositeGroupWidget({
   const childWidgets: WidgetSpec[] = Array.isArray(p.widgets) ? p.widgets : [];
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border-2 border-[#EA8069]/25 dark:border-[#EA8069]/25 flex flex-col justify-between h-full shadow-md hover:border-[#EA8069]/40 transition-all group relative bg-black/[0.01] dark:bg-white/[0.01]">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border-2 border-[#F2F2F2]/25 dark:border-[#F2F2F2]/25 flex flex-col justify-between h-full shadow-md hover:border-[#F2F2F2]/40 transition-all group relative bg-black/[0.01] dark:bg-white/[0.01]">
       <div>
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#4A4238]/10 dark:border-[#2B2521]">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#414141]/10 dark:border-[#262626]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#EA8069]" />
-            <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5]">
+            <span className="w-2 h-2 rounded-full bg-[#F2F2F2]" />
+            <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EA8069]/10 text-[#EA8069] font-semibold">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F2F2F2]/10 text-[#F2F2F2] font-semibold">
               Composite · {childWidgets.length} primitives
             </span>
           </div>
@@ -1848,7 +1848,7 @@ export function CompositeGroupWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
               title="Remove composite group"
             >
               <IconTrash size={14} />
@@ -1883,7 +1883,7 @@ export function CompositeGroupWidget({
               return (
                 <div
                   key={child.id || idx}
-                  className="p-3 rounded-xl border border-dashed border-[#2B2521] text-xs font-mono text-[#91867E]"
+                  className="p-3 rounded-xl border border-dashed border-[#262626] text-xs font-mono text-[#888888]"
                 >
                   Unknown child primitive: {childType}
                 </div>
@@ -1952,11 +1952,11 @@ export function generateSandboxedHtml(
   const metric = String(p.metric || widget.metric || 'Custom View');
   const isDark = theme === 'dark';
 
-  const bgColor = isDark ? '#1C1816' : '#FAF6F0';
-  const textColor = isDark ? '#F4EDE5' : '#4A4238';
-  const mutedColor = isDark ? '#91867E' : 'rgba(74, 66, 56, 0.6)';
-  const borderColor = isDark ? '#2B2521' : 'rgba(74, 66, 56, 0.1)';
-  const accentColor = '#EA8069';
+  const bgColor = isDark ? '#191919' : '#F5F5F5';
+  const textColor = isDark ? '#EDEDED' : '#414141';
+  const mutedColor = isDark ? '#888888' : 'rgba(74, 66, 56, 0.6)';
+  const borderColor = isDark ? '#262626' : 'rgba(74, 66, 56, 0.1)';
+  const accentColor = '#F2F2F2';
 
   // Strict CSP: hard-block outbound network calls, nested frames, and form submissions
   const cspMeta = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';">`;
@@ -2049,11 +2049,11 @@ export function generateSandboxedHtml(
       font-family: monospace;
       padding: 2px 6px;
       border-radius: 4px;
-      background: rgba(227, 131, 108, 0.15);
+      background: rgba(255, 255, 255, 0.15);
       color: ${accentColor};
     }
     .card {
-      background: ${isDark ? '#292522' : 'rgba(0,0,0,0.02)'};
+      background: ${isDark ? '#262626' : 'rgba(0,0,0,0.02)'};
       border: 1px solid ${borderColor};
       border-radius: 12px;
       padding: 10px;
@@ -2133,9 +2133,9 @@ export function SandboxedFrameWidget({
   const srcDoc = isOversized ? '' : generateSandboxedHtml(widget, resolvedData, theme);
 
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-4 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[#EA8069]/30 transition-all min-h-[200px]">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-4 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#F2F2F2]/30 transition-all min-h-[200px]">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-serif font-medium truncate text-[#4A4238] dark:text-[#F4EDE5]">
+        <span className="text-xs font-serif font-medium truncate text-[#414141] dark:text-[#EDEDED]">
           {title}
         </span>
         <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400">
@@ -2172,7 +2172,7 @@ export function SandboxedFrameWidget({
           </button>
         </div>
       ) : (
-        <div className="flex-1 relative w-full min-h-[140px] rounded-xl overflow-hidden bg-black/5 dark:bg-[#14110F] border border-[#4A4238]/5 dark:border-[#2B2521]">
+        <div className="flex-1 relative w-full min-h-[140px] rounded-xl overflow-hidden bg-black/5 dark:bg-[#121212] border border-[#414141]/5 dark:border-[#262626]">
           <iframe
             key={reloadKey}
             ref={iframeRef}
@@ -2224,14 +2224,14 @@ export function SandboxedWidgetRenderer({
     // Dimension 7 / Security Hardening: Server-side redacted widget placeholder
     if (widget.redacted || (widget.props as any)?.redacted) {
       return (
-        <div className="glass-card rounded-2xl p-6 border border-dashed border-[#4A4238]/30 dark:border-[#2B2521] bg-[#FAF6F0]/60 dark:bg-[#1C1816]/60 flex flex-col items-center justify-center text-center min-h-[160px]">
+        <div className="glass-card rounded-2xl p-6 border border-dashed border-[#414141]/30 dark:border-[#262626] bg-[#F5F5F5]/60 dark:bg-[#191919]/60 flex flex-col items-center justify-center text-center min-h-[160px]">
           <div className="w-9 h-9 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-[#D9AD70] mb-2.5">
             <IconLock className="w-5 h-5" />
           </div>
-          <h4 className="text-xs font-mono font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+          <h4 className="text-xs font-mono font-semibold text-[#414141] dark:text-[#EDEDED]">
             {widget.title || 'Restricted Content'}
           </h4>
-          <p className="text-[11px] font-mono text-[#7A7062] dark:text-[#91867E] mt-1 max-w-xs">
+          <p className="text-[11px] font-mono text-[#6E6E6E] dark:text-[#888888] mt-1 max-w-xs">
             This widget was redacted server-side. Requires {widget.visibility?.join(' or ') || 'elevated'} role permission.
           </p>
         </div>
@@ -2267,7 +2267,7 @@ export function SandboxedWidgetRenderer({
     return (
       <div className="relative">
         <div className="absolute top-3 right-3 z-10">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-500/10 dark:bg-stone-400/10 text-stone-600 dark:text-[#C5B9AE] border border-stone-500/20">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-500/10 dark:bg-stone-400/10 text-stone-600 dark:text-[#BABABA] border border-stone-500/20">
             Draft Preview
           </span>
         </div>
@@ -2301,7 +2301,7 @@ export function SandboxedWidgetRenderer({
     <div
       className={`relative group/canvas-widget h-full transition-all duration-300 ${
         isFilteredIn
-          ? 'ring-2 ring-[#EA8069] shadow-lg rounded-2xl'
+          ? 'ring-2 ring-[#F2F2F2] shadow-lg rounded-2xl'
           : isFilteredOut
           ? 'opacity-40 hover:opacity-80'
           : ''
@@ -2310,7 +2310,7 @@ export function SandboxedWidgetRenderer({
       {/* Active Filter Scope Badge */}
       {isFilteredIn && activeFilter && (
         <div className="absolute top-3 left-3 z-10">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#EA8069]/15 text-[#EA8069] border border-[#EA8069]/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F2F2F2]/15 text-[#F2F2F2] border border-[#F2F2F2]/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
             <IconFilter size={11} />
             {activeFilter.dimension}: {activeFilter.value}
           </span>
@@ -2321,14 +2321,14 @@ export function SandboxedWidgetRenderer({
       {hasToolbarControls && (
         <div role="toolbar"
           aria-label={`Actions for ${widget.title || 'widget'}`}
-          className="absolute top-2.5 right-2.5 z-20 hidden group-hover/canvas-widget:flex group-focus-within/canvas-widget:flex items-center gap-1 bg-[#FAF6F0]/95 dark:bg-[#302B28]/95 backdrop-blur-md px-2 py-1 rounded-xl border border-[#4A4238]/15 dark:border-[#504740] shadow-md transition-all">
+          className="absolute top-2.5 right-2.5 z-20 hidden group-hover/canvas-widget:flex group-focus-within/canvas-widget:flex items-center gap-1 bg-[#F5F5F5]/95 dark:bg-[#2C2C2C]/95 backdrop-blur-md px-2 py-1 rounded-xl border border-[#414141]/15 dark:border-[#484848] shadow-md transition-all">
           {exportable && (
             <button
               type="button"
               onClick={exportCsv}
               title="Download data as CSV"
               aria-label="Download data as CSV"
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconDownload size={13} />
             </button>
@@ -2340,7 +2340,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onRefine(widget)}
               title="Refine with AI (Click-to-chat)"
               aria-label="Refine with AI"
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconSparkles size={13} />
             </button>
@@ -2352,7 +2352,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onToggleWidth(widget.id)}
               title={widget.span === 2 ? 'Set to 1 Column' : 'Expand to 2 Columns'}
               aria-label={widget.span === 2 ? 'Set to 1 column' : 'Expand to 2 columns'}
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconColumns size={13} />
             </button>
@@ -2364,7 +2364,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveUp(widget.id)}
               title="Move Widget Up"
               aria-label="Move widget up"
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconArrowUp size={13} />
             </button>
@@ -2376,7 +2376,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveDown(widget.id)}
               title="Move Widget Down"
               aria-label="Move widget down"
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconArrowDown size={13} />
             </button>
@@ -2388,7 +2388,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onWidgetAction(widget.id, 'duplicate')}
               title="Duplicate Widget"
               aria-label="Duplicate widget"
-              className="p-1 rounded-lg text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#EA8069] hover:bg-[#EA8069]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#F2F2F2] hover:bg-[#F2F2F2]/10 transition-all cursor-pointer"
             >
               <IconCopy size={13} />
             </button>
@@ -2400,7 +2400,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onWidgetAction(widget.id, 'delete')}
               title="Remove Widget"
               aria-label="Remove widget"
-              className="p-1 rounded-lg text-[#4A4238]/40 hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[#414141]/40 hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
             >
               <IconTrash size={13} />
             </button>

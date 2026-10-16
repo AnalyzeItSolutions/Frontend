@@ -14,11 +14,11 @@ export default function TermsPage() {
         These Terms and Conditions (“Terms”) are an agreement between you and {LEGAL_NAME} for use of
         the AnalyzeIt website, applications, and related services (the “Service”). By creating an
         account or signing in, you agree to these Terms, the{' '}
-        <a href="/privacy" className="text-[#E3836C] hover:underline">
+        <a href="/privacy" className="text-[#F2F2F2] hover:underline">
           Privacy Policy
         </a>
         , and the{' '}
-        <a href="/acceptable-use" className="text-[#E3836C] hover:underline">
+        <a href="/acceptable-use" className="text-[#F2F2F2] hover:underline">
           Acceptable Use Policy
         </a>
         . You must be at least 18 years old to use the Service.
@@ -52,12 +52,12 @@ export default function TermsPage() {
       <LegalSection title="4. Plans and payment">
         <p>
           Free and paid plans are listed on{' '}
-          <a href="/products" className="text-[#E3836C] hover:underline">
+          <a href="/products" className="text-[#F2F2F2] hover:underline">
             Products
           </a>
           . Paid upgrades are processed by Razorpay. Charges are in Indian Rupees (INR); USD amounts on
           the site are for reference only. Taxes may apply. See the{' '}
-          <a href="/refund" className="text-[#E3836C] hover:underline">
+          <a href="/refund" className="text-[#F2F2F2] hover:underline">
             Cancellation and Refund
           </a>{' '}
           for cancellations and refunds. We may change plan features or prices with notice for
@@ -85,7 +85,7 @@ export default function TermsPage() {
         <p>
           You may not misuse the Service, access another user’s workspace, or use the assistant to
           generate unlawful content. Details are in the{' '}
-          <a href="/acceptable-use" className="text-[#E3836C] hover:underline">
+          <a href="/acceptable-use" className="text-[#F2F2F2] hover:underline">
             Acceptable Use Policy
           </a>
           .
@@ -127,7 +127,7 @@ export default function TermsPage() {
       <LegalSection title="12. Contact">
         <p>
           Questions:{' '}
-          <a href={`mailto:${EMAIL.legal}`} className="text-[#E3836C] hover:underline">
+          <a href={`mailto:${EMAIL.legal}`} className="text-[#F2F2F2] hover:underline">
             {EMAIL.legal}
           </a>
           .

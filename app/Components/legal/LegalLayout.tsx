@@ -43,7 +43,7 @@ export function LegalLayout({
       {subtitle}
     </p>
   ) : showHeroUpdated && updated ? (
-    <p className="text-sm text-[#4A4238]/50 dark:text-[#91867E] mb-10">
+    <p className="text-sm text-[#414141]/50 dark:text-[#888888] mb-10">
       Last updated {updated}
     </p>
   ) : (
@@ -60,13 +60,13 @@ export function LegalLayout({
           <ThemeToggle />
           <Link
             href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#E3836C] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#F2F2F2] transition-colors"
           >
             Sign in
           </Link>
           <Link
             href="/login?tab=register"
-            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[#302824] hover:bg-[var(--brand)] text-[var(--brand-ink)] transition-colors"
+            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[#2A2A2A] hover:bg-[var(--brand)] text-[var(--brand-ink)] transition-colors"
           >
             Create account
           </Link>
@@ -75,7 +75,7 @@ export function LegalLayout({
 
       <main id="main-content" className="flex-1 w-full max-w-3xl mx-auto px-6 py-14 sm:py-20">
         {eyebrow !== false ? (
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[#4A4238]/45 dark:text-[#91867E] mb-3">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888] mb-3">
             {eyebrow}
           </p>
         ) : null}
@@ -92,9 +92,9 @@ export function LegalLayout({
           />
         </article>
 
-        <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+        <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
           {LEGAL_NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-[#E3836C] transition-colors">
+            <Link key={item.href} href={item.href} className="hover:text-[#F2F2F2] transition-colors">
               {item.label}
             </Link>
           ))}

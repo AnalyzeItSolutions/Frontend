@@ -190,7 +190,7 @@ export function ProjectsManager({
     <section id="projects" className="app-card scroll-mt-24 space-y-4 p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#EA8069]/15 text-[#EA8069]">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F2F2F2]/15 text-[#F2F2F2]">
             <IconFolder size={18} />
           </div>
           <div>
@@ -205,10 +205,10 @@ export function ProjectsManager({
               ) : null}
             </p>
             {overLimit ? (
-              <p className="mt-1.5 text-xs text-[#9B4D3B]">
+              <p className="mt-1.5 text-xs text-[#0A0A0A]">
                 Over your plan limit — New and Duplicate are disabled. Delete projects below until you
                 are at {projectLimit}, or{' '}
-                <Link href="/billing" className="underline underline-offset-2 hover:text-[var(--coral,#EA8069)]">
+                <Link href="/billing" className="underline underline-offset-2 hover:text-[var(--coral,#F2F2F2)]">
                   upgrade
                 </Link>
                 .
@@ -216,7 +216,7 @@ export function ProjectsManager({
             ) : atLimit ? (
               <p className="mt-1.5 text-xs text-[var(--text-muted)]">
                 At your plan limit. Delete a project to free a slot, or{' '}
-                <Link href="/billing" className="underline underline-offset-2 hover:text-[var(--coral,#EA8069)]">
+                <Link href="/billing" className="underline underline-offset-2 hover:text-[var(--coral,#F2F2F2)]">
                   upgrade
                 </Link>
                 .
@@ -249,7 +249,7 @@ export function ProjectsManager({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Filter by name…"
-          className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] py-2 pl-9 pr-3 text-sm outline-none focus:border-[var(--coral,#EA8069)]"
+          className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] py-2 pl-9 pr-3 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
         />
       </div>
 
@@ -257,7 +257,7 @@ export function ProjectsManager({
         <p className="rounded-lg bg-[#8FA98F]/15 px-3 py-2 text-xs text-[#4A7C59] dark:text-[#9EBB9A]">{note}</p>
       ) : null}
       {error ? (
-        <p role="alert" className="rounded-lg bg-[#9B4D3B]/10 px-3 py-2 text-xs text-[#9B4D3B]">
+        <p role="alert" className="rounded-lg bg-[#0A0A0A]/10 px-3 py-2 text-xs text-[#0A0A0A]">
           {error}
         </p>
       ) : null}
@@ -271,7 +271,7 @@ export function ProjectsManager({
               {query ? 'No projects match this filter.' : 'No projects yet.'}
             </p>
             {!query ? (
-              <button type="button" onClick={openCreate} className="mt-3 text-sm text-[var(--coral,#EA8069)] hover:underline">
+              <button type="button" onClick={openCreate} className="mt-3 text-sm text-[var(--coral,#F2F2F2)] hover:underline">
                 Create your first workspace
               </button>
             ) : null}
@@ -285,7 +285,7 @@ export function ProjectsManager({
               <div className="min-w-0">
                 <Link
                   href={`/project/${encodeURIComponent(project.id)}`}
-                  className="truncate text-sm font-medium text-[var(--text-primary)] hover:text-[var(--coral,#EA8069)]"
+                  className="truncate text-sm font-medium text-[var(--text-primary)] hover:text-[var(--coral,#F2F2F2)]"
                 >
                   {project.name}
                 </Link>
@@ -297,7 +297,7 @@ export function ProjectsManager({
               <div className="flex items-center gap-1">
                 <Link
                   href={`/project/${encodeURIComponent(project.id)}`}
-                  className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-[11px] text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--coral,#EA8069)]"
+                  className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-[11px] text-[var(--text-secondary)] hover:bg-[var(--surface)] hover:text-[var(--coral,#F2F2F2)]"
                   title="Open project home"
                 >
                   <IconLayoutDashboard size={14} />
@@ -313,7 +313,7 @@ export function ProjectsManager({
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--coral,#EA8069)] disabled:opacity-40"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--coral,#F2F2F2)] disabled:opacity-40"
                   title="Duplicate"
                   disabled={busyId === project.id || atLimit}
                   onClick={() => void runDuplicate(project)}
@@ -326,7 +326,7 @@ export function ProjectsManager({
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[#9B4D3B]"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[#0A0A0A]"
                   title="Delete"
                   onClick={() => setConfirm({ kind: 'delete', project })}
                 >
@@ -386,7 +386,7 @@ export function ProjectsManager({
                   value={draftName}
                   onChange={(e) => setDraftName(e.target.value)}
                   placeholder="Workspace name"
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#EA8069)]"
+                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault();
@@ -424,7 +424,7 @@ export function ProjectsManager({
                 {confirm.kind === 'delete' ? (
                   <button
                     type="button"
-                    className="rounded-full bg-[#9B4D3B] px-4 py-2 text-xs font-medium text-white disabled:opacity-50"
+                    className="rounded-full bg-[#0A0A0A] px-4 py-2 text-xs font-medium text-white disabled:opacity-50"
                     disabled={busyId === confirm.project.id}
                     onClick={() => void runDelete(confirm.project)}
                   >

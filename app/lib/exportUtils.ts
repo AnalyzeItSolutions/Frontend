@@ -62,17 +62,17 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
       contentHtml = `
         <table style="width: 100%; border-collapse: collapse; margin-top: 12px; font-family: monospace; font-size: 11px;">
           <thead>
-            <tr style="background: #292522; color: #F4EDE5;">
-              ${cols.map(c => `<th style="padding: 8px 12px; text-align: left; border: 1px solid #2B2521;">${c}</th>`).join('')}
+            <tr style="background: #262626; color: #EDEDED;">
+              ${cols.map(c => `<th style="padding: 8px 12px; text-align: left; border: 1px solid #262626;">${c}</th>`).join('')}
             </tr>
           </thead>
           <tbody>
             ${rows.map((row, rIdx) => {
               const cells = Array.isArray(row) ? row : cols.map(c => row[c] ?? '');
-              const bg = rIdx % 2 === 0 ? '#1C1816' : '#292522';
+              const bg = rIdx % 2 === 0 ? '#191919' : '#262626';
               return `
-                <tr style="background: ${bg}; color: #C5B9AE;">
-                  ${cells.map((cell: any) => `<td style="padding: 6px 12px; border: 1px solid #2B2521;">${String(cell)}</td>`).join('')}
+                <tr style="background: ${bg}; color: #BABABA;">
+                  ${cells.map((cell: any) => `<td style="padding: 6px 12px; border: 1px solid #262626;">${String(cell)}</td>`).join('')}
                 </tr>
               `;
             }).join('')}
@@ -82,33 +82,33 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
     } else if (val !== '') {
       contentHtml = `
         <div style="margin-top: 12px; display: flex; align-items: baseline; gap: 12px;">
-          <span style="font-size: 32px; font-weight: bold; color: #F4EDE5; font-family: serif;">${val}</span>
+          <span style="font-size: 32px; font-weight: bold; color: #EDEDED; font-family: serif;">${val}</span>
           ${change ? `<span style="font-size: 14px; font-family: monospace; color: #9EBB9A;">${change}</span>` : ''}
         </div>
-        ${description ? `<p style="margin-top: 8px; font-size: 12px; color: #91867E;">${description}</p>` : ''}
+        ${description ? `<p style="margin-top: 8px; font-size: 12px; color: #888888;">${description}</p>` : ''}
       `;
     } else if ((w as any).series) {
       const pts = (w as any).series || [];
       contentHtml = `
-        <div style="margin-top: 10px; font-size: 11px; font-family: monospace; color: #C5B9AE;">
+        <div style="margin-top: 10px; font-size: 11px; font-family: monospace; color: #BABABA;">
           <span>Data Points (${pts.length}):</span>
           <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px;">
-            ${pts.slice(0, 10).map((p: any) => `<span style="background: #292522; padding: 3px 8px; border-radius: 4px; border: 1px solid #2B2521;">${p.x ?? p.label}: <strong>${p.y ?? p.value}</strong></span>`).join('')}
-            ${pts.length > 10 ? `<span style="color: #91867E; padding: 3px;">+${pts.length - 10} more</span>` : ''}
+            ${pts.slice(0, 10).map((p: any) => `<span style="background: #262626; padding: 3px 8px; border-radius: 4px; border: 1px solid #262626;">${p.x ?? p.label}: <strong>${p.y ?? p.value}</strong></span>`).join('')}
+            ${pts.length > 10 ? `<span style="color: #888888; padding: 3px;">+${pts.length - 10} more</span>` : ''}
           </div>
         </div>
       `;
     } else {
       contentHtml = `
-        <p style="margin-top: 10px; font-size: 12px; color: #91867E; font-style: italic;">Visual component: ${comp}</p>
+        <p style="margin-top: 10px; font-size: 12px; color: #888888; font-style: italic;">Visual component: ${comp}</p>
       `;
     }
 
     return `
-      <div style="page-break-inside: avoid; background: #1C1816; border: 1px solid #2B2521; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2B2521; padding-bottom: 8px; margin-bottom: 10px;">
-          <h3 style="margin: 0; font-family: serif; font-size: 18px; color: #F4EDE5;">${title}</h3>
-          <span style="font-family: monospace; font-size: 10px; font-weight: bold; background: rgba(227, 131, 108, 0.15); color: #E3836C; padding: 3px 8px; border-radius: 6px;">${comp}</span>
+      <div style="page-break-inside: avoid; background: #191919; border: 1px solid #262626; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #262626; padding-bottom: 8px; margin-bottom: 10px;">
+          <h3 style="margin: 0; font-family: serif; font-size: 18px; color: #EDEDED;">${title}</h3>
+          <span style="font-family: monospace; font-size: 10px; font-weight: bold; background: rgba(255, 255, 255, 0.15); color: #F2F2F2; padding: 3px 8px; border-radius: 6px;">${comp}</span>
         </div>
         ${contentHtml}
       </div>
@@ -123,14 +123,14 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
         <style>
           @page { size: A4; margin: 18mm; }
           body {
-            background-color: #14110F;
-            color: #F4EDE5;
+            background-color: #121212;
+            color: #EDEDED;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 24px;
           }
           .header {
-            border-bottom: 2px solid #E3836C;
+            border-bottom: 2px solid #F2F2F2;
             padding-bottom: 16px;
             margin-bottom: 24px;
           }
@@ -138,15 +138,15 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
             font-family: Georgia, serif;
             font-size: 28px;
             margin: 0 0 6px 0;
-            color: #F4EDE5;
+            color: #EDEDED;
           }
           .meta {
             font-family: monospace;
             font-size: 11px;
-            color: #91867E;
+            color: #888888;
           }
           @media print {
-            body { background: #14110F !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #121212 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           }
         </style>
       </head>
@@ -154,13 +154,13 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
         <div class="header">
           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
             <div>
-              <div style="font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #E3836C; margin-bottom: 4px;">
+              <div style="font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #F2F2F2; margin-bottom: 4px;">
                 AnalyzeIt · Executive Briefing
               </div>
               <h1 class="title">${projectName}</h1>
               <div class="meta">${dateStr} · ${widgets.length} Canvas Widgets · Verified Data Lineage</div>
             </div>
-            <div style="font-family: monospace; font-size: 11px; color: #E3836C; border: 1px solid #E3836C; padding: 4px 10px; border-radius: 6px;">
+            <div style="font-family: monospace; font-size: 11px; color: #F2F2F2; border: 1px solid #F2F2F2; padding: 4px 10px; border-radius: 6px;">
               CONFIDENTIAL REPORT
             </div>
           </div>
@@ -170,7 +170,7 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
           ${widgetCardsHtml}
         </div>
 
-        <div style="margin-top: 32px; padding-top: 12px; border-top: 1px solid #2B2521; font-family: monospace; font-size: 10px; color: #91867E; display: flex; justify-content: space-between;">
+        <div style="margin-top: 32px; padding-top: 12px; border-top: 1px solid #262626; font-family: monospace; font-size: 10px; color: #888888; display: flex; justify-content: space-between;">
           <span>Generated by AnalyzeIt Continuous Intelligence Engine</span>
           <span>Security Boundary: Isolated · AES-256 HMAC</span>
         </div>
@@ -238,8 +238,8 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
   <style>
     body {
       margin: 0;
-      background: #14110F;
-      color: #F4EDE5;
+      background: #121212;
+      color: #EDEDED;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     .slide {
@@ -251,8 +251,8 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: #14110F;
-      border-bottom: 2px dashed #2B2521;
+      background: #121212;
+      border-bottom: 2px dashed #262626;
     }
     .slide-title-slide {
       justify-content: center;
@@ -262,18 +262,18 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
     .hero-title {
       font-family: Georgia, serif;
       font-size: 54px;
-      color: #F4EDE5;
+      color: #EDEDED;
       margin: 0 0 16px 0;
     }
     .hero-sub {
       font-family: monospace;
       font-size: 16px;
-      color: #E3836C;
+      color: #F2F2F2;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
     .slide-header {
-      border-bottom: 1px solid #2B2521;
+      border-bottom: 1px solid #262626;
       padding-bottom: 20px;
     }
     .slide-tag {
@@ -281,13 +281,13 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #E3836C;
+      color: #F2F2F2;
       margin-bottom: 6px;
     }
     .slide-title {
       font-family: Georgia, serif;
       font-size: 36px;
-      color: #F4EDE5;
+      color: #EDEDED;
       margin: 0;
     }
     .slide-content {
@@ -298,8 +298,8 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       gap: 60px;
     }
     .metric-highlight {
-      background: #1C1816;
-      border: 1px solid #2B2521;
+      background: #191919;
+      border: 1px solid #262626;
       border-radius: 24px;
       padding: 40px;
       min-width: 280px;
@@ -309,7 +309,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       font-family: Georgia, serif;
       font-size: 64px;
       font-weight: bold;
-      color: #F4EDE5;
+      color: #EDEDED;
       display: block;
     }
     .metric-highlight .change {
@@ -320,8 +320,8 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       margin-top: 8px;
     }
     .takeaway-box {
-      background: #1C1816;
-      border: 1px solid #2B2521;
+      background: #191919;
+      border: 1px solid #262626;
       border-radius: 24px;
       padding: 36px;
       flex: 1;
@@ -330,32 +330,32 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       margin: 0 0 12px 0;
       font-family: monospace;
       font-size: 14px;
-      color: #E3836C;
+      color: #F2F2F2;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
     .takeaway-box p {
       font-size: 18px;
       line-height: 1.6;
-      color: #C5B9AE;
+      color: #BABABA;
       margin: 0 0 16px 0;
     }
     .takeaway-box ul {
       margin: 0;
       padding-left: 20px;
-      color: #91867E;
+      color: #888888;
       font-size: 14px;
       line-height: 1.8;
       font-family: monospace;
     }
     .slide-footer {
-      border-top: 1px solid #2B2521;
+      border-top: 1px solid #262626;
       padding-top: 16px;
       display: flex;
       justify-content: space-between;
       font-family: monospace;
       font-size: 12px;
-      color: #91867E;
+      color: #888888;
     }
     @media print {
       .slide {
@@ -372,7 +372,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
     <div>
       <div class="hero-sub">Executive Dashboard Deck</div>
       <h1 class="hero-title">${projectName}</h1>
-      <p style="font-family: monospace; font-size: 14px; color: #91867E; margin-top: 12px;">
+      <p style="font-family: monospace; font-size: 14px; color: #888888; margin-top: 12px;">
         ${dateStr} · Automated Synthesis by AnalyzeIt
       </p>
     </div>
@@ -469,9 +469,9 @@ export function exportDashboardToDocx(projectName: string, widgets: WidgetSpec[]
         <title>${projectName}</title>
         <style>
           body { font-family: 'Calibri', sans-serif; font-size: 11pt; color: #333333; line-height: 1.6; }
-          h1 { color: #14110F; font-size: 24pt; border-bottom: 2pt solid #E3836C; padding-bottom: 8pt; margin-bottom: 12pt; }
-          .executive-summary { background: #fdf6f0; border-left: 4pt solid #E3836C; padding: 12pt 16pt; margin-bottom: 24pt; }
-          .executive-summary h2 { margin: 0 0 6pt 0; font-size: 13pt; color: #5A332C; }
+          h1 { color: #121212; font-size: 24pt; border-bottom: 2pt solid #F2F2F2; padding-bottom: 8pt; margin-bottom: 12pt; }
+          .executive-summary { background: #fdf6f0; border-left: 4pt solid #F2F2F2; padding: 12pt 16pt; margin-bottom: 24pt; }
+          .executive-summary h2 { margin: 0 0 6pt 0; font-size: 13pt; color: #0A0A0A; }
         </style>
       </head>
       <body>

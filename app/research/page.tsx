@@ -9,6 +9,7 @@ import {
   IconCopy,
   IconFile,
   IconLayoutDashboard,
+  IconPlugConnected,
   IconPlus,
   IconSearch,
   IconSend,
@@ -50,6 +51,10 @@ import { PermissionRequestCard, type PermissionDecision } from '../Components/ch
 import { DataChangeCard, type DataChangeStatus } from '../Components/chat/DataChangeCard';
 import { decideBulkChange, decideDataChange, setAgentAccess, undoBulkChange } from '../lib/agentAccessApi';
 import { BulkChangeCard, type BulkChangeStatus } from '../Components/chat/BulkChangeCard';
+import { ExternalActionCard } from '../Components/chat/ExternalActionCard';
+import { ConnectAccountDialog } from '../Components/chat/ConnectAccountDialog';
+import { decideExternalAction, editExternalAction, saveActionFile, type ExternalAction } from '../lib/externalActionsApi';
+import { SECRET_WARNING, explainActionError, looksLikeSecret } from '../lib/externalActions.mjs';
 import { explainBulkError, parseBulkProposal, type BulkProposal } from '../lib/bulkChange.mjs';
 import { explainApplyError, type ChangeProposal } from '../lib/dataChange.mjs';
 import { AdSlot, AD_LOAD_TIMEOUT_MS, isAdPlacementConfigured } from '../Components/ads/AdSlot';
@@ -151,6 +156,10 @@ interface ChatMessage {
   permission?: { project_id: string; decision: PermissionDecision; busy?: boolean; error?: string };
   /** A data change the assistant proposed; applied only after the user approves. */
   dataChange?: { action_id: string; project_id: string; proposal: ChangeProposal; status: DataChangeStatus; error?: string };
+  /** Things the assistant wants to do on the user's own accounts; each runs only after the user approves it here. */
+  externalActions?: Array<{ action: ExternalAction; busy?: boolean; error?: string }>;
+  /** The assistant needs an account the user has not connected yet (opens the secure form, never asks for a login in chat). */
+  needAccount?: { service: string };
   bulkChange?: { action_id: string; project_id: string; proposal: BulkProposal; status: BulkChangeStatus; result?: { changed?: number; skipped?: number; restored?: number; left_alone?: number } | null; error?: string };
   streaming?: boolean;
   status?: string;
@@ -406,6 +415,7 @@ function ChatInner() {
   const [promoteBusy, setPromoteBusy] = useState(false);
   const [pendingAttachments, setPendingAttachments] = useState<ChatAttachment[]>([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  const [accountsOpen, setAccountsOpen] = useState<{ service?: string } | null>(null);
   const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
   const pendingAttachmentsRef = useRef<ChatAttachment[]>([]);
   pendingAttachmentsRef.current = pendingAttachments;
@@ -825,6 +835,11 @@ function ChatInner() {
       // A retry carries the files the original message had; they are no longer in the composer.
       const attachmentIds = resend ? resend.map((a) => a.attachment_id) : sendableIds(pendingAttachments);
       if ((!value && !attachmentIds.length) || awaitingAd) return;
+      if (looksLikeSecret(value)) {
+        // A login typed into the chat would reach the model and the stored history. Stop it here; the secure form is the only way in.
+        setError(SECRET_WARNING);
+        return;
+      }
       if (isStreaming) {
         abortRef.current = true;
         streamAbortRef.current?.abort();
@@ -1345,6 +1360,24 @@ function ChatInner() {
               return;
             }
 
+            if (event.event === 'external_action_proposal' && event.payload.proposal && typeof event.payload.proposal === 'object') {
+              const proposed = event.payload.proposal as ExternalAction;
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId && !(m.externalActions ?? []).some((x) => x.action.id === proposed.id)
+                    ? { ...m, externalActions: [...(m.externalActions ?? []), { action: proposed }] }
+                    : m,
+                ),
+              );
+              return;
+            }
+
+            if (event.event === 'external_account_required') {
+              const service = typeof event.payload.service === 'string' ? event.payload.service : '';
+              setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, needAccount: { service } } : m)));
+              return;
+            }
+
             if (event.event === 'ui_proposal' && event.payload.action === 'object_bulk_change') {
               const actionId = typeof event.payload.action_id === 'string' ? event.payload.action_id : '';
               const pid = typeof event.payload.project_id === 'string' ? event.payload.project_id : '';
@@ -1686,6 +1719,38 @@ function ChatInner() {
     }
   };
 
+  const patchExternal = (msgId: string, actionId: string, patch: (x: { action: ExternalAction; busy?: boolean; error?: string }) => { action: ExternalAction; busy?: boolean; error?: string }) =>
+    patchMessage(msgId, (m) => ({ ...m, externalActions: (m.externalActions ?? []).map((x) => (x.action.id === actionId ? patch(x) : x)) }));
+
+  /** Approve or deny exactly what the card shows: the server only accepts the hash of the content the person saw. */
+  const decideExternal = async (msgId: string, actionId: string, decision: 'approve' | 'deny') => {
+    const cur = messages.find((m) => m.id === msgId)?.externalActions?.find((x) => x.action.id === actionId);
+    if (!cur) return;
+    patchExternal(msgId, actionId, (x) => ({ ...x, busy: true, error: undefined }));
+    try {
+      const next = await decideExternalAction(actionId, decision, cur.action.params_sha256);
+      patchExternal(msgId, actionId, () => ({ action: next }));
+    } catch (err) {
+      const status = (err as { status?: number }).status ?? 0;
+      patchExternal(msgId, actionId, (x) => ({ ...x, busy: false, error: explainActionError(status, err instanceof Error ? err.message : undefined) }));
+    }
+  };
+
+  const editExternal = async (msgId: string, actionId: string, params: Record<string, string | number>): Promise<boolean> => {
+    const cur = messages.find((m) => m.id === msgId)?.externalActions?.find((x) => x.action.id === actionId);
+    if (!cur) return false;
+    patchExternal(msgId, actionId, (x) => ({ ...x, busy: true, error: undefined }));
+    try {
+      const next = await editExternalAction(actionId, params, cur.action.params_sha256);
+      patchExternal(msgId, actionId, () => ({ action: next }));
+      return true;
+    } catch (err) {
+      const status = (err as { status?: number }).status ?? 0;
+      patchExternal(msgId, actionId, (x) => ({ ...x, busy: false, error: explainActionError(status, err instanceof Error ? err.message : undefined) }));
+      return false;
+    }
+  };
+
   const latestProposalMeta = [...messages].reverse().find((m) => m.proposal)?.proposal;
 
   return (
@@ -1729,7 +1794,7 @@ function ChatInner() {
                   onClick={() => setShowDashboard((v) => !v)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
                     showDashboard
-                      ? 'border-[#E3836C]/40 bg-[var(--brand)]/15 text-[#E3836C]'
+                      ? 'border-[#F2F2F2]/40 bg-[var(--brand)]/15 text-[#F2F2F2]'
                       : 'border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                   }`}
                   title="Show dashboard panel only when you want it"
@@ -1751,10 +1816,11 @@ function ChatInner() {
 
             <div className="relative z-10">
             <SessionStartAd enabled={!adsFree} />
+            <ConnectAccountDialog open={accountsOpen !== null} onClose={() => setAccountsOpen(null)} initialService={accountsOpen?.service} />
 
             {promoteNudge?.eligible && promoteNudge.message && (
-              <div className="mx-4 mt-3 rounded-[var(--radius-card,14px)] border border-[var(--coral,#EA8069)]/30 bg-[var(--coral,#EA8069)]/8 px-4 py-3 sm:mx-6">
-                <p className="text-sm text-[var(--text,#3A342D)] dark:text-[var(--text-primary)]">
+              <div className="mx-4 mt-3 rounded-[var(--radius-card,14px)] border border-[var(--coral,#F2F2F2)]/30 bg-[var(--coral,#F2F2F2)]/8 px-4 py-3 sm:mx-6">
+                <p className="text-sm text-[var(--text,#343434)] dark:text-[var(--text-primary)]">
                   {promoteNudge.message}
                 </p>
                 <div className="mt-2.5 flex flex-wrap gap-2">
@@ -1762,7 +1828,7 @@ function ChatInner() {
                     type="button"
                     disabled={promoteBusy}
                     onClick={() => void handlePromoteToProject()}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#EA8069)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
                   >
                     <IconLayoutDashboard size={14} />
                     {promoteBusy ? 'Creating…' : 'Create project'}
@@ -1813,7 +1879,7 @@ function ChatInner() {
                       }`}
                     >
                       {!isUser && msg.mode === 'research' && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#E3836C]">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#F2F2F2]">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
@@ -1928,7 +1994,7 @@ function ChatInner() {
                             {msg.softFail.openUpgrade && msg.softFail.upgradeReason ? (
                               <button
                                 type="button"
-                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
+                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                                 onClick={() => {
                                   const reason = msg.softFail?.upgradeReason;
                                   if (reason) setUpgradeModal({ open: true, reason });
@@ -1991,7 +2057,7 @@ function ChatInner() {
                             <button
                               type="button"
                               onClick={() => setShowDashboard(true)}
-                              className="text-[11px] text-[#E3836C]"
+                              className="text-[11px] text-[#F2F2F2]"
                             >
                               Preview panel
                             </button>
@@ -2053,6 +2119,29 @@ function ChatInner() {
                         />
                       )}
 
+                      {!isUser && msg.externalActions?.map((x) => (
+                        <ExternalActionCard
+                          key={x.action.id}
+                          action={x.action}
+                          busy={Boolean(x.busy)}
+                          error={x.error}
+                          onSaveEdit={(params) => editExternal(msg.id, x.action.id, params)}
+                          onApprove={() => void decideExternal(msg.id, x.action.id, 'approve')}
+                          onDeny={() => void decideExternal(msg.id, x.action.id, 'deny')}
+                          onSaveFile={() => void saveActionFile(x.action.id, String((x.action.result?.detail as { filename?: string } | undefined)?.filename || 'download'))}
+                        />
+                      ))}
+
+                      {!isUser && msg.needAccount && (
+                        <div role="group" aria-label="Account needed" className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3">
+                          <p className="text-sm text-[var(--text-primary)]">
+                            {msg.needAccount.service ? `Connect a ${msg.needAccount.service} account to do this.` : 'Connect an account to do this.'}
+                          </p>
+                          <p className="mt-1 text-xs text-[var(--text-muted)]">Use the secure form. Never type a password or key into the chat: the assistant must not see it.</p>
+                          <button type="button" onClick={() => setAccountsOpen({ service: msg.needAccount?.service })} className="btn-primary mt-2 text-xs">Connect account</button>
+                        </div>
+                      )}
+
                       {!isUser && !msg.streaming && msg.findings ? (
                         <FindingCards data={msg.findings} disabled={isStreaming} signedIn onAsk={(q) => void sendMessage(q)} />
                       ) : null}
@@ -2104,10 +2193,10 @@ function ChatInner() {
 
             {/* Errors */}
             {error && (
-              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#E3836C]/60 bg-[var(--surface-2,#FFFCF8)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#3A342D))] sm:mx-6">
+              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#F2F2F2]/60 bg-[var(--surface-2,#FCFCFC)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#343434))] sm:mx-6">
                 {error}
                 {upgradeHref ? (
-                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
+                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
                     Upgrade
                   </Link>
                 ) : null}
@@ -2131,8 +2220,8 @@ function ChatInner() {
             )}
 
             {quotaBanner && llmQuota?.show ? (
-              <div className="mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#FFFCF8)] px-3 py-2.5 sm:mx-6">
-                <p className="text-xs text-[var(--text,#3A342D)]">
+              <div className="mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-3 py-2.5 sm:mx-6">
+                <p className="text-xs text-[var(--text,#343434)]">
                   {quotaBanner === 'exhausted'
                     ? llmQuota.unit === 'tokens'
                       ? 'You have used today’s free token budget. Upgrade for more headroom, or watch a short sponsored unit for one more try.'
@@ -2143,7 +2232,7 @@ function ChatInner() {
                   <button
                     type="button"
                     onClick={() => setUpgradeModal({ open: true, reason: 'quota' })}
-                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#EA8069)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
+                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                   >
                     Upgrade
                   </button>
@@ -2193,17 +2282,17 @@ function ChatInner() {
                   <ComposerModeControl mode={composerMode} onMode={setComposerMode} />
                   <span
                     title="Message frequency hints prepared in your browser before send"
-                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FFFCF8)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#81786F)]"
+                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#787878)]"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#EA8069)]" aria-hidden />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#F2F2F2)]" aria-hidden />
                     Prepared on device
                   </span>
                   {llmQuota?.show ? (
                     <span
                       className={`inline-flex min-h-8 items-center rounded-full border px-3 text-[11px] ${
                         llmQuota.exhausted || llmQuota.nearCap
-                          ? 'border-[var(--coral,#EA8069)]/40 bg-[var(--coral,#EA8069)]/10 text-[var(--text,#3A342D)]'
-                          : 'border-[var(--border)] bg-[var(--surface,#FFFCF8)] text-[var(--text-muted)]'
+                          ? 'border-[var(--coral,#F2F2F2)]/40 bg-[var(--coral,#F2F2F2)]/10 text-[var(--text,#343434)]'
+                          : 'border-[var(--border)] bg-[var(--surface,#FCFCFC)] text-[var(--text-muted)]'
                       }`}
                       title={llmQuota.exhausted ? 'Monthly free LLM runs used' : 'Remaining free LLM runs this period'}
                     >
@@ -2216,7 +2305,7 @@ function ChatInner() {
                       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium ${
                         liveBudget.truncated
                           ? 'bg-amber-500/15 text-amber-800 dark:text-amber-200'
-                          : 'border border-[var(--border)] bg-[var(--surface,#FFFCF8)] text-[var(--text-muted,#81786F)]'
+                          : 'border border-[var(--border)] bg-[var(--surface,#FCFCFC)] text-[var(--text-muted,#787878)]'
                       }`}
                     >
                       {formatBudgetChip(liveBudget, liveRlmDepth || undefined)}
@@ -2237,7 +2326,7 @@ function ChatInner() {
                   onDrop={handleComposerDrop}
                   className={`app-card flex flex-col gap-2 p-2 ${
                     isIncognito ? 'ring-1 ring-violet-500/30' : ''
-                  } ${composerMode === 'research' ? 'ring-1 ring-[#E3836C]/25' : ''}`}
+                  } ${composerMode === 'research' ? 'ring-1 ring-[#F2F2F2]/25' : ''}`}
                 >
                   <input
                     ref={fileInputRef}
@@ -2256,12 +2345,12 @@ function ChatInner() {
                           key={att.attachment_id}
                           className={`inline-flex max-w-[14rem] items-center gap-1.5 rounded-lg border px-2 py-1 text-[11px] ${
                             att.status === 'failed'
-                              ? 'border-[#9B4D3B]/40 bg-[#9B4D3B]/10 text-[#9B4D3B]'
+                              ? 'border-[#0A0A0A]/40 bg-[#0A0A0A]/10 text-[#0A0A0A]'
                               : 'border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-secondary)]'
                           }`}
                           title={att.notes?.[0] || att.status}
                         >
-                          <IconFile size={13} className="shrink-0 text-[#E3836C]" />
+                          <IconFile size={13} className="shrink-0 text-[#F2F2F2]" />
                           <span className="truncate">{att.filename}</span>
                           {att.status === 'parsed' ? (
                             <span className="text-[9px] uppercase tracking-wide text-[#4A7C59]">ready</span>
@@ -2296,6 +2385,16 @@ function ChatInner() {
                     ) : (
                       <IconPlus size={18} />
                     )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAccountsOpen({})}
+                    disabled={inputLocked}
+                    className="order-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] disabled:opacity-40 sm:order-none"
+                    aria-label="Connect account"
+                    title="Connect an account (GitHub, Slack, Bluesky, X…) so the assistant can propose posts and messages. You approve each one here."
+                  >
+                    <IconPlugConnected size={18} />
                   </button>
                   <textarea
                     ref={inputRef}
@@ -2413,7 +2512,7 @@ function ChatInner() {
               >
                 <div className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <IconLayoutDashboard size={16} className="text-[#E3836C]" />
+                    <IconLayoutDashboard size={16} className="text-[#F2F2F2]" />
                     <span className="text-sm font-medium">Dashboard preview</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -2487,7 +2586,7 @@ function ChatInner() {
                 ) : (
                   <p className="text-sm text-[var(--text-secondary)]">
                     Ask for a chart in chat, or{' '}
-                    <Link href="/dashboard" className="text-[#E3836C] underline">
+                    <Link href="/dashboard" className="text-[#F2F2F2] underline">
                       open Dashboard
                     </Link>
                     .

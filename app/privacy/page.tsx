@@ -68,7 +68,7 @@ export default function PrivacyPage() {
         <p>
           Account and workspace data are kept while your account is active. Essential storage
           (session token, theme) is used so the product can function. See the{' '}
-          <a href="/cookies" className="text-[#E3836C] hover:underline">
+          <a href="/cookies" className="text-[#F2F2F2] hover:underline">
             Cookie Policy
           </a>
           .
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
         <p>
           You can access and update your name and password from your profile, and request deletion
           at{' '}
-          <a href={`mailto:${EMAIL.privacy}`} className="text-[#E3836C] hover:underline">
+          <a href={`mailto:${EMAIL.privacy}`} className="text-[#F2F2F2] hover:underline">
             {EMAIL.privacy}
           </a>
           . Depending on where you live, you may also have rights to access, correct, restrict, or
@@ -104,11 +104,11 @@ export default function PrivacyPage() {
       <LegalSection title="8. Contact">
         <p>
           Privacy:{' '}
-          <a href={`mailto:${EMAIL.privacy}`} className="text-[#E3836C] hover:underline">
+          <a href={`mailto:${EMAIL.privacy}`} className="text-[#F2F2F2] hover:underline">
             {EMAIL.privacy}
           </a>
           . Support:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#E3836C] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">
             {EMAIL.support}
           </a>
           .

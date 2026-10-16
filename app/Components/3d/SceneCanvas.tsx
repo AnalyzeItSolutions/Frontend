@@ -25,7 +25,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
   const [isCapable, setIsCapable] = useState(true);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const clearColor = isDark ? '#14110F' : '#F7F1E8';
+  const clearColor = isDark ? '#121212' : '#F8F8F8';
 
   useEffect(() => {
     setMounted(true);
@@ -46,7 +46,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
 
   if (!mounted || !isCapable) {
     return (
-      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#EBDCC8] via-[#F2E5D4] to-[#F7F1E8] dark:from-[#241E1A] dark:via-[#1C1816] dark:to-[#14110F] pointer-events-none" />
+      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#DADADA] via-[#E3E3E3] to-[#F8F8F8] dark:from-[#1F1F1F] dark:via-[#191919] dark:to-[#121212] pointer-events-none" />
     );
   }
 
@@ -76,16 +76,16 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
         <color attach="background" args={[clearColor]} />
         <fog attach="fog" args={[isDark ? FOG_COLORS.dark : FOG_COLORS.light, 12, 42]} />
 
-        <ambientLight intensity={isDark ? 0.32 : 1.1} color={isDark ? '#C9B8A8' : '#FFFFFF'} />
+        <ambientLight intensity={isDark ? 0.32 : 1.1} color={isDark ? '#B9B9B9' : '#FFFFFF'} />
         <hemisphereLight
           intensity={isDark ? 0.28 : 0.7}
-          groundColor={isDark ? '#14110F' : '#E8DFD3'}
+          groundColor={isDark ? '#121212' : '#DEDEDE'}
           color={isDark ? '#4A3F52' : '#D5C5E5'}
         />
         <directionalLight
           position={[12, 16, 10]}
           intensity={isDark ? 0.95 : 1.4}
-          color={isDark ? '#E8C4A0' : '#FFF5EB'}
+          color={isDark ? '#E8C4A0' : '#F5F5F5'}
         />
         <directionalLight
           position={[-10, -6, -8]}
@@ -103,7 +103,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
           size={isDark ? 3.4 : 2.9}
           speed={0.18}
           opacity={isDark ? 0.72 : 0.58}
-          color={isDark ? '#E3836C' : '#E8C4A0'}
+          color={isDark ? '#F2F2F2' : '#E8C4A0'}
         />
 
         <CentralCrystalModel scrollProgressRef={scrollProgressRef} />

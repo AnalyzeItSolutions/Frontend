@@ -52,7 +52,7 @@ export function ConnectedApps() {
           <a href="/docs/connect-assistant" className="underline">How to connect one</a>.
         </p>
       </div>
-      {error && <p role="alert" className="text-xs text-[#9B4D3B]">{error}</p>}
+      {error && <p role="alert" className="text-xs text-[#0A0A0A]">{error}</p>}
       {grants && grants.length === 0 && <p className="text-xs text-[var(--text-muted)]">No apps connected.</p>}
       {grants && grants.length > 0 && (
         <ul className="space-y-2">
@@ -65,7 +65,7 @@ export function ConnectedApps() {
                   {lastUsed(g.last_used_at)}
                 </span>
                 {g.scope?.split(' ').includes('approve') ? (
-                  <span className="mt-0.5 block text-xs text-[#9B4D3B]">Can apply changes and open access when you tell it to in chat. Disconnect and reconnect to turn that off.</span>
+                  <span className="mt-0.5 block text-xs text-[#0A0A0A]">Can apply changes and open access when you tell it to in chat. Disconnect and reconnect to turn that off.</span>
                 ) : null}
               </span>
               <button type="button" disabled={busy} onClick={() => revoke(g.id)} className="shrink-0 rounded-xl border border-[var(--border)] px-3 py-1.5 text-xs hover:bg-[var(--surface-2)] disabled:opacity-60">
@@ -76,7 +76,7 @@ export function ConnectedApps() {
         </ul>
       )}
       {grants && grants.length > 1 && (
-        <button type="button" disabled={busy} onClick={() => revoke()} className="text-xs text-[#9B4D3B] underline disabled:opacity-60">
+        <button type="button" disabled={busy} onClick={() => revoke()} className="text-xs text-[#0A0A0A] underline disabled:opacity-60">
           Disconnect all
         </button>
       )}

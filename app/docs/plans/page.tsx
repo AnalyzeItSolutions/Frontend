@@ -17,7 +17,7 @@ export default function Page() {
       {IDS.map((id) => (
         <section key={id}>
           <h2>
-            {PLAN_NAMES[id]} {USD_REFERENCE[id] ? <span className="text-base font-sans text-[#4A4238]/70">· ${USD_REFERENCE[id]} USD reference</span> : <span className="text-base font-sans text-[#4A4238]/70">· no charge</span>}
+            {PLAN_NAMES[id]} {USD_REFERENCE[id] ? <span className="text-base font-sans text-[#414141]/70">· ${USD_REFERENCE[id]} USD reference</span> : <span className="text-base font-sans text-[#414141]/70">· no charge</span>}
           </h2>
           <ul>
             {PLAN_FEATURES[id].map((f) => (

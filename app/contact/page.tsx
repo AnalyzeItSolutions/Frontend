@@ -26,13 +26,13 @@ export default function ContactPage() {
           <a
             key={item.email}
             href={`mailto:${item.email}`}
-            className="rounded-2xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-white/50 dark:bg-[#1C1816] p-5 hover:border-[#E3836C]/40 transition-colors"
+            className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] bg-white/50 dark:bg-[#191919] p-5 hover:border-[#F2F2F2]/40 transition-colors"
           >
-            <div className="font-mono text-[11px] uppercase tracking-widest text-[#4A4238]/45 dark:text-[#91867E] mb-1">
+            <div className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888] mb-1">
               {item.label}
             </div>
-            <div className="font-medium text-[#4A4238] dark:text-[#F4EDE5]">{item.email}</div>
-            <div className="text-xs mt-1 text-[#4A4238]/55 dark:text-[#C5B9AE]">{item.note}</div>
+            <div className="font-medium text-[#414141] dark:text-[#EDEDED]">{item.email}</div>
+            <div className="text-xs mt-1 text-[#414141]/55 dark:text-[#BABABA]">{item.note}</div>
           </a>
         ))}
       </div>
@@ -47,14 +47,14 @@ export default function ContactPage() {
         {PHONE ? (
           <p>
             Phone:{' '}
-            <a href={`tel:${PHONE}`} className="text-[#E3836C] hover:underline">
+            <a href={`tel:${PHONE}`} className="text-[#F2F2F2] hover:underline">
               {PHONE}
             </a>
           </p>
         ) : null}
         <p>
           Support:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#E3836C] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">
             {EMAIL.support}
           </a>
         </p>
@@ -68,11 +68,11 @@ export default function ContactPage() {
 
       <LegalSection title="Need the product?">
         <p>
-          <Link href="/login?tab=register" className="text-[#E3836C] hover:underline">
+          <Link href="/login?tab=register" className="text-[#F2F2F2] hover:underline">
             Create an account
           </Link>{' '}
           or{' '}
-          <Link href="/login" className="text-[#E3836C] hover:underline">
+          <Link href="/login" className="text-[#F2F2F2] hover:underline">
             sign in
           </Link>{' '}
           to use chat, dashboards, and the rest of the workspace.

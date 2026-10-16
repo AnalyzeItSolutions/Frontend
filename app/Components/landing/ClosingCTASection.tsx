@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const ClosingCTASection: React.FC = () => {
   return (
     <section className="relative py-32 md:py-48 px-6 md:px-16 max-w-5xl mx-auto text-center space-y-8 pointer-events-auto">
-      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EBA58F]/15 dark:bg-[#5A332C]/40 border border-[#EBA58F]/30 dark:border-[#8A4D40]/50 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
+      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F2F2F2]/15 dark:bg-[#0A0A0A]/40 border border-[#F2F2F2]/30 dark:border-[#0A0A0A]/50 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
         <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
         Start with your payments
       </div>

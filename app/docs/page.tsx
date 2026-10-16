@@ -27,7 +27,7 @@ export default function DocsIndex() {
         {DOC_LINKS.map((l) => (
           <li key={l.href}>
             <Link href={l.href} className="font-serif text-xl">{l.label}</Link>
-            <p className="text-sm text-[#4A4238]/80 dark:text-[#C5B9AE]">{BLURBS[l.href]}</p>
+            <p className="text-sm text-[#414141]/80 dark:text-[#BABABA]">{BLURBS[l.href]}</p>
           </li>
         ))}
       </ul>

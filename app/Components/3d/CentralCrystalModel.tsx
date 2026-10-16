@@ -71,8 +71,8 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshPhysicalMaterial
-            color="#8A3E2E"
-            emissive="#4E2219"
+            color="#0A0A0A"
+            emissive="#4E4E4E"
             emissiveIntensity={0.4}
             roughness={0.24}
             metalness={0.12}
@@ -86,8 +86,8 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh ref={coreRef}>
           <octahedronGeometry args={[0.72, 0]} />
           <meshStandardMaterial
-            color="#824A3D"
-            emissive="#D97863"
+            color="#0A0A0A"
+            emissive="#F2F2F2"
             emissiveIntensity={2.0}
             roughness={0.15}
             metalness={0.1}
@@ -99,8 +99,8 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshPhysicalMaterial
-            color="#BF6A53"
-            emissive="#6E2F22"
+            color="#F2F2F2"
+            emissive="#626262"
             emissiveIntensity={0.3}
             roughness={0.13}
             metalness={0.15}
@@ -116,7 +116,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh scale={[1.002, 1.002, 1.002]}>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshBasicMaterial
-            color="#F1C0AD"
+            color="#F2F2F2"
             wireframe
             transparent
             opacity={0.42}
@@ -128,7 +128,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
       <mesh ref={ring1Ref} rotation={[Math.PI / 3.2, 0, 0]}>
         <torusGeometry args={[2.85, 0.014, 12, 64]} />
         <meshBasicMaterial
-          color="#EBA58F"
+          color="#F2F2F2"
           transparent
           opacity={hovered ? 0.5 : 0.32}
           blending={THREE.AdditiveBlending}
@@ -138,7 +138,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
       <mesh ref={ring2Ref} rotation={[Math.PI / 2.6, 0.6, 0]}>
         <torusGeometry args={[3.6, 0.012, 12, 64]} />
         <meshBasicMaterial
-          color="#EBA58F"
+          color="#F2F2F2"
           transparent
           opacity={hovered ? 0.45 : 0.3}
           blending={THREE.AdditiveBlending}

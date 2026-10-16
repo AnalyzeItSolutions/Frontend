@@ -2,75 +2,75 @@
 //   design/tokens.css                      (website, imported by app/globals.css)
 //   ../native/desktop/ui/tokens.css        (desktop app, linked from index.html)
 // Edit values here, never in the generated CSS. A test fails when the generated files are stale.
-// Tone: warm paper in the day, warm charcoal at night. One terracotta accent. Contrast notes are against --bg/--surface.
+// Tone: black and white. Ink on white by day, white on black at night. Teal, amber and red appear only where they carry data meaning. Contrast notes are against --bg/--surface.
 
 export const light = {
-  bg: '#F7F1E8',
-  surface: '#FFFCF7',
-  'surface-2': '#FBF6EE',
-  'surface-muted': '#EFE6D9',
-  border: '#E3D8C8',
-  'border-strong': '#D3C5B2',
-  'text-primary': '#2E2924',
-  'text-secondary': '#5F564D', // 6.6:1 on bg
-  'text-muted': '#756B61', // 4.8:1 on bg
-  'text-disabled': '#A89F96',
-  brand: '#B84C35', // cream text 4.8:1
-  'brand-hover': '#A24229',
-  'brand-pressed': '#8E3924',
-  'brand-ink': '#FFF8F2',
-  'brand-soft': 'rgba(196, 87, 63, 0.11)',
-  'accent-text': '#A84631', // links and small accent text, 5.6:1 on bg
-  success: '#3D8B6C',
-  warning: '#B9741F',
-  danger: '#B84A39',
-  info: '#4F7FAE',
-  'shadow-color': '60, 40, 20',
-  'nav-bg': '#F1E9DC',
-  'chart-1': '#B84C35',
-  'chart-2': '#3D8B6C',
-  'chart-3': '#4F7FAE',
-  'chart-4': '#8A7AA8',
-  'chart-5': '#B9741F',
-  'chart-6': '#A84631',
-  'chart-7': '#756B61',
+  bg: '#FFFFFF',
+  surface: '#FFFFFF',
+  'surface-2': '#F7F7F7',
+  'surface-muted': '#EFEFEF',
+  border: '#E4E4E4',
+  'border-strong': '#C8C8C8',
+  'text-primary': '#0A0A0A',
+  'text-secondary': '#4D4D4D', // 8.4:1 on bg
+  'text-muted': '#6B6B6B', // 5.3:1 on bg
+  'text-disabled': '#A8A8A8',
+  brand: '#0A0A0A', // white text 19:1
+  'brand-hover': '#262626',
+  'brand-pressed': '#404040',
+  'brand-ink': '#FFFFFF',
+  'brand-soft': 'rgba(10, 10, 10, 0.06)',
+  'accent-text': '#0A0A0A', // links and small accent text
+  success: '#0E8A68', // color only where it carries data meaning
+  warning: '#A66A08',
+  danger: '#C23F4A',
+  info: '#4D4D4D',
+  'shadow-color': '0, 0, 0',
+  'nav-bg': '#FFFFFF',
+  'chart-1': '#0A0A0A',
+  'chart-2': '#6B6B6B',
+  'chart-3': '#A8A8A8',
+  'chart-4': '#C8C8C8',
+  'chart-5': '#F2B84B', // amber only for the standout value
+  'chart-6': '#D9535D',
+  'chart-7': '#13A884',
 };
 
 export const dark = {
-  bg: '#14110F',
-  surface: '#1C1816',
-  'surface-2': '#241F1C',
-  'surface-muted': '#2B2521',
-  border: 'rgba(255, 238, 220, 0.09)',
-  'border-strong': 'rgba(255, 238, 220, 0.18)',
-  'text-primary': '#F3EDE6',
-  'text-secondary': '#BDB2A7', // 8.7:1 on bg
-  'text-muted': '#968B80', // 5.6:1 on bg
-  'text-disabled': '#5E564E',
-  brand: '#E3836C', // dark ink text 7:1
-  'brand-hover': '#ED967F',
-  'brand-pressed': '#CB6F58',
-  'brand-ink': '#1A0F0B',
-  'brand-soft': 'rgba(227, 131, 108, 0.16)',
-  'accent-text': '#EBA58F',
-  success: '#6CC2A0',
-  warning: '#E0A24E',
-  danger: '#EF8A7C',
-  info: '#8DB4DC',
+  bg: '#000000',
+  surface: '#0F0F0F',
+  'surface-2': '#171717',
+  'surface-muted': '#1F1F1F',
+  border: 'rgba(255, 255, 255, 0.12)',
+  'border-strong': 'rgba(255, 255, 255, 0.26)',
+  'text-primary': '#FFFFFF',
+  'text-secondary': '#B8B8B8', // 11:1 on bg
+  'text-muted': '#8C8C8C', // 6.4:1 on bg
+  'text-disabled': '#555555',
+  brand: '#FFFFFF', // black text 21:1
+  'brand-hover': '#E6E6E6',
+  'brand-pressed': '#CCCCCC',
+  'brand-ink': '#000000',
+  'brand-soft': 'rgba(255, 255, 255, 0.10)',
+  'accent-text': '#FFFFFF',
+  success: '#3FD0A8',
+  warning: '#F2B84B',
+  danger: '#F0808A',
+  info: '#B8B8B8',
   'shadow-color': '0, 0, 0',
-  'nav-bg': '#17130F',
-  'chart-1': '#E3836C',
-  'chart-2': '#6CC2A0',
-  'chart-3': '#8DB4DC',
-  'chart-4': '#B8A9D6',
-  'chart-5': '#E0A24E',
-  'chart-6': '#EBA58F',
-  'chart-7': '#968B80',
+  'nav-bg': '#000000',
+  'chart-1': '#FFFFFF',
+  'chart-2': '#8C8C8C',
+  'chart-3': '#5C5C5C',
+  'chart-4': '#3A3A3A',
+  'chart-5': '#F2B84B',
+  'chart-6': '#F0808A',
+  'chart-7': '#3FD0A8',
 };
 
 // Theme-independent tokens.
 export const shared = {
-  'font-heading': "'Fraunces', Georgia, 'Times New Roman', serif",
+  'font-heading': "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
   'font-sans': "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
   'font-mono': "ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace",
   'text-2xs': '11px',
@@ -94,10 +94,10 @@ export const shared = {
   'space-7': '40px',
   'space-8': '48px',
   'space-9': '64px',
-  'radius-sm': '8px',
-  'radius-md': '12px',
-  'radius-lg': '16px',
-  'radius-xl': '24px',
+  'radius-sm': '6px',
+  'radius-md': '8px',
+  'radius-lg': '12px',
+  'radius-xl': '16px',
   'radius-pill': '999px',
   'ease-out': 'cubic-bezier(0.22, 1, 0.36, 1)',
   'ease-in-out': 'cubic-bezier(0.65, 0, 0.35, 1)',
@@ -106,7 +106,7 @@ export const shared = {
   'dur-slow': '360ms',
 };
 
-// Derived per theme from --shadow-color so both themes read as warm, soft elevation.
+// Derived per theme from --shadow-color so both themes read as soft, cool elevation.
 const shadows = (dark) => ({
   'shadow-sm': `0 1px 2px rgba(var(--shadow-color), ${dark ? 0.4 : 0.06})`,
   'shadow-md': `0 1px 2px rgba(var(--shadow-color), ${dark ? 0.4 : 0.05}), 0 8px 24px rgba(var(--shadow-color), ${dark ? 0.35 : 0.07})`,

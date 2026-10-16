@@ -15,17 +15,17 @@ export default function Page() {
       <ul className="max-w-2xl space-y-6">
         {GUIDES.map((g) => (
           <li key={g.slug}>
-            <Link href={`/guides/${g.slug}`} className="font-serif text-2xl text-[#322C28] hover:text-[#C45A42] dark:text-[#F4EDE5]">
+            <Link href={`/guides/${g.slug}`} className="font-serif text-2xl text-[#2D2D2D] hover:text-[#0A0A0A] dark:text-[#EDEDED]">
               {g.title}
             </Link>
-            <p className="mt-1 text-[15px] text-[#4A4238]/85 dark:text-[#C5B9AE]">{g.description}</p>
-            <p className="mt-1 text-xs text-[#4A4238]/60 dark:text-[#91867E]">{readMinutes(g)} min read</p>
+            <p className="mt-1 text-[15px] text-[#414141]/85 dark:text-[#BABABA]">{g.description}</p>
+            <p className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888]">{readMinutes(g)} min read</p>
           </li>
         ))}
       </ul>
-      <p className="mt-10 text-sm text-[#4A4238]/70 dark:text-[#C5B9AE]">
-        Prefer to see it work? <Link href="/demo" className="text-[#C45A42] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
-        <Link href="/cases" className="text-[#C45A42] underline underline-offset-2">worked examples</Link>.
+      <p className="mt-10 text-sm text-[#414141]/70 dark:text-[#BABABA]">
+        Prefer to see it work? <Link href="/demo" className="text-[#0A0A0A] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
+        <Link href="/cases" className="text-[#0A0A0A] underline underline-offset-2">worked examples</Link>.
       </p>
     </LegalLayout>
   );

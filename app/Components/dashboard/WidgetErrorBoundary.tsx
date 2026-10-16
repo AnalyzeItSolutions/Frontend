@@ -37,7 +37,7 @@ export class WidgetErrorBoundary extends React.Component<Props, State> {
     return (
       <div role="alert" className="rounded-2xl border border-dashed border-red-400/60 bg-red-500/5 p-4 flex flex-col gap-2 min-h-[120px] justify-center">
         <p className="text-xs font-semibold text-red-600 dark:text-red-400">{this.props.title ? `“${this.props.title}” couldn’t be displayed` : 'This widget couldn’t be displayed'}</p>
-        <p className="text-[11px] text-[var(--text-muted,#91867E)]">Its data may be malformed. The rest of the dashboard is unaffected.</p>
+        <p className="text-[11px] text-[var(--text-muted,#888888)]">Its data may be malformed. The rest of the dashboard is unaffected.</p>
         <div>
           <button
             type="button"

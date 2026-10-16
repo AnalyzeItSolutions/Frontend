@@ -31,9 +31,9 @@ export default function AboutPage() {
         <p>
           Numbers come from calculation, not from a model&apos;s guess. Connectors are read-only. We
           do not train public models on your private business data. Details are in our{' '}
-          <Link href="/security" className="text-[#E3836C] hover:underline">security</Link> and{' '}
-          <Link href="/privacy" className="text-[#E3836C] hover:underline">privacy</Link> pages,
-          and in <Link href="/docs/how-answers-work" className="text-[#E3836C] hover:underline">how answers work</Link>.
+          <Link href="/security" className="text-[#F2F2F2] hover:underline">security</Link> and{' '}
+          <Link href="/privacy" className="text-[#F2F2F2] hover:underline">privacy</Link> pages,
+          and in <Link href="/docs/how-answers-work" className="text-[#F2F2F2] hover:underline">how answers work</Link>.
         </p>
       </LegalSection>
 
@@ -41,15 +41,15 @@ export default function AboutPage() {
         <p>
           AnalyzeIt is an independent product operated by {LEGAL_NAME}, {REGISTERED_ADDRESS}.
           Payments are processed by Razorpay; plans and prices are on the{' '}
-          <Link href="/products" className="text-[#E3836C] hover:underline">products page</Link>.
+          <Link href="/products" className="text-[#F2F2F2] hover:underline">products page</Link>.
         </p>
       </LegalSection>
 
       <LegalSection title="Talk to us">
         <p>
           Questions, feedback or a data source you want supported:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#E3836C] hover:underline">{EMAIL.support}</a>.
-          Other inboxes are on the <Link href="/contact" className="text-[#E3836C] hover:underline">contact page</Link>.
+          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">{EMAIL.support}</a>.
+          Other inboxes are on the <Link href="/contact" className="text-[#F2F2F2] hover:underline">contact page</Link>.
         </p>
       </LegalSection>
     </LegalLayout>

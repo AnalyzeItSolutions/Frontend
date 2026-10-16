@@ -69,8 +69,8 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             key={tier.name}
             className={`relative flex flex-col rounded-3xl border p-7 ${
               tier.popular
-                ? 'border-[#E3836C]/40 bg-[#FFF9F3] dark:bg-[#292522] shadow-lg'
-                : 'border-[#4A4238]/12 dark:border-[var(--border)] bg-[var(--surface)]'
+                ? 'border-[#F2F2F2]/40 bg-[#F9F9F9] dark:bg-[#262626] shadow-lg'
+                : 'border-[#414141]/12 dark:border-[var(--border)] bg-[var(--surface)]'
             }`}
           >
             {tier.popular && (
@@ -80,7 +80,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             )}
             <div className="space-y-1 mb-6">
               <h3 className="font-serif text-2xl text-[var(--text-primary)]">{tier.name}</h3>
-              <p className="text-sm text-[#3F3830] dark:text-[#C5B9AE]">{tier.tagline}</p>
+              <p className="text-sm text-[#383838] dark:text-[#BABABA]">{tier.tagline}</p>
             </div>
             <div className="mb-2">
               <span className="font-serif text-4xl text-[var(--text-primary)]">{tier.price}</span>
@@ -89,7 +89,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">{tier.note}</p>
             <ul className="space-y-2.5 mb-8 flex-1">
               {tier.features.map((feature) => (
-                <li key={feature} className="text-sm text-[#3F3830] dark:text-[#C5B9AE] flex gap-2">
+                <li key={feature} className="text-sm text-[#383838] dark:text-[#BABABA] flex gap-2">
                   <span className="text-[var(--accent-text)]" aria-hidden="true">
                     ·
                   </span>
@@ -101,8 +101,8 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
               href={tier.href}
               className={`inline-flex justify-center min-h-11 items-center rounded-full px-5 py-3 text-sm font-medium transition ${
                 tier.name === 'Free'
-                  ? 'border border-[#4A4238]/20 dark:border-[#504740] text-[var(--text-primary)] hover:border-[var(--coral,#E3836C)] hover:text-[var(--coral,#E3836C)]'
-                  : 'bg-[var(--coral,#E3836C)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
+                  ? 'border border-[#414141]/20 dark:border-[#484848] text-[var(--text-primary)] hover:border-[var(--coral,#F2F2F2)] hover:text-[var(--coral,#F2F2F2)]'
+                  : 'bg-[var(--coral,#F2F2F2)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
               }`}
             >
               {tier.cta}

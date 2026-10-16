@@ -77,41 +77,41 @@ function NativeLoginInner() {
 
   const who = req ? clientLabel(req.client) : 'the app';
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F] px-6">
-      <div className="w-full max-w-sm rounded-2xl border border-[#E3836C]/20 bg-white/70 dark:bg-white/[0.03] p-8 text-center shadow-sm">
+    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#121212] px-6">
+      <div className="w-full max-w-sm rounded-2xl border border-[#F2F2F2]/20 bg-white/70 dark:bg-white/[0.03] p-8 text-center shadow-sm">
         {stage === 'checking' && (
-          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />
+          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Checking your account" />
         )}
 
         {stage === 'invalid' && (
           <>
-            <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">This link is not valid</h1>
-            <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Start the sign-in again from the AnalyzeIt app or command line.</p>
-            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E3836C] hover:text-[#ED967F]">Back to analyzeit.si</Link>
+            <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is not valid</h1>
+            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Start the sign-in again from the AnalyzeIt app or command line.</p>
+            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]">Back to analyzeit.si</Link>
           </>
         )}
 
         {(stage === 'confirm' || stage === 'working' || stage === 'error') && (
           <>
-            <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Sign in to {who}</h1>
-            <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">
-              Allow {who} to use your AnalyzeIt account{user?.email ? <> as <strong className="text-[#2B2620] dark:text-[#EDE6DD]">{user.email}</strong></> : null}?
+            <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Sign in to {who}</h1>
+            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">
+              Allow {who} to use your AnalyzeIt account{user?.email ? <> as <strong className="text-[#262626] dark:text-[#E5E5E5]">{user.email}</strong></> : null}?
             </p>
-            <p className="mt-2 text-xs text-[#4A4238]/55 dark:text-[#91867E]">Only continue if you just started this from the app on this computer.</p>
+            <p className="mt-2 text-xs text-[#414141]/55 dark:text-[#888888]">Only continue if you just started this from the app on this computer.</p>
             {error && <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p>}
             <div className="mt-6 flex flex-col gap-2">
               <button
                 type="button"
                 onClick={allow}
                 disabled={stage === 'working'}
-                className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60"
+                className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)] disabled:opacity-60"
               >
                 {stage === 'working' ? 'Connecting…' : 'Allow'}
               </button>
-              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm text-[#4A4238] dark:text-[#C9BFB5] hover:bg-[var(--brand)]/10">
+              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#F2F2F2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10">
                 Cancel
               </button>
-              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#E3836C]">
+              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#F2F2F2]">
                 Use a different account
               </button>
             </div>
@@ -120,15 +120,15 @@ function NativeLoginInner() {
 
         {stage === 'sent' && (
           <>
-            <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Returning to the app…</h1>
-            <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">If nothing happens, the app may have been closed. Start the sign-in again from it.</p>
+            <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Returning to the app…</h1>
+            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">If nothing happens, the app may have been closed. Start the sign-in again from it.</p>
           </>
         )}
 
         {stage === 'cancelled' && (
           <>
-            <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">Sign-in cancelled</h1>
-            <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Nothing was shared. You can close this page.</p>
+            <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Sign-in cancelled</h1>
+            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing was shared. You can close this page.</p>
           </>
         )}
       </div>
@@ -138,7 +138,7 @@ function NativeLoginInner() {
 
 export default function NativeLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#121212]" />}>
       <NativeLoginInner />
     </Suspense>
   );

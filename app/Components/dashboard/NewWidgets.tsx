@@ -11,7 +11,7 @@ import { IconTrash } from '@tabler/icons-react';
 import type { ProvenanceInfo, WidgetSpec } from '../../lib/chatApi';
 import { provenanceBadge, provenanceBadgeText } from '../../lib/dashboardView.mjs';
 
-const PALETTE = ['#D9705A', '#6F9BC9', '#4FA886', '#D4A017', '#9C8CBE', '#C45B4A', '#79A8DF', '#9EBB9A'];
+const PALETTE = ['#F2F2F2', '#9C9C9C', '#4FA886', '#D4A017', '#9C8CBE', '#F2F2F2', '#F2F2F2', '#9EBB9A'];
 
 function WidgetEmptyState({ title }: { title?: string }) {
   return (
@@ -34,7 +34,7 @@ function CitationFooter({
   const badge = provenanceBadge({ provenance, freshness });
   if (!badge) return null;
   return (
-    <div className="mt-3 pt-2.5 border-t border-[#4A4238]/10 dark:border-[#2B2521] text-[11px] font-sans text-[#4A4238]/60 dark:text-[#91867E]">
+    <div className="mt-3 pt-2.5 border-t border-[#414141]/10 dark:border-[#262626] text-[11px] font-sans text-[#414141]/60 dark:text-[#888888]">
       <span className="truncate">{provenanceBadgeText(badge)}</span>
     </div>
   );
@@ -49,13 +49,13 @@ function shell(
   freshness?: string,
 ) {
   return (
-    <div className="glass-card dark:bg-[#1C1816] rounded-2xl p-5 border border-[#4A4238]/10 dark:border-[#2B2521] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div className="min-w-0">
-          <span className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
             {metric}
           </span>
-          <h3 className="font-serif text-lg font-medium text-[#4A4238] dark:text-[#F4EDE5] truncate">
+          <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED] truncate">
             {title}
           </h3>
         </div>
@@ -63,7 +63,7 @@ function shell(
           <button
             type="button"
             onClick={onDelete}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#4A4238]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -138,7 +138,7 @@ export function DonutChartWidget({
           })}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-serif text-base font-bold text-[#4A4238] dark:text-[#F4EDE5] tabular-nums">
+          <span className="font-serif text-base font-bold text-[#414141] dark:text-[#EDEDED] tabular-nums">
             {centerLabel || String(Math.round(total))}
           </span>
         </div>
@@ -147,16 +147,16 @@ export function DonutChartWidget({
         {slices.slice(0, 8).map((s, i) => (
           <li
             key={i}
-            className="flex items-center justify-between gap-2 text-[11px] cursor-pointer hover:bg-black/[0.03] dark:hover:bg-[#292522] rounded px-1 py-0.5"
+            className="flex items-center justify-between gap-2 text-[11px] cursor-pointer hover:bg-black/[0.03] dark:hover:bg-[#262626] rounded px-1 py-0.5"
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', { dimension: metric, value: s.label })
             }
           >
             <span className="flex items-center gap-1.5 min-w-0">
               <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: s.color }} />
-              <span className="truncate text-[#4A4238] dark:text-[#F4EDE5]">{s.label}</span>
+              <span className="truncate text-[#414141] dark:text-[#EDEDED]">{s.label}</span>
             </span>
-            <span className="font-mono tabular-nums text-[#4A4238]/60 dark:text-[#91867E]">
+            <span className="font-mono tabular-nums text-[#414141]/60 dark:text-[#888888]">
               {((s.value / total) * 100).toFixed(0)}%
             </span>
           </li>
@@ -211,7 +211,7 @@ export function RadarChartWidget({
             key={t}
             fill="none"
             stroke="currentColor"
-            className="text-[#4A4238]/15 dark:text-[#2B2521]"
+            className="text-[#414141]/15 dark:text-[#262626]"
             strokeWidth="1"
             points={axes
               .map((_, i) => {
@@ -231,7 +231,7 @@ export function RadarChartWidget({
                 x2={x}
                 y2={y}
                 stroke="currentColor"
-                className="text-[#4A4238]/20 dark:text-[#2B2521]"
+                className="text-[#414141]/20 dark:text-[#262626]"
                 strokeWidth="1"
               />
               <text
@@ -239,7 +239,7 @@ export function RadarChartWidget({
                 y={cy + (radius + 12) * Math.sin(-Math.PI / 2 + (i / n) * 2 * Math.PI)}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-[#4A4238]/70 dark:fill-[#91867E] text-[8px]"
+                className="fill-[#414141]/70 dark:fill-[#888888] text-[8px]"
                 fontSize="8"
               >
                 {axis.length > 10 ? `${axis.slice(0, 9)}…` : axis}
@@ -270,7 +270,7 @@ export function RadarChartWidget({
       </svg>
       <div className="flex flex-wrap gap-2 mt-1 justify-center">
         {seriesRaw.map((s, i) => (
-          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#4A4238]/70 dark:text-[#91867E]">
+          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#414141]/70 dark:text-[#888888]">
             <span className="w-2 h-2 rounded-full" style={{ background: s.color || PALETTE[i % PALETTE.length] }} />
             {s.name}
           </span>
@@ -308,7 +308,7 @@ export function ChoroplethMapWidget({
     const clamped = Math.max(0, Math.min(1, t));
     if (scale === 'cool') return `rgba(61, 111, 224, ${0.2 + clamped * 0.75})`;
     if (scale === 'emerald') return `rgba(63, 182, 140, ${0.2 + clamped * 0.75})`;
-    return `rgba(227, 131, 108, ${0.2 + clamped * 0.75})`;
+    return `rgba(255, 255, 255, ${0.2 + clamped * 0.75})`;
   };
 
   return shell(
@@ -316,7 +316,7 @@ export function ChoroplethMapWidget({
     metric,
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
     <>
-      <p className="text-[10px] font-mono text-[#4A4238]/50 dark:text-[#91867E] mb-2">
+      <p className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888] mb-2">
         Region intensity tiles (not a geographic basemap)
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -327,13 +327,13 @@ export function ChoroplethMapWidget({
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', { dimension: metric, value: r.label })
             }
-            className="rounded-xl p-3 text-left border border-[#4A4238]/10 dark:border-[#2B2521] hover:border-[#EA8069]/40 transition-colors cursor-pointer"
+            className="rounded-xl p-3 text-left border border-[#414141]/10 dark:border-[#262626] hover:border-[#F2F2F2]/40 transition-colors cursor-pointer"
             style={{ background: colorAt(r.value / max) }}
           >
-            <div className="text-[11px] font-medium text-[#4A4238] dark:text-[#F4EDE5] truncate">
+            <div className="text-[11px] font-medium text-[#414141] dark:text-[#EDEDED] truncate">
               {r.label}
             </div>
-            <div className="text-sm font-mono font-semibold tabular-nums text-[#4A4238] dark:text-[#F4EDE5] mt-1">
+            <div className="text-sm font-mono font-semibold tabular-nums text-[#414141] dark:text-[#EDEDED] mt-1">
               {r.value.toLocaleString()}
             </div>
           </button>
@@ -386,13 +386,13 @@ export function TransactionListWidget({
     title,
     metric,
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
-    <div className="divide-y divide-[#4A4238]/8 dark:divide-[#2B2521]/50 max-h-64 overflow-auto">
+    <div className="divide-y divide-[#414141]/8 dark:divide-[#262626]/50 max-h-64 overflow-auto">
       {rows.map((raw, i) => {
         const row = normalize(raw);
         return (
           <div
             key={i}
-            className="py-2 flex items-center justify-between gap-2 hover:bg-black/[0.02] dark:hover:bg-[#292522] px-1 rounded cursor-pointer"
+            className="py-2 flex items-center justify-between gap-2 hover:bg-black/[0.02] dark:hover:bg-[#262626] px-1 rounded cursor-pointer"
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', {
                 dimension: 'description',
@@ -401,10 +401,10 @@ export function TransactionListWidget({
             }
           >
             <div className="min-w-0">
-              <div className="text-[12px] font-medium text-[#4A4238] dark:text-[#F4EDE5] truncate">
+              <div className="text-[12px] font-medium text-[#414141] dark:text-[#EDEDED] truncate">
                 {row.description}
               </div>
-              <div className="text-[10px] font-mono text-[#4A4238]/50 dark:text-[#91867E]">
+              <div className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888]">
                 {row.time}
                 {row.status ? ` · ${row.status}` : ''}
               </div>
@@ -413,7 +413,7 @@ export function TransactionListWidget({
               className={`text-[13px] font-mono font-semibold tabular-nums flex-shrink-0 ${
                 row.amount != null && row.amount < 0
                   ? 'text-[#D97870]'
-                  : 'text-[#4A4238] dark:text-[#F4EDE5]'
+                  : 'text-[#414141] dark:text-[#EDEDED]'
               }`}
             >
               {row.amount != null
@@ -472,7 +472,7 @@ export function BubbleGridWidget({
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
     <>
       {(p.xLabel || p.yLabel) && (
-        <p className="text-[10px] font-mono text-[#4A4238]/50 dark:text-[#91867E] mb-1">
+        <p className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888] mb-1">
           {String(p.xLabel || 'X')} × {String(p.yLabel || 'Y')} · size = magnitude
         </p>
       )}
@@ -559,7 +559,7 @@ export function MultiSeriesChartWidget({
       </svg>
       <div className="flex flex-wrap gap-2 mt-1">
         {seriesRaw.map((s, i) => (
-          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#4A4238]/70 dark:text-[#91867E]">
+          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#414141]/70 dark:text-[#888888]">
             <span className="w-2 h-2 rounded-full" style={{ background: s.color || PALETTE[i % PALETTE.length] }} />
             {s.name}
           </span>
@@ -625,7 +625,7 @@ export function KpiSparklineWidget({
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
     <div className="flex items-end justify-between gap-3">
       <div>
-        <div className="text-[28px] font-medium leading-none tabular-nums text-[#4A4238] dark:text-[#F4EDE5]">
+        <div className="text-[28px] font-medium leading-none tabular-nums text-[#414141] dark:text-[#EDEDED]">
           {value}
         </div>
         {change && (

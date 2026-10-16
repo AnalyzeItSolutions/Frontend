@@ -74,10 +74,10 @@ export function UpgradeModal({
         className="app-card w-full max-w-md p-5"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="upgrade-modal-title" className="text-base font-semibold text-[var(--text,#3A342D)]">
+        <h2 id="upgrade-modal-title" className="text-base font-semibold text-[var(--text,#343434)]">
           {copy.title}
         </h2>
-        <p className="mt-2 text-sm text-[var(--text-secondary,#5C534A)]">{body}</p>
+        <p className="mt-2 text-sm text-[var(--text-secondary,#535353)]">{body}</p>
         <div className="mt-5 flex flex-wrap items-center justify-end gap-2">
           <button type="button" onClick={onClose} className="btn-secondary">
             Not now

@@ -80,7 +80,7 @@ export const MemorySection: React.FC = () => (
         <p className="text-xs font-medium uppercase tracking-widest text-[var(--text-muted)]">Fewer tokens, more memory</p>
         <h2 className="font-heading text-3xl md:text-5xl leading-tight">
           A memory that feels like{' '}
-          <em className="font-heading italic text-[var(--accent-text)]">a bigger context window.</em>
+          <em className="font-heading not-italic text-[var(--accent-text)]">a bigger context window.</em>
         </h2>
         <ul className="space-y-5">
           {POINTS.map((p) => (

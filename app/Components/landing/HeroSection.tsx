@@ -23,7 +23,7 @@ export const HeroSection: React.FC = () => {
         >
           <h1 className="font-heading text-4xl sm:text-5xl md:text-[3.4rem] tracking-tight text-[var(--text-primary)] font-normal leading-[1.08]">
             Remember everything.{' '}
-            <em className="font-heading italic text-[var(--accent-text)]">Re‑read nothing.</em>
+            <em className="font-heading not-italic text-[var(--accent-text)]">Re‑read nothing.</em>
           </h1>
 
           <p className="text-base md:text-lg text-[var(--text-secondary)] max-w-xl leading-relaxed">

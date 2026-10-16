@@ -37,17 +37,17 @@ export default async function ProductsPage() {
         entitlements change.
       </p>
 
-      <p className="text-xs text-[#4A4238]/55 dark:text-[#91867E]">
+      <p className="text-xs text-[#414141]/55 dark:text-[#888888]">
         Policies:{' '}
-        <a href="/refund" className="text-[#E3836C] hover:underline">
+        <a href="/refund" className="text-[#F2F2F2] hover:underline">
           Refunds and cancellations
         </a>
         {' · '}
-        <a href="/shipping" className="text-[#E3836C] hover:underline">
+        <a href="/shipping" className="text-[#F2F2F2] hover:underline">
           digital access (no physical shipping)
         </a>
         {' · '}
-        <Link href="/#pricing" className="text-[#E3836C] hover:underline">
+        <Link href="/#pricing" className="text-[#F2F2F2] hover:underline">
           homepage pricing
         </Link>
         .

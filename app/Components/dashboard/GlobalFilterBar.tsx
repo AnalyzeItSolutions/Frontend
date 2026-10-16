@@ -23,14 +23,14 @@ export function GlobalFilterBar({
   const active = value.preset !== 'all';
   const invalid = value.preset === 'custom' && value.from && value.to && value.from > value.to;
   return (
-    <div role="group" aria-label="Dashboard date range" className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-xl border border-[#4A4238]/10 dark:border-[#2B2521] bg-[#4A4238]/[0.03] dark:bg-white/[0.02]">
-      <IconCalendar size={14} className="text-[#EA8069]" aria-hidden="true" />
+    <div role="group" aria-label="Dashboard date range" className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-xl border border-[#414141]/10 dark:border-[#262626] bg-[#414141]/[0.03] dark:bg-white/[0.02]">
+      <IconCalendar size={14} className="text-[#F2F2F2]" aria-hidden="true" />
       <label className="sr-only" htmlFor="dash-date-preset">Date range</label>
       <select
         id="dash-date-preset"
         value={value.preset}
         onChange={(e) => onChange({ ...value, preset: e.target.value })}
-        className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#4A4238]/15 dark:border-[#504740] text-[#4A4238] dark:text-[#F4EDE5] cursor-pointer"
+        className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#414141]/15 dark:border-[#484848] text-[#414141] dark:text-[#EDEDED] cursor-pointer"
       >
         {DATE_PRESETS.map((p) => (
           <option key={p.id} value={p.id}>{p.label}</option>
@@ -39,18 +39,18 @@ export function GlobalFilterBar({
       {value.preset === 'custom' && (
         <>
           <label className="sr-only" htmlFor="dash-date-from">From</label>
-          <input id="dash-date-from" type="date" value={value.from} onChange={(e) => onChange({ ...value, from: e.target.value })} className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#4A4238]/15 dark:border-[#504740] text-[#4A4238] dark:text-[#F4EDE5]" />
-          <span className="text-xs text-[#91867E]" aria-hidden="true">to</span>
+          <input id="dash-date-from" type="date" value={value.from} onChange={(e) => onChange({ ...value, from: e.target.value })} className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#414141]/15 dark:border-[#484848] text-[#414141] dark:text-[#EDEDED]" />
+          <span className="text-xs text-[#888888]" aria-hidden="true">to</span>
           <label className="sr-only" htmlFor="dash-date-to">To</label>
-          <input id="dash-date-to" type="date" value={value.to} onChange={(e) => onChange({ ...value, to: e.target.value })} className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#4A4238]/15 dark:border-[#504740] text-[#4A4238] dark:text-[#F4EDE5]" />
+          <input id="dash-date-to" type="date" value={value.to} onChange={(e) => onChange({ ...value, to: e.target.value })} className="px-2 py-1 text-xs rounded-lg bg-transparent border border-[#414141]/15 dark:border-[#484848] text-[#414141] dark:text-[#EDEDED]" />
         </>
       )}
       {active && (
-        <button type="button" onClick={() => onChange({ preset: 'all', from: '', to: '' })} className="flex items-center gap-1 px-2 py-1 text-xs rounded-lg text-[#EA8069] hover:bg-[#EA8069]/10 cursor-pointer">
+        <button type="button" onClick={() => onChange({ preset: 'all', from: '', to: '' })} className="flex items-center gap-1 px-2 py-1 text-xs rounded-lg text-[#F2F2F2] hover:bg-[#F2F2F2]/10 cursor-pointer">
           <IconX size={12} aria-hidden="true" /> Clear
         </button>
       )}
-      <span className="ml-auto text-[11px] font-mono text-[#91867E]" role="status">
+      <span className="ml-auto text-[11px] font-mono text-[#888888]" role="status">
         {invalid
           ? 'Start date is after the end date'
           : active

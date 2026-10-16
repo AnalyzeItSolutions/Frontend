@@ -135,7 +135,7 @@ export function DigestBanner({ dashboardId, className = '' }: { dashboardId: str
                 ? '#3FB68C'
                 : isDown
                 ? '#EF6C6C'
-                : '#79A8DF';
+                : '#F2F2F2';
 
               return (
                 <span

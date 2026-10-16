@@ -80,10 +80,10 @@ export function FeedbackWidget() {
   return (
     <div className="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
       {open ? (
-        <div className="pointer-events-auto w-[min(100vw-2rem,22rem)] rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#FFFCF7)] p-4 shadow-[0_18px_50px_rgba(40,32,24,0.18)] dark:bg-[var(--surface-1,#1C1916)]">
+        <div className="pointer-events-auto w-[min(100vw-2rem,22rem)] rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#F2F2F2)] p-4 shadow-[0_18px_50px_rgba(40,32,24,0.18)] dark:bg-[var(--surface-1,#191919)]">
           <div className="mb-3 flex items-start justify-between gap-2">
             <div>
-              <p className="text-sm font-medium text-[var(--text,#3A342D)] dark:text-[var(--text-primary)]">
+              <p className="text-sm font-medium text-[var(--text,#343434)] dark:text-[var(--text-primary)]">
                 Send feedback
               </p>
               <p className="mt-0.5 text-[11px] text-[var(--text-muted)]">
@@ -101,7 +101,7 @@ export function FeedbackWidget() {
           </div>
 
           {sent ? (
-            <p className="py-6 text-center text-sm text-[var(--coral,#EA8069)]">Thanks — sent.</p>
+            <p className="py-6 text-center text-sm text-[var(--coral,#F2F2F2)]">Thanks — sent.</p>
           ) : (
             <form onSubmit={(e) => void onSubmit(e)} className="space-y-3">
               <label className="block text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
@@ -109,7 +109,7 @@ export function FeedbackWidget() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value as FeedbackCategory)}
-                  className="mt-1 w-full rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--coral,#EA8069)]"
+                  className="mt-1 w-full rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--coral,#F2F2F2)]"
                 >
                   {FEEDBACK_CATEGORIES.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -127,7 +127,7 @@ export function FeedbackWidget() {
                   maxLength={8000}
                   required
                   placeholder="What should we know?"
-                  className="mt-1 w-full resize-none rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--coral,#EA8069)]"
+                  className="mt-1 w-full resize-none rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--coral,#F2F2F2)]"
                 />
               </label>
               {(projectId || pathname) && (
@@ -140,7 +140,7 @@ export function FeedbackWidget() {
               <button
                 type="submit"
                 disabled={busy || !message.trim()}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--coral,#EA8069)] px-3 py-2 text-sm font-medium text-[var(--brand-ink)] disabled:opacity-50"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-2 text-sm font-medium text-[var(--brand-ink)] disabled:opacity-50"
               >
                 <IconSend size={15} />
                 {busy ? 'Sending…' : 'Send'}
@@ -153,11 +153,11 @@ export function FeedbackWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface,#FFFCF7)] px-3.5 py-2.5 text-sm text-[var(--text,#3A342D)] shadow-md transition hover:border-[var(--coral,#EA8069)]/50 dark:bg-[var(--surface-1,#1C1916)] dark:text-[var(--text-primary)]"
+        className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface,#F2F2F2)] px-3.5 py-2.5 text-sm text-[var(--text,#343434)] shadow-md transition hover:border-[var(--coral,#F2F2F2)]/50 dark:bg-[var(--surface-1,#191919)] dark:text-[var(--text-primary)]"
         aria-expanded={open}
         aria-label="Send feedback"
       >
-        <IconMessageCircle size={18} className="text-[var(--coral,#EA8069)]" />
+        <IconMessageCircle size={18} className="text-[var(--coral,#F2F2F2)]" />
         <span className="hidden sm:inline">Feedback</span>
       </button>
     </div>

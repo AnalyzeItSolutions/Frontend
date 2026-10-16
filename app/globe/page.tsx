@@ -98,18 +98,18 @@ function readRails(): { left: number; right: number } {
 }
 
 const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'sample' | 'limited' }[] = [
-  { id: 'catalog', label: 'Sources', hint: 'Agency & statistics seats — registry when available, otherwise a built-in list', color: '#c4a28a', coverage: 'limited' },
+  { id: 'catalog', label: 'Sources', hint: 'Agency & statistics seats — registry when available, otherwise a built-in list', color: '#A7A7A7', coverage: 'limited' },
   { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M4.5+ · last 7 days', color: '#d97706', coverage: 'complete' },
   { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: '#dc2626', coverage: 'complete' },
   { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: '#ef4444', coverage: 'complete' },
-  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: '#6366f1', coverage: 'complete' },
+  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: '#F2F2F2', coverage: 'complete' },
   { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: '#b45309', coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Open-Meteo at hubs — sampled, not a global grid', color: '#3b82f6', coverage: 'sample' },
+  { id: 'weather', label: 'Weather', hint: 'Open-Meteo at hubs — sampled, not a global grid', color: '#0A0A0A', coverage: 'sample' },
   { id: 'air_quality', label: 'Air quality', hint: 'AQI at hubs — sampled', color: '#10b981', coverage: 'sample' },
   { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: '#f43f5e', coverage: 'limited' },
   { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: '#14b8a6', coverage: 'complete' },
-  { id: 'elevation', label: 'Elevation', hint: 'Meters above sea level at hubs — sampled', color: '#78716c', coverage: 'sample' },
-  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: '#e8896a', coverage: 'complete' },
+  { id: 'elevation', label: 'Elevation', hint: 'Meters above sea level at hubs — sampled', color: '#727272', coverage: 'sample' },
+  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: '#F2F2F2', coverage: 'complete' },
   { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: '#f97316', coverage: 'limited' },
   { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: '#0ea5e9', coverage: 'limited' },
   { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: '#22c55e', coverage: 'complete' },
@@ -138,7 +138,7 @@ function RankedBars({ points }: { points: SourcePoint[] }) {
             <div className="truncate text-[10px] text-[var(--text-secondary)]">{row.label}</div>
             <div className="mt-0.5 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]">
               <div
-                className="h-full rounded-full bg-[#EA8069]"
+                className="h-full rounded-full bg-[#F2F2F2]"
                 style={{ width: `${Math.max(8, (row.score / max) * 100)}%` }}
               />
             </div>
@@ -741,7 +741,7 @@ function GlobePageInner() {
         <aside className="flex min-w-0 flex-col overflow-hidden border-r border-[var(--border)] bg-[var(--surface)]">
           <div className="space-y-2.5 border-b border-[var(--border)] p-3">
             <div className="flex items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
-              <IconSearch size={15} className="shrink-0 text-[#EA8069]" />
+              <IconSearch size={15} className="shrink-0 text-[#F2F2F2]" />
               <input
                 type="search"
                 value={query}
@@ -769,7 +769,7 @@ function GlobePageInner() {
                   <IconX size={14} />
                 </button>
               ) : null}
-              {searching ? <IconLoader2 size={14} className="animate-spin text-[#EA8069]" /> : null}
+              {searching ? <IconLoader2 size={14} className="animate-spin text-[#F2F2F2]" /> : null}
             </div>
 
             <div className="flex items-center gap-1.5">
@@ -977,7 +977,7 @@ function GlobePageInner() {
                     onClick={() => pickHit(hit)}
                     className="flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-left text-xs hover:bg-[var(--surface-2)]"
                   >
-                    <IconMapPin size={14} className="mt-0.5 shrink-0 text-[#EA8069]" />
+                    <IconMapPin size={14} className="mt-0.5 shrink-0 text-[#F2F2F2]" />
                     <span className="min-w-0">
                       <span className="block font-medium text-[var(--text-primary)]">{hit.name}</span>
                       <span className="mt-0.5 block text-[10px] text-[var(--text-muted)]">
@@ -1010,7 +1010,7 @@ function GlobePageInner() {
                         }
                         className={`min-h-8 whitespace-nowrap rounded-full px-3 text-xs transition-colors ${
                           activeHub === hub.name
-                            ? 'bg-[#EA8069] font-semibold text-white'
+                            ? 'bg-[#F2F2F2] font-semibold text-white'
                             : 'border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                         }`}
                       >
@@ -1062,7 +1062,7 @@ function GlobePageInner() {
           tabIndex={0}
           onPointerDown={(e) => startResize('left', e)}
           onDoubleClick={() => setLeftRail(LEFT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#EA8069]"
+          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#F2F2F2]"
         />
 
         <section className={`${globePageStage.pageClass} relative min-w-0`}>
@@ -1100,7 +1100,7 @@ function GlobePageInner() {
 
           {!mapReady ? (
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-[var(--surface)]/40">
-              <div className="h-full w-1/3 animate-pulse bg-[#EA8069]/70" />
+              <div className="h-full w-1/3 animate-pulse bg-[#F2F2F2]/70" />
             </div>
           ) : null}
         </section>
@@ -1112,14 +1112,14 @@ function GlobePageInner() {
           tabIndex={0}
           onPointerDown={(e) => startResize('right', e)}
           onDoubleClick={() => setRightRail(RIGHT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#EA8069]"
+          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#F2F2F2]"
         />
 
         <aside className="flex min-w-0 flex-col overflow-hidden border-l border-[var(--border)] bg-[var(--surface)]">
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           {!selected && !selectedEvent && !loading && !error ? (
             <div className="flex flex-1 flex-col items-start justify-center gap-3 p-5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#EA8069]/12 text-[#EA8069]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F2F2F2]/12 text-[#F2F2F2]">
                 <IconMapPin size={22} />
               </div>
               <div>

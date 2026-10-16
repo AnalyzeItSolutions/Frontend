@@ -12,7 +12,7 @@ interface AtmosphereLayerProps {
 
 const GROUND_Y = -4;
 
-export const FOG_COLORS = { light: '#EEDFCB', dark: '#1F1A17' } as const;
+export const FOG_COLORS = { light: '#EEDFCB', dark: '#1B1B1B' } as const;
 
 function mulberry32(seed: number) {
   return () => {
@@ -110,8 +110,8 @@ function CrystalField({ isDark }: { isDark: boolean }) {
     <instancedMesh ref={ref} args={[undefined, undefined, count]} frustumCulled={false}>
       <octahedronGeometry args={[0.5, 0]} />
       <meshStandardMaterial
-        color={isDark ? '#8C4E40' : '#B8634D'}
-        emissive={isDark ? '#5A2E24' : '#7A3A2C'}
+        color={isDark ? '#0A0A0A' : '#F2F2F2'}
+        emissive={isDark ? '#0A0A0A' : '#0A0A0A'}
         emissiveIntensity={isDark ? 0.35 : 0.25}
         roughness={0.3}
         metalness={0.1}
@@ -169,8 +169,8 @@ function FloatingShards({
     <instancedMesh ref={ref} args={[undefined, undefined, count]} frustumCulled={false}>
       <octahedronGeometry args={[1, 0]} />
       <meshStandardMaterial
-        color={isDark ? '#E3836C' : '#F0A68F'}
-        emissive={isDark ? '#E3836C' : '#E3836C'}
+        color={isDark ? '#F2F2F2' : '#F2F2F2'}
+        emissive={isDark ? '#F2F2F2' : '#F2F2F2'}
         emissiveIntensity={isDark ? 0.9 : 0.45}
         roughness={0.2}
         flatShading
@@ -199,7 +199,7 @@ function Mist({
       scale: 7 + rand() * 7,
       opacity: 0.35 + rand() * 0.25,
       speed: 0.006 + rand() * 0.01,
-      color: isDark ? '#3A2E2A' : rand() > 0.5 ? '#FBF1E6' : '#F2D8C4',
+      color: isDark ? '#323232' : rand() > 0.5 ? '#F1F1F1' : '#F2D8C4',
     }));
     const high = Array.from({ length: 6 }, () => ({
       angle: rand() * Math.PI * 2,
@@ -253,7 +253,7 @@ export const AtmosphereLayer: React.FC<AtmosphereLayerProps> = ({ scrollProgress
         <Lightformer intensity={2.2} color="#FFE6D4" position={[0, 6, -6]} scale={[12, 4, 1]} />
         <Lightformer
           intensity={1.4}
-          color="#E3836C"
+          color="#F2F2F2"
           position={[-7, 1, 2]}
           rotation={[0, Math.PI / 2, 0]}
           scale={[6, 6, 1]}
@@ -267,7 +267,7 @@ export const AtmosphereLayer: React.FC<AtmosphereLayerProps> = ({ scrollProgress
         />
       </Environment>
 
-      <Ground color={isDark ? '#17120F' : '#E4D1BA'} />
+      <Ground color={isDark ? '#131313' : '#CFCFCF'} />
       <CrystalField isDark={isDark} />
       <FloatingShards scrollProgressRef={scrollProgressRef} isDark={isDark} />
       <Mist scrollProgressRef={scrollProgressRef} isDark={isDark} />

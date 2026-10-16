@@ -11,7 +11,7 @@ export function IntervalToggle({ value, onChange }: { value: Interval; onChange:
       aria-checked={value === id}
       onClick={() => onChange(id)}
       className={`min-h-10 rounded-full px-4 text-sm transition-colors ${
-        value === id ? 'bg-[var(--brand)] text-[var(--brand-ink)]' : 'text-[var(--text-secondary)] hover:text-[#C45A42]'
+        value === id ? 'bg-[var(--brand)] text-[var(--brand-ink)]' : 'text-[var(--text-secondary)] hover:text-[#0A0A0A]'
       }`}
     >
       {label}
@@ -19,7 +19,7 @@ export function IntervalToggle({ value, onChange }: { value: Interval; onChange:
     </button>
   );
   return (
-    <div role="radiogroup" aria-label="Billing period" className="inline-flex items-center gap-1 rounded-full border border-[#4A4238]/15 dark:border-[#504740] p-1">
+    <div role="radiogroup" aria-label="Billing period" className="inline-flex items-center gap-1 rounded-full border border-[#414141]/15 dark:border-[#484848] p-1">
       {item('monthly', 'Monthly')}
       {item('annual', 'Annual', 'Save 25%')}
     </div>

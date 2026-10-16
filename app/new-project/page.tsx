@@ -1369,7 +1369,7 @@ function NewProjectContent() {
         className={`sticky top-0 z-30 px-4 sm:px-8 py-3 flex items-center justify-between border-b backdrop-blur-xl transition-colors duration-300 ${
           isIncognito
             ? 'bg-[#100D16]/80 border-purple-500/20'
-            : 'bg-[#F7F1E8]/80 dark:bg-[#14110F]/80 border-[#4A4238]/10 dark:border-[#2B2521]'
+            : 'bg-[#F8F8F8]/80 dark:bg-[#121212]/80 border-[#414141]/10 dark:border-[#262626]'
         }`}
       >
         <div className="flex items-center gap-3 sm:gap-5">
@@ -1380,7 +1380,7 @@ function NewProjectContent() {
             className={`flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${
               isIncognito
                 ? 'border-purple-500/30 text-purple-300 hover:bg-purple-950/50'
-                : 'border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] hover:bg-black/5 dark:hover:bg-[#292522]'
+                : 'border-[#414141]/15 dark:border-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:text-[#414141] dark:hover:text-[#EDEDED] hover:bg-black/5 dark:hover:bg-[#262626]'
             }`}
           >
             <IconArrowLeft size={14} />
@@ -1400,13 +1400,13 @@ function NewProjectContent() {
                   if (e.key === 'Escape') setIsEditingTitle(false);
                 }}
                 autoFocus
-                className="font-serif text-base sm:text-lg font-medium px-2 py-0.5 rounded border border-[#E3836C] bg-transparent focus:outline-none"
+                className="font-serif text-base sm:text-lg font-medium px-2 py-0.5 rounded border border-[#F2F2F2] bg-transparent focus:outline-none"
               />
             ) : (
               <button
                 type="button"
                 onClick={() => setIsEditingTitle(true)}
-                className="group flex items-center gap-2 font-serif text-base sm:text-lg font-medium tracking-tight hover:text-[#E3836C] transition-colors cursor-pointer text-left max-w-[200px] sm:max-w-xs truncate"
+                className="group flex items-center gap-2 font-serif text-base sm:text-lg font-medium tracking-tight hover:text-[#F2F2F2] transition-colors cursor-pointer text-left max-w-[200px] sm:max-w-xs truncate"
               >
                 <span className="truncate">{projectTitle}</span>
                 <span className="text-xs font-mono opacity-0 group-hover:opacity-60 transition-opacity">✎</span>
@@ -1418,15 +1418,15 @@ function NewProjectContent() {
         {/* View Switcher & Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
           {/* View Mode Segment Switcher */}
-          <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#292522] border border-[#4A4238]/10 dark:border-[#2B2521] text-xs font-mono">
+          <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#262626] border border-[#414141]/10 dark:border-[#262626] text-xs font-mono">
             {!isMobile && (
               <button
                 type="button"
                 onClick={() => setActiveView('split')}
                 className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
                   activeView === 'split'
-                    ? 'bg-white dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] shadow-xs font-semibold'
-                    : 'text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                    ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
+                    : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                 }`}
                 title="Split screen (Chat + Live Canvas)"
               >
@@ -1439,8 +1439,8 @@ function NewProjectContent() {
               onClick={() => setActiveView('chat')}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
                 activeView === 'chat'
-                  ? 'bg-white dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] shadow-xs font-semibold'
-                  : 'text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                  ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
+                  : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
               }`}
               title="Chat Copilot view"
             >
@@ -1452,15 +1452,15 @@ function NewProjectContent() {
               onClick={() => setActiveView('canvas')}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer relative ${
                 activeView === 'canvas'
-                  ? 'bg-white dark:bg-[#302B28] text-[#4A4238] dark:text-[#F4EDE5] shadow-xs font-semibold'
-                  : 'text-[#4A4238]/60 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                  ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
+                  : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
               }`}
               title="Dashboard Canvas view"
             >
               <IconLayoutDashboard size={13} />
               <span>Canvas</span>
               {currentLayout.widgets.length > 0 && (
-                <span className="text-[10px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#E3836C] rounded-full font-bold">
+                <span className="text-[10px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#F2F2F2] rounded-full font-bold">
                   {currentLayout.widgets.length}
                 </span>
               )}
@@ -1477,13 +1477,13 @@ function NewProjectContent() {
             className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
               isIncognito
                 ? 'bg-purple-900/60 border-purple-500 text-purple-200 shadow-md ring-2 ring-purple-500/30'
-                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:border-[#E3836C]/40'
+                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/15 dark:border-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:border-[#F2F2F2]/40'
             }`}
             title="When active, queries and session data are ephemeral and bypassed from storage"
           >
             <IconShieldLock
               size={14}
-              className={isIncognito ? 'text-purple-300' : 'text-[#4A4238]/50 dark:text-[#91867E]'}
+              className={isIncognito ? 'text-purple-300' : 'text-[#414141]/50 dark:text-[#888888]'}
             />
             <span>Incognito</span>
           </button>
@@ -1496,7 +1496,7 @@ function NewProjectContent() {
             className={`w-8 h-8 rounded-full border flex items-center justify-center font-mono text-xs font-bold transition-colors ${
               isIncognito
                 ? 'bg-purple-900/50 border-purple-400/40 text-purple-200'
-                : 'bg-[#E8C4A0] dark:bg-[#302B28] border-[#4A4238]/20 dark:border-[#504740] text-[#4A4238] dark:text-[#F4EDE5]'
+                : 'bg-[#E8C4A0] dark:bg-[#2C2C2C] border-[#414141]/20 dark:border-[#484848] text-[#414141] dark:text-[#EDEDED]'
             }`}
             title={user ? `Signed in as ${user.name} (${user.email})` : 'Guest Session'}
           >
@@ -1528,7 +1528,7 @@ function NewProjectContent() {
         <div
           className={`relative flex min-h-0 flex-col overflow-hidden transition-all ${
             activeView === 'split'
-              ? 'w-full lg:w-[46%] xl:w-[44%] border-r border-[#4A4238]/10 dark:border-[#2B2521]'
+              ? 'w-full lg:w-[46%] xl:w-[44%] border-r border-[#414141]/10 dark:border-[#262626]'
               : activeView === 'chat'
               ? 'w-full'
               : 'hidden'
@@ -1568,12 +1568,12 @@ function NewProjectContent() {
                         ? `${
                             msg.incognito
                               ? 'bg-purple-900/60 border border-purple-500/30 text-purple-100'
-                              : 'bg-[#4A4238] text-[#F7F1E8]'
+                              : 'bg-[#414141] text-[#F8F8F8]'
                           } p-4 rounded-2xl rounded-tr-xs text-sm leading-relaxed shadow-sm`
                         : `${
                             isIncognito
                               ? 'bg-[#1A1624] border border-purple-500/20 text-purple-100'
-                              : 'glass-card border border-[#4A4238]/08 dark:border-[#2B2521] dark:bg-[#1C1816] text-[#4A4238] dark:text-[#F4EDE5]'
+                              : 'glass-card border border-[#414141]/08 dark:border-[#262626] dark:bg-[#191919] text-[#414141] dark:text-[#EDEDED]'
                           } p-5 rounded-2xl rounded-tl-xs text-sm leading-relaxed shadow-sm`
                     }`}
                   >
@@ -1597,7 +1597,7 @@ function NewProjectContent() {
                             className={`text-[11px] font-mono px-2 py-1 rounded-lg ${
                               isIncognito
                                 ? 'bg-purple-950/40 text-purple-300'
-                                : 'bg-black/5 dark:bg-[#292522] text-[#4A4238]/70 dark:text-[#C5B9AE]'
+                                : 'bg-black/5 dark:bg-[#262626] text-[#414141]/70 dark:text-[#BABABA]'
                             }`}
                           >
                             {line}
@@ -1659,15 +1659,15 @@ function NewProjectContent() {
                             inlineProposal.status === 'applied'
                               ? 'bg-emerald-500/10 dark:bg-[#283329] border-emerald-500/30 dark:border-[#9EBB9A]/30 text-emerald-600 dark:text-[#9EBB9A]'
                               : inlineProposal.status === 'rejected'
-                              ? 'bg-black/5 dark:bg-[#292522] border-transparent opacity-60'
+                              ? 'bg-black/5 dark:bg-[#262626] border-transparent opacity-60'
                               : inlineProposal.status === 'error'
                               ? 'bg-red-500/10 dark:bg-[#382522] border-red-500/30 dark:border-[#D97870]/30 text-red-600 dark:text-[#D97870]'
-                              : 'bg-[var(--brand)]/10 dark:bg-[#5A332C]/40 border-[#E3836C]/30 dark:border-[#8A4D40]'
+                              : 'bg-[var(--brand)]/10 dark:bg-[#0A0A0A]/40 border-[#F2F2F2]/30 dark:border-[#0A0A0A]'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider">
-                              <IconSparkles size={14} className="text-[#E3836C]" />
+                              <IconSparkles size={14} className="text-[#F2F2F2]" />
                               <span>
                                 {inlineProposal.status === 'applied'
                                   ? isMulti ? 'Widgets Added to Canvas' : 'Widget Added to Canvas'
@@ -1676,12 +1676,12 @@ function NewProjectContent() {
                                   : isMulti ? `Proposed Layout (${inlineProposal.widgets!.length} widgets)` : 'Proposed Widget'}
                               </span>
                             </div>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#292522] text-[#4A4238]/70 dark:text-[#C5B9AE]">
+                            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#262626] text-[#414141]/70 dark:text-[#BABABA]">
                               {pType}
                             </span>
                           </div>
 
-                          <p className="text-xs font-serif text-[#4A4238] dark:text-[#F4EDE5]">
+                          <p className="text-xs font-serif text-[#414141] dark:text-[#EDEDED]">
                             <em>
                               &quot;{pTitle}&quot;
                             </em>
@@ -1692,7 +1692,7 @@ function NewProjectContent() {
                               {inlineProposal.widgets!.map((w, idx) => (
                                 <span
                                   key={w.id || idx}
-                                  className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#292522] text-[#4A4238]/80 dark:text-[#C5B9AE]"
+                                  className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-black/5 dark:bg-[#262626] text-[#414141]/80 dark:text-[#BABABA]"
                                 >
                                   {w.title || w.type}
                                 </span>
@@ -1721,7 +1721,7 @@ function NewProjectContent() {
                               <button
                                 type="button"
                                 onClick={() => handleRejectProposal(inlineProposal.actionId)}
-                                className="px-3 py-1.5 rounded-lg border border-[#4A4238]/20 dark:border-[#2B2521] hover:bg-black/5 dark:hover:bg-[#292522] text-[11px] font-mono text-[#4A4238] dark:text-[#F4EDE5] transition-all cursor-pointer"
+                                className="px-3 py-1.5 rounded-lg border border-[#414141]/20 dark:border-[#262626] hover:bg-black/5 dark:hover:bg-[#262626] text-[11px] font-mono text-[#414141] dark:text-[#EDEDED] transition-all cursor-pointer"
                               >
                                 Reject
                               </button>
@@ -1737,8 +1737,8 @@ function NewProjectContent() {
                           )}
 
                           {inlineProposal.status === 'applying' && (
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#E3836C] pt-1">
-                              <span className="w-3 h-3 border-2 border-[#E3836C]/30 border-t-[#E3836C] rounded-full animate-spin" />
+                            <div className="flex items-center gap-2 text-xs font-mono text-[#F2F2F2] pt-1">
+                              <span className="w-3 h-3 border-2 border-[#F2F2F2]/30 border-t-[#F2F2F2] rounded-full animate-spin" />
                               <span>Applying widget{isMulti ? 's' : ''} to canvas…</span>
                             </div>
                           )}
@@ -1755,7 +1755,7 @@ function NewProjectContent() {
                           <button
                             type="button"
                             onClick={() => setActiveView(isMobile ? 'canvas' : 'split')}
-                            className="underline hover:opacity-80 cursor-pointer text-[#E3836C]"
+                            className="underline hover:opacity-80 cursor-pointer text-[#F2F2F2]"
                           >
                             View on Canvas →
                           </button>
@@ -1780,7 +1780,7 @@ function NewProjectContent() {
 
                     {/* Durable Output Artifacts Display */}
                     {msg.artifacts && msg.artifacts.length > 0 && (
-                      <div className="space-y-2 pt-2 border-t border-[#4A4238]/10 dark:border-[#2B2521]">
+                      <div className="space-y-2 pt-2 border-t border-[#414141]/10 dark:border-[#262626]">
                         {msg.artifacts.map((art: any, aIdx: number) => {
                           const artFmt = (art.format || art.type || '').toLowerCase();
                           const isAudio = artFmt === 'audio_mp3' || artFmt === 'audio';
@@ -1796,12 +1796,12 @@ function NewProjectContent() {
                           return (
                             <div
                               key={art.artifact_id || aIdx}
-                              className="p-3 rounded-2xl bg-white/70 dark:bg-[#292522] border border-[#4A4238]/15 dark:border-[#2B2521] space-y-2 text-xs font-mono"
+                              className="p-3 rounded-2xl bg-white/70 dark:bg-[#262626] border border-[#414141]/15 dark:border-[#262626] space-y-2 text-xs font-mono"
                             >
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
                                   {isAudio ? (
-                                    <div className="w-7 h-7 rounded-lg bg-[var(--brand)]/20 text-[#E3836C] flex items-center justify-center">
+                                    <div className="w-7 h-7 rounded-lg bg-[var(--brand)]/20 text-[#F2F2F2] flex items-center justify-center">
                                       <IconVolume size={15} />
                                     </div>
                                   ) : isVideo ? (
@@ -1818,7 +1818,7 @@ function NewProjectContent() {
                                     </div>
                                   )}
                                   <div>
-                                    <p className="font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+                                    <p className="font-semibold text-[#414141] dark:text-[#EDEDED]">
                                       {art.filename || 'Durable Artifact'}
                                     </p>
                                     <p className="text-[10px] opacity-60">
@@ -1832,7 +1832,7 @@ function NewProjectContent() {
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   download={art.filename}
-                                  className="px-2.5 py-1.5 rounded-lg bg-[#4A4238]/10 dark:bg-[#302B28] dark:text-[#F4EDE5] hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] transition-all flex items-center gap-1 text-[11px] font-mono cursor-pointer"
+                                  className="px-2.5 py-1.5 rounded-lg bg-[#414141]/10 dark:bg-[#2C2C2C] dark:text-[#EDEDED] hover:bg-[var(--brand)] hover:text-[var(--brand-ink)] transition-all flex items-center gap-1 text-[11px] font-mono cursor-pointer"
                                 >
                                   <IconDownload size={13} />
                                   <span>Download</span>
@@ -1848,7 +1848,7 @@ function NewProjectContent() {
 
                               {/* Video Player if MP4 */}
                               {isVideo && (
-                                <video controls className="w-full rounded-xl mt-1 border border-black/10 dark:border-[#2B2521]" src={fullUrl}>
+                                <video controls className="w-full rounded-xl mt-1 border border-black/10 dark:border-[#262626]" src={fullUrl}>
                                   Your browser does not support the video tag.
                                 </video>
                               )}
@@ -1872,7 +1872,7 @@ function NewProjectContent() {
                       className={`w-8 h-8 rounded-full border flex-shrink-0 flex items-center justify-center font-mono text-xs font-bold ${
                         msg.incognito
                           ? 'bg-purple-900/50 border-purple-400/40 text-purple-200'
-                          : 'bg-[#E8C4A0] dark:bg-[#302B28] border-[#4A4238]/20 dark:border-[#504740] text-[#4A4238] dark:text-[#F4EDE5]'
+                          : 'bg-[#E8C4A0] dark:bg-[#2C2C2C] border-[#414141]/20 dark:border-[#484848] text-[#414141] dark:text-[#EDEDED]'
                       }`}
                     >
                       DV
@@ -1896,7 +1896,7 @@ function NewProjectContent() {
                   className={`px-4 py-3 rounded-2xl text-xs font-mono flex items-center gap-2 ${
                     isIncognito
                       ? 'bg-[#1A1624] border border-purple-500/20 text-purple-300'
-                      : 'glass-card border border-[#4A4238]/10 dark:border-[#2B2521] dark:bg-[#1C1816] text-[#4A4238]/70 dark:text-[#C5B9AE]'
+                      : 'glass-card border border-[#414141]/10 dark:border-[#262626] dark:bg-[#191919] text-[#414141]/70 dark:text-[#BABABA]'
                   }`}
                 >
                   <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-ping" />
@@ -1910,10 +1910,10 @@ function NewProjectContent() {
           </div>
 
           {/* ─── Bottom Chat Input Bar ────────────────────────────────────── */}
-          <div className="p-4 border-t border-[#4A4238]/10 dark:border-[#2B2521] space-y-2 bg-[#F7F1E8]/50 dark:bg-[#14110F]/80 backdrop-blur-md">
+          <div className="p-4 border-t border-[#414141]/10 dark:border-[#262626] space-y-2 bg-[#F8F8F8]/50 dark:bg-[#121212]/80 backdrop-blur-md">
             {uploadingFile && (
-              <div className="mb-2 flex items-center gap-2 text-xs font-mono text-[#4A4238]/70 dark:text-[#91867E]">
-                <IconRefresh size={13} className="animate-spin text-[#E3836C]" />
+              <div className="mb-2 flex items-center gap-2 text-xs font-mono text-[#414141]/70 dark:text-[#888888]">
+                <IconRefresh size={13} className="animate-spin text-[#F2F2F2]" />
                 <span>Importing {uploadingFile}…</span>
               </div>
             )}
@@ -1923,9 +1923,9 @@ function NewProjectContent() {
                 {attachedFiles.map((file) => (
                   <span
                     key={file.attachment_id}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border bg-white/80 dark:bg-[#292522] border-[#4A4238]/15 dark:border-[#2B2521] text-[#4A4238] dark:text-[#F4EDE5]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border bg-white/80 dark:bg-[#262626] border-[#414141]/15 dark:border-[#262626] text-[#414141] dark:text-[#EDEDED]"
                   >
-                    <IconFileSpreadsheet size={13} className="text-[#E3836C]" />
+                    <IconFileSpreadsheet size={13} className="text-[#F2F2F2]" />
                     <span className="max-w-[10rem] truncate">{file.filename}</span>
                     <button
                       type="button"
@@ -1949,7 +1949,7 @@ function NewProjectContent() {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="p-1.5 rounded-2xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/70 dark:bg-[#292522] shadow-md flex items-center gap-2 transition-all focus-within:border-[#E3836C] focus-within:ring-2 focus-within:ring-[#E3836C]/20"
+              className="p-1.5 rounded-2xl border border-[#414141]/15 dark:border-[#262626] bg-white/70 dark:bg-[#262626] shadow-md flex items-center gap-2 transition-all focus-within:border-[#F2F2F2] focus-within:ring-2 focus-within:ring-[#F2F2F2]/20"
             >
               <input
                 ref={fileInputRef}
@@ -1965,7 +1965,7 @@ function NewProjectContent() {
                 type="button"
                 onClick={handleFileUpload}
                 disabled={Boolean(uploadingFile)}
-                className="p-2 rounded-xl text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#E3836C] hover:bg-black/5 dark:hover:bg-[#302B28] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-wait"
+                className="p-2 rounded-xl text-[#414141]/50 dark:text-[#888888] hover:text-[#F2F2F2] hover:bg-black/5 dark:hover:bg-[#2C2C2C] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-wait"
                 title="Import data (CSV, TSV, JSON, XLSX, PDF tables, Tableau schema)"
               >
                 {uploadingFile ? (
@@ -1982,7 +1982,7 @@ function NewProjectContent() {
                 onChange={(e) => setInputMessage(e.target.value)}
                 placeholder="Ask a question or request a dashboard widget (e.g. 'Build a dashboard for Nasdaq QQQ')…"
                 disabled={isThinking}
-                className="flex-1 bg-transparent px-2 py-1.5 text-xs sm:text-sm text-[#4A4238] dark:text-[#F4EDE5] placeholder-current/40 dark:placeholder-[#80766F] focus:outline-none"
+                className="flex-1 bg-transparent px-2 py-1.5 text-xs sm:text-sm text-[#414141] dark:text-[#EDEDED] placeholder-current/40 dark:placeholder-[#787878] focus:outline-none"
               />
 
               <button
@@ -2053,19 +2053,19 @@ function NewProjectContent() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[#FAF6F0] dark:bg-[#302B28] border border-[#4A4238]/20 dark:border-[#504740] rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-4"
+              className="bg-[#F5F5F5] dark:bg-[#2C2C2C] border border-[#414141]/20 dark:border-[#484848] rounded-3xl p-6 w-full max-w-lg shadow-2xl space-y-4"
             >
-              <div className="flex items-center gap-3 pb-3 border-b border-[#4A4238]/10 dark:border-[#2B2521]">
+              <div className="flex items-center gap-3 pb-3 border-b border-[#414141]/10 dark:border-[#262626]">
                 <div className="w-9 h-9 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-[#D9AD70] flex items-center justify-center flex-shrink-0">
                   <IconGitMerge size={20} />
                 </div>
                 <div>
-                  <h3 className="font-serif text-base font-semibold text-[#4A4238] dark:text-[#F4EDE5]">
+                  <h3 className="font-serif text-base font-semibold text-[#414141] dark:text-[#EDEDED]">
                     {conflictState.isPureAppend
                       ? 'Concurrent Update (Auto-Rebase Available)'
                       : 'Concurrent Modification Conflict'}
                   </h3>
-                  <p className="text-[11px] font-mono text-[#4A4238]/60 dark:text-[#91867E]">
+                  <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
                     Canvas advanced to v{conflictState.freshVersion} in another session
                   </p>
                 </div>
@@ -2073,8 +2073,8 @@ function NewProjectContent() {
 
               {conflictState.isPureAppend ? (
                 <div className="space-y-3 text-xs font-mono">
-                  <p className="text-[#4A4238]/80 dark:text-[#C5B9AE] leading-relaxed">
-                    Another session or background task updated the layout to <span className="font-semibold text-[#E3836C]">v{conflictState.freshVersion}</span> ({conflictState.freshWidgets.length} widgets).
+                  <p className="text-[#414141]/80 dark:text-[#BABABA] leading-relaxed">
+                    Another session or background task updated the layout to <span className="font-semibold text-[#F2F2F2]">v{conflictState.freshVersion}</span> ({conflictState.freshWidgets.length} widgets).
                   </p>
                   <div className="p-3 rounded-xl bg-emerald-500/10 dark:bg-[#283329] border border-emerald-500/20 dark:border-emerald-500/30 text-emerald-800 dark:text-[#9EBB9A]">
                     <p className="font-semibold flex items-center gap-1.5">
@@ -2088,7 +2088,7 @@ function NewProjectContent() {
                     <button
                       type="button"
                       onClick={() => handleDiscardConflict()}
-                      className="px-3.5 py-1.5 rounded-xl border border-[#4A4238]/20 dark:border-[#504740] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:bg-black/5 dark:hover:bg-[#292522] cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-xl border border-[#414141]/20 dark:border-[#484848] text-[#414141]/70 dark:text-[#BABABA] hover:bg-black/5 dark:hover:bg-[#262626] cursor-pointer"
                     >
                       Discard & Sync
                     </button>
@@ -2103,26 +2103,26 @@ function NewProjectContent() {
                 </div>
               ) : (
                 <div className="space-y-3 text-xs font-mono">
-                  <p className="text-[#4A4238]/80 dark:text-[#C5B9AE]">
+                  <p className="text-[#414141]/80 dark:text-[#BABABA]">
                     The widget &quot;{conflictState.proposal.widgetSpec?.title || conflictState.conflictingWidget?.title || 'Proposed Widget'}&quot; was modified concurrently. Choose which version to retain:
                   </p>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816] space-y-1">
-                      <p className="font-semibold text-[#E3836C]">Your Proposal</p>
-                      <p className="opacity-70 dark:text-[#C5B9AE] truncate">{conflictState.proposal.widgetSpec?.title || (conflictState.proposal.widgets && conflictState.proposal.widgets[0]?.title) || 'Proposed Widget'}</p>
-                      <p className="opacity-50 dark:text-[#91867E]">Type: {conflictState.proposal.widgetSpec?.component || conflictState.proposal.widgetSpec?.type || (conflictState.proposal.widgets ? `Composite (${conflictState.proposal.widgets.length})` : 'Composite')}</p>
+                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#191919] space-y-1">
+                      <p className="font-semibold text-[#F2F2F2]">Your Proposal</p>
+                      <p className="opacity-70 dark:text-[#BABABA] truncate">{conflictState.proposal.widgetSpec?.title || (conflictState.proposal.widgets && conflictState.proposal.widgets[0]?.title) || 'Proposed Widget'}</p>
+                      <p className="opacity-50 dark:text-[#888888]">Type: {conflictState.proposal.widgetSpec?.component || conflictState.proposal.widgetSpec?.type || (conflictState.proposal.widgets ? `Composite (${conflictState.proposal.widgets.length})` : 'Composite')}</p>
                     </div>
-                    <div className="p-3 rounded-xl border border-[#4A4238]/15 dark:border-[#2B2521] bg-white/40 dark:bg-[#1C1816] space-y-1">
+                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#191919] space-y-1">
                       <p className="font-semibold text-[#91AEB5]">Canvas Version</p>
-                      <p className="opacity-70 dark:text-[#C5B9AE] truncate">{conflictState.conflictingWidget?.title}</p>
-                      <p className="opacity-50 dark:text-[#91867E]">Type: {conflictState.conflictingWidget?.component || conflictState.conflictingWidget?.type}</p>
+                      <p className="opacity-70 dark:text-[#BABABA] truncate">{conflictState.conflictingWidget?.title}</p>
+                      <p className="opacity-50 dark:text-[#888888]">Type: {conflictState.conflictingWidget?.component || conflictState.conflictingWidget?.type}</p>
                     </div>
                   </div>
                   <div className="flex justify-end gap-2 pt-2">
                     <button
                       type="button"
                       onClick={() => handleDiscardConflict()}
-                      className="px-3.5 py-1.5 rounded-xl border border-[#4A4238]/20 dark:border-[#504740] text-[#4A4238]/70 dark:text-[#C5B9AE] hover:bg-black/5 dark:hover:bg-[#292522] cursor-pointer"
+                      className="px-3.5 py-1.5 rounded-xl border border-[#414141]/20 dark:border-[#484848] text-[#414141]/70 dark:text-[#BABABA] hover:bg-black/5 dark:hover:bg-[#262626] cursor-pointer"
                     >
                       Keep Theirs
                     </button>

@@ -191,19 +191,19 @@ export default function BillingPage() {
     <AppShell active="billing">
       <div className="mx-auto max-w-2xl space-y-6">
         <PageTitle title="Billing" />
-        <p className="text-sm text-[var(--text-muted,#6B6155)]">
+        <p className="text-sm text-[var(--text-muted,#606060)]">
           {recurring ? (
             <>
-              Paid plans are <strong className="font-medium text-[var(--text,#3A342D)]">{annual ? 'yearly' : 'monthly'} subscriptions via Razorpay</strong>:
+              Paid plans are <strong className="font-medium text-[var(--text,#343434)]">{annual ? 'yearly' : 'monthly'} subscriptions via Razorpay</strong>:
               they renew automatically until you cancel, and you keep access until the end of the period you paid for. See{' '}
             </>
           ) : (
             <>
-              Paid plans are charged in <strong className="font-medium text-[var(--text,#3A342D)]">{premiumCcy} via Razorpay</strong>.
+              Paid plans are charged in <strong className="font-medium text-[var(--text,#343434)]">{premiumCcy} via Razorpay</strong>.
               Each payment covers {annual ? 'one year' : '30 days'}, and you can pay again any time. USD amounts are for reference only. See{' '}
             </>
           )}
-          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#C45A42]">
+          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#0A0A0A]">
             pricing
           </Link>
           {' '}for what each plan includes.
@@ -232,7 +232,7 @@ export default function BillingPage() {
         {quoteError ? (
           <div
             role="alert"
-            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#C45B4A]/30 bg-[#C45B4A]/10 px-3 py-2 text-sm text-[#9B4D3B]"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#F2F2F2]/30 bg-[#F2F2F2]/10 px-3 py-2 text-sm text-[#0A0A0A]"
           >
             <span>{quoteError}</span>
             <button type="button" className="btn-secondary text-xs" onClick={() => loadQuote()}>
@@ -243,7 +243,7 @@ export default function BillingPage() {
         {usage ? (
           <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
             <div className="flex items-baseline justify-between gap-3 text-sm">
-              <span className="font-medium text-[var(--text,#3A342D)]">Monthly usage</span>
+              <span className="font-medium text-[var(--text,#343434)]">Monthly usage</span>
               <span className="font-mono text-xs text-[var(--text-muted)]">
                 {usage.used.toLocaleString()} / {usage.cap.toLocaleString()} tokens
               </span>
@@ -265,7 +265,7 @@ export default function BillingPage() {
         ) : null}
 
         {error ? (
-          <p role="alert" className="rounded-xl border border-[#C45B4A]/30 bg-[#C45B4A]/10 px-3 py-2 text-sm text-[#9B4D3B]">
+          <p role="alert" className="rounded-xl border border-[#F2F2F2]/30 bg-[#F2F2F2]/10 px-3 py-2 text-sm text-[#0A0A0A]">
             {error}
           </p>
         ) : null}
@@ -291,19 +291,19 @@ export default function BillingPage() {
             return (
               <section key={plan} className="app-card flex flex-col space-y-3 p-5">
                 <div>
-                  <h2 className="font-serif text-xl text-[var(--text,#322C28)]">{meta.name}</h2>
-                  <p className="text-xs text-[var(--text-muted,#6B6155)]">{cadence}</p>
+                  <h2 className="font-serif text-xl text-[var(--text,#2D2D2D)]">{meta.name}</h2>
+                  <p className="text-xs text-[var(--text-muted,#606060)]">{cadence}</p>
                 </div>
                 <div>
-                  <p className="font-serif text-3xl text-[var(--text,#322C28)]">{priceLabel}</p>
-                  <p className="text-xs text-[var(--text-muted,#6B6155)]">
+                  <p className="font-serif text-3xl text-[var(--text,#2D2D2D)]">{priceLabel}</p>
+                  <p className="text-xs text-[var(--text-muted,#606060)]">
                     ${usdRef(meta.usdList)} USD reference · charged in {ccy} via Razorpay
                   </p>
                 </div>
-                <ul className="flex-1 space-y-1.5 text-sm text-[var(--text-muted,#6B6155)]">
+                <ul className="flex-1 space-y-1.5 text-sm text-[var(--text-muted,#606060)]">
                   {meta.perks.map((perk) => (
                     <li key={perk} className="flex gap-2">
-                      <span className="text-[#C45A42]" aria-hidden>
+                      <span className="text-[#0A0A0A]" aria-hidden>
                         ·
                       </span>
                       {perk}
@@ -323,9 +323,9 @@ export default function BillingPage() {
           })}
         </div>
 
-        <p className="text-xs text-[var(--text-muted,#6B6155)]">
+        <p className="text-xs text-[var(--text-muted,#606060)]">
           Compare features on the{' '}
-          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#C45A42]">
+          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#0A0A0A]">
             pricing section
           </Link>
           . You will confirm the charge in-app before Razorpay opens{recurring ? ', and you can cancel any time' : ''}.
@@ -341,37 +341,37 @@ export default function BillingPage() {
         >
           <div className="app-card w-full max-w-md space-y-4 p-5 shadow-xl">
             <div className="space-y-1">
-              <h2 id="review-purchase-title" className="font-serif text-2xl text-[var(--text,#322C28)]">
+              <h2 id="review-purchase-title" className="font-serif text-2xl text-[var(--text,#2D2D2D)]">
                 Review purchase
               </h2>
-              <p className="text-sm text-[var(--text-muted,#6B6155)]">
+              <p className="text-sm text-[var(--text-muted,#606060)]">
                 Confirm details before opening Razorpay. Nothing is charged until you finish in the Razorpay window.
                 {recurring ? ` This renews ${annual ? 'yearly' : 'monthly'} until you cancel.` : ''}
               </p>
             </div>
             <dl className="space-y-2 text-sm">
               <div className="flex justify-between gap-4">
-                <dt className="text-[var(--text-muted,#6B6155)]">Plan</dt>
-                <dd className="font-medium text-[var(--text,#322C28)]">{review.meta.name}</dd>
+                <dt className="text-[var(--text-muted,#606060)]">Plan</dt>
+                <dd className="font-medium text-[var(--text,#2D2D2D)]">{review.meta.name}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[var(--text-muted,#6B6155)]">Total payable</dt>
-                <dd className="font-medium text-[var(--text,#322C28)]">
+                <dt className="text-[var(--text-muted,#606060)]">Total payable</dt>
+                <dd className="font-medium text-[var(--text,#2D2D2D)]">
                   {formatMoney(review.amount, review.currency)}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[var(--text-muted,#6B6155)]">Currency</dt>
-                <dd className="text-[var(--text,#322C28)]">
+                <dt className="text-[var(--text-muted,#606060)]">Currency</dt>
+                <dd className="text-[var(--text,#2D2D2D)]">
                   {review.currency} (USD reference ${usdRef(review.meta.usdList)})
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-[var(--text-muted,#6B6155)]">Cadence</dt>
-                <dd className="text-[var(--text,#322C28)]">{cadence}</dd>
+                <dt className="text-[var(--text-muted,#606060)]">Cadence</dt>
+                <dd className="text-[var(--text,#2D2D2D)]">{cadence}</dd>
               </div>
             </dl>
-            <ul className="space-y-1 rounded-xl bg-[var(--surface-muted,#EEE4D6)]/60 px-3 py-2 text-xs text-[var(--text-muted,#6B6155)]">
+            <ul className="space-y-1 rounded-xl bg-[var(--surface-muted,#E2E2E2)]/60 px-3 py-2 text-xs text-[var(--text-muted,#606060)]">
               {review.meta.perks.map((perk) => (
                 <li key={perk}>· {perk}</li>
               ))}

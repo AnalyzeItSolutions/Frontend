@@ -58,7 +58,7 @@ const Field: React.FC<FieldProps> = ({
       {label}
     </label>
     <div className="relative">
-      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#4A4238]/40 dark:text-[#91867E] pointer-events-none">
+      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#414141]/40 dark:text-[#888888] pointer-events-none">
         {icon}
       </span>
       <input
@@ -68,14 +68,14 @@ const Field: React.FC<FieldProps> = ({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#292522] border text-sm text-[var(--text-primary)] placeholder-[#4A4238]/30 dark:placeholder-[#80766F] focus:outline-none focus:ring-2 transition-all duration-200 ${
+        className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#262626] border text-sm text-[var(--text-primary)] placeholder-[#414141]/30 dark:placeholder-[#787878] focus:outline-none focus:ring-2 transition-all duration-200 ${
           error
             ? 'border-red-400/60 dark:border-[#D97870]/60 focus:ring-red-300/40 dark:focus:ring-[#D97870]/30'
-            : 'border-[var(--border)] focus:ring-[#E3836C]/30 focus:border-[#E3836C]/40'
+            : 'border-[var(--border)] focus:ring-[#F2F2F2]/30 focus:border-[#F2F2F2]/40'
         }`}
       />
       {rightElement && (
-        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#4A4238]/40 dark:text-[#91867E]">
+        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#414141]/40 dark:text-[#888888]">
           {rightElement}
         </span>
       )}
@@ -206,7 +206,7 @@ const LoginForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void }> 
             <button
               type="button"
               onClick={() => setShowPw((v) => !v)}
-              className="cursor-pointer hover:text-[#4A4238] dark:hover:text-[#F4EDE5] transition-colors"
+              className="cursor-pointer hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
             >
               {showPw ? <IconEyeOff size={16} /> : <IconEye size={16} />}
             </button>
@@ -215,7 +215,7 @@ const LoginForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void }> 
         <div className="flex justify-end">
           <Link
             href="/forgot-password"
-            className="text-xs text-[#E3836C] hover:text-[#ED967F] font-mono transition-colors cursor-pointer"
+            className="text-xs text-[#F2F2F2] hover:text-[#F2F2F2] font-mono transition-colors cursor-pointer"
           >
             Forgot password?
           </Link>
@@ -339,7 +339,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
             <button
               type="button"
               onClick={() => setShowPw((v) => !v)}
-              className="cursor-pointer hover:text-[#4A4238] dark:hover:text-[#F4EDE5] transition-colors"
+              className="cursor-pointer hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
             >
               {showPw ? <IconEyeOff size={16} /> : <IconEye size={16} />}
             </button>
@@ -361,7 +361,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
           <button
             type="button"
             onClick={() => setShowConfirm((v) => !v)}
-            className="cursor-pointer hover:text-[#4A4238] dark:hover:text-[#F4EDE5] transition-colors"
+            className="cursor-pointer hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
           >
             {showConfirm ? <IconEyeOff size={16} /> : <IconEye size={16} />}
           </button>
@@ -377,19 +377,19 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
             onClick={() => setAgreed((v) => !v)}
             className={`mt-0.5 w-4 h-4 rounded flex-shrink-0 border flex items-center justify-center transition-all duration-200 cursor-pointer ${
               agreed
-                ? 'bg-[var(--brand)] border-[#E3836C]'
-                : 'bg-white/60 dark:bg-[#292522] border-[#4A4238]/20 dark:border-[#2B2521] group-hover:border-[#E3836C]/40'
+                ? 'bg-[var(--brand)] border-[#F2F2F2]'
+                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/20 dark:border-[#262626] group-hover:border-[#F2F2F2]/40'
             }`}
           >
             {agreed && <IconCheck size={10} stroke={3} className="text-white" />}
           </button>
           <span className="text-xs text-[var(--text-secondary)] leading-relaxed">
             I agree to the{' '}
-            <Link href="/terms" target="_blank" className="text-[#E3836C] hover:text-[#ED967F] hover:underline">Terms of Service</Link>
+            <Link href="/terms" target="_blank" className="text-[#F2F2F2] hover:text-[#F2F2F2] hover:underline">Terms of Service</Link>
             {', '}
-            <Link href="/privacy" target="_blank" className="text-[#E3836C] hover:text-[#ED967F] hover:underline">Privacy Policy</Link>
+            <Link href="/privacy" target="_blank" className="text-[#F2F2F2] hover:text-[#F2F2F2] hover:underline">Privacy Policy</Link>
             {', and '}
-            <Link href="/acceptable-use" target="_blank" className="text-[#E3836C] hover:text-[#ED967F] hover:underline">Acceptable Use Policy</Link>
+            <Link href="/acceptable-use" target="_blank" className="text-[#F2F2F2] hover:text-[#F2F2F2] hover:underline">Acceptable Use Policy</Link>
           </span>
         </label>
         {errors.agreed && (
@@ -415,7 +415,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
         )}
       </button>
       {generalError && !loading ? (
-        <p className="text-center text-[11px] text-[#4A4238]/55 dark:text-[#91867E]">
+        <p className="text-center text-[11px] text-[#414141]/55 dark:text-[#888888]">
           Button unlocked — fix the issue above, then try again. If the account was created, use Sign in.
         </p>
       ) : null}
@@ -459,7 +459,7 @@ const SuccessState: React.FC<{ isNew: boolean }> = ({ isNew }) => {
         <h3 className="font-serif text-xl text-[var(--text-primary)] mb-1">
           {isNew ? 'Account created!' : 'Welcome back!'}
         </h3>
-        <p className="text-sm text-[#4A4238]/55 dark:text-[#C5B9AE]">
+        <p className="text-sm text-[#414141]/55 dark:text-[#BABABA]">
           {isNew
             ? 'Your account is ready. A short setup is next…'
             : "You're signed in. Redirecting to your dashboard…"}
@@ -467,7 +467,7 @@ const SuccessState: React.FC<{ isNew: boolean }> = ({ isNew }) => {
       </div>
       <Link
         href={continueHref}
-        className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E3836C] hover:text-[#ED967F] transition-colors mt-2"
+        className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2] transition-colors mt-2"
       >
         Continue to workspace <IconArrowRight size={13} />
       </Link>
@@ -527,8 +527,8 @@ function LoginInner() {
   if (checking) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[var(--bg)]">
-        <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
-        <p className="font-mono text-[11px] uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E]">
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" />
+        <p className="font-mono text-[11px] uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
           Checking account…
         </p>
       </div>
@@ -546,7 +546,7 @@ function LoginInner() {
           <ThemeToggle />
           <Link
             href="/"
-            className="text-xs font-mono uppercase tracking-wider text-[#4A4238]/50 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
           >
             ← Back to home
           </Link>
@@ -573,13 +573,13 @@ function LoginInner() {
                 className="font-serif text-3xl sm:text-4xl text-[var(--text-primary)] mb-2"
               >
                 {tab === 'login' ? (
-                  <>Welcome <span className="italic text-[#E3836C]">back</span></>
+                  <>Welcome <span className="italic text-[#F2F2F2]">back</span></>
                 ) : (
-                  <>Join <span className="italic text-[#E3836C]">AnalyzeIt</span></>
+                  <>Join <span className="italic text-[#F2F2F2]">AnalyzeIt</span></>
                 )}
               </motion.h1>
             </AnimatePresence>
-            <p className="text-sm text-[#4A4238]/50 dark:text-[#91867E]">
+            <p className="text-sm text-[#414141]/50 dark:text-[#888888]">
               {tab === 'login'
                 ? 'Sign in to your workspace'
                 : 'Create a free account to get started'}
@@ -587,11 +587,11 @@ function LoginInner() {
           </div>
 
           {/* Glass card */}
-          <div className="glass-card dark:bg-[#1C1816] dark:border dark:border-[#2B2521] rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div className="glass-card dark:bg-[#191919] dark:border dark:border-[#262626] rounded-2xl p-6 sm:p-8 shadow-xl">
             {!success ? (
               <>
                 {/* Tab switcher */}
-                <div className="flex gap-1 p-1 bg-black/5 dark:bg-[#292522] border border-transparent dark:border-[#2B2521] rounded-xl mb-6">
+                <div className="flex gap-1 p-1 bg-black/5 dark:bg-[#262626] border border-transparent dark:border-[#262626] rounded-xl mb-6">
                   {(['login', 'register'] as Tab[]).map((t) => (
                     <button
                       key={t}
@@ -599,8 +599,8 @@ function LoginInner() {
                       onClick={() => { setTab(t); setSuccess(false); }}
                       className={`flex-1 py-2 rounded-lg text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                         tab === t
-                          ? 'bg-white dark:bg-[#302B28] shadow-xs text-[var(--text-primary)] font-semibold border border-[#4A4238]/10 dark:border-[#504740]'
-                          : 'text-[#4A4238]/45 dark:text-[#91867E] hover:text-[#4A4238] dark:hover:text-[#F4EDE5]'
+                          ? 'bg-white dark:bg-[#2C2C2C] shadow-xs text-[var(--text-primary)] font-semibold border border-[#414141]/10 dark:border-[#484848]'
+                          : 'text-[#414141]/45 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                       }`}
                     >
                       {t === 'login' ? 'Sign In' : 'Register'}
@@ -626,18 +626,18 @@ function LoginInner() {
                 </AnimatePresence>
 
                 {/* Bottom toggle */}
-                <p className="text-center text-xs text-[#4A4238]/45 dark:text-[#91867E] mt-6">
+                <p className="text-center text-xs text-[#414141]/45 dark:text-[#888888] mt-6">
                   {tab === 'login' ? (
                     <>
                       Don&apos;t have an account?{' '}
-                      <button type="button" onClick={() => setTab('register')} className="text-[#E3836C] hover:text-[#ED967F] font-medium transition-colors cursor-pointer">
+                      <button type="button" onClick={() => setTab('register')} className="text-[#F2F2F2] hover:text-[#F2F2F2] font-medium transition-colors cursor-pointer">
                         Create one
                       </button>
                     </>
                   ) : (
                     <>
                       Already have an account?{' '}
-                      <button type="button" onClick={() => setTab('login')} className="text-[#E3836C] hover:text-[#ED967F] font-medium transition-colors cursor-pointer">
+                      <button type="button" onClick={() => setTab('login')} className="text-[#F2F2F2] hover:text-[#F2F2F2] font-medium transition-colors cursor-pointer">
                         Sign in
                       </button>
                     </>
@@ -649,14 +649,14 @@ function LoginInner() {
             )}
           </div>
 
-          <p className="text-center text-xs text-[#4A4238]/40 dark:text-[#91867E]/70 mt-6 font-mono space-x-3">
-            <Link href="/privacy" className="hover:text-[#E3836C] transition-colors">Privacy</Link>
-            <Link href="/refund" className="hover:text-[#E3836C] transition-colors">Refund</Link>
-            <Link href="/shipping" className="hover:text-[#E3836C] transition-colors">Shipping</Link>
+          <p className="text-center text-xs text-[#414141]/40 dark:text-[#888888]/70 mt-6 font-mono space-x-3">
+            <Link href="/privacy" className="hover:text-[#F2F2F2] transition-colors">Privacy</Link>
+            <Link href="/refund" className="hover:text-[#F2F2F2] transition-colors">Refund</Link>
+            <Link href="/shipping" className="hover:text-[#F2F2F2] transition-colors">Shipping</Link>
             <span aria-hidden="true">·</span>
-            <Link href="/terms" className="hover:text-[#E3836C] transition-colors">Terms</Link>
+            <Link href="/terms" className="hover:text-[#F2F2F2] transition-colors">Terms</Link>
             <span aria-hidden="true">·</span>
-            <Link href="/security" className="hover:text-[#E3836C] transition-colors">Security</Link>
+            <Link href="/security" className="hover:text-[#F2F2F2] transition-colors">Security</Link>
           </p>
         </div>
       </div>
@@ -669,7 +669,7 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
-          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" />
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" />
         </div>
       }
     >

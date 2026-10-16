@@ -11,7 +11,7 @@ import { layerCountLabel } from './dataQuality.mjs';
 /** Page/canvas background for a light full globe. Matches `--bg` in light mode. */
 export const LIGHT_STAGE_BG = 'var(--bg)';
 /** Near-black research stage. Full globe, dark theme only. */
-export const RESEARCH_STAGE_BG = '#07090c';
+export const RESEARCH_STAGE_BG = '#0A0A0A';
 /** WebGL space behind a light full globe — same cream as the light page. */
 export const LIGHT_SPACE_COLOR = 'rgb(245, 238, 229)';
 
@@ -39,7 +39,7 @@ export function researchAtmosphere() {
     },
     light: {
       anchor: 'viewport',
-      color: '#c5ced6',
+      color: '#CECECE',
       intensity: 0.3,
       position: [1.15, 200, 30],
     },
@@ -63,7 +63,7 @@ export function lightAtmosphere({ mini = false } = {}) {
     },
     light: {
       anchor: 'viewport',
-      color: '#fff4e8',
+      color: '#F3F3F3',
       intensity: 0.55,
       position: [1.3, 210, 35],
     },
@@ -88,7 +88,7 @@ export function globeAtmosphere({ variant = 'full', appTheme = 'light' } = {}) {
       },
       light: {
         anchor: 'viewport',
-        color: '#c8d4ea',
+        color: '#D9D9D9',
         intensity: 0.42,
         position: [1.3, 210, 35],
       },

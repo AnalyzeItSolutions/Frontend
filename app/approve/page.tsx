@@ -23,7 +23,7 @@ type Table = {
 type AccessView = { id: string; status: string; client_name: string; project_id: string; project_name: string; reason: string | null; requested_objects: string[] | null; tables: Table[] };
 type ChangeView = { id: string; status: string; proposal: unknown; client_name?: string | null; result?: { changed?: number; skipped?: number } | null };
 
-const card = 'w-full max-w-xl rounded-2xl border border-[#E3836C]/20 bg-white/70 dark:bg-white/[0.03] p-6 shadow-sm';
+const card = 'w-full max-w-xl rounded-2xl border border-[#F2F2F2]/20 bg-white/70 dark:bg-white/[0.03] p-6 shadow-sm';
 
 function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
   const [view, setView] = useState<AccessView | null>(null);
@@ -73,33 +73,33 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
     setState('done');
   }
 
-  if (state === 'loading') return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Loading" />;
+  if (state === 'loading') return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Loading" />;
   if (state === 'gone' || !view) return <Gone onGone={onGone} />;
   const count = Object.values(picked).filter(Boolean).length;
   return (
-    <div className="text-[#2B2620] dark:text-[#EDE6DD]">
+    <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{view.client_name} wants to read data in “{view.project_name}”</h1>
-      {view.reason ? <p className="mt-2 text-sm"><span className="text-[#4A4238]/60 dark:text-[#91867E]">It says:</span> {view.reason}</p> : null}
-      <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">This is what it would be able to read. Nothing is shared until you allow it, and you can turn it off again in the project’s AI data access settings.</p>
+      {view.reason ? <p className="mt-2 text-sm"><span className="text-[#414141]/60 dark:text-[#888888]">It says:</span> {view.reason}</p> : null}
+      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">This is what it would be able to read. Nothing is shared until you allow it, and you can turn it off again in the project’s AI data access settings.</p>
 
       {state !== 'done' ? (
         <>
           <ul className="mt-4 space-y-3">
             {view.tables.map((t) => (
-              <li key={t.api_name} className="rounded-xl border border-[#E3836C]/20 p-3 text-sm">
+              <li key={t.api_name} className="rounded-xl border border-[#F2F2F2]/20 p-3 text-sm">
                 <label className="flex items-start gap-2">
                   <input type="checkbox" className="mt-1" checked={Boolean(picked[t.api_name])} disabled={whole} onChange={(e) => setPicked((p) => ({ ...p, [t.api_name]: e.target.checked }))} />
                   <span className="min-w-0">
                     <span className="font-medium">{t.label}</span>{' '}
-                    <span className="text-xs text-[#4A4238]/60 dark:text-[#91867E]">{t.records.toLocaleString()} records{t.source.startsWith('connector') ? ' · from a connected source' : ''}</span>
-                    <span className="mt-1 block text-xs text-[#4A4238]/70 dark:text-[#91867E]">Fields: {t.fields.map((f) => f.api_name).join(', ') || 'none'}</span>
+                    <span className="text-xs text-[#414141]/60 dark:text-[#888888]">{t.records.toLocaleString()} records{t.source.startsWith('connector') ? ' · from a connected source' : ''}</span>
+                    <span className="mt-1 block text-xs text-[#414141]/70 dark:text-[#888888]">Fields: {t.fields.map((f) => f.api_name).join(', ') || 'none'}</span>
                   </span>
                 </label>
                 {t.sample?.length ? (
                   <div className="mt-2 overflow-x-auto">
                     <table className="w-full text-xs">
                       <thead>
-                        <tr className="text-left text-[#4A4238]/60 dark:text-[#91867E]">{t.sample[0].columns.map((c) => <th key={c} className="py-0.5 pr-3 font-mono font-normal">{c}</th>)}</tr>
+                        <tr className="text-left text-[#414141]/60 dark:text-[#888888]">{t.sample[0].columns.map((c) => <th key={c} className="py-0.5 pr-3 font-mono font-normal">{c}</th>)}</tr>
                       </thead>
                       <tbody>
                         {t.sample.map((r, i) => (
@@ -107,7 +107,7 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
                         ))}
                       </tbody>
                     </table>
-                    <p className="mt-1 text-[11px] text-[#4A4238]/60 dark:text-[#91867E]">A few example rows, shown only to you.</p>
+                    <p className="mt-1 text-[11px] text-[#414141]/60 dark:text-[#888888]">A few example rows, shown only to you.</p>
                   </div>
                 ) : null}
               </li>
@@ -121,10 +121,10 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
           ) : null}
           {error ? <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p> : null}
           <div className="mt-5 flex flex-col gap-2">
-            <button type="button" disabled={state === 'working' || (!whole && count === 0)} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60">
+            <button type="button" disabled={state === 'working' || (!whole && count === 0)} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)] disabled:opacity-60">
               {state === 'working' ? 'Saving…' : accessHeadline(view.client_name, count, whole)}
             </button>
-            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t allow</button>
+            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#F2F2F2]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t allow</button>
           </div>
         </>
       ) : (
@@ -205,21 +205,21 @@ function DataReview({ id }: { id: string }) {
     setState('done');
   }
 
-  if (state === 'loading') return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Loading" />;
+  if (state === 'loading') return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Loading" />;
   if (state === 'gone' || !view) return <Gone onGone={() => {}} />;
   const snap = view.snapshot;
   return (
-    <div className="text-[#2B2620] dark:text-[#EDE6DD]">
+    <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{view.client_name} wants to add data to “{view.project_name}”</h1>
       <p className="mt-2 text-sm font-medium">{dataHeadline(view.client_name, snap)}</p>
-      {snap.description ? <p className="mt-1 text-sm text-[#4A4238]/70 dark:text-[#91867E]">{snap.description}</p> : null}
-      <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Nothing has been added yet. {snap.kit ? 'This is made-up example data, and you can remove it in one click later.' : 'This is what it would create from the data you gave it.'}</p>
+      {snap.description ? <p className="mt-1 text-sm text-[#414141]/70 dark:text-[#888888]">{snap.description}</p> : null}
+      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing has been added yet. {snap.kit ? 'This is made-up example data, and you can remove it in one click later.' : 'This is what it would create from the data you gave it.'}</p>
 
       {snap.columns ? (
-        <div className="mt-3 overflow-x-auto rounded-xl border border-[#E3836C]/20 p-3">
+        <div className="mt-3 overflow-x-auto rounded-xl border border-[#F2F2F2]/20 p-3">
           <table className="w-full text-xs">
             <thead>
-              <tr className="text-left text-[#4A4238]/60 dark:text-[#91867E]">
+              <tr className="text-left text-[#414141]/60 dark:text-[#888888]">
                 {snap.columns.map((c) => (
                   <th key={c.api_name} className="py-1 pr-3 font-normal"><span className="font-mono">{c.api_name}</span> <span className="opacity-70">({c.type})</span></th>
                 ))}
@@ -231,8 +231,8 @@ function DataReview({ id }: { id: string }) {
               ))}
             </tbody>
           </table>
-          <p className="mt-2 text-[11px] text-[#4A4238]/60 dark:text-[#91867E]">First {snap.sample?.length || 0} of {snap.rows.toLocaleString()} rows.{snap.truncated ? ' The file was cut at the row limit.' : ''}</p>
-          {(snap.notes || []).map((n) => <p key={n} className="mt-1 text-[11px] text-[#4A4238]/70 dark:text-[#91867E]">{n}</p>)}
+          <p className="mt-2 text-[11px] text-[#414141]/60 dark:text-[#888888]">First {snap.sample?.length || 0} of {snap.rows.toLocaleString()} rows.{snap.truncated ? ' The file was cut at the row limit.' : ''}</p>
+          {(snap.notes || []).map((n) => <p key={n} className="mt-1 text-[11px] text-[#414141]/70 dark:text-[#888888]">{n}</p>)}
         </div>
       ) : null}
       {snap.tables ? (
@@ -251,10 +251,10 @@ function DataReview({ id }: { id: string }) {
           </label>
           {error ? <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p> : null}
           <div className="mt-4 flex flex-col gap-2">
-            <button type="button" disabled={state === 'working'} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#1a0f0b] hover:bg-[var(--brand-hover)] disabled:opacity-60">
+            <button type="button" disabled={state === 'working'} onClick={() => decide(true)} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)] disabled:opacity-60">
               {state === 'working' ? 'Adding…' : 'Add this data'}
             </button>
-            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#E3836C]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t add</button>
+            <button type="button" disabled={state === 'working'} onClick={() => decide(false)} className="rounded-lg border border-[#F2F2F2]/25 px-4 py-2.5 text-sm hover:bg-[var(--brand)]/10 disabled:opacity-60">Don’t add</button>
           </div>
         </>
       )}
@@ -316,12 +316,12 @@ function ChangeReview({ id, project, onGone }: { id: string; project: string; on
     }
   }
 
-  if (loading) return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Loading" />;
+  if (loading) return <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Loading" />;
   if (gone || !proposal) return <Gone onGone={onGone} />;
   return (
-    <div className="text-[#2B2620] dark:text-[#EDE6DD]">
+    <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{client} suggests a change to your data</h1>
-      <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">Nothing has changed yet. Review exactly what would happen, then approve or reject it.</p>
+      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing has changed yet. Review exactly what would happen, then approve or reject it.</p>
       <BulkChangeCard projectId={project} proposal={proposal} status={status} result={result} error={error} onApprove={() => void decide(true)} onReject={() => void decide(false)} onUndo={() => void undo()} />
     </div>
   );
@@ -331,9 +331,9 @@ function Gone({ onGone }: { onGone: () => void }) {
   void onGone;
   return (
     <div className="text-center">
-      <h1 className="text-lg font-semibold text-[#2B2620] dark:text-[#EDE6DD]">This link is no longer valid</h1>
-      <p className="mt-2 text-sm text-[#4A4238]/70 dark:text-[#91867E]">It may have expired, or it belongs to a different account. Ask your assistant to prepare it again.</p>
-      <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E3836C] hover:text-[#ED967F]">Back to analyzeit.si</Link>
+      <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is no longer valid</h1>
+      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">It may have expired, or it belongs to a different account. Ask your assistant to prepare it again.</p>
+      <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]">Back to analyzeit.si</Link>
     </div>
   );
 }
@@ -370,14 +370,14 @@ function ApproveInner() {
   }, [router]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F7F1E8] dark:bg-[#14110F] px-6 py-10">
+    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#121212] px-6 py-10">
       <div className={card}>
-        {stage === 'checking' && <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E3836C]/25 border-t-[#E3836C]" aria-label="Checking your account" />}
+        {stage === 'checking' && <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Checking your account" />}
         {stage === 'invalid' && <Gone onGone={() => {}} />}
         {stage === 'ready' && what?.kind === 'access' && <AccessReview id={what.id} onGone={() => {}} />}
         {stage === 'ready' && what?.kind === 'data' && <DataReview id={what.id} />}
         {stage === 'ready' && what?.kind === 'change' && <ChangeReview id={what.id} project={what.project} onGone={() => {}} />}
-        {stage === 'ready' && user?.email ? <p className="mt-6 text-center text-xs text-[#4A4238]/50 dark:text-[#91867E]">Signed in as {user.email}</p> : null}
+        {stage === 'ready' && user?.email ? <p className="mt-6 text-center text-xs text-[#414141]/50 dark:text-[#888888]">Signed in as {user.email}</p> : null}
       </div>
     </main>
   );
@@ -385,7 +385,7 @@ function ApproveInner() {
 
 export default function ApprovePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F7F1E8] dark:bg-[#14110F]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#121212]" />}>
       <ApproveInner />
     </Suspense>
   );

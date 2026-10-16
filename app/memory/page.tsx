@@ -86,7 +86,7 @@ export default function MemoryPage() {
           </p>
         ) : null}
         {error ? (
-          <p role="alert" className="rounded-xl bg-[#9B4D3B]/10 px-3 py-2 text-sm text-[#9B4D3B]">{error}</p>
+          <p role="alert" className="rounded-xl bg-[#0A0A0A]/10 px-3 py-2 text-sm text-[#0A0A0A]">{error}</p>
         ) : null}
         {jobs.map((j) => (
           <div key={j.job_id} className="app-card p-3 text-sm" role="status">

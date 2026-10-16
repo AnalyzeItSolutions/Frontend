@@ -26,7 +26,7 @@ export const LeaksSection: React.FC = () => (
         <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-secondary)]">The problem</p>
         <h2 className="font-serif text-3xl md:text-5xl leading-tight">
           Your total can look fine while{' '}
-          <em className="font-serif italic text-[var(--accent-text)]">money leaks.</em>
+          <em className="font-serif not-italic text-[var(--accent-text)]">money leaks.</em>
         </h2>
         <p className="text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
           A healthy-looking month can hide a payment method that fails far more than the others. You only find out if you already suspect it and know where to look.

@@ -22,7 +22,7 @@ export default function Page() {
         {CASES.map((c) => (
           <li key={c.href}>
             <Link href={c.href} className="font-serif text-xl">{c.title}</Link>
-            <p className="text-sm text-[#4A4238]/80 dark:text-[#C5B9AE]">{c.blurb}</p>
+            <p className="text-sm text-[#414141]/80 dark:text-[#BABABA]">{c.blurb}</p>
           </li>
         ))}
       </ul>

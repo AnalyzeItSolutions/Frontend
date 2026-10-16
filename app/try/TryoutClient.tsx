@@ -63,7 +63,7 @@ export function TryoutClient() {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#4A4238]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E3836C] hover:text-[#C45A42] disabled:opacity-50 dark:border-[#504740] dark:bg-[#1C1816]/60"
+            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#F2F2F2] hover:text-[#0A0A0A] disabled:opacity-50 dark:border-[#484848] dark:bg-[#191919]/60"
           >
             {ex.label}
           </button>
@@ -84,16 +84,16 @@ export function TryoutClient() {
           rows={3}
           placeholder="Ask a question about analysing data, metrics or a business problem…"
           aria-label="Your question"
-          className="w-full resize-none rounded-2xl border border-[#4A4238]/20 bg-white/70 px-5 py-3 text-base dark:border-[#504740] dark:bg-[#1C1816]"
+          className="w-full resize-none rounded-2xl border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#191919]"
         />
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-[#5C534A] dark:text-[#C5B9AE]" role="status">
+          <p className="text-xs text-[#535353] dark:text-[#BABABA]" role="status">
             {status && status.available ? runsLabel(status.remaining, status.limit) : ''}
           </p>
           <button
             type="submit"
             disabled={busy || out || unavailable || !input.trim()}
-            className="rounded-full bg-[#EA8069] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#C96551] disabled:opacity-50"
+            className="rounded-full bg-[#F2F2F2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#F2F2F2] disabled:opacity-50"
           >
             {busy ? 'Working…' : 'Ask'}
           </button>
@@ -101,14 +101,14 @@ export function TryoutClient() {
       </form>
 
       {busy ? (
-        <p className="text-sm text-[#5C534A] dark:text-[#C5B9AE]" role="status">
+        <p className="text-sm text-[#535353] dark:text-[#BABABA]" role="status">
           {slow ? 'Still working. The first run after a quiet spell can take about 30 seconds…' : 'Working on it…'}
         </p>
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 dark:border-[#2B2521] dark:bg-[#1C1816]/60" aria-live="polite">
-          <p className="text-xs font-mono uppercase tracking-wider text-[#5C534A] dark:text-[#C5B9AE]">{turn.question}</p>
+        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#191919]/60" aria-live="polite">
+          <p className="text-xs font-mono uppercase tracking-wider text-[#535353] dark:text-[#BABABA]">{turn.question}</p>
           <div className="mt-3 text-base leading-relaxed">
             <ChatMarkdown text={turn.result.answer || 'No answer came back.'} />
           </div>
@@ -117,10 +117,10 @@ export function TryoutClient() {
       ) : null}
 
       {turn?.failure ? (
-        <div role="alert" className="rounded-2xl border border-[#9B4D3B]/25 bg-[#9B4D3B]/5 p-5">
+        <div role="alert" className="rounded-2xl border border-[#0A0A0A]/25 bg-[#0A0A0A]/5 p-5">
           <p className="text-sm">{turn.failure.message}</p>
           {turn.failure.kind === 'limit' ? (
-            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#EA8069] px-5 py-2 text-sm font-medium text-white hover:bg-[#C96551]">
+            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
               Create a free account
             </Link>
           ) : null}
@@ -128,18 +128,18 @@ export function TryoutClient() {
       ) : null}
 
       {out && !turn?.failure ? (
-        <div className="rounded-2xl border border-[#4A4238]/12 bg-white/60 p-5 text-sm dark:border-[#2B2521] dark:bg-[#1C1816]/60">
+        <div className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 text-sm dark:border-[#262626] dark:bg-[#191919]/60">
           <p>
             You have used all {status?.limit} try-out runs. Create a free account to keep going
             {status && status.retry_after_seconds > 0 ? `, or come back in ${formatWait(status.retry_after_seconds)}.` : '.'}
           </p>
-          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#EA8069] px-5 py-2 text-sm font-medium text-white hover:bg-[#C96551]">
+          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
             Create a free account
           </Link>
         </div>
       ) : null}
 
-      {unavailable ? <p className="text-sm text-[#9B4D3B]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
+      {unavailable ? <p className="text-sm text-[#0A0A0A]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
     </div>
   );
 }

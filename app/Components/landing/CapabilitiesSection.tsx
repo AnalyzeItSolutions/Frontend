@@ -111,7 +111,7 @@ export const CapabilitiesSection: React.FC = () => {
         </div>
         <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[var(--text-primary)] leading-tight">
           Everything you need to understand your business,{' '}
-          <em className="font-serif italic text-[var(--accent-text)]">
+          <em className="font-serif not-italic text-[var(--accent-text)]">
             without the noise.
           </em>
         </h2>
@@ -151,7 +151,7 @@ export const CapabilitiesSection: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="p-4 rounded-2xl bg-[#F7F1E8]/80 dark:bg-[#292522] border border-[var(--border)] flex items-baseline gap-3">
+            <div className="p-4 rounded-2xl bg-[#F8F8F8]/80 dark:bg-[#262626] border border-[var(--border)] flex items-baseline gap-3">
               <span className="font-serif text-2xl md:text-3xl font-medium text-[var(--accent-text)]">
                 {cap.callout}
               </span>

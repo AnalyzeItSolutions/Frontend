@@ -28,15 +28,15 @@ export default async function Image({ params }: { params: Promise<{ token: strin
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: '#F7F1E8',
-          color: '#322C28',
+          background: '#F8F8F8',
+          color: '#2D2D2D',
           padding: 64,
         }}
       >
-        <div style={{ fontSize: 22, letterSpacing: 4, color: '#C45A42' }}>ANALYZEIT</div>
+        <div style={{ fontSize: 22, letterSpacing: 4, color: '#0A0A0A' }}>ANALYZEIT</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ fontSize: 56, lineHeight: 1.1 }}>{title}</div>
-          <div style={{ fontSize: 28, color: '#5C534A' }}>{text}</div>
+          <div style={{ fontSize: 28, color: '#535353' }}>{text}</div>
         </div>
         <div style={{ fontSize: 22 }}>analyzeit.si</div>
       </div>

@@ -38,7 +38,7 @@ describe('theme-aware basemap and atmosphere', () => {
     assert.equal(fog['high-color'], 'rgb(56, 118, 232)');
     assert.equal(fog['space-color'], LIGHT_SPACE_COLOR);
     assert.equal(fog['star-intensity'], 0);
-    assert.equal(light.color, '#fff4e8');
+    assert.equal(light.color, '#F3F3F3');
     assert.equal(light.intensity, 0.55);
     const space = rgbChannels(fog['space-color']);
     const rim = rgbChannels(fog['high-color']);
@@ -52,7 +52,7 @@ describe('theme-aware basemap and atmosphere', () => {
     const stage = globeStage({ variant: 'full', appTheme: 'dark' });
     assert.equal(stage.research, true);
     assert.equal(stage.background, RESEARCH_STAGE_BG);
-    assert.equal(stage.background, '#07090c');
+    assert.equal(stage.background, '#0A0A0A');
     assert.equal(stage.canvasClass, 'globe-map-canvas--research');
 
     const { fog, light } = researchAtmosphere();

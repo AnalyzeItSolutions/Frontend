@@ -20,8 +20,8 @@ export default function DemoPage() {
     >
       <DemoClient />
 
-      <section className="space-y-3 text-sm leading-relaxed text-[#4A4238]/85 dark:text-[#C5B9AE]">
-        <h2 className="font-serif text-2xl text-[#322C28] dark:text-[#F4EDE5]">What you are looking at</h2>
+      <section className="space-y-3 text-sm leading-relaxed text-[#414141]/85 dark:text-[#BABABA]">
+        <h2 className="font-serif text-2xl text-[#2D2D2D] dark:text-[#EDEDED]">What you are looking at</h2>
         <p>
           When a question can be answered by a tool (a weather service, an exchange-rate feed, a stock quote, a calculator),
           AnalyzeIt calls the tool and shows you its answer and its source. That answer is marked <strong>From tools · 0 tokens</strong>
@@ -29,8 +29,8 @@ export default function DemoPage() {
         </p>
         <p>
           Questions about your own files, records and notes, or anything that needs reasoning, need a free account.{' '}
-          <Link href="/login?tab=register" className="text-[#C45A42] underline underline-offset-2">Create one</Link> or see{' '}
-          <Link href="/products" className="text-[#C45A42] underline underline-offset-2">what each plan includes</Link>.
+          <Link href="/login?tab=register" className="text-[#0A0A0A] underline underline-offset-2">Create one</Link> or see{' '}
+          <Link href="/products" className="text-[#0A0A0A] underline underline-offset-2">what each plan includes</Link>.
         </p>
       </section>
     </LegalLayout>

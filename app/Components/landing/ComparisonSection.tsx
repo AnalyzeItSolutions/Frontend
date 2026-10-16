@@ -44,7 +44,7 @@ export const ComparisonSection: React.FC = () => {
         </div>
         <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal leading-tight">
           You can upload a file to a chatbot. Here is{' '}
-          <em className="font-serif italic text-[var(--accent-text)]">
+          <em className="font-serif not-italic text-[var(--accent-text)]">
             what changes when it is every week.
           </em>
         </h2>
@@ -53,11 +53,11 @@ export const ComparisonSection: React.FC = () => {
         </p>
       </div>
 
-      <div className="glass-card rounded-3xl overflow-hidden border border-[var(--border)] divide-y divide-[#4A4238]/8 dark:divide-[#2B2521] shadow-sm">
+      <div className="glass-card rounded-3xl overflow-hidden border border-[var(--border)] divide-y divide-[#414141]/8 dark:divide-[#262626] shadow-sm">
         {/* Table Header */}
-        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F7F1E8]/90 dark:bg-[#292522] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] border-b border-[#4A4238]/08 dark:border-[var(--border)]">
+        <div className="grid grid-cols-1 md:grid-cols-2 bg-[#F8F8F8]/90 dark:bg-[#262626] p-6 md:px-10 text-xs font-mono uppercase tracking-wider text-[var(--text-secondary)] border-b border-[#414141]/08 dark:border-[var(--border)]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#4A4238]/30 dark:bg-[#C5B9AE]/40" />
+            <span className="w-2 h-2 rounded-full bg-[#414141]/30 dark:bg-[#BABABA]/40" />
             Uploading a file to a chatbot
           </div>
           <div className="hidden md:flex items-center gap-2 text-[var(--accent-text)]">
@@ -70,7 +70,7 @@ export const ComparisonSection: React.FC = () => {
         {COMPARISONS.map((row, idx) => (
           <div
             key={idx}
-            className="grid grid-cols-1 md:grid-cols-2 p-6 md:p-10 gap-6 md:gap-12 hover:bg-white/30 dark:hover:bg-[#292522]/50 transition-colors"
+            className="grid grid-cols-1 md:grid-cols-2 p-6 md:p-10 gap-6 md:gap-12 hover:bg-white/30 dark:hover:bg-[#262626]/50 transition-colors"
           >
             {/* The Old Way */}
             <div className="space-y-1.5">
@@ -83,7 +83,7 @@ export const ComparisonSection: React.FC = () => {
             </div>
 
             {/* With AnalyzeIt */}
-            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#4A4238]/6 dark:border-[var(--border)]">
+            <div className="space-y-1.5 pt-4 md:pt-0 border-t md:border-t-0 border-[#414141]/6 dark:border-[var(--border)]">
               <div className="md:hidden text-xs font-mono text-[var(--accent-text)] uppercase tracking-wider">
                 With AnalyzeIt
               </div>
