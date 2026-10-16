@@ -56,7 +56,7 @@ function ExtensionCard({ state }: { state: ExtensionState }) {
           : 'Optional. With the extension, an approved draft is put into your post box in this browser, in your own logged-in session. Without it you can open the compose page or copy the text.'}
       </p>
       {!on ? <ExtensionInstall compact /> : null}
-      <p className={`mt-2 ${small}`}>Nothing is posted without your approval here and a second confirmation in the extension. Nothing is scheduled: there is no posting while your browser is closed. The extension only visits sites you allowed, never handles passwords, codes or payments, and has a stop switch and daily limits.</p>
+      <p className={`mt-2 ${small}`}>Nothing is posted without your approval here and a second confirmation in the extension. Nothing is scheduled: there is no posting while your browser is closed. The extension asks you to allow each site, waits while you sign in yourself, never handles passwords, codes or payments, and has a stop switch and daily limits.</p>
     </section>
   );
 }
@@ -286,7 +286,7 @@ function PlanCard({ plan, ext, client, highlight, onChange }: { plan: BrowserPla
       </ol>
       {plan.steps.map((s, i) => (s.type === 'post' ? <div key={`t${i}`} className="mt-2 whitespace-pre-wrap break-words rounded-lg bg-[var(--surface-muted)] p-2 text-sm text-[var(--text-primary)]">{s.text}</div> : null))}
       {planPostsForYou(plan) ? <p className="mt-2 text-sm font-medium text-[var(--accent-text)]">This plan presses Post for you, once, after you confirm in the extension.</p> : null}
-      <p className={`mt-2 ${small}`}>It only visits sites you allowed in the extension, never fills passwords, codes or payment details, and stops if a page asks for them.</p>
+      <p className={`mt-2 ${small}`}>It asks you to allow each site first. If you are signed out it opens the sign-in page and waits while you sign in yourself. It never fills or reads passwords, codes or payment details.</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {plan.status === 'proposed' ? <button type="button" className="btn-primary" disabled={!!busy} onClick={approve}>{busy === 'approve' ? 'Approving…' : 'I have read these steps: approve'}</button> : null}
         {plan.status === 'approved' ? <button type="button" className="btn-primary" disabled={!!busy || !!block} onClick={run} title={block ?? undefined}>{busy === 'run' ? 'Waiting for you…' : 'Run in my browser'}</button> : null}
