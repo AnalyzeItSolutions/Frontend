@@ -110,6 +110,12 @@ export function AlertsPanel({ projectId }: { projectId: string }) {
                 <span className="text-xs text-[var(--text-muted)]">{when(a.created_at)}</span>
               </div>
               <p className="text-xs text-[var(--text-secondary)]">{a.detail}</p>
+              {a.diagnosis?.summary ? <p className="text-xs text-[var(--text-secondary)]"><strong>Why:</strong> {a.diagnosis.summary}</p> : null}
+              {a.diagnosis?.advice?.length ? (
+                <ul className="list-disc pl-5 text-xs text-[var(--text-muted)]">
+                  {a.diagnosis.advice.map((t) => <li key={t}>{t}</li>)}
+                </ul>
+              ) : null}
             </li>
           ))}
         </ul>

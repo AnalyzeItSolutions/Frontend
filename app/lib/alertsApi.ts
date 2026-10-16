@@ -19,6 +19,7 @@ export interface ProjectAlert {
   detail: string;
   created_at: string | null;
   delivery: Record<string, string>;
+  diagnosis?: { summary?: string; advice?: string[] } | null;
   read: boolean;
 }
 

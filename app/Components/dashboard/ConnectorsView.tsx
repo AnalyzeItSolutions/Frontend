@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useToast } from '../ui/Toast';
 import { AgentAccessPanel } from './AgentAccessPanel';
 import { DigestPanel } from './DigestPanel';
+import { AlertsPanel } from './AlertsPanel';
+import { GoalsPanel } from './GoalsPanel';
+import { ReconcilePanel } from './ReconcilePanel';
 import { WebhooksPanel } from './WebhooksPanel';
 import { ReportPanel } from './ReportPanel';
 import { TeamPanel } from './TeamPanel';
@@ -1173,7 +1176,10 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
           Automations and team
         </summary>
         <div className="mt-4 flex flex-col gap-6">
+          <AlertsPanel projectId={projectId} />
+          <ReconcilePanel projectId={projectId} />
           <DigestPanel projectId={projectId} />
+          <GoalsPanel projectId={projectId} />
           <ReportPanel projectId={projectId} />
           <WebhooksPanel />
           <TeamPanel projectId={projectId} />
