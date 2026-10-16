@@ -1794,7 +1794,7 @@ function ChatInner() {
                   onClick={() => setShowDashboard((v) => !v)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
                     showDashboard
-                      ? 'border-[#F2F2F2]/40 bg-[var(--brand)]/15 text-[#F2F2F2]'
+                      ? 'border-[#E4E4E2]/40 bg-[var(--brand)]/15 text-[#E4E4E2]'
                       : 'border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                   }`}
                   title="Show dashboard panel only when you want it"
@@ -1819,7 +1819,7 @@ function ChatInner() {
             <ConnectAccountDialog open={accountsOpen !== null} onClose={() => setAccountsOpen(null)} initialService={accountsOpen?.service} />
 
             {promoteNudge?.eligible && promoteNudge.message && (
-              <div className="mx-4 mt-3 rounded-[var(--radius-card,14px)] border border-[var(--coral,#F2F2F2)]/30 bg-[var(--coral,#F2F2F2)]/8 px-4 py-3 sm:mx-6">
+              <div className="mx-4 mt-3 rounded-[var(--radius-card,14px)] border border-[var(--coral,#E4E4E2)]/30 bg-[var(--coral,#E4E4E2)]/8 px-4 py-3 sm:mx-6">
                 <p className="text-sm text-[var(--text,#343434)] dark:text-[var(--text-primary)]">
                   {promoteNudge.message}
                 </p>
@@ -1828,7 +1828,7 @@ function ChatInner() {
                     type="button"
                     disabled={promoteBusy}
                     onClick={() => void handlePromoteToProject()}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--coral,#E4E4E2)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
                   >
                     <IconLayoutDashboard size={14} />
                     {promoteBusy ? 'Creating…' : 'Create project'}
@@ -1879,7 +1879,7 @@ function ChatInner() {
                       }`}
                     >
                       {!isUser && msg.mode === 'research' && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#F2F2F2]">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#E4E4E2]">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
@@ -1994,7 +1994,7 @@ function ChatInner() {
                             {msg.softFail.openUpgrade && msg.softFail.upgradeReason ? (
                               <button
                                 type="button"
-                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
+                                className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#E4E4E2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                                 onClick={() => {
                                   const reason = msg.softFail?.upgradeReason;
                                   if (reason) setUpgradeModal({ open: true, reason });
@@ -2057,7 +2057,7 @@ function ChatInner() {
                             <button
                               type="button"
                               onClick={() => setShowDashboard(true)}
-                              className="text-[11px] text-[#F2F2F2]"
+                              className="text-[11px] text-[#E4E4E2]"
                             >
                               Preview panel
                             </button>
@@ -2193,10 +2193,10 @@ function ChatInner() {
 
             {/* Errors */}
             {error && (
-              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#F2F2F2]/60 bg-[var(--surface-2,#FCFCFC)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#343434))] sm:mx-6">
+              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#E4E4E2]/60 bg-[var(--surface-2,#FCFCFC)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#343434))] sm:mx-6">
                 {error}
                 {upgradeHref ? (
-                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
+                  <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#E4E4E2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
                     Upgrade
                   </Link>
                 ) : null}
@@ -2232,7 +2232,7 @@ function ChatInner() {
                   <button
                     type="button"
                     onClick={() => setUpgradeModal({ open: true, reason: 'quota' })}
-                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
+                    className="inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#E4E4E2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]"
                   >
                     Upgrade
                   </button>
@@ -2284,14 +2284,14 @@ function ChatInner() {
                     title="Message frequency hints prepared in your browser before send"
                     className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#787878)]"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#F2F2F2)]" aria-hidden />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#E4E4E2)]" aria-hidden />
                     Prepared on device
                   </span>
                   {llmQuota?.show ? (
                     <span
                       className={`inline-flex min-h-8 items-center rounded-full border px-3 text-[11px] ${
                         llmQuota.exhausted || llmQuota.nearCap
-                          ? 'border-[var(--coral,#F2F2F2)]/40 bg-[var(--coral,#F2F2F2)]/10 text-[var(--text,#343434)]'
+                          ? 'border-[var(--coral,#E4E4E2)]/40 bg-[var(--coral,#E4E4E2)]/10 text-[var(--text,#343434)]'
                           : 'border-[var(--border)] bg-[var(--surface,#FCFCFC)] text-[var(--text-muted)]'
                       }`}
                       title={llmQuota.exhausted ? 'Monthly free LLM runs used' : 'Remaining free LLM runs this period'}
@@ -2326,7 +2326,7 @@ function ChatInner() {
                   onDrop={handleComposerDrop}
                   className={`app-card flex flex-col gap-2 p-2 ${
                     isIncognito ? 'ring-1 ring-violet-500/30' : ''
-                  } ${composerMode === 'research' ? 'ring-1 ring-[#F2F2F2]/25' : ''}`}
+                  } ${composerMode === 'research' ? 'ring-1 ring-[#E4E4E2]/25' : ''}`}
                 >
                   <input
                     ref={fileInputRef}
@@ -2345,12 +2345,12 @@ function ChatInner() {
                           key={att.attachment_id}
                           className={`inline-flex max-w-[14rem] items-center gap-1.5 rounded-lg border px-2 py-1 text-[11px] ${
                             att.status === 'failed'
-                              ? 'border-[#0A0A0A]/40 bg-[#0A0A0A]/10 text-[#0A0A0A]'
+                              ? 'border-[#141414]/40 bg-[#141414]/10 text-[#141414]'
                               : 'border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-secondary)]'
                           }`}
                           title={att.notes?.[0] || att.status}
                         >
-                          <IconFile size={13} className="shrink-0 text-[#F2F2F2]" />
+                          <IconFile size={13} className="shrink-0 text-[#E4E4E2]" />
                           <span className="truncate">{att.filename}</span>
                           {att.status === 'parsed' ? (
                             <span className="text-[9px] uppercase tracking-wide text-[#4A7C59]">ready</span>
@@ -2512,7 +2512,7 @@ function ChatInner() {
               >
                 <div className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <IconLayoutDashboard size={16} className="text-[#F2F2F2]" />
+                    <IconLayoutDashboard size={16} className="text-[#E4E4E2]" />
                     <span className="text-sm font-medium">Dashboard preview</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -2586,7 +2586,7 @@ function ChatInner() {
                 ) : (
                   <p className="text-sm text-[var(--text-secondary)]">
                     Ask for a chart in chat, or{' '}
-                    <Link href="/dashboard" className="text-[#F2F2F2] underline">
+                    <Link href="/dashboard" className="text-[#E4E4E2] underline">
                       open Dashboard
                     </Link>
                     .

@@ -5,29 +5,29 @@
 // Tone: black and white. Ink on white by day, white on black at night. Teal, amber and red appear only where they carry data meaning. Contrast notes are against --bg/--surface.
 
 export const light = {
-  bg: '#FFFFFF',
-  surface: '#FFFFFF',
-  'surface-2': '#F7F7F7',
-  'surface-muted': '#EFEFEF',
-  border: '#E4E4E4',
-  'border-strong': '#C8C8C8',
-  'text-primary': '#0A0A0A',
-  'text-secondary': '#4D4D4D', // 8.4:1 on bg
-  'text-muted': '#6B6B6B', // 5.3:1 on bg
+  bg: '#F6F6F5',
+  surface: '#FCFCFB',
+  'surface-2': '#F1F1F0',
+  'surface-muted': '#E8E8E7',
+  border: '#E0E0DE',
+  'border-strong': '#C6C6C3',
+  'text-primary': '#1C1C1C',
+  'text-secondary': '#4A4A48', // 8.4:1 on bg
+  'text-muted': '#686866', // 5.3:1 on bg
   'text-disabled': '#A8A8A8',
-  brand: '#0A0A0A', // white text 19:1
-  'brand-hover': '#262626',
+  brand: '#222222', // off-white text 14:1
+  'brand-hover': '#363636',
   'brand-pressed': '#404040',
-  'brand-ink': '#FFFFFF',
+  'brand-ink': '#F6F6F5',
   'brand-soft': 'rgba(10, 10, 10, 0.06)',
-  'accent-text': '#0A0A0A', // links and small accent text
+  'accent-text': '#1C1C1C', // links and small accent text
   success: '#0E8A68', // color only where it carries data meaning
   warning: '#A66A08',
   danger: '#C23F4A',
   info: '#4D4D4D',
   'shadow-color': '0, 0, 0',
-  'nav-bg': '#FFFFFF',
-  'chart-1': '#0A0A0A',
+  'nav-bg': '#F6F6F5',
+  'chart-1': '#222222',
   'chart-2': '#6B6B6B',
   'chart-3': '#A8A8A8',
   'chart-4': '#C8C8C8',
@@ -37,29 +37,29 @@ export const light = {
 };
 
 export const dark = {
-  bg: '#000000',
-  surface: '#0F0F0F',
-  'surface-2': '#171717',
-  'surface-muted': '#1F1F1F',
-  border: 'rgba(255, 255, 255, 0.12)',
-  'border-strong': 'rgba(255, 255, 255, 0.26)',
-  'text-primary': '#FFFFFF',
-  'text-secondary': '#B8B8B8', // 11:1 on bg
-  'text-muted': '#8C8C8C', // 6.4:1 on bg
+  bg: '#141414',
+  surface: '#1B1B1B',
+  'surface-2': '#232323',
+  'surface-muted': '#2B2B2B',
+  border: 'rgba(255, 255, 255, 0.09)',
+  'border-strong': 'rgba(255, 255, 255, 0.18)',
+  'text-primary': '#E9E9E7',
+  'text-secondary': '#B0B0AD', // 11:1 on bg
+  'text-muted': '#8E8E8B', // 5.7:1 on bg
   'text-disabled': '#555555',
-  brand: '#FFFFFF', // black text 21:1
-  'brand-hover': '#E6E6E6',
-  'brand-pressed': '#CCCCCC',
-  'brand-ink': '#000000',
-  'brand-soft': 'rgba(255, 255, 255, 0.10)',
-  'accent-text': '#FFFFFF',
+  brand: '#DCDCDA', // dark ink text 12:1
+  'brand-hover': '#EBEBE9',
+  'brand-pressed': '#C4C4C2',
+  'brand-ink': '#141414',
+  'brand-soft': 'rgba(255, 255, 255, 0.08)',
+  'accent-text': '#E9E9E7',
   success: '#3FD0A8',
   warning: '#F2B84B',
   danger: '#F0808A',
   info: '#B8B8B8',
   'shadow-color': '0, 0, 0',
-  'nav-bg': '#000000',
-  'chart-1': '#FFFFFF',
+  'nav-bg': '#171717',
+  'chart-1': '#DCDCDA',
   'chart-2': '#8C8C8C',
   'chart-3': '#5C5C5C',
   'chart-4': '#3A3A3A',

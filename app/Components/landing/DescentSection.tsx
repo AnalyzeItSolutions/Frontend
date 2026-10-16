@@ -220,7 +220,7 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
                 {item.specs.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-2xl bg-[#DEDEDE]/55 dark:bg-[#121212]/70 border border-[#414141]/08 dark:border-[var(--border)] px-3.5 py-3"
+                    className="rounded-2xl bg-[#DEDEDE]/55 dark:bg-[#1B1B1B]/70 border border-[#414141]/08 dark:border-[var(--border)] px-3.5 py-3"
                   >
                     <div className="text-[10px] uppercase tracking-wider text-[#535353] dark:text-[var(--text-muted)] mb-1">
                       {s.label}

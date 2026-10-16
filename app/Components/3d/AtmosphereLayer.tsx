@@ -110,8 +110,8 @@ function CrystalField({ isDark }: { isDark: boolean }) {
     <instancedMesh ref={ref} args={[undefined, undefined, count]} frustumCulled={false}>
       <octahedronGeometry args={[0.5, 0]} />
       <meshStandardMaterial
-        color={isDark ? '#0A0A0A' : '#F2F2F2'}
-        emissive={isDark ? '#0A0A0A' : '#0A0A0A'}
+        color={isDark ? '#141414' : '#E4E4E2'}
+        emissive={isDark ? '#141414' : '#141414'}
         emissiveIntensity={isDark ? 0.35 : 0.25}
         roughness={0.3}
         metalness={0.1}
@@ -169,8 +169,8 @@ function FloatingShards({
     <instancedMesh ref={ref} args={[undefined, undefined, count]} frustumCulled={false}>
       <octahedronGeometry args={[1, 0]} />
       <meshStandardMaterial
-        color={isDark ? '#F2F2F2' : '#F2F2F2'}
-        emissive={isDark ? '#F2F2F2' : '#F2F2F2'}
+        color={isDark ? '#E4E4E2' : '#E4E4E2'}
+        emissive={isDark ? '#E4E4E2' : '#E4E4E2'}
         emissiveIntensity={isDark ? 0.9 : 0.45}
         roughness={0.2}
         flatShading
@@ -253,7 +253,7 @@ export const AtmosphereLayer: React.FC<AtmosphereLayerProps> = ({ scrollProgress
         <Lightformer intensity={2.2} color="#FFE6D4" position={[0, 6, -6]} scale={[12, 4, 1]} />
         <Lightformer
           intensity={1.4}
-          color="#F2F2F2"
+          color="#E4E4E2"
           position={[-7, 1, 2]}
           rotation={[0, Math.PI / 2, 0]}
           scale={[6, 6, 1]}
@@ -267,7 +267,7 @@ export const AtmosphereLayer: React.FC<AtmosphereLayerProps> = ({ scrollProgress
         />
       </Environment>
 
-      <Ground color={isDark ? '#131313' : '#CFCFCF'} />
+      <Ground color={isDark ? '#1B1B1B' : '#CFCFCF'} />
       <CrystalField isDark={isDark} />
       <FloatingShards scrollProgressRef={scrollProgressRef} isDark={isDark} />
       <Mist scrollProgressRef={scrollProgressRef} isDark={isDark} />

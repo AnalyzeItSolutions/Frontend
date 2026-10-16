@@ -79,13 +79,13 @@ function paintNightTextures(quality: 'mini' | 'full') {
   const ctx = color.getContext('2d')!;
 
   const ocean = ctx.createLinearGradient(0, 0, 0, height);
-  ocean.addColorStop(0, '#0A0A0A');
-  ocean.addColorStop(0.5, '#0A0A0A');
-  ocean.addColorStop(1, '#0A0A0A');
+  ocean.addColorStop(0, '#141414');
+  ocean.addColorStop(0.5, '#141414');
+  ocean.addColorStop(1, '#141414');
   ctx.fillStyle = ocean;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.fillStyle = '#0A0A0A';
+  ctx.fillStyle = '#141414';
   WORLD_LANDMASS_POLYGONS.forEach((poly) => {
     fillUnwrappedRing(ctx, poly.coords, width, height);
   });
@@ -663,5 +663,5 @@ export function CinematicGlobe({
     });
   }, [sourcePoints, selected, activeHub, comparePlaces, variant]);
 
-  return <div ref={mountRef} className={`absolute inset-0 h-full w-full bg-[#0A0A0A] ${className}`} />;
+  return <div ref={mountRef} className={`absolute inset-0 h-full w-full bg-[#141414] ${className}`} />;
 }

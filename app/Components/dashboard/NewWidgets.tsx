@@ -11,7 +11,7 @@ import { IconTrash } from '@tabler/icons-react';
 import type { ProvenanceInfo, WidgetSpec } from '../../lib/chatApi';
 import { provenanceBadge, provenanceBadgeText } from '../../lib/dashboardView.mjs';
 
-const PALETTE = ['#F2F2F2', '#9C9C9C', '#4FA886', '#D4A017', '#9C8CBE', '#F2F2F2', '#F2F2F2', '#9EBB9A'];
+const PALETTE = ['#E4E4E2', '#9C9C9C', '#4FA886', '#D4A017', '#9C8CBE', '#E4E4E2', '#E4E4E2', '#9EBB9A'];
 
 function WidgetEmptyState({ title }: { title?: string }) {
   return (
@@ -49,7 +49,7 @@ function shell(
   freshness?: string,
 ) {
   return (
-    <div className="glass-card dark:bg-[#191919] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div className="min-w-0">
           <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
@@ -327,7 +327,7 @@ export function ChoroplethMapWidget({
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', { dimension: metric, value: r.label })
             }
-            className="rounded-xl p-3 text-left border border-[#414141]/10 dark:border-[#262626] hover:border-[#F2F2F2]/40 transition-colors cursor-pointer"
+            className="rounded-xl p-3 text-left border border-[#414141]/10 dark:border-[#262626] hover:border-[#E4E4E2]/40 transition-colors cursor-pointer"
             style={{ background: colorAt(r.value / max) }}
           >
             <div className="text-[11px] font-medium text-[#414141] dark:text-[#EDEDED] truncate">

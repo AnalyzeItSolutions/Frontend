@@ -99,7 +99,7 @@ function AdminFeedbackInner() {
           <p className="mt-4 text-sm text-[var(--text-muted)]">
             Your account is not on the admin allowlist. Set <code>ADMIN_EMAILS</code> on Backend A.
           </p>
-          <Link href="/research" className="mt-4 inline-block text-sm text-[var(--coral,#F2F2F2)]">
+          <Link href="/research" className="mt-4 inline-block text-sm text-[var(--coral,#E4E4E2)]">
             Back to chat
           </Link>
         </div>
@@ -183,7 +183,7 @@ function AdminFeedbackInner() {
                     }
                     rows={2}
                     placeholder="Internal reply / note"
-                    className="mt-3 w-full rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
+                    className="mt-3 w-full rounded-xl border border-[var(--border)] bg-transparent px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)]"
                   />
                   <div className="mt-2 flex flex-wrap gap-2">
                     {STATUSES.map((s) => (
@@ -194,7 +194,7 @@ function AdminFeedbackInner() {
                         onClick={() => void save(item, s)}
                         className={`rounded-full border px-2.5 py-1 text-[11px] ${
                           item.status === s
-                            ? 'border-[var(--coral,#F2F2F2)] text-[var(--coral,#F2F2F2)]'
+                            ? 'border-[var(--coral,#E4E4E2)] text-[var(--coral,#E4E4E2)]'
                             : 'border-[var(--border)] text-[var(--text-muted)]'
                         }`}
                       >
@@ -205,7 +205,7 @@ function AdminFeedbackInner() {
                       type="button"
                       disabled={busyId === item.id}
                       onClick={() => void save(item)}
-                      className="rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-1 text-[11px] font-medium text-[var(--brand-ink)] disabled:opacity-50"
+                      className="rounded-full bg-[var(--coral,#E4E4E2)] px-3 py-1 text-[11px] font-medium text-[var(--brand-ink)] disabled:opacity-50"
                     >
                       {busyId === item.id ? 'Saving…' : 'Save reply'}
                     </button>

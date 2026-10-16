@@ -150,7 +150,7 @@ export function GoogleSignInButton({
         <p className="text-center text-[11px] text-[#414141]/45 dark:text-[#888888]">Loading Google…</p>
       ) : null}
       {busy ? (
-        <p className="text-center text-[11px] font-mono text-[#F2F2F2]">Signing in with Google…</p>
+        <p className="text-center text-[11px] font-mono text-[#E4E4E2]">Signing in with Google…</p>
       ) : null}
       {localError ? (
         <p className="text-center text-xs text-red-500 dark:text-[#D97870]">{localError}</p>

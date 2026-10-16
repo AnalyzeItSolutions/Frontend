@@ -11,7 +11,7 @@ import { layerCountLabel } from './dataQuality.mjs';
 /** Page/canvas background for a light full globe. Matches `--bg` in light mode. */
 export const LIGHT_STAGE_BG = 'var(--bg)';
 /** Near-black research stage. Full globe, dark theme only. */
-export const RESEARCH_STAGE_BG = '#0A0A0A';
+export const RESEARCH_STAGE_BG = '#141414';
 /** WebGL space behind a light full globe — same cream as the light page. */
 export const LIGHT_SPACE_COLOR = 'rgb(245, 238, 229)';
 

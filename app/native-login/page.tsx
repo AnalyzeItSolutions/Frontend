@@ -77,17 +77,17 @@ function NativeLoginInner() {
 
   const who = req ? clientLabel(req.client) : 'the app';
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#121212] px-6">
-      <div className="w-full max-w-sm rounded-2xl border border-[#F2F2F2]/20 bg-white/70 dark:bg-white/[0.03] p-8 text-center shadow-sm">
+    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#1B1B1B] px-6">
+      <div className="w-full max-w-sm rounded-2xl border border-[#E4E4E2]/20 bg-white/70 dark:bg-white/[0.03] p-8 text-center shadow-sm">
         {stage === 'checking' && (
-          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Checking your account" />
+          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" aria-label="Checking your account" />
         )}
 
         {stage === 'invalid' && (
           <>
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is not valid</h1>
             <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Start the sign-in again from the AnalyzeIt app or command line.</p>
-            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]">Back to analyzeit.si</Link>
+            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]">Back to analyzeit.si</Link>
           </>
         )}
 
@@ -108,10 +108,10 @@ function NativeLoginInner() {
               >
                 {stage === 'working' ? 'Connecting…' : 'Allow'}
               </button>
-              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#F2F2F2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10">
+              <button type="button" onClick={() => setStage('cancelled')} className="rounded-lg border border-[#E4E4E2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10">
                 Cancel
               </button>
-              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#F2F2F2]">
+              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#E4E4E2]">
                 Use a different account
               </button>
             </div>
@@ -138,7 +138,7 @@ function NativeLoginInner() {
 
 export default function NativeLoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#121212]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#1B1B1B]" />}>
       <NativeLoginInner />
     </Suspense>
   );

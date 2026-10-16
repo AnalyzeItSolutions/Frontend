@@ -25,7 +25,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
   const [isCapable, setIsCapable] = useState(true);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const clearColor = isDark ? '#121212' : '#F8F8F8';
+  const clearColor = isDark ? '#1B1B1B' : '#F8F8F8';
 
   useEffect(() => {
     setMounted(true);
@@ -46,7 +46,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
 
   if (!mounted || !isCapable) {
     return (
-      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#DADADA] via-[#E3E3E3] to-[#F8F8F8] dark:from-[#1F1F1F] dark:via-[#191919] dark:to-[#121212] pointer-events-none" />
+      <div className="fixed inset-0 w-full h-full z-0 bg-gradient-to-b from-[#DADADA] via-[#E3E3E3] to-[#F8F8F8] dark:from-[#1F1F1F] dark:via-[#1B1B1B] dark:to-[#1B1B1B] pointer-events-none" />
     );
   }
 
@@ -79,7 +79,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
         <ambientLight intensity={isDark ? 0.32 : 1.1} color={isDark ? '#B9B9B9' : '#FFFFFF'} />
         <hemisphereLight
           intensity={isDark ? 0.28 : 0.7}
-          groundColor={isDark ? '#121212' : '#DEDEDE'}
+          groundColor={isDark ? '#1B1B1B' : '#DEDEDE'}
           color={isDark ? '#4A3F52' : '#D5C5E5'}
         />
         <directionalLight
@@ -103,7 +103,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
           size={isDark ? 3.4 : 2.9}
           speed={0.18}
           opacity={isDark ? 0.72 : 0.58}
-          color={isDark ? '#F2F2F2' : '#E8C4A0'}
+          color={isDark ? '#E4E4E2' : '#E8C4A0'}
         />
 
         <CentralCrystalModel scrollProgressRef={scrollProgressRef} />

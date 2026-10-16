@@ -26,7 +26,7 @@ export default function ContactPage() {
           <a
             key={item.email}
             href={`mailto:${item.email}`}
-            className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] bg-white/50 dark:bg-[#191919] p-5 hover:border-[#F2F2F2]/40 transition-colors"
+            className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] bg-white/50 dark:bg-[#1B1B1B] p-5 hover:border-[#E4E4E2]/40 transition-colors"
           >
             <div className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888] mb-1">
               {item.label}
@@ -47,14 +47,14 @@ export default function ContactPage() {
         {PHONE ? (
           <p>
             Phone:{' '}
-            <a href={`tel:${PHONE}`} className="text-[#F2F2F2] hover:underline">
+            <a href={`tel:${PHONE}`} className="text-[#E4E4E2] hover:underline">
               {PHONE}
             </a>
           </p>
         ) : null}
         <p>
           Support:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-[#E4E4E2] hover:underline">
             {EMAIL.support}
           </a>
         </p>
@@ -68,11 +68,11 @@ export default function ContactPage() {
 
       <LegalSection title="Need the product?">
         <p>
-          <Link href="/login?tab=register" className="text-[#F2F2F2] hover:underline">
+          <Link href="/login?tab=register" className="text-[#E4E4E2] hover:underline">
             Create an account
           </Link>{' '}
           or{' '}
-          <Link href="/login" className="text-[#F2F2F2] hover:underline">
+          <Link href="/login" className="text-[#E4E4E2] hover:underline">
             sign in
           </Link>{' '}
           to use chat, dashboards, and the rest of the workspace.

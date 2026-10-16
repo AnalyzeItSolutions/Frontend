@@ -58,7 +58,7 @@ export default function CookiesPage() {
       <LegalSection title="4. Contact">
         <p>
           Questions:{' '}
-          <a href="mailto:privacy@analyzeit.in" className="text-[#F2F2F2] hover:underline">
+          <a href="mailto:privacy@analyzeit.in" className="text-[#E4E4E2] hover:underline">
             privacy@analyzeit.in
           </a>
           .

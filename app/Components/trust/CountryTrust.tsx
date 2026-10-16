@@ -10,7 +10,7 @@ export function CountryTrust({ className = '' }: { className?: string }) {
   const country = useVisitorCountry();
   const profile = trustProfile(country, EMAIL.privacy);
   return (
-    <section aria-label={profile.heading} className={`rounded-2xl border border-[#414141]/12 dark:border-[#262626] bg-[#F9F9F9]/60 dark:bg-[#191919]/60 p-6 ${className}`}>
+    <section aria-label={profile.heading} className={`rounded-2xl border border-[#414141]/12 dark:border-[#262626] bg-[#F9F9F9]/60 dark:bg-[#1B1B1B]/60 p-6 ${className}`}>
       <h3 className="font-serif text-xl text-[var(--text-primary)]">{profile.heading}</h3>
       <ul className="mt-4 grid gap-4 sm:grid-cols-2">
         {profile.points.map((point) => (
@@ -24,7 +24,7 @@ export function CountryTrust({ className = '' }: { className?: string }) {
         {profile.links.map((link, i) => (
           <span key={link.href}>
             {i > 0 && ' · '}
-            <Link href={link.href} className="text-[#0A0A0A] hover:underline">{link.label}</Link>
+            <Link href={link.href} className="text-[#141414] hover:underline">{link.label}</Link>
           </span>
         ))}
       </p>

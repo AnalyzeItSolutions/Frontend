@@ -74,7 +74,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#F2F2F2] hover:text-[#0A0A0A] disabled:opacity-50 dark:border-[#484848] dark:bg-[#191919]/60"
+            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E4E4E2] hover:text-[#141414] disabled:opacity-50 dark:border-[#484848] dark:bg-[#1B1B1B]/60"
           >
             {ex.label}
           </button>
@@ -94,12 +94,12 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
           maxLength={240}
           placeholder="Weather in Pune, EUR to USD, TSLA price, 15% of 8200…"
           aria-label="Your question"
-          className="min-w-0 flex-1 rounded-full border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#191919]"
+          className="min-w-0 flex-1 rounded-full border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#1B1B1B]"
         />
         <button
           type="submit"
           disabled={busy || out || !input.trim()}
-          className="rounded-full bg-[#F2F2F2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#F2F2F2] disabled:opacity-50"
+          className="rounded-full bg-[#E4E4E2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#E4E4E2] disabled:opacity-50"
         >
           {busy ? 'Asking…' : 'Ask'}
         </button>
@@ -115,7 +115,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#191919]/60" aria-live="polite">
+        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#1B1B1B]/60" aria-live="polite">
           <p className="text-xs font-mono uppercase tracking-wider text-[#535353] dark:text-[#BABABA]">{turn.question}</p>
           <p className="mt-3 whitespace-pre-wrap text-lg leading-relaxed">{turn.result.answer || 'No answer came back.'}</p>
           {turn.result.zeroTool ? (
@@ -129,17 +129,17 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
             </p>
           ) : null}
           {turn.result.failedTool ? (
-            <p className="mt-3 text-xs text-[#0A0A0A]">The {toolLabel(turn.result.failedTool)} tool did not return a result, so nothing here is a live figure.</p>
+            <p className="mt-3 text-xs text-[#141414]">The {toolLabel(turn.result.failedTool)} tool did not return a result, so nothing here is a live figure.</p>
           ) : null}
           <SourceChips sources={turn.result.sources} />
         </article>
       ) : null}
 
       {turn?.failure ? (
-        <div role="alert" className="rounded-2xl border border-[#0A0A0A]/25 bg-[#0A0A0A]/5 p-5">
+        <div role="alert" className="rounded-2xl border border-[#141414]/25 bg-[#141414]/5 p-5">
           <p className="text-sm">{turn.failure.message}</p>
           {turn.failure.kind === 'limit' || turn.failure.kind === 'needs_account' ? (
-            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
+            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#E4E4E2] px-5 py-2 text-sm font-medium text-white hover:bg-[#E4E4E2]">
               Create a free account
             </Link>
           ) : null}
@@ -149,7 +149,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
       {out && !turn?.failure ? (
         <p className="text-sm">
           That is all for today without an account.{' '}
-          <Link href="/login?tab=register" className="text-[#0A0A0A] underline underline-offset-2">Create a free account</Link> to keep going.
+          <Link href="/login?tab=register" className="text-[#141414] underline underline-offset-2">Create a free account</Link> to keep going.
         </p>
       ) : null}
     </div>

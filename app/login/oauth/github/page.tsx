@@ -109,14 +109,14 @@ function GitHubOAuthInner() {
           <p className="text-sm text-red-600 dark:text-[#D97870] max-w-md">{error}</p>
           <Link
             href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]"
+            className="text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]"
           >
             Back to sign in
           </Link>
         </>
       ) : (
         <>
-          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" />
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
           <p className="font-mono text-[11px] uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
             {status}
           </p>
@@ -131,7 +131,7 @@ export default function GitHubOAuthCallbackPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
-          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" />
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
         </div>
       }
     >

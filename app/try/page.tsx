@@ -25,12 +25,12 @@ export default function TryPage() {
         <p>
           Each run is a real answer from an AI model, so the try-out is limited: five runs, then a pause of about a day before you can use it again from the same
           network or browser. Nothing you type here is saved to an account. Questions about your own files and data, links, and longer questions need a free account.{' '}
-          <Link href="/login?tab=register" className="text-[#0A0A0A] underline underline-offset-2">Create one</Link> or see{' '}
-          <Link href="/products" className="text-[#0A0A0A] underline underline-offset-2">what each plan includes</Link>.
+          <Link href="/login?tab=register" className="text-[#141414] underline underline-offset-2">Create one</Link> or see{' '}
+          <Link href="/products" className="text-[#141414] underline underline-offset-2">what each plan includes</Link>.
         </p>
         <p>
           Prefer to watch first?{' '}
-          <Link href="/case" className="text-[#0A0A0A] underline underline-offset-2">See a real run on public data</Link>, no signup.
+          <Link href="/case" className="text-[#141414] underline underline-offset-2">See a real run on public data</Link>, no signup.
         </p>
       </section>
     </LegalLayout>

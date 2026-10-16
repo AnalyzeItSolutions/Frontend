@@ -69,7 +69,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             key={tier.name}
             className={`relative flex flex-col rounded-3xl border p-7 ${
               tier.popular
-                ? 'border-[#F2F2F2]/40 bg-[#F9F9F9] dark:bg-[#262626] shadow-lg'
+                ? 'border-[#E4E4E2]/40 bg-[#F9F9F9] dark:bg-[#262626] shadow-lg'
                 : 'border-[#414141]/12 dark:border-[var(--border)] bg-[var(--surface)]'
             }`}
           >
@@ -101,8 +101,8 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
               href={tier.href}
               className={`inline-flex justify-center min-h-11 items-center rounded-full px-5 py-3 text-sm font-medium transition ${
                 tier.name === 'Free'
-                  ? 'border border-[#414141]/20 dark:border-[#484848] text-[var(--text-primary)] hover:border-[var(--coral,#F2F2F2)] hover:text-[var(--coral,#F2F2F2)]'
-                  : 'bg-[var(--coral,#F2F2F2)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
+                  ? 'border border-[#414141]/20 dark:border-[#484848] text-[var(--text-primary)] hover:border-[var(--coral,#E4E4E2)] hover:text-[var(--coral,#E4E4E2)]'
+                  : 'bg-[var(--coral,#E4E4E2)] text-[var(--brand-ink)] hover:bg-[var(--brand-hover)]'
               }`}
             >
               {tier.cta}

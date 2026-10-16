@@ -29,8 +29,8 @@ export default function DemoPage() {
         </p>
         <p>
           Questions about your own files, records and notes, or anything that needs reasoning, need a free account.{' '}
-          <Link href="/login?tab=register" className="text-[#0A0A0A] underline underline-offset-2">Create one</Link> or see{' '}
-          <Link href="/products" className="text-[#0A0A0A] underline underline-offset-2">what each plan includes</Link>.
+          <Link href="/login?tab=register" className="text-[#141414] underline underline-offset-2">Create one</Link> or see{' '}
+          <Link href="/products" className="text-[#141414] underline underline-offset-2">what each plan includes</Link>.
         </p>
       </section>
     </LegalLayout>

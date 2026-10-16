@@ -84,7 +84,7 @@ export function MemorySourceRow({ row, onChanged, onError }: { row: MemorySource
           <button
             type="button"
             disabled={busy}
-            className="btn-ghost text-xs text-[#0A0A0A]"
+            className="btn-ghost text-xs text-[#141414]"
             onClick={() => {
               if (window.confirm(`Delete "${d.heading}"? It is removed from your memory and from any chat answer that cited it. Its tokens are refunded.`)) {
                 void act(() => deleteMemorySource(row.id));

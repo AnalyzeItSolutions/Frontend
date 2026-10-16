@@ -12,7 +12,7 @@ export default function RefundPage() {
     <LegalLayout title="Cancellation and Refund" updated="September 11, 2026">
       <p>
         Paid AnalyzeIt plans are billed monthly through Razorpay in INR. This policy is part of the{' '}
-        <a href="/terms" className="text-[#F2F2F2] hover:underline">
+        <a href="/terms" className="text-[#E4E4E2] hover:underline">
           Terms of Service
         </a>
         .
@@ -29,7 +29,7 @@ export default function RefundPage() {
         <p>
           Request a refund within <strong>7 days</strong> of your first paid charge if the Service
           was materially unavailable. Write to{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-[#E4E4E2] hover:underline">
             {EMAIL.support}
           </a>{' '}
           with your account email and Razorpay transaction id. Partial months after you have used paid
@@ -59,7 +59,7 @@ export default function RefundPage() {
       <LegalSection title="5. Contact">
         <p>
           Billing:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#F2F2F2] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-[#E4E4E2] hover:underline">
             {EMAIL.support}
           </a>
           .

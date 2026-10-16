@@ -33,7 +33,7 @@ export default async function Image({ params }: { params: Promise<{ token: strin
           padding: 64,
         }}
       >
-        <div style={{ fontSize: 22, letterSpacing: 4, color: '#0A0A0A' }}>ANALYZEIT</div>
+        <div style={{ fontSize: 22, letterSpacing: 4, color: '#141414' }}>ANALYZEIT</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ fontSize: 56, lineHeight: 1.1 }}>{title}</div>
           <div style={{ fontSize: 28, color: '#535353' }}>{text}</div>

@@ -60,7 +60,7 @@ export function LegalLayout({
           <ThemeToggle />
           <Link
             href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#F2F2F2] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#E4E4E2] transition-colors"
           >
             Sign in
           </Link>
@@ -94,7 +94,7 @@ export function LegalLayout({
 
         <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
           {LEGAL_NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-[#F2F2F2] transition-colors">
+            <Link key={item.href} href={item.href} className="hover:text-[#E4E4E2] transition-colors">
               {item.label}
             </Link>
           ))}

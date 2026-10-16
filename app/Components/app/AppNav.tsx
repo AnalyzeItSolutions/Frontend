@@ -198,7 +198,7 @@ export function AppNav({
                       {activeLink ? (
                         <motion.span
                           layoutId="app-nav-underline"
-                          className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[var(--coral,#F2F2F2)]"
+                          className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[var(--coral,#E4E4E2)]"
                           transition={{ type: 'spring', stiffness: 420, damping: 32 }}
                         />
                       ) : null}
@@ -282,7 +282,7 @@ export function AppNav({
                     <button
                       type="button"
                       role="menuitem"
-                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-[#0A0A0A] hover:bg-[var(--surface-3)]"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-[#141414] hover:bg-[var(--surface-3)]"
                       onClick={signOut}
                     >
                       <IconLogout size={14} />
@@ -302,7 +302,7 @@ export function AppNav({
               </Link>
               <Link
                 href="/login?tab=register"
-                className="hidden rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] shadow-xs transition-colors hover:bg-[var(--brand-hover)] sm:inline-flex"
+                className="hidden rounded-full bg-[var(--coral,#E4E4E2)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] shadow-xs transition-colors hover:bg-[var(--brand-hover)] sm:inline-flex"
               >
                 Get started
               </Link>
@@ -391,14 +391,14 @@ export function AppNav({
                             data-active={activeLink}
                             className={`mb-0.5 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-medium transition-colors ${
                               activeLink
-                                ? 'bg-[#F2F2F2]/15 text-[#F2F2F2]'
+                                ? 'bg-[#E4E4E2]/15 text-[#E4E4E2]'
                                 : 'text-[var(--text-secondary)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]'
                             }`}
                             onClick={() => setMobileOpen(false)}
                           >
                             {link.label}
                             {activeLink ? (
-                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#F2F2F2)]" />
+                              <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#E4E4E2)]" />
                             ) : null}
                           </Link>
                         </motion.div>
@@ -429,7 +429,7 @@ export function AppNav({
                     </Link>
                     <Link
                       href="/login?tab=register"
-                      className="inline-flex flex-1 items-center justify-center rounded-full bg-[var(--coral,#F2F2F2)] px-3 py-2 text-xs font-medium text-[var(--brand-ink)]"
+                      className="inline-flex flex-1 items-center justify-center rounded-full bg-[var(--coral,#E4E4E2)] px-3 py-2 text-xs font-medium text-[var(--brand-ink)]"
                       onClick={() => setMobileOpen(false)}
                     >
                       Get started

@@ -14,11 +14,11 @@ export interface ResearchSource {
 }
 
 export const CATEGORY_COLOR: Record<string, string> = {
-  geo_live: '#F2F2F2',
-  stats: '#F2F2F2',
+  geo_live: '#E4E4E2',
+  stats: '#E4E4E2',
   archives: '#ca8a04',
   science: '#0d9488',
-  maps: '#0A0A0A',
+  maps: '#141414',
   culture: '#a855f7',
   media: '#db2777',
 };
@@ -46,12 +46,12 @@ export function SourceChips({ sources }: { sources: ResearchSource[] }) {
           href={source.url || `https://${source.host}`}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[10px] text-[var(--text-secondary)] transition-colors hover:border-[#F2F2F2]/40 hover:text-[var(--text-primary)]"
+          className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[10px] text-[var(--text-secondary)] transition-colors hover:border-[#E4E4E2]/40 hover:text-[var(--text-primary)]"
         >
           {source.category ? (
             <span
               className="h-1.5 w-1.5 rounded-full"
-              style={{ background: CATEGORY_COLOR[source.category] || '#F2F2F2' }}
+              style={{ background: CATEGORY_COLOR[source.category] || '#E4E4E2' }}
             />
           ) : (
             <span className="opacity-50">found:</span>

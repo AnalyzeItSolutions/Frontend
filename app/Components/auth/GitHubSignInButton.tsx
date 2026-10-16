@@ -33,7 +33,7 @@ export function GitHubSignInButton({ onError, context = 'signin' }: Props) {
         type="button"
         onClick={handleClick}
         disabled={busy}
-        className="group flex items-center justify-center gap-2.5 w-full py-2.5 rounded-full border border-[#414141]/15 dark:border-[#484848] bg-white dark:bg-[#262626] text-sm font-medium text-[#414141] dark:text-[#EDEDED] hover:bg-[#F2F2F2] dark:hover:bg-[#2C2C2C] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        className="group flex items-center justify-center gap-2.5 w-full py-2.5 rounded-full border border-[#414141]/15 dark:border-[#484848] bg-white dark:bg-[#262626] text-sm font-medium text-[#414141] dark:text-[#EDEDED] hover:bg-[#E4E4E2] dark:hover:bg-[#2C2C2C] transition-colors disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
       >
         {busy ? (
           <span className="flex items-center gap-2">

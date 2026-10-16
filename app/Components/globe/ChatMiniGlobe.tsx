@@ -32,7 +32,7 @@ export function ChatMiniGlobe() {
           <span
             className={`truncate rounded-full px-2.5 py-1 text-[10px] font-mono tracking-wide shadow-sm backdrop-blur-md ${
               inFlight
-                ? 'bg-[#F2F2F2]/90 text-white'
+                ? 'bg-[#E4E4E2]/90 text-white'
                 : 'bg-[var(--surface)]/80 text-[var(--text-secondary)]'
             }`}
           >

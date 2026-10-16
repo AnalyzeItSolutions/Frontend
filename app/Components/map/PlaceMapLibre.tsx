@@ -327,9 +327,9 @@ const LAYER_COLOR: Record<string, string> = {
   earthquakes: '#d97706',
   disasters: '#dc2626',
   wildfires: '#ef4444',
-  storms: '#F2F2F2',
+  storms: '#E4E4E2',
   volcanoes: '#b45309',
-  weather: '#0A0A0A',
+  weather: '#141414',
   air_quality: '#10b981',
   markets: '#8b5cf6',
   iss: '#f43f5e',
@@ -340,7 +340,7 @@ const LAYER_COLOR: Record<string, string> = {
   aurora_oval: '#22c55e',
   ocean: '#0ea5e9',
   weather_alerts: '#f97316',
-  my_data: '#F2F2F2',
+  my_data: '#E4E4E2',
 };
 
 function ensurePlaneIcon(map: MapLibreMap) {
@@ -769,7 +769,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
           kind: 'event',
           host,
           label: p.label,
-          color: LAYER_COLOR[host] || '#F2F2F2',
+          color: LAYER_COLOR[host] || '#E4E4E2',
           track: Number.isFinite(Number(p.trackDeg)) ? Number(p.trackDeg) : 0,
         },
         geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
@@ -813,7 +813,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       source: 'globe-source-pins',
       paint: {
         'circle-radius': ['get', 'r'],
-        'circle-color': ['match', ['get', 'kind'], 'hub', '#F2F2F2', '#A7A7A7'],
+        'circle-color': ['match', ['get', 'kind'], 'hub', '#E4E4E2', '#A7A7A7'],
         'circle-stroke-width': ['match', ['get', 'kind'], 'hub', 1.5, 1],
         'circle-stroke-color': '#ffffff',
         'circle-stroke-opacity': 0.92,
@@ -826,7 +826,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       id: 'globe-source-hit',
       type: 'circle',
       source: 'globe-source-pins',
-      paint: { 'circle-radius': 9, 'circle-color': '#000000', 'circle-opacity': 0 },
+      paint: { 'circle-radius': 9, 'circle-color': '#141414', 'circle-opacity': 0 },
     }),
     [],
   );
@@ -838,10 +838,10 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       filter: ['==', ['get', 'id'], selectedPinId ?? ''],
       paint: {
         'circle-radius': ['+', ['get', 'r'], 3.5],
-        'circle-color': '#F2F2F2',
+        'circle-color': '#E4E4E2',
         'circle-opacity': 0.28,
         'circle-stroke-width': 1.5,
-        'circle-stroke-color': '#F2F2F2',
+        'circle-stroke-color': '#E4E4E2',
       },
     }),
     [selectedPinId],
@@ -916,7 +916,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       source: 'globe-metric',
       paint: {
         'circle-radius': ['interpolate', ['linear'], ['get', 'w'], 0, 10, 1, 42],
-        'circle-color': '#F2F2F2',
+        'circle-color': '#E4E4E2',
         'circle-opacity': 0.28,
         'circle-blur': 0.75,
         'circle-stroke-width': 0,
@@ -1105,7 +1105,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
                       {point.label}
                     </span>
                     <span
-                      className="w-2.5 rounded-t-sm bg-[#F2F2F2] shadow-sm"
+                      className="w-2.5 rounded-t-sm bg-[#E4E4E2] shadow-sm"
                       style={{ height: px }}
                     />
                   </span>

@@ -63,7 +63,7 @@ export function TryoutClient() {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#F2F2F2] hover:text-[#0A0A0A] disabled:opacity-50 dark:border-[#484848] dark:bg-[#191919]/60"
+            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E4E4E2] hover:text-[#141414] disabled:opacity-50 dark:border-[#484848] dark:bg-[#1B1B1B]/60"
           >
             {ex.label}
           </button>
@@ -84,7 +84,7 @@ export function TryoutClient() {
           rows={3}
           placeholder="Ask a question about analysing data, metrics or a business problem…"
           aria-label="Your question"
-          className="w-full resize-none rounded-2xl border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#191919]"
+          className="w-full resize-none rounded-2xl border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#1B1B1B]"
         />
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-[#535353] dark:text-[#BABABA]" role="status">
@@ -93,7 +93,7 @@ export function TryoutClient() {
           <button
             type="submit"
             disabled={busy || out || unavailable || !input.trim()}
-            className="rounded-full bg-[#F2F2F2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#F2F2F2] disabled:opacity-50"
+            className="rounded-full bg-[#E4E4E2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#E4E4E2] disabled:opacity-50"
           >
             {busy ? 'Working…' : 'Ask'}
           </button>
@@ -107,7 +107,7 @@ export function TryoutClient() {
       ) : null}
 
       {turn?.result ? (
-        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#191919]/60" aria-live="polite">
+        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#1B1B1B]/60" aria-live="polite">
           <p className="text-xs font-mono uppercase tracking-wider text-[#535353] dark:text-[#BABABA]">{turn.question}</p>
           <div className="mt-3 text-base leading-relaxed">
             <ChatMarkdown text={turn.result.answer || 'No answer came back.'} />
@@ -117,10 +117,10 @@ export function TryoutClient() {
       ) : null}
 
       {turn?.failure ? (
-        <div role="alert" className="rounded-2xl border border-[#0A0A0A]/25 bg-[#0A0A0A]/5 p-5">
+        <div role="alert" className="rounded-2xl border border-[#141414]/25 bg-[#141414]/5 p-5">
           <p className="text-sm">{turn.failure.message}</p>
           {turn.failure.kind === 'limit' ? (
-            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
+            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#E4E4E2] px-5 py-2 text-sm font-medium text-white hover:bg-[#E4E4E2]">
               Create a free account
             </Link>
           ) : null}
@@ -128,18 +128,18 @@ export function TryoutClient() {
       ) : null}
 
       {out && !turn?.failure ? (
-        <div className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 text-sm dark:border-[#262626] dark:bg-[#191919]/60">
+        <div className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 text-sm dark:border-[#262626] dark:bg-[#1B1B1B]/60">
           <p>
             You have used all {status?.limit} try-out runs. Create a free account to keep going
             {status && status.retry_after_seconds > 0 ? `, or come back in ${formatWait(status.retry_after_seconds)}.` : '.'}
           </p>
-          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#F2F2F2] px-5 py-2 text-sm font-medium text-white hover:bg-[#F2F2F2]">
+          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#E4E4E2] px-5 py-2 text-sm font-medium text-white hover:bg-[#E4E4E2]">
             Create a free account
           </Link>
         </div>
       ) : null}
 
-      {unavailable ? <p className="text-sm text-[#0A0A0A]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
+      {unavailable ? <p className="text-sm text-[#141414]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
     </div>
   );
 }

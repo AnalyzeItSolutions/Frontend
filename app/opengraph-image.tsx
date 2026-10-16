@@ -22,14 +22,14 @@ export default function Image() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(135deg, #F2F2F2, #E8C4A0)', display: 'flex' }} />
+          <div style={{ width: 56, height: 56, borderRadius: 16, background: 'linear-gradient(135deg, #E4E4E2, #E8C4A0)', display: 'flex' }} />
           <div style={{ fontSize: 40, letterSpacing: 2 }}>{SITE_NAME}</div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div style={{ fontSize: 76, lineHeight: 1.05, fontWeight: 600 }}>{SITE_TAGLINE}</div>
           <div style={{ fontSize: 34, color: '#535353' }}>Ask in plain words. Answers from live tools and your own data, with the sources shown.</div>
         </div>
-        <div style={{ display: 'flex', gap: 28, fontSize: 28, color: '#0A0A0A' }}>
+        <div style={{ display: 'flex', gap: 28, fontSize: 28, color: '#141414' }}>
           <div style={{ display: 'flex' }}>Weather · FX · stocks · maps</div>
           <div style={{ display: 'flex' }}>Your data, permission first</div>
           <div style={{ display: 'flex' }}>Free to start</div>

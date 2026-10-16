@@ -69,7 +69,7 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
           <tbody>
             ${rows.map((row, rIdx) => {
               const cells = Array.isArray(row) ? row : cols.map(c => row[c] ?? '');
-              const bg = rIdx % 2 === 0 ? '#191919' : '#262626';
+              const bg = rIdx % 2 === 0 ? '#1B1B1B' : '#262626';
               return `
                 <tr style="background: ${bg}; color: #BABABA;">
                   ${cells.map((cell: any) => `<td style="padding: 6px 12px; border: 1px solid #262626;">${String(cell)}</td>`).join('')}
@@ -105,10 +105,10 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
     }
 
     return `
-      <div style="page-break-inside: avoid; background: #191919; border: 1px solid #262626; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+      <div style="page-break-inside: avoid; background: #1B1B1B; border: 1px solid #262626; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #262626; padding-bottom: 8px; margin-bottom: 10px;">
           <h3 style="margin: 0; font-family: serif; font-size: 18px; color: #EDEDED;">${title}</h3>
-          <span style="font-family: monospace; font-size: 10px; font-weight: bold; background: rgba(255, 255, 255, 0.15); color: #F2F2F2; padding: 3px 8px; border-radius: 6px;">${comp}</span>
+          <span style="font-family: monospace; font-size: 10px; font-weight: bold; background: rgba(255, 255, 255, 0.15); color: #E4E4E2; padding: 3px 8px; border-radius: 6px;">${comp}</span>
         </div>
         ${contentHtml}
       </div>
@@ -123,14 +123,14 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
         <style>
           @page { size: A4; margin: 18mm; }
           body {
-            background-color: #121212;
+            background-color: #1B1B1B;
             color: #EDEDED;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 24px;
           }
           .header {
-            border-bottom: 2px solid #F2F2F2;
+            border-bottom: 2px solid #E4E4E2;
             padding-bottom: 16px;
             margin-bottom: 24px;
           }
@@ -146,7 +146,7 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
             color: #888888;
           }
           @media print {
-            body { background: #121212 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: #1B1B1B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
           }
         </style>
       </head>
@@ -154,13 +154,13 @@ export function exportDashboardToPdf(projectName: string, widgets: WidgetSpec[])
         <div class="header">
           <div style="display: flex; justify-content: space-between; align-items: flex-end;">
             <div>
-              <div style="font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #F2F2F2; margin-bottom: 4px;">
+              <div style="font-family: monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #E4E4E2; margin-bottom: 4px;">
                 AnalyzeIt · Executive Briefing
               </div>
               <h1 class="title">${projectName}</h1>
               <div class="meta">${dateStr} · ${widgets.length} Canvas Widgets · Verified Data Lineage</div>
             </div>
-            <div style="font-family: monospace; font-size: 11px; color: #F2F2F2; border: 1px solid #F2F2F2; padding: 4px 10px; border-radius: 6px;">
+            <div style="font-family: monospace; font-size: 11px; color: #E4E4E2; border: 1px solid #E4E4E2; padding: 4px 10px; border-radius: 6px;">
               CONFIDENTIAL REPORT
             </div>
           </div>
@@ -238,7 +238,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
   <style>
     body {
       margin: 0;
-      background: #121212;
+      background: #1B1B1B;
       color: #EDEDED;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
@@ -251,7 +251,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      background: #121212;
+      background: #1B1B1B;
       border-bottom: 2px dashed #262626;
     }
     .slide-title-slide {
@@ -268,7 +268,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
     .hero-sub {
       font-family: monospace;
       font-size: 16px;
-      color: #F2F2F2;
+      color: #E4E4E2;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
@@ -281,7 +281,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #F2F2F2;
+      color: #E4E4E2;
       margin-bottom: 6px;
     }
     .slide-title {
@@ -298,7 +298,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       gap: 60px;
     }
     .metric-highlight {
-      background: #191919;
+      background: #1B1B1B;
       border: 1px solid #262626;
       border-radius: 24px;
       padding: 40px;
@@ -320,7 +320,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       margin-top: 8px;
     }
     .takeaway-box {
-      background: #191919;
+      background: #1B1B1B;
       border: 1px solid #262626;
       border-radius: 24px;
       padding: 36px;
@@ -330,7 +330,7 @@ export function exportDashboardToPptx(projectName: string, widgets: WidgetSpec[]
       margin: 0 0 12px 0;
       font-family: monospace;
       font-size: 14px;
-      color: #F2F2F2;
+      color: #E4E4E2;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -454,7 +454,7 @@ export function exportDashboardToDocx(projectName: string, widgets: WidgetSpec[]
       <div style="margin-bottom: 24px; padding: 16px; border: 1px solid #cccccc; border-radius: 8px;">
         <h3 style="color: #222222; font-size: 16pt; margin: 0 0 6px 0;">${idx + 1}. ${title}</h3>
         <p style="color: #777777; font-size: 9pt; font-family: Courier, monospace; margin: 0 0 10px 0;">TYPE: ${comp} · STATUS: VERIFIED</p>
-        <div style="font-size: 22pt; font-weight: bold; color: #111111; margin-bottom: 6px;">
+        <div style="font-size: 22pt; font-weight: bold; color: #1B1B1B; margin-bottom: 6px;">
           ${val} <span style="font-size: 11pt; color: #2e7d32; font-family: Courier, monospace;">${change}</span>
         </div>
         ${desc ? `<p style="color: #444444; font-size: 10.5pt; line-height: 1.5; margin: 8px 0 0 0;">${desc}</p>` : ''}
@@ -469,9 +469,9 @@ export function exportDashboardToDocx(projectName: string, widgets: WidgetSpec[]
         <title>${projectName}</title>
         <style>
           body { font-family: 'Calibri', sans-serif; font-size: 11pt; color: #333333; line-height: 1.6; }
-          h1 { color: #121212; font-size: 24pt; border-bottom: 2pt solid #F2F2F2; padding-bottom: 8pt; margin-bottom: 12pt; }
-          .executive-summary { background: #fdf6f0; border-left: 4pt solid #F2F2F2; padding: 12pt 16pt; margin-bottom: 24pt; }
-          .executive-summary h2 { margin: 0 0 6pt 0; font-size: 13pt; color: #0A0A0A; }
+          h1 { color: #1B1B1B; font-size: 24pt; border-bottom: 2pt solid #E4E4E2; padding-bottom: 8pt; margin-bottom: 12pt; }
+          .executive-summary { background: #fdf6f0; border-left: 4pt solid #E4E4E2; padding: 12pt 16pt; margin-bottom: 24pt; }
+          .executive-summary h2 { margin: 0 0 6pt 0; font-size: 13pt; color: #141414; }
         </style>
       </head>
       <body>

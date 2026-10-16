@@ -1369,7 +1369,7 @@ function NewProjectContent() {
         className={`sticky top-0 z-30 px-4 sm:px-8 py-3 flex items-center justify-between border-b backdrop-blur-xl transition-colors duration-300 ${
           isIncognito
             ? 'bg-[#100D16]/80 border-purple-500/20'
-            : 'bg-[#F8F8F8]/80 dark:bg-[#121212]/80 border-[#414141]/10 dark:border-[#262626]'
+            : 'bg-[#F8F8F8]/80 dark:bg-[#1B1B1B]/80 border-[#414141]/10 dark:border-[#262626]'
         }`}
       >
         <div className="flex items-center gap-3 sm:gap-5">
@@ -1400,13 +1400,13 @@ function NewProjectContent() {
                   if (e.key === 'Escape') setIsEditingTitle(false);
                 }}
                 autoFocus
-                className="font-serif text-base sm:text-lg font-medium px-2 py-0.5 rounded border border-[#F2F2F2] bg-transparent focus:outline-none"
+                className="font-serif text-base sm:text-lg font-medium px-2 py-0.5 rounded border border-[#E4E4E2] bg-transparent focus:outline-none"
               />
             ) : (
               <button
                 type="button"
                 onClick={() => setIsEditingTitle(true)}
-                className="group flex items-center gap-2 font-serif text-base sm:text-lg font-medium tracking-tight hover:text-[#F2F2F2] transition-colors cursor-pointer text-left max-w-[200px] sm:max-w-xs truncate"
+                className="group flex items-center gap-2 font-serif text-base sm:text-lg font-medium tracking-tight hover:text-[#E4E4E2] transition-colors cursor-pointer text-left max-w-[200px] sm:max-w-xs truncate"
               >
                 <span className="truncate">{projectTitle}</span>
                 <span className="text-xs font-mono opacity-0 group-hover:opacity-60 transition-opacity">✎</span>
@@ -1460,7 +1460,7 @@ function NewProjectContent() {
               <IconLayoutDashboard size={13} />
               <span>Canvas</span>
               {currentLayout.widgets.length > 0 && (
-                <span className="text-[10px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#F2F2F2] rounded-full font-bold">
+                <span className="text-[10px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#E4E4E2] rounded-full font-bold">
                   {currentLayout.widgets.length}
                 </span>
               )}
@@ -1477,7 +1477,7 @@ function NewProjectContent() {
             className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer ${
               isIncognito
                 ? 'bg-purple-900/60 border-purple-500 text-purple-200 shadow-md ring-2 ring-purple-500/30'
-                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/15 dark:border-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:border-[#F2F2F2]/40'
+                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/15 dark:border-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:border-[#E4E4E2]/40'
             }`}
             title="When active, queries and session data are ephemeral and bypassed from storage"
           >
@@ -1573,7 +1573,7 @@ function NewProjectContent() {
                         : `${
                             isIncognito
                               ? 'bg-[#1A1624] border border-purple-500/20 text-purple-100'
-                              : 'glass-card border border-[#414141]/08 dark:border-[#262626] dark:bg-[#191919] text-[#414141] dark:text-[#EDEDED]'
+                              : 'glass-card border border-[#414141]/08 dark:border-[#262626] dark:bg-[#1B1B1B] text-[#414141] dark:text-[#EDEDED]'
                           } p-5 rounded-2xl rounded-tl-xs text-sm leading-relaxed shadow-sm`
                     }`}
                   >
@@ -1662,12 +1662,12 @@ function NewProjectContent() {
                               ? 'bg-black/5 dark:bg-[#262626] border-transparent opacity-60'
                               : inlineProposal.status === 'error'
                               ? 'bg-red-500/10 dark:bg-[#382522] border-red-500/30 dark:border-[#D97870]/30 text-red-600 dark:text-[#D97870]'
-                              : 'bg-[var(--brand)]/10 dark:bg-[#0A0A0A]/40 border-[#F2F2F2]/30 dark:border-[#0A0A0A]'
+                              : 'bg-[var(--brand)]/10 dark:bg-[#141414]/40 border-[#E4E4E2]/30 dark:border-[#141414]'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2">
                             <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider">
-                              <IconSparkles size={14} className="text-[#F2F2F2]" />
+                              <IconSparkles size={14} className="text-[#E4E4E2]" />
                               <span>
                                 {inlineProposal.status === 'applied'
                                   ? isMulti ? 'Widgets Added to Canvas' : 'Widget Added to Canvas'
@@ -1737,8 +1737,8 @@ function NewProjectContent() {
                           )}
 
                           {inlineProposal.status === 'applying' && (
-                            <div className="flex items-center gap-2 text-xs font-mono text-[#F2F2F2] pt-1">
-                              <span className="w-3 h-3 border-2 border-[#F2F2F2]/30 border-t-[#F2F2F2] rounded-full animate-spin" />
+                            <div className="flex items-center gap-2 text-xs font-mono text-[#E4E4E2] pt-1">
+                              <span className="w-3 h-3 border-2 border-[#E4E4E2]/30 border-t-[#E4E4E2] rounded-full animate-spin" />
                               <span>Applying widget{isMulti ? 's' : ''} to canvas…</span>
                             </div>
                           )}
@@ -1755,7 +1755,7 @@ function NewProjectContent() {
                           <button
                             type="button"
                             onClick={() => setActiveView(isMobile ? 'canvas' : 'split')}
-                            className="underline hover:opacity-80 cursor-pointer text-[#F2F2F2]"
+                            className="underline hover:opacity-80 cursor-pointer text-[#E4E4E2]"
                           >
                             View on Canvas →
                           </button>
@@ -1801,7 +1801,7 @@ function NewProjectContent() {
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
                                   {isAudio ? (
-                                    <div className="w-7 h-7 rounded-lg bg-[var(--brand)]/20 text-[#F2F2F2] flex items-center justify-center">
+                                    <div className="w-7 h-7 rounded-lg bg-[var(--brand)]/20 text-[#E4E4E2] flex items-center justify-center">
                                       <IconVolume size={15} />
                                     </div>
                                   ) : isVideo ? (
@@ -1896,7 +1896,7 @@ function NewProjectContent() {
                   className={`px-4 py-3 rounded-2xl text-xs font-mono flex items-center gap-2 ${
                     isIncognito
                       ? 'bg-[#1A1624] border border-purple-500/20 text-purple-300'
-                      : 'glass-card border border-[#414141]/10 dark:border-[#262626] dark:bg-[#191919] text-[#414141]/70 dark:text-[#BABABA]'
+                      : 'glass-card border border-[#414141]/10 dark:border-[#262626] dark:bg-[#1B1B1B] text-[#414141]/70 dark:text-[#BABABA]'
                   }`}
                 >
                   <span className="w-2 h-2 rounded-full bg-[var(--brand)] animate-ping" />
@@ -1910,10 +1910,10 @@ function NewProjectContent() {
           </div>
 
           {/* ─── Bottom Chat Input Bar ────────────────────────────────────── */}
-          <div className="p-4 border-t border-[#414141]/10 dark:border-[#262626] space-y-2 bg-[#F8F8F8]/50 dark:bg-[#121212]/80 backdrop-blur-md">
+          <div className="p-4 border-t border-[#414141]/10 dark:border-[#262626] space-y-2 bg-[#F8F8F8]/50 dark:bg-[#1B1B1B]/80 backdrop-blur-md">
             {uploadingFile && (
               <div className="mb-2 flex items-center gap-2 text-xs font-mono text-[#414141]/70 dark:text-[#888888]">
-                <IconRefresh size={13} className="animate-spin text-[#F2F2F2]" />
+                <IconRefresh size={13} className="animate-spin text-[#E4E4E2]" />
                 <span>Importing {uploadingFile}…</span>
               </div>
             )}
@@ -1925,7 +1925,7 @@ function NewProjectContent() {
                     key={file.attachment_id}
                     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border bg-white/80 dark:bg-[#262626] border-[#414141]/15 dark:border-[#262626] text-[#414141] dark:text-[#EDEDED]"
                   >
-                    <IconFileSpreadsheet size={13} className="text-[#F2F2F2]" />
+                    <IconFileSpreadsheet size={13} className="text-[#E4E4E2]" />
                     <span className="max-w-[10rem] truncate">{file.filename}</span>
                     <button
                       type="button"
@@ -1949,7 +1949,7 @@ function NewProjectContent() {
                 e.preventDefault();
                 handleSendMessage();
               }}
-              className="p-1.5 rounded-2xl border border-[#414141]/15 dark:border-[#262626] bg-white/70 dark:bg-[#262626] shadow-md flex items-center gap-2 transition-all focus-within:border-[#F2F2F2] focus-within:ring-2 focus-within:ring-[#F2F2F2]/20"
+              className="p-1.5 rounded-2xl border border-[#414141]/15 dark:border-[#262626] bg-white/70 dark:bg-[#262626] shadow-md flex items-center gap-2 transition-all focus-within:border-[#E4E4E2] focus-within:ring-2 focus-within:ring-[#E4E4E2]/20"
             >
               <input
                 ref={fileInputRef}
@@ -1965,7 +1965,7 @@ function NewProjectContent() {
                 type="button"
                 onClick={handleFileUpload}
                 disabled={Boolean(uploadingFile)}
-                className="p-2 rounded-xl text-[#414141]/50 dark:text-[#888888] hover:text-[#F2F2F2] hover:bg-black/5 dark:hover:bg-[#2C2C2C] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-wait"
+                className="p-2 rounded-xl text-[#414141]/50 dark:text-[#888888] hover:text-[#E4E4E2] hover:bg-black/5 dark:hover:bg-[#2C2C2C] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-wait"
                 title="Import data (CSV, TSV, JSON, XLSX, PDF tables, Tableau schema)"
               >
                 {uploadingFile ? (
@@ -2074,7 +2074,7 @@ function NewProjectContent() {
               {conflictState.isPureAppend ? (
                 <div className="space-y-3 text-xs font-mono">
                   <p className="text-[#414141]/80 dark:text-[#BABABA] leading-relaxed">
-                    Another session or background task updated the layout to <span className="font-semibold text-[#F2F2F2]">v{conflictState.freshVersion}</span> ({conflictState.freshWidgets.length} widgets).
+                    Another session or background task updated the layout to <span className="font-semibold text-[#E4E4E2]">v{conflictState.freshVersion}</span> ({conflictState.freshWidgets.length} widgets).
                   </p>
                   <div className="p-3 rounded-xl bg-emerald-500/10 dark:bg-[#283329] border border-emerald-500/20 dark:border-emerald-500/30 text-emerald-800 dark:text-[#9EBB9A]">
                     <p className="font-semibold flex items-center gap-1.5">
@@ -2107,12 +2107,12 @@ function NewProjectContent() {
                     The widget &quot;{conflictState.proposal.widgetSpec?.title || conflictState.conflictingWidget?.title || 'Proposed Widget'}&quot; was modified concurrently. Choose which version to retain:
                   </p>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#191919] space-y-1">
-                      <p className="font-semibold text-[#F2F2F2]">Your Proposal</p>
+                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#1B1B1B] space-y-1">
+                      <p className="font-semibold text-[#E4E4E2]">Your Proposal</p>
                       <p className="opacity-70 dark:text-[#BABABA] truncate">{conflictState.proposal.widgetSpec?.title || (conflictState.proposal.widgets && conflictState.proposal.widgets[0]?.title) || 'Proposed Widget'}</p>
                       <p className="opacity-50 dark:text-[#888888]">Type: {conflictState.proposal.widgetSpec?.component || conflictState.proposal.widgetSpec?.type || (conflictState.proposal.widgets ? `Composite (${conflictState.proposal.widgets.length})` : 'Composite')}</p>
                     </div>
-                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#191919] space-y-1">
+                    <div className="p-3 rounded-xl border border-[#414141]/15 dark:border-[#262626] bg-white/40 dark:bg-[#1B1B1B] space-y-1">
                       <p className="font-semibold text-[#91AEB5]">Canvas Version</p>
                       <p className="opacity-70 dark:text-[#BABABA] truncate">{conflictState.conflictingWidget?.title}</p>
                       <p className="opacity-50 dark:text-[#888888]">Type: {conflictState.conflictingWidget?.component || conflictState.conflictingWidget?.type}</p>

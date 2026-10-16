@@ -60,7 +60,7 @@ export default function SecurityPage() {
 
       <LegalSection title="6. Desktop app and command line">
         <p>
-          The <a href="/download" className="text-[#F2F2F2] hover:underline">desktop app and command line</a>{' '}
+          The <a href="/download" className="text-[#E4E4E2] hover:underline">desktop app and command line</a>{' '}
           keep data you import on your own computer, in a vault encrypted at rest with a key held in
           your system keychain. Nothing in the vault is uploaded; when you ask the online assistant
           about a local dataset, only your question and a column summary you allowed are sent,
@@ -79,7 +79,7 @@ export default function SecurityPage() {
       <LegalSection title="7. Reporting issues">
         <p>
           If you discover a vulnerability, email{' '}
-          <a href="mailto:security@analyzeit.in" className="text-[#F2F2F2] hover:underline">
+          <a href="mailto:security@analyzeit.in" className="text-[#E4E4E2] hover:underline">
             security@analyzeit.in
           </a>
           . Please do not publicly disclose an issue until we have had a reasonable chance to

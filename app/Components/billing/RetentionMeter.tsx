@@ -44,7 +44,7 @@ export function RetentionMeter() {
       </div>
       <a href="/memory" className="mt-2 inline-block text-xs underline underline-offset-2">Manage memory</a>
       {!usage.writes_allowed ? (
-        <p className="mt-2 text-xs text-[#0A0A0A]">Stored memory is full. New writes are paused until you delete sources or upgrade. Existing memory stays.</p>
+        <p className="mt-2 text-xs text-[#141414]">Stored memory is full. New writes are paused until you delete sources or upgrade. Existing memory stays.</p>
       ) : null}
     </div>
   );

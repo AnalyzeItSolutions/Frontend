@@ -1102,7 +1102,7 @@ export default function DashboardPage() {
                       <Link
                         key={prompt}
                         href={researchStarterHref(prompt)}
-                        className="rounded-full border border-[var(--coral)]/35 bg-[var(--coral)]/10 px-3.5 py-2 text-left text-xs font-medium text-[var(--coral-dark,#F2F2F2)] hover:bg-[var(--coral)]/18"
+                        className="rounded-full border border-[var(--coral)]/35 bg-[var(--coral)]/10 px-3.5 py-2 text-left text-xs font-medium text-[var(--coral-dark,#E4E4E2)] hover:bg-[var(--coral)]/18"
                       >
                         {prompt}
                       </Link>
@@ -1183,7 +1183,7 @@ export default function DashboardPage() {
                       onClick={() => setActiveTemplateCategory(cat)}
                       className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                         activeTemplateCategory === cat
-                          ? 'bg-[#F2F2F2] text-white shadow-xs'
+                          ? 'bg-[#E4E4E2] text-white shadow-xs'
                           : 'bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]'
                       }`}
                     >
@@ -1201,7 +1201,7 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={template.id}
-                      className="app-card p-5 flex flex-col justify-between space-y-4 transition-all group hover:border-[#F2F2F2]/30"
+                      className="app-card p-5 flex flex-col justify-between space-y-4 transition-all group hover:border-[#E4E4E2]/30"
                     >
                       <div className="space-y-2.5">
                         <div className="flex items-center justify-between">
@@ -1238,7 +1238,7 @@ export default function DashboardPage() {
                         type="button"
                         onClick={() => handleUseTemplate(template)}
                         disabled={isApplyingTemplate !== null}
-                        className="w-full py-2 px-3 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark,#F2F2F2)] text-[var(--brand-ink)] text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-transparent disabled:opacity-50"
+                        className="w-full py-2 px-3 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark,#E4E4E2)] text-[var(--brand-ink)] text-xs font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-transparent disabled:opacity-50"
                       >
                         {isApplying ? (
                           <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />

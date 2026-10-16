@@ -79,7 +79,7 @@ function BillingReturnInner() {
           <p className="font-mono text-[11px] text-[var(--text-muted)]">txn: {txn}</p>
         ) : null}
         <div className="flex gap-3 text-sm">
-          <Link href="/profile" className="text-[#F2F2F2]">
+          <Link href="/profile" className="text-[#E4E4E2]">
             Profile
           </Link>
           <Link href="/billing">{paid ? 'Manage billing' : 'Try again'}</Link>

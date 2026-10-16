@@ -16,12 +16,12 @@ export function HeroAnswer() {
   return (
     <figure className="w-full max-w-xl lg:max-w-lg" aria-label="An example answer">
       <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[var(--text-secondary)]">
-        <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#0A0A0A]" />What you get
+        <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#141414]" />What you get
       </p>
-      <div className="ml-auto mb-3 w-fit max-w-[90%] rounded-2xl rounded-br-md bg-[#2D2D2D] px-4 py-2 text-sm text-[var(--brand-ink)] shadow-sm dark:bg-[var(--brand)] dark:text-[#121212]">
+      <div className="ml-auto mb-3 w-fit max-w-[90%] rounded-2xl rounded-br-md bg-[#2D2D2D] px-4 py-2 text-sm text-[var(--brand-ink)] shadow-sm dark:bg-[var(--brand)] dark:text-[#1B1B1B]">
         {example.question}
       </div>
-      <div className="rounded-3xl border border-[#414141]/10 bg-[#F8F8F8]/95 p-4 shadow-sm backdrop-blur-md dark:border-[var(--border)] dark:bg-[#121212]/92 sm:p-5">
+      <div className="rounded-3xl border border-[#414141]/10 bg-[#F8F8F8]/95 p-4 shadow-sm backdrop-blur-md dark:border-[var(--border)] dark:bg-[#1B1B1B]/92 sm:p-5">
         <FindingCards data={parsed} />
       </div>
       <figcaption className="mt-2 text-xs leading-relaxed text-[var(--text-secondary)]">

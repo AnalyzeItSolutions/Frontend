@@ -20,7 +20,7 @@ export default function Home() {
         <MemorySection />
         <LeaksSection />
         <DescentSection />
-        <div className="relative z-10 bg-[#F8F8F8] dark:bg-[#121212] text-[#414141] dark:text-[#EDEDED] shadow-2xl transition-colors duration-500">
+        <div className="relative z-10 bg-[#F8F8F8] dark:bg-[#1B1B1B] text-[#414141] dark:text-[#EDEDED] shadow-2xl transition-colors duration-500">
           <CapabilitiesSection />
           <HowItWorksSection />
           <ComparisonSection />

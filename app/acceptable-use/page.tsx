@@ -11,7 +11,7 @@ export default function AcceptableUsePage() {
     <LegalLayout title="Acceptable Use Policy" updated="September 11, 2026">
       <p>
         This policy is part of the{' '}
-        <a href="/terms" className="text-[#F2F2F2] hover:underline">
+        <a href="/terms" className="text-[#E4E4E2] hover:underline">
           Terms of Service
         </a>
         . It applies to every account.
@@ -47,7 +47,7 @@ export default function AcceptableUsePage() {
       <LegalSection title="4. Contact">
         <p>
           Report abuse to{' '}
-          <a href="mailto:hello@analyzeit.in" className="text-[#F2F2F2] hover:underline">
+          <a href="mailto:hello@analyzeit.in" className="text-[#E4E4E2] hover:underline">
             hello@analyzeit.in
           </a>
           .

@@ -48,9 +48,9 @@ export const SkyDome: React.FC<SkyDomeProps> = ({ scrollProgressRef }) => {
 
   const uniforms = useMemo(
     () => ({
-      uTopColor: { value: new THREE.Color(isDark ? '#191919' : '#D6D6D6') },
+      uTopColor: { value: new THREE.Color(isDark ? '#1B1B1B' : '#D6D6D6') },
       uHorizonColor: { value: new THREE.Color(isDark ? '#1F1F1F' : '#EFE1CF') },
-      uBottomColor: { value: new THREE.Color(isDark ? '#121212' : '#F8F8F8') },
+      uBottomColor: { value: new THREE.Color(isDark ? '#1B1B1B' : '#F8F8F8') },
       uScroll: { value: 0 },
     }),
     [isDark]
@@ -58,9 +58,9 @@ export const SkyDome: React.FC<SkyDomeProps> = ({ scrollProgressRef }) => {
 
   useEffect(() => {
     if (materialRef.current) {
-      materialRef.current.uniforms.uTopColor.value.set(isDark ? '#191919' : '#D6D6D6');
+      materialRef.current.uniforms.uTopColor.value.set(isDark ? '#1B1B1B' : '#D6D6D6');
       materialRef.current.uniforms.uHorizonColor.value.set(isDark ? '#1F1F1F' : '#EFE1CF');
-      materialRef.current.uniforms.uBottomColor.value.set(isDark ? '#121212' : '#F8F8F8');
+      materialRef.current.uniforms.uBottomColor.value.set(isDark ? '#1B1B1B' : '#F8F8F8');
     }
   }, [isDark]);
 

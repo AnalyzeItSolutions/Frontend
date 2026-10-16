@@ -11,7 +11,7 @@ export function SuggestionChips({ suggestions, onPick, disabled }: { suggestions
           type="button"
           disabled={disabled}
           onClick={() => onPick(s)}
-          className="rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-1.5 text-left text-xs text-[var(--text-secondary)] transition hover:border-[var(--coral,#F2F2F2)] hover:text-[var(--text-primary)] disabled:opacity-40"
+          className="rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-3 py-1.5 text-left text-xs text-[var(--text-secondary)] transition hover:border-[var(--coral,#E4E4E2)] hover:text-[var(--text-primary)] disabled:opacity-40"
         >
           {s}
         </button>

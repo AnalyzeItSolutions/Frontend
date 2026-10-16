@@ -177,7 +177,7 @@ function ProfileInner() {
           </p>
         ) : null}
         {error ? (
-          <p role="alert" className="rounded-xl bg-[#0A0A0A]/10 px-3 py-2 text-sm text-[#0A0A0A]">
+          <p role="alert" className="rounded-xl bg-[#141414]/10 px-3 py-2 text-sm text-[#141414]">
             {error}
           </p>
         ) : null}
@@ -249,7 +249,7 @@ function ProfileInner() {
                     <motion.div
                       className={`h-full rounded-full ${
                         monthUsage.nearCap
-                          ? 'bg-[var(--coral,#F2F2F2)]'
+                          ? 'bg-[var(--coral,#E4E4E2)]'
                           : 'bg-[#8FA98F]'
                       }`}
                       initial={{ width: 0 }}
@@ -325,7 +325,7 @@ function ProfileInner() {
                   <input
                     value={editName}
                     onChange={(e) => setEditName(e.target.value)}
-                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
+                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)]"
                   />
                 </label>
                 <button
@@ -355,7 +355,7 @@ function ProfileInner() {
                   placeholder="Current password"
                   value={currentPass}
                   onChange={(e) => setCurrentPass(e.target.value)}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)] sm:col-span-2"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)] sm:col-span-2"
                 />
                 <input
                   type="password"
@@ -363,7 +363,7 @@ function ProfileInner() {
                   placeholder="New password (min 8)"
                   value={newPass}
                   onChange={(e) => setNewPass(e.target.value)}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)]"
                 />
                 <input
                   type="password"
@@ -371,7 +371,7 @@ function ProfileInner() {
                   placeholder="Confirm new password"
                   value={confirmPass}
                   onChange={(e) => setConfirmPass(e.target.value)}
-                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#F2F2F2)]"
+                  className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)]"
                 />
                 <div className="sm:col-span-2">
                   <button

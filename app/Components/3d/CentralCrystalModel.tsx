@@ -71,7 +71,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshPhysicalMaterial
-            color="#0A0A0A"
+            color="#141414"
             emissive="#4E4E4E"
             emissiveIntensity={0.4}
             roughness={0.24}
@@ -86,8 +86,8 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh ref={coreRef}>
           <octahedronGeometry args={[0.72, 0]} />
           <meshStandardMaterial
-            color="#0A0A0A"
-            emissive="#F2F2F2"
+            color="#141414"
+            emissive="#E4E4E2"
             emissiveIntensity={2.0}
             roughness={0.15}
             metalness={0.1}
@@ -99,7 +99,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshPhysicalMaterial
-            color="#F2F2F2"
+            color="#E4E4E2"
             emissive="#626262"
             emissiveIntensity={0.3}
             roughness={0.13}
@@ -116,7 +116,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
         <mesh scale={[1.002, 1.002, 1.002]}>
           <icosahedronGeometry args={[2.0, 0]} />
           <meshBasicMaterial
-            color="#F2F2F2"
+            color="#E4E4E2"
             wireframe
             transparent
             opacity={0.42}
@@ -128,7 +128,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
       <mesh ref={ring1Ref} rotation={[Math.PI / 3.2, 0, 0]}>
         <torusGeometry args={[2.85, 0.014, 12, 64]} />
         <meshBasicMaterial
-          color="#F2F2F2"
+          color="#E4E4E2"
           transparent
           opacity={hovered ? 0.5 : 0.32}
           blending={THREE.AdditiveBlending}
@@ -138,7 +138,7 @@ export const CentralCrystalModel: React.FC<CentralCrystalModelProps> = ({
       <mesh ref={ring2Ref} rotation={[Math.PI / 2.6, 0.6, 0]}>
         <torusGeometry args={[3.6, 0.012, 12, 64]} />
         <meshBasicMaterial
-          color="#F2F2F2"
+          color="#E4E4E2"
           transparent
           opacity={hovered ? 0.45 : 0.3}
           blending={THREE.AdditiveBlending}

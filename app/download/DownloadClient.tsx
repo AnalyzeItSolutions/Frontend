@@ -45,7 +45,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
           /* clipboard may be unavailable */
         }
       }}
-      className="text-[11px] font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]"
+      className="text-[11px] font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]"
     >
       {done ? 'Copied' : label}
     </button>
@@ -79,9 +79,9 @@ export function DownloadClient({ releases }: { releases: Releases }) {
 
   if (!desktop && !cli) {
     return (
-      <div className="rounded-2xl border border-[#F2F2F2]/25 bg-white/60 dark:bg-white/[0.03] p-6">
+      <div className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6">
         <h2 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Downloads are being prepared</h2>
-        <p className="mt-2 text-sm">The first release is not published yet. Please check back soon, or <a className="text-[#F2F2F2] hover:underline" href="/contact">contact us</a>.</p>
+        <p className="mt-2 text-sm">The first release is not published yet. Please check back soon, or <a className="text-[#E4E4E2] hover:underline" href="/contact">contact us</a>.</p>
       </div>
     );
   }
@@ -89,7 +89,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
   return (
     <div className="not-prose space-y-10">
       {/* Recommended */}
-      <section className="rounded-2xl border border-[#F2F2F2]/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
+      <section className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
         {detected === null ? (
           <p className="text-sm">AnalyzeIt for desktop runs on computers. Pick your system below, or open this page on your Mac, Windows or Linux computer.</p>
         ) : null}
@@ -122,7 +122,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
               aria-selected={os === o.id}
               type="button"
               onClick={() => { setOs(o.id); if (o.id !== 'macos') setArch('x64'); }}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-[#F2F2F2] bg-[var(--brand)]/15 text-[#262626] dark:text-[#E5E5E5] font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2]/60'}`}
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-[#E4E4E2] bg-[var(--brand)]/15 text-[#262626] dark:text-[#E5E5E5] font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#E4E4E2]/60'}`}
             >
               {o.label}
             </button>
@@ -137,7 +137,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                 aria-checked={arch === a}
                 type="button"
                 onClick={() => setArch(a)}
-                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-[#F2F2F2] bg-[var(--brand)]/10 font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#F2F2F2]/60'}`}
+                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-[#E4E4E2] bg-[var(--brand)]/10 font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#E4E4E2]/60'}`}
               >
                 {ARCH_LABELS[a]}
               </button>
@@ -155,7 +155,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                     <div className="text-sm font-medium text-[#262626] dark:text-[#E5E5E5]">{KIND_LABELS[f.kind as keyof typeof KIND_LABELS] || f.kind}</div>
                     <div className="font-mono text-[11px] text-[#414141]/60 dark:text-[#888888]">{f.name} · {formatSize(f.size)}</div>
                   </div>
-                  <a href={f.url} className="rounded-lg border border-[#F2F2F2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
+                  <a href={f.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
                   <span className="break-all">SHA-256 {f.sha256}</span>
@@ -173,7 +173,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
           <div className="mt-2 rounded-xl border border-[#414141]/10 dark:border-[#262626] p-4 flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-mono text-[11px] text-[#414141]/60 dark:text-[#888888]">{cliFile.name} · {formatSize(cliFile.size)}</div>
-              <a href={cliFile.url} className="rounded-lg border border-[#F2F2F2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
+              <a href={cliFile.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
               <span className="break-all">SHA-256 {cliFile.sha256}</span>
@@ -193,7 +193,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
         <h2 className="text-base font-semibold text-[#262626] dark:text-[#E5E5E5]">Install from a terminal (no first-run warning)</h2>
         <p className="mt-2 text-sm text-[#414141]/80 dark:text-[#BABABA]">
           Files saved by a browser are flagged &ldquo;downloaded from the internet&rdquo;, which is what triggers the unidentified-developer warning. Files fetched by these commands are not flagged, so
-          nothing is blocked. The script checks the SHA-256 before installing, and you can read it first at <a className="text-[#F2F2F2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#F2F2F2] hover:underline" href="/install.ps1">/install.ps1</a>.
+          nothing is blocked. The script checks the SHA-256 before installing, and you can read it first at <a className="text-[#E4E4E2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E4E4E2] hover:underline" href="/install.ps1">/install.ps1</a>.
         </p>
         {os === 'windows' ? (
           <pre className="mt-3 overflow-x-auto rounded-lg bg-[#414141]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line

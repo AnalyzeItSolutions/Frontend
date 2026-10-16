@@ -62,7 +62,7 @@ export function SharedLinks() {
     <section className="space-y-2">
       <h2 className="text-sm font-medium">Shared links</h2>
       <p className="text-xs text-[var(--text-muted)]">Anyone with a link can read that answer until it expires or you turn it off.</p>
-      {error ? <p className="text-xs text-[var(--danger,#0A0A0A)]">{error}</p> : null}
+      {error ? <p className="text-xs text-[var(--danger,#141414)]">{error}</p> : null}
       {rows && rows.length === 0 && !error ? (
         <div className="app-card p-5 text-sm text-[var(--text-muted)]">No links yet. Use Share under an answer in Research.</div>
       ) : null}

@@ -92,17 +92,17 @@ function ConsentInner() {
 
   const app = details?.client_name || 'this app';
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#121212] px-6 py-10">
-      <div className="w-full max-w-md rounded-2xl border border-[#F2F2F2]/20 bg-white/70 dark:bg-white/[0.03] p-8 shadow-sm">
+    <main className="min-h-screen flex items-center justify-center bg-[#F8F8F8] dark:bg-[#1B1B1B] px-6 py-10">
+      <div className="w-full max-w-md rounded-2xl border border-[#E4E4E2]/20 bg-white/70 dark:bg-white/[0.03] p-8 shadow-sm">
         {stage === 'checking' && (
-          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#F2F2F2]/25 border-t-[#F2F2F2]" aria-label="Checking your account" />
+          <span className="mx-auto block h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" aria-label="Checking your account" />
         )}
 
         {stage === 'invalid' && (
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is no longer valid</h1>
             <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Connection links expire after a few minutes. Start again from your AI assistant.</p>
-            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#F2F2F2] hover:text-[#F2F2F2]">Back to analyzeit.si</Link>
+            <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]">Back to analyzeit.si</Link>
           </div>
         )}
 
@@ -114,7 +114,7 @@ function ConsentInner() {
               <strong className="text-[#262626] dark:text-[#E5E5E5]">{details.redirect_host}</strong>.
             </p>
 
-            <div className="mt-5 rounded-xl border border-[#F2F2F2]/20 p-4 text-sm text-[#383838] dark:text-[#DCDCDC]">
+            <div className="mt-5 rounded-xl border border-[#E4E4E2]/20 p-4 text-sm text-[#383838] dark:text-[#DCDCDC]">
               <p className="font-medium">{app} will be able to:</p>
               <ul className="mt-2 space-y-2">
                 {details.scopes.map((sc) => (
@@ -147,10 +147,10 @@ function ConsentInner() {
               <button type="button" onClick={() => decide(true)} disabled={stage === 'working'} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)] disabled:opacity-60">
                 {stage === 'working' ? 'Connecting…' : 'Allow'}
               </button>
-              <button type="button" onClick={() => decide(false)} disabled={stage === 'working'} className="rounded-lg border border-[#F2F2F2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10 disabled:opacity-60">
+              <button type="button" onClick={() => decide(false)} disabled={stage === 'working'} className="rounded-lg border border-[#E4E4E2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10 disabled:opacity-60">
                 Cancel
               </button>
-              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#F2F2F2]">
+              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#E4E4E2]">
                 Use a different account
               </button>
             </div>
@@ -177,7 +177,7 @@ function ConsentInner() {
 
 export default function ConsentPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#121212]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-[#F8F8F8] dark:bg-[#1B1B1B]" />}>
       <ConsentInner />
     </Suspense>
   );

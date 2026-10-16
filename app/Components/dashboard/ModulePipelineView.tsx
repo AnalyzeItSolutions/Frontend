@@ -260,7 +260,7 @@ export function ModulePipelineView({ projectId, onRefreshLayout }: ModulePipelin
                     <button
                       onClick={() => handleInstall(template.id)}
                       disabled={isInstalling}
-                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[var(--coral,#F2F2F2)] hover:bg-[var(--coral-dark,#F2F2F2)] text-[var(--brand-ink)] text-xs font-semibold transition-colors shadow-sm disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[var(--coral,#E4E4E2)] hover:bg-[var(--coral-dark,#E4E4E2)] text-[var(--brand-ink)] text-xs font-semibold transition-colors shadow-sm disabled:opacity-50"
                     >
                       <IconPlus className="w-3.5 h-3.5" />
                       <span>{isInstalling ? 'Installing...' : 'Install Module'}</span>

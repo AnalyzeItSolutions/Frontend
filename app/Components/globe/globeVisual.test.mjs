@@ -52,7 +52,7 @@ describe('theme-aware basemap and atmosphere', () => {
     const stage = globeStage({ variant: 'full', appTheme: 'dark' });
     assert.equal(stage.research, true);
     assert.equal(stage.background, RESEARCH_STAGE_BG);
-    assert.equal(stage.background, '#0A0A0A');
+    assert.equal(stage.background, '#141414');
     assert.equal(stage.canvasClass, 'globe-map-canvas--research');
 
     const { fog, light } = researchAtmosphere();
