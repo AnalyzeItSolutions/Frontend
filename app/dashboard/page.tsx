@@ -69,6 +69,7 @@ import { LayoutSwitcher } from '../Components/dashboard/LayoutSwitcher';
 import { ModulePipelineView } from '../Components/dashboard/ModulePipelineView';
 import { SampleDataBanner, StarterKits } from '../Components/starter/StarterKits';
 import { MemoryHomeCard } from '../Components/memory/MemoryHomeCard';
+import { MyTemplates } from '../Components/dashboard/MyTemplates';
 import {
   DASHBOARD_EMPTY,
   RESEARCH_STARTERS,
@@ -385,21 +386,21 @@ export default function DashboardPage() {
     }
   };
 
-  const handleUseTemplate = async (template: DashboardTemplate) => {
+  const startProjectFromWidgets = async (key: string, name: string, widgets: WidgetSpec[]) => {
     if (isApplyingTemplate) return;
-    setIsApplyingTemplate(template.id);
+    setIsApplyingTemplate(key);
     try {
-      const created = await createProject(template.name, user?.id);
-      if (template.widgets.length > 0) {
-        await updateProjectLayout(created.id, 1, { widgets: template.widgets }, 'user');
+      const created = await createProject(name, user?.id);
+      if (widgets.length > 0) {
+        await updateProjectLayout(created.id, 1, { widgets }, 'user');
       }
       setServerProjects((prev) => [created, ...prev]);
       setActiveProjectId(created.id);
       setActiveProjectName(created.name);
-      setCurrentLayout({ widgets: template.widgets });
+      setCurrentLayout({ widgets });
       setLayoutVersion(1);
       setStudioTab('canvas');
-      setExportToastMsg(`Project created from "${template.name}" template!`);
+      setExportToastMsg(`Project created from "${name}" template!`);
       setTimeout(() => setExportToastMsg(null), 3000);
     } catch (err: any) {
       setExportToastMsg(err?.message || 'Failed to instantiate template project');
@@ -408,6 +409,8 @@ export default function DashboardPage() {
       setIsApplyingTemplate(null);
     }
   };
+
+  const handleUseTemplate = (template: DashboardTemplate) => startProjectFromWidgets(template.id, template.name, template.widgets);
 
   const handleRenameSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -1251,6 +1254,16 @@ export default function DashboardPage() {
                   );
                 })}
               </div>
+              <MyTemplates
+                userId={user?.id}
+                canvasWidgets={currentLayout?.widgets ?? []}
+                busy={isApplyingTemplate !== null}
+                onUse={(name, widgets) => void startProjectFromWidgets(`mine:${name}`, name, widgets)}
+                onNotice={(m) => {
+                  setExportToastMsg(m);
+                  setTimeout(() => setExportToastMsg(null), 4000);
+                }}
+              />
             </div>
           )}
 
