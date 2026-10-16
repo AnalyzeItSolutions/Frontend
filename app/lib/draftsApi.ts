@@ -37,6 +37,8 @@ import type { BrowserPlan } from './drafts.mjs';
 export const listPlans = () => call<{ plans: BrowserPlan[] }>('GET', '/browser-plans').then((r) => r.plans);
 export const getPlan = (id: string) => call<BrowserPlan>('GET', `/browser-plans/${encodeURIComponent(id)}`);
 export const planFromDraft = (draftId: string, commit: boolean) => call<BrowserPlan>('POST', `/drafts/${encodeURIComponent(draftId)}/plan`, { commit });
+export const getPlanSettings = () => call<{ auto_read: boolean }>('GET', '/browser-plans/settings');
+export const setPlanSettings = (auto_read: boolean) => call<{ auto_read: boolean }>('PUT', '/browser-plans/settings', { auto_read });
 export const approvePlan = (p: BrowserPlan) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(p.id)}/approve`, { plan_sha256: p.plan_sha256 });
 export const cancelPlan = (id: string) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/cancel`);
 export const reportPlan = (id: string, body: { ok: boolean; reason?: string; cancelled?: boolean; results?: unknown[] }) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/result`, body);

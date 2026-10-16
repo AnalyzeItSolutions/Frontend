@@ -1,4 +1,4 @@
-export type ExtensionState = { connected: boolean; version: string | null; platforms: Record<string, { label: string; allowed: boolean; cap: number; used: number; paused: boolean }>; paused: boolean };
+export type ExtensionState = { connected: boolean; version: string | null; platforms: Record<string, { label: string; allowed: boolean; cap: number; used: number; paused: boolean }>; paused: boolean; autoRead: boolean };
 export type FillResult = { ok: boolean; reason?: string; needsPermission?: string };
 export type ExtensionOutcome = { draftId: string; ok: boolean; state?: string; reason?: string };
 export type PlanEvent = { type: 'plan-progress' | 'plan-result'; planId: string; index?: number; status?: string; ok?: boolean; cancelled?: boolean; reason?: string; results?: Array<{ index: number; ok: boolean; reason?: string; text?: string; untrusted?: boolean }> };

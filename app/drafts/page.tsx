@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { AppShell } from '../Components/app/AppShell';
 import { PageTitle } from '../Components/app/PageTitle';
 import { ExtensionInstall } from '../Components/extension/ExtensionInstall';
@@ -23,11 +23,11 @@ import {
   statusLabel,
   type Draft,
 } from '../lib/drafts.mjs';
-import { addVoiceSamples, approveDraft, approvePlan, cancelDraft, cancelPlan, listPlans, planFromDraft, reportPlan, composeLink, createDraft, forgetVoice, getVoice, listDrafts, markSent, saveDraft, type VoiceProfile } from '../lib/draftsApi';
+import { getPlanSettings, setPlanSettings, addVoiceSamples, approveDraft, approvePlan, cancelDraft, cancelPlan, listPlans, planFromDraft, reportPlan, composeLink, createDraft, forgetVoice, getVoice, listDrafts, markSent, saveDraft, type VoiceProfile } from '../lib/draftsApi';
 
 type Client = ReturnType<typeof createExtensionClient>;
 
-const OFFLINE: ExtensionState = { connected: false, version: null, platforms: {}, paused: false };
+const OFFLINE: ExtensionState = { connected: false, version: null, platforms: {}, paused: false, autoRead: false };
 let shared: Client | null = null;
 function getClient(): Client | null {
   if (typeof window === 'undefined') return null;
@@ -57,6 +57,29 @@ function ExtensionCard({ state }: { state: ExtensionState }) {
       </p>
       {!on ? <ExtensionInstall compact /> : null}
       <p className={`mt-2 ${small}`}>Nothing is posted without your approval here and a second confirmation in the extension. Nothing is scheduled: there is no posting while your browser is closed. The extension asks you to allow each site, waits while you sign in yourself, never handles passwords, codes or payments, and has a stop switch and daily limits.</p>
+    </section>
+  );
+}
+
+function AutoReadCard({ ext }: { ext: ExtensionState }) {
+  const [on, setOn] = useState<boolean | null>(null);
+  const [error, setError] = useState('');
+  useEffect(() => { getPlanSettings().then((r) => setOn(r.auto_read)).catch(() => setOn(false)); }, []);
+  async function toggle(next: boolean) {
+    setError('');
+    try { setOn((await setPlanSettings(next)).auto_read); } catch (e) { setError(e instanceof Error ? e.message : 'Could not save.'); }
+  }
+  return (
+    <section className="app-card p-4" aria-label="Hands-free reading" data-testid="auto-read">
+      <h2 className="text-sm font-semibold text-[var(--text-primary)]">Hands-free reading</h2>
+      <label className="mt-2 flex items-start gap-2 text-sm text-[var(--text-secondary)]">
+        <input type="checkbox" className="mt-1" checked={!!on} disabled={on === null} onChange={(e) => toggle(e.target.checked)} />
+        <span>Let my assistant start tasks that only <b>read</b> pages in my browser (for example my X profile, to suggest posts) without asking each time.</span>
+      </label>
+      <p className={`mt-2 ${small}`}>
+        Posting and typing always wait for you, and so does any site you have not allowed. Also switch on &quot;Run my assistant&apos;s read-only tasks without asking&quot; in the extension&apos;s toolbar popup{ext.connected ? (ext.autoRead ? ' (it is on)' : ' (it is off)') : ''}.
+      </p>
+      {error ? <p role="alert" className="mt-2 text-sm text-[var(--danger)]">{error}</p> : null}
     </section>
   );
 }
@@ -240,7 +263,7 @@ function VoiceCard() {
 }
 
 
-function PlanCard({ plan, ext, client, highlight, onChange }: { plan: BrowserPlan; ext: ExtensionState; client: Client; highlight: boolean; onChange: (p: BrowserPlan) => void }) {
+function PlanCard({ plan, ext, client, highlight, autorun, onChange }: { plan: BrowserPlan; ext: ExtensionState; client: Client; highlight: boolean; autorun: boolean; onChange: (p: BrowserPlan) => void }) {
   const [busy, setBusy] = useState('');
   const [error, setError] = useState('');
   const [note, setNote] = useState('');
@@ -271,6 +294,16 @@ function PlanCard({ plan, ext, client, highlight, onChange }: { plan: BrowserPla
     if (!r.ok) { off(); setError(r.reason || 'The extension refused.'); setBusy(''); return; }
     setNote('A window from the extension is asking you to confirm.');
   }
+
+  const started = useRef(false);
+  const lookOnly = plan.steps.every((s) => ['open', 'read', 'click', 'scroll', 'wait'].includes(s.type));
+  useEffect(() => {
+    // Opened by the assistant (?run=1) on a task that was already approved (the person opted in) and only reads: start it, nothing to click.
+    if (started.current || !autorun || plan.status !== 'approved' || !lookOnly || !ext.connected || !ext.autoRead) return;
+    started.current = true;
+    void run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autorun, plan.status, lookOnly, ext.connected, ext.autoRead]);
 
   return (
     <li className={`app-card p-4 ${highlight ? 'ring-2 ring-[var(--brand)]' : ''}`} data-testid="plan-card">
@@ -319,6 +352,7 @@ export default function DraftsPage() {
   const [hidden, setHidden] = useState<string[]>([]);
   const [plans, setPlans] = useState<BrowserPlan[]>([]);
   const [focusPlan] = useState(() => (typeof window === 'undefined' ? '' : new URLSearchParams(window.location.search).get('plan') || ''));
+  const [runParam] = useState(() => (typeof window === 'undefined' ? false : new URLSearchParams(window.location.search).get('run') === '1'));
   const [newPlatform, setNewPlatform] = useState('x');
   const [newText, setNewText] = useState('');
   const [creating, setCreating] = useState(false);
@@ -372,7 +406,7 @@ export default function DraftsPage() {
             <section aria-label="Browser steps" className="flex flex-col gap-3">
               <h2 className="text-sm font-semibold text-[var(--text-primary)]">Browser steps waiting for you</h2>
               <ul className="flex flex-col gap-4">
-                {client ? shownPlans.map((p) => <PlanCard key={p.id} plan={p} ext={ext} client={client} highlight={p.id === focusPlan} onChange={(n) => setPlans((all) => all.map((x) => (x.id === n.id ? n : x)))} />) : null}
+                {client ? shownPlans.map((p) => <PlanCard key={p.id} plan={p} ext={ext} client={client} highlight={p.id === focusPlan} autorun={p.id === focusPlan && runParam} onChange={(n) => setPlans((all) => all.map((x) => (x.id === n.id ? n : x)))} />) : null}
               </ul>
             </section>
           ) : null}
@@ -406,6 +440,7 @@ export default function DraftsPage() {
         </div>
         <div className="flex min-w-0 flex-col gap-4">
           <ExtensionCard state={ext} />
+          <AutoReadCard ext={ext} />
           <VoiceCard />
         </div>
       </div>

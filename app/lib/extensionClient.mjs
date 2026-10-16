@@ -12,7 +12,7 @@
 //   when res.ok, call POST /v1/drafts/{id}/sent only after the person says they pressed Post.
 
 export function createExtensionClient(win = window) {
-  let state = { connected: false, version: null, platforms: {}, paused: false };
+  let state = { connected: false, version: null, platforms: {}, paused: false, autoRead: false };
   const changeFns = new Set();
   const resultFns = new Set();
   const planFns = new Set();
@@ -23,7 +23,7 @@ export function createExtensionClient(win = window) {
     const d = ev.data;
     if (!d || d.source !== 'analyzeit-extension') return;
     if (d.type === 'hello') {
-      state = { connected: true, version: d.version, platforms: d.platforms || {}, paused: !!d.paused };
+      state = { connected: true, version: d.version, platforms: d.platforms || {}, paused: !!d.paused, autoRead: !!d.autoRead };
       changeFns.forEach((f) => f(state));
     } else if (d.type === 'accepted') {
       const w = waiting.get(d.draftId);
