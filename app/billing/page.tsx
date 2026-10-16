@@ -23,6 +23,8 @@ import { ANNUAL_MONTHS } from '../lib/planCatalog.mjs';
 import { IntervalToggle } from '../Components/trust/IntervalToggle';
 import { PLAN_FEATURES, PLAN_NAMES, USD_REFERENCE } from '../lib/planCatalog.mjs';
 import { RetentionMeter } from '../Components/billing/RetentionMeter';
+import { PaygPanel } from '../Components/billing/PaygPanel';
+import { planLimitLines } from '../lib/paygView.mjs';
 
 type PlanId = 'premium' | 'premium_plus';
 
@@ -63,6 +65,7 @@ export default function BillingPage() {
   const [reviewPlan, setReviewPlan] = useState<PlanId | null>(null);
   const [me, setMe] = useState<UserProfile | null>(null);
   const [usage, setUsage] = useState<{ used: number; cap: number; near: boolean; exhausted: boolean } | null>(null);
+  const [pluginLines, setPluginLines] = useState<string[]>([]);
 
   const loadQuote = () => {
     if (!getStoredToken()) {
@@ -89,6 +92,7 @@ export default function BillingPage() {
       .catch(() => setMe(null));
     void getEntitlements()
       .then((snap) => {
+        setPluginLines(planLimitLines(snap.plugin_limits as never, String(snap.plan_label || 'Free')));
         const cap = Number(snap.token_cap_monthly || 0);
         const used = Number(snap.usage_tokens_used || 0);
         if (!Number.isFinite(cap) || cap <= 0) {
@@ -240,6 +244,7 @@ export default function BillingPage() {
             </button>
           </div>
         ) : null}
+        {isPaidPlan(me?.tier) ? null : <PaygPanel onChange={() => loadMe()} />}
         {usage ? (
           <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
             <div className="flex items-baseline justify-between gap-3 text-sm">
@@ -261,6 +266,17 @@ export default function BillingPage() {
                   ? 'You are past 90% of this month’s token cap. Upgrade if you expect to need more.'
                   : 'Input and output tokens this calendar month. Output tokens count four times. Memory is measured separately.'}
             </p>
+          </section>
+        ) : null}
+        {pluginLines.length ? (
+          <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-xs text-[var(--text-muted)]" aria-label="Plugin limits">
+            <p className="text-sm font-medium text-[var(--text,#343434)]">Claude plugin limits</p>
+            <ul className="mt-1 space-y-0.5">
+              {pluginLines.map((l) => (
+                <li key={l}>{l}</li>
+              ))}
+            </ul>
+            <p className="mt-1">The plugin runs on your own assistant, so these limits are on calls, rows and changes, not on model tokens.</p>
           </section>
         ) : null}
 
