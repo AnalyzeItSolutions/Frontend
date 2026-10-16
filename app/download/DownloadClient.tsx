@@ -52,6 +52,19 @@ function CopyButton({ text, label }: { text: string; label: string }) {
   );
 }
 
+function Command({ title, hint, command }: { title: string; hint: string; command: string }) {
+  return (
+    <div className="rounded-xl border border-[#E4E4E2]/25 bg-[#414141]/[0.06] dark:bg-white/[0.05] p-4">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <div className="text-sm font-semibold text-[#262626] dark:text-[#E5E5E5]">{title}</div>
+        <CopyButton text={command} label="Copy command" />
+      </div>
+      <pre className="mt-2 overflow-x-auto rounded-lg bg-black/80 p-3 text-xs leading-relaxed text-[#E4E4E2]"><code>{command}</code></pre>
+      <p className="mt-2 text-xs text-[#414141]/70 dark:text-[#888888]">{hint}</p>
+    </div>
+  );
+}
+
 export function DownloadClient({ releases }: { releases: Releases }) {
   const [os, setOs] = useState<string>('macos');
   const [arch, setArch] = useState<string>('arm64');
@@ -88,33 +101,15 @@ export function DownloadClient({ releases }: { releases: Releases }) {
 
   return (
     <div className="not-prose space-y-10">
-      {/* Recommended */}
+      {/* One-line install: the main way */}
       <section className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
-        {detected === null ? (
-          <p className="text-sm">AnalyzeIt for desktop runs on computers. Pick your system below, or open this page on your Mac, Windows or Linux computer.</p>
-        ) : null}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
-          <div>
-            <div className="font-mono text-xs uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">{detected ? 'Recommended for your computer' : 'Selected'}</div>
-            <h2 className="mt-1 text-xl font-semibold text-[#262626] dark:text-[#E5E5E5]">
-              AnalyzeIt for {osLabel}{os === 'macos' ? ` · ${ARCH_LABELS[arch as keyof typeof ARCH_LABELS]}` : ''}
-            </h2>
-            {desktop ? <p className="mt-1 text-sm text-[#414141]/70 dark:text-[#888888]">Version {desktop.version}{primary ? ` · ${formatSize(primary.size)}` : ''}</p> : null}
-          </div>
-          {primary ? (
-            <a href={primary.url} className="inline-flex items-center justify-center rounded-lg bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)]">
-              Download for {osLabel}
-            </a>
-          ) : (
-            <span className="text-sm text-[#414141]/70 dark:text-[#888888]">Not available for this system yet.</span>
-          )}
-        </div>
-      </section>
-
-      {/* Manual selection */}
-      <section aria-labelledby="choose">
-        <h2 id="choose" className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Choose your system</h2>
-        <div role="tablist" aria-label="Operating system" className="mt-3 flex flex-wrap gap-2">
+        <div className="font-mono text-xs uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">{detected ? `Detected: ${osLabel}` : 'Install'} · copy, paste, done</div>
+        <h2 className="mt-1 text-xl font-semibold text-[#262626] dark:text-[#E5E5E5]">Install AnalyzeIt with one line</h2>
+        <p className="mt-2 text-sm text-[#414141]/80 dark:text-[#BABABA]">
+          {os === 'windows' ? 'Open PowerShell' : 'Open Terminal'}, paste a line, press Enter. It picks the right build for your computer, checks its SHA-256 and installs it.
+          No browser download, so no &ldquo;unidentified developer&rdquo; or SmartScreen warning. {desktop || cli ? <>Latest: app {desktop?.version ?? '—'}, command line {cli?.version ?? '—'}.</> : null}
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Operating system">
           {OS_LIST.map((o) => (
             <button
               key={o.id}
@@ -128,6 +123,30 @@ export function DownloadClient({ releases }: { releases: Releases }) {
             </button>
           ))}
         </div>
+        <div className="mt-4 grid gap-4">
+          {os === 'windows' ? (
+            <>
+              <Command title="Desktop app" hint="Installs for your user only. No administrator rights needed." command={'& ([scriptblock]::Create((irm https://www.analyzeit.si/install.ps1))) -App'} />
+              <Command title="Command line" hint="Then run analyzeit login. It opens your browser." command={'irm https://www.analyzeit.si/install.ps1 | iex'} />
+            </>
+          ) : (
+            <>
+              <Command title="Desktop app" hint={os === 'macos' ? 'Installs AnalyzeIt.app into Applications.' : 'Installs the AppImage into ~/.local/bin.'} command={'curl -fsSL https://www.analyzeit.si/install.sh | sh -s -- --app'} />
+              <Command title="Command line" hint="Then run analyzeit login. Update any time with analyzeit update." command={'curl -fsSL https://www.analyzeit.si/install.sh | sh'} />
+            </>
+          )}
+        </div>
+        <p className="mt-4 text-xs text-[#414141]/70 dark:text-[#888888]">
+          Read the script first at <a className="text-[#E4E4E2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E4E4E2] hover:underline" href="/install.ps1">/install.ps1</a>. Updates afterwards are signed and verified by the program itself.
+        </p>
+      </section>
+
+      <details className="group rounded-2xl border border-[#414141]/10 dark:border-[#262626] p-6">
+        <summary className="cursor-pointer text-base font-semibold text-[#262626] dark:text-[#E5E5E5]">Prefer a file download instead?</summary>
+        <div className="mt-6 space-y-10">
+      {/* Manual selection */}
+      <section>
+        <p className="text-sm text-[#414141]/75 dark:text-[#BABABA]">Browser downloads may show a first-run warning (see below). System: <strong>{osLabel}</strong>, chosen above.</p>
         {os === 'macos' ? (
           <div role="radiogroup" aria-label="Mac processor" className="mt-3 flex flex-wrap gap-2">
             {(['arm64', 'x64'] as const).map((a) => (
@@ -188,28 +207,6 @@ export function DownloadClient({ releases }: { releases: Releases }) {
         )}
       </section>
 
-      {/* Terminal install: no first-run warning */}
-      <section className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] p-6">
-        <h2 className="text-base font-semibold text-[#262626] dark:text-[#E5E5E5]">Install from a terminal (no first-run warning)</h2>
-        <p className="mt-2 text-sm text-[#414141]/80 dark:text-[#BABABA]">
-          Files saved by a browser are flagged &ldquo;downloaded from the internet&rdquo;, which is what triggers the unidentified-developer warning. Files fetched by these commands are not flagged, so
-          nothing is blocked. The script checks the SHA-256 before installing, and you can read it first at <a className="text-[#E4E4E2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E4E4E2] hover:underline" href="/install.ps1">/install.ps1</a>.
-        </p>
-        {os === 'windows' ? (
-          <pre className="mt-3 overflow-x-auto rounded-lg bg-[#414141]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
-irm https://www.analyzeit.si/install.ps1 | iex
-
-# Desktop app
-& ([scriptblock]::Create((irm https://www.analyzeit.si/install.ps1))) -App`}</pre>
-        ) : (
-          <pre className="mt-3 overflow-x-auto rounded-lg bg-[#414141]/[0.06] dark:bg-white/[0.05] p-3 text-xs leading-relaxed">{`# Command line
-curl -fsSL https://www.analyzeit.si/install.sh | sh
-
-# Desktop app
-curl -fsSL https://www.analyzeit.si/install.sh | sh -s -- --app`}</pre>
-        )}
-      </section>
-
       {/* First-run help */}
       <section className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] p-6">
         <h2 className="text-base font-semibold text-[#262626] dark:text-[#E5E5E5]">{OS_NOTES[os].title}</h2>
@@ -217,6 +214,9 @@ curl -fsSL https://www.analyzeit.si/install.sh | sh -s -- --app`}</pre>
           {OS_NOTES[os].steps.map((s) => <li key={s}>{s}</li>)}
         </ul>
       </section>
+
+        </div>
+      </details>
 
       {/* Trust */}
       <section className="grid gap-4 sm:grid-cols-3 text-sm">
