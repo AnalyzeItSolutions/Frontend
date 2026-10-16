@@ -390,6 +390,17 @@ export default function DashboardPage() {
     if (isApplyingTemplate) return;
     setIsApplyingTemplate(key);
     try {
+      // An open project with an empty canvas takes the template itself: a new project would use up a plan slot for nothing.
+      const reuse = activeProjectId && currentLayout.widgets.length === 0 ? activeProjectId : null;
+      if (reuse) {
+        const saved = await updateProjectLayout(reuse, layoutVersion || 1, { widgets }, 'user');
+        setCurrentLayout({ widgets });
+        setLayoutVersion((saved as { version?: number } | undefined)?.version ?? (layoutVersion || 1) + 1);
+        setStudioTab('canvas');
+        setExportToastMsg(`Added the "${name}" template to this project`);
+        setTimeout(() => setExportToastMsg(null), 3000);
+        return;
+      }
       const created = await createProject(name, user?.id);
       if (widgets.length > 0) {
         await updateProjectLayout(created.id, 1, { widgets }, 'user');
