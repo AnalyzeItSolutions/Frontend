@@ -22,6 +22,16 @@ const FAQS: FAQItem[] = [
       'Traditional BI tools require building static dashboards that quickly become outdated or cluttered with too many charts. AnalyzeIt functions more like an analytical assistant: monitoring your underlying metrics, drafting concise text explanations, and answering ad-hoc inquiries on demand.',
   },
   {
+    question: 'How does AnalyzeIt use fewer tokens without forgetting things?',
+    answer:
+      'It does not replay the whole conversation. Each question carries the last two turns plus only the earlier turns that match it, and long tool results are kept out of the prompt until needed. On a 60-turn test conversation, questions about an earlier turn were answered correctly 18 of 18 times (before: 0 of 18) with 71% fewer prompt tokens. That saving is for long conversations; on a single question it is small. The method and limits are in the docs.',
+  },
+  {
+    question: 'How much can it remember?',
+    answer:
+      'Free keeps 10M tokens, Premium 500M and VIP 1B. A subset (25M on Premium, 50M on VIP) is searched by meaning at once; the rest is reached through summaries and exact words, and the assistant opens the original passage rather than answering from a summary. You can see, rename and delete everything on the Memory page.',
+  },
+  {
     question: 'How is my data protected?',
     answer:
       'Credentials are encrypted at rest when a vault key is configured. Network traffic uses HTTPS in production. Private business data is not used to train public language models.',

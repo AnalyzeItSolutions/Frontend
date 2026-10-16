@@ -13,6 +13,7 @@ const BLURBS: Record<string, string> = {
   '/docs/discovery': 'Finding what stands out, bringing in public data with its source, and changing many records with a preview and undo.',
   '/docs/plans': 'Exactly what Free, Premium and VIP include, in numbers.',
   '/docs/memory': 'What “memory” stores, how it is searched, how to see and delete it.',
+  '/docs/tokens': 'How long conversations stay on a small prompt: the measured before and after, and what it does not cover.',
   '/docs/connectors': 'What you can connect today and what is still rolling out.',
   '/docs/connect-assistant': 'Use ChatGPT, Claude, Grok or Cursor on your AnalyzeIt data: one sign-in, read-only, and you choose what it can see.',
   '/guides': 'Short practical guides: what changed in your numbers, real change or noise, public data, messy CSVs.',

@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { TOKEN_BENCHMARK } from '../../lib/benchmark';
 
-/** The headline number. Shows a plainly labelled placeholder until the benchmark is published. */
+/** The headline number, from the measured benchmark. Shows a plainly labelled placeholder if the benchmark is ever unpublished. */
 export function TokenStat() {
-  const { published, reduction, method, reportUrl } = TOKEN_BENCHMARK;
+  const { published, reduction, method, reportUrl, rollingOut } = TOKEN_BENCHMARK;
   return (
     <div
       className="flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3"
@@ -11,12 +11,19 @@ export function TokenStat() {
     >
       <p
         className="font-heading text-4xl leading-none tracking-tight text-[var(--accent-text)] tabular-nums"
-        aria-label={published ? `${reduction} fewer tokens` : 'Benchmark number pending'}
+        aria-label={published ? `${reduction} fewer prompt tokens on long conversations` : 'Benchmark number pending'}
       >
         {reduction}
       </p>
       <div className="min-w-0 space-y-1">
-        <p className="text-sm font-medium text-[var(--text-primary)]">fewer tokens on long conversations</p>
+        <p className="text-sm font-medium text-[var(--text-primary)]">
+          fewer prompt tokens on long conversations
+          {published && rollingOut ? (
+            <span className="ml-2 rounded-full border border-[var(--border-strong)] px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+              Rolling out
+            </span>
+          ) : null}
+        </p>
         {published ? (
           <p className="text-xs text-[var(--text-secondary)]">
             {method}
@@ -24,7 +31,7 @@ export function TokenStat() {
               <>
                 {' '}
                 <Link href={reportUrl} className="text-[var(--accent-text)] underline underline-offset-2">
-                  Read the method
+                  See how it was measured
                 </Link>
               </>
             ) : null}

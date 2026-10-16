@@ -6,6 +6,7 @@ export const DOC_LINKS = [
   { href: '/docs/discovery', label: 'Discovery, online data and bulk edits' },
   { href: '/docs/plans', label: 'What each plan includes' },
   { href: '/docs/memory', label: 'Memory' },
+  { href: '/docs/tokens', label: 'Fewer tokens, measured' },
   { href: '/docs/connectors', label: 'Connectors' },
   { href: '/docs/connect-assistant', label: 'Connect an AI assistant' },
   { href: '/guides', label: 'Guides' },

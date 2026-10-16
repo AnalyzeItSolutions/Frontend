@@ -95,6 +95,13 @@ describe('the landing page', () => {
     const stat = read('app/Components/landing/TokenStat.tsx');
     assert.match(stat, /Placeholder/);
     if (!published) assert.match(bench, /reduction: 'XX%'/, 'an unpublished benchmark may only show the XX% placeholder');
+    if (published) {
+      assert.doesNotMatch(bench, /XX%/, 'a published benchmark has a real number');
+      assert.match(bench, /reportUrl: '\/docs\/tokens'/, 'a published number links to its method');
+      assert.ok(fs.existsSync(path.join(root, 'app/docs/tokens/page.tsx')), 'the method page exists');
+      for (const n of ['118,657', '34,697', "reduction: '71%'", "costReduction: '92%'"]) assert.ok(bench.includes(n), `benchmark.ts holds ${n}`);
+      assert.match(read('app/Components/landing/MemorySection.tsx'), /not|small/i, 'the section says where the saving does not apply');
+    }
     assert.doesNotMatch(read('app/Components/landing/HeroSection.tsx') + read('app/Components/landing/Footer.tsx'), /superintelligence|superhuman/i);
   });
   it('compares itself honestly with uploading a file to a chatbot', () => {

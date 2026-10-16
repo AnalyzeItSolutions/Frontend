@@ -3,6 +3,13 @@
 
 export const CHANGELOG = [
   {
+    date: '2026-10-16',
+    items: [
+      { title: 'Long conversations on a small prompt', body: 'Each question now carries the last two turns plus the earlier turns that match it, instead of the last eight whole. On a 60-turn test conversation, questions about an earlier turn went from 0 of 18 right to 18 of 18 while the prompt shrank 71%. The method and its limits are at /docs/tokens. Being switched on account by account.', rollingOut: true },
+      { title: 'Long tool results stay out of the prompt', body: 'A web or data result over 2,400 characters goes in as its head and the rest is fetched only if needed, which makes web questions consistently smaller.' },
+    ],
+  },
+  {
     date: '2026-10-07',
     items: [
       { title: 'Watch a real run, no account', body: 'Pick a public-data question at /case and watch AnalyzeIt find the data, download it and read it, then see the answer with its sources and the working. You get a link to keep for 30 days, and a way to try it on your own files.' },
