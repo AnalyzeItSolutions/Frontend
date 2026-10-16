@@ -30,4 +30,5 @@ test('running now answers every outcome', () => {
   assert.match(runGoalMessage({ status: 'needs_ai_access' }), /Allow the assistant/);
   assert.match(runGoalMessage(null, { status: 429 }), /last hour/);
   assert.match(runGoalMessage({ status: 'failed' }), /Try again/);
+  assert.match(runGoalMessage({ status: 'no_data' }), /automatic checks/);
 });

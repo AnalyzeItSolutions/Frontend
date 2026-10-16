@@ -13,7 +13,7 @@ export function goalStatusLine(goal) {
   switch (goal.last_status) {
     case 'ok': return `Runs ${when}. The last answer is saved.`;
     case 'needs_ai_access': return `Runs ${when}, but the assistant is not allowed to read this project yet.`;
-    case 'no_data': return `Runs ${when}. The last run found no data to look at.`;
+    case 'no_data': return `Runs ${when}. The last run could not answer this question.`;
     case 'failed': return `Runs ${when}. The last run failed and will be tried again.`;
     default: return `Runs ${when}. Not run yet.`;
   }
@@ -45,7 +45,7 @@ export function runGoalMessage(res, err) {
   switch (res && res.status) {
     case 'ok': return 'Ran it. The answer is below.';
     case 'needs_ai_access': return 'Allow the assistant to read this project first (AI data access, above).';
-    case 'no_data': return 'There was no data to look at yet.';
+    case 'no_data': return 'Scheduled runs only use the automatic checks, so this question could not be answered. Try an open one like "What stands out in my data?".';
     default: return 'It did not finish. Try again.';
   }
 }

@@ -77,7 +77,7 @@ export function GoalsPanel({ projectId }: { projectId: string }) {
     <section aria-label="Standing questions" className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 space-y-3">
       <div>
         <h3 className="font-semibold text-[var(--text-primary)]">Standing questions</h3>
-        <p className="text-xs text-[var(--text-muted)]">Ask once, get the answer on a schedule, and see what changed since last time. Up to {max} per project.</p>
+        <p className="text-xs text-[var(--text-muted)]">Get an answer on a schedule and see what changed since last time. Scheduled runs use the automatic checks, so open questions work best, like “What is going wrong with my payments?” or “What stands out in my data?”. Up to {max} per project.</p>
       </div>
 
       {goals.length ? (
