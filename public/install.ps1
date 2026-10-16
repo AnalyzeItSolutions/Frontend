@@ -48,6 +48,18 @@ try {
       Write-Host "Added $dir to your PATH. Open a new terminal to use it."
     }
     Write-Host "Installed $dir\analyzeit.exe"
+    # `analyzeit mcp` exists from 0.5.1; an older build would not understand it, so only register a build that has it.
+    $exe = Join-Path $dir 'analyzeit.exe'
+    $ver = ''
+    try { $ver = ((& $exe --version) -split ' ')[1] } catch { }
+    $hasMcp = $false
+    if ($ver -match '^(\d+)\.(\d+)\.(\d+)') { $hasMcp = ([int]$Matches[1] -gt 0) -or ([int]$Matches[2] -gt 5) -or (([int]$Matches[2] -eq 5) -and ([int]$Matches[3] -ge 1)) }
+    if ($hasMcp -and (Get-Command claude -ErrorAction SilentlyContinue)) {
+      & claude mcp remove analyzeit --scope user 2>$null | Out-Null
+      & claude mcp add --scope user analyzeit -- $exe mcp 2>$null | Out-Null
+      if ($LASTEXITCODE -eq 0) { Write-Host 'Registered with Claude Code (user scope).' }
+      else { Write-Host "Could not register with Claude Code. Run: claude mcp add --scope user analyzeit -- $exe mcp" }
+    }
     Write-Host 'Next: analyzeit login    (opens your browser)'
   }
 } finally {
