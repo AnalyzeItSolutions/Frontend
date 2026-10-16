@@ -112,14 +112,8 @@ export default function RootLayout({
       className="h-full antialiased selection:bg-[var(--brand)]/30 selection:text-[#414141] dark:selection:bg-[var(--brand)]/30 dark:selection:text-[#EDEDED]"
     >
       <head>
-        {/* AdSense requires this exact tag in <head> when a publisher id is configured. */}
-        {ADSENSE_CLIENT ? (
-          <script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-            crossOrigin="anonymous"
-          />
-        ) : null}
+        {/* AdSense ownership is proven by the google-adsense-account meta tag (see metadata) and /ads.txt. The ad script itself is loaded by
+            AdSlot only when an ad is about to be shown, so signed-in paid users never download it and the page has no third-party script to hydrate. */}
         <link rel="icon" href="/favicon-48x48.png" type="image/png" sizes="48x48" />
         <link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96" />
         <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
