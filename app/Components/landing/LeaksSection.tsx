@@ -23,7 +23,7 @@ export const LeaksSection: React.FC = () => (
   >
     <div className="max-w-6xl mx-auto space-y-12">
       <div className="max-w-2xl space-y-4">
-        <p className="text-xs font-mono uppercase tracking-widest text-[var(--text-secondary)]">The problem</p>
+        <p className="eyebrow">The problem</p>
         <h2 className="font-serif text-3xl md:text-5xl leading-tight">
           Your total can look fine while{' '}
           <em className="font-serif not-italic text-[var(--accent-text)]">money leaks.</em>
@@ -36,7 +36,7 @@ export const LeaksSection: React.FC = () => (
 
       <ul className="grid gap-6 md:grid-cols-3">
         {LEAKS.map((l) => (
-          <li key={l.title} className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-3 shadow-sm">
+          <li key={l.title} className="card-static rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 space-y-3 shadow-sm">
             <h3 className="font-serif text-xl text-[var(--text-primary)]">{l.title}</h3>
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{l.body}</p>
           </li>

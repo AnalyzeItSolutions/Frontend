@@ -14,63 +14,63 @@ interface Capability {
 const CAPABILITIES: Capability[] = [
   {
     id: 'globe',
-    category: 'Capability 01 · Globe',
+    category: 'Globe',
     headline: 'Explore the world, then ask why.',
     body:
-      'Search places, compare hubs, and hand a pin straight into Research. A map-first workspace — not a postage-stamp widget.',
-    callout: 'Map-first',
-    calloutDesc: 'search → pin → “Ask about this place.”',
+      'Search places, compare hubs, and hand a pin straight into Research. The map gets the whole workspace, not a corner of it.',
+    callout: 'Pin to question',
+    calloutDesc: 'search, pin, then “Ask about this place”',
     bullets: [
       'Search and browse places with room to see the map',
-      'Compare hubs without burying the globe in chrome',
+      'Compare hubs with the map still in view',
       'Send a selected place into Research in one step',
     ],
   },
   {
     id: 'research',
-    category: 'Capability 02 · Research',
+    category: 'Research',
     headline: 'Ask in plain words. See how the answer was made.',
     body:
-      'Chat and deep research with tool-backed answers. Simple calc, weather, FX, and stocks can resolve as From tools · 0 tokens — no fake “AI wrote this.”',
-    callout: 'Provenance',
-    calloutDesc: 'tool chips · Prepared on device when the browser helps compress context',
+      'Chat and deep research with answers that show how they were made. Simple calculations, weather, exchange rates and stock prices come from a tool and are labelled “From tools · 0 tokens”, not passed off as written by AI.',
+    callout: 'Sources shown',
+    calloutDesc: 'each answer says which tool or model made it',
     bullets: [
-      'Plain-language questions with visible tool provenance',
+      'Plain-language questions, with the tool or model named',
       'Zero-token tool paths when a calculator or live feed is enough',
-      'API-orchestrated models — not a local LLM on your laptop',
+      'Answers come from hosted models, not a model running on your computer',
     ],
   },
   {
     id: 'dashboard',
-    category: 'Capability 03 · Dashboard',
-    headline: 'Quiet canvases, not noisy boards.',
+    category: 'Dashboards',
+    headline: 'Dashboards that stay quiet.',
     body:
-      'Build living summaries and widgets on warm paper — coral accents, clear empty states, charts that match the brand.',
-    callout: 'Calm studio',
-    calloutDesc: 'empty state → add first widget / templates',
+      'Build living summaries and widgets. Empty dashboards tell you what to add first, and charts use one accent colour so the figure that matters stands out.',
+    callout: 'First widget',
+    calloutDesc: 'an empty dashboard offers templates',
     bullets: [
-      'Warm paper surfaces instead of cold admin grey',
-      'Clear empty states that invite the first widget',
-      'Charts and KPIs tuned to the coral / cream system',
+      'Plain surfaces with room around each chart',
+      'Empty states that invite the first widget',
+      'One accent colour for the figure that matters',
     ],
   },
   {
     id: 'connectors-objects',
-    category: 'Capability 04 · Connectors & Objects',
+    category: 'Connectors and objects',
     headline: 'Connect data. Shape objects. Stay honest.',
     body:
-      'Connectors show real status (connected / ready / error). Import SQL, Stripe, Salesforce, GitHub, or public datasets from Kaggle, Hugging Face, and OpenML. Objects use one clear term and an illustrative schema when empty.',
-    callout: 'Honest status',
-    calloutDesc: 'status chips · Create object above the fold',
+      'Each connector shows its real status: connected, ready or error. Import SQL, Stripe, Salesforce, GitHub, or public datasets from Kaggle, Hugging Face and OpenML.',
+    callout: 'Real status',
+    calloutDesc: 'connected, ready or error',
     bullets: [
       'Connected, ready, and error states you can trust',
-      'One vocabulary: objects — not mixed “entities”',
+      'One word for what you create: objects',
       'Illustrative schema previews when the workspace is empty',
     ],
   },
   {
     id: 'deep-context',
-    category: 'Capability 05 · Deep context',
+    category: 'Long documents',
     headline: 'Long documents, read section by section.',
     body:
       'Paste a long document and ask a question. On Premium and VIP, AnalyzeIt reads the document one section at a time, notes what each section says about your question, and answers from those notes. Free keeps the most relevant excerpts.',
@@ -84,15 +84,15 @@ const CAPABILITIES: Capability[] = [
   },
   {
     id: 'reliability',
-    category: 'Capability 06 · Reliability',
+    category: 'Availability',
     headline: 'Built to stay available.',
     body:
-      'Product APIs and research paths run on hosted infrastructure (including Azure-hosted Model/B) so the workspace stays reachable while you explore.',
-    callout: 'Hosted',
-    calloutDesc: 'reachable research paths while you work',
+      'The product and its research features run on hosted infrastructure, so the workspace stays reachable while you explore.',
+    callout: 'Always on',
+    calloutDesc: 'research stays reachable while you work',
     bullets: [
-      'Hosted Model/B paths so exploration stays online',
-      'No over-claimed SLAs — reliability without hype',
+      'Hosted research paths, so exploration stays online',
+      'No uptime guarantee is advertised',
       'Account-gated Chat, Globe, dashboards, and connectors',
     ],
   },
@@ -105,10 +105,7 @@ export const CapabilitiesSection: React.FC = () => {
       className="relative py-24 md:py-36 px-6 md:px-16 max-w-7xl mx-auto space-y-16 pointer-events-auto scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase text-[var(--accent-text)]">
-          <span className="w-2 h-2 rounded-full bg-[var(--brand)]" />
-          Also in the workspace
-        </div>
+        <p className="eyebrow">Also in the workspace</p>
         <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[var(--text-primary)] leading-tight">
           Everything you need to understand your business,{' '}
           <em className="font-serif not-italic text-[var(--accent-text)]">
@@ -121,15 +118,12 @@ export const CapabilitiesSection: React.FC = () => {
         {CAPABILITIES.map((cap) => (
           <div
             key={cap.id}
-            className="glass-card rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-xl border border-[var(--border)]"
+            className="glass-card card-static rounded-3xl p-8 md:p-10 space-y-8 flex flex-col justify-between border border-[var(--border)]"
           >
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
-                  {cap.category}
-                </span>
-                <span className="w-2 h-2 rounded-full bg-[#9EBB9A]" />
-              </div>
+              <p className="text-xs font-medium uppercase tracking-wider text-[var(--text-secondary)]">
+                {cap.category}
+              </p>
               <h3 className="font-serif text-2xl md:text-3xl text-[var(--text-primary)] font-normal leading-snug">
                 {cap.headline}
               </h3>
@@ -145,7 +139,7 @@ export const CapabilitiesSection: React.FC = () => {
                     key={bullet}
                     className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--text-secondary)]"
                   >
-                    <span className="text-[#9EBB9A] text-sm mt-0.5">✓</span>
+                    <span aria-hidden="true" className="text-[var(--success)] text-sm mt-0.5">✓</span>
                     <span>{bullet}</span>
                   </div>
                 ))}

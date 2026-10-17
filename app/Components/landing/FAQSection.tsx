@@ -55,10 +55,7 @@ export const FAQSection: React.FC = () => {
       className="relative py-24 md:py-36 px-6 md:px-16 max-w-4xl mx-auto space-y-16 pointer-events-auto scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#9EBB9A]" />
-          Common Questions
-        </div>
+        <p className="eyebrow">Common questions</p>
         <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal">
           Frequently asked questions
         </h2>

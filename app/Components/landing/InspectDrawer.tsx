@@ -37,7 +37,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
         <div className="space-y-6">
           <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#414141]/10 dark:border-[#484848]">
             <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[var(--accent-text)] font-medium">
+              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[var(--accent-text)] font-medium">
                 [ ARCHITECTURE SPEC ] // {detail.category}
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl text-[var(--text-primary)] font-normal tracking-tight">
@@ -74,7 +74,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
                 key={idx}
                 className="p-4 rounded-2xl bg-white/60 dark:bg-[#262626] border border-[var(--border)] space-y-1"
               >
-                <div className="text-[10px] font-mono uppercase text-[var(--text-muted)] dark:text-[var(--text-muted)]">
+                <div className="text-[11px] font-mono uppercase text-[var(--text-muted)] dark:text-[var(--text-muted)]">
                   {m.label}
                 </div>
                 <div className="font-serif text-lg text-[var(--accent-text)] font-medium">
@@ -86,7 +86,7 @@ export const InspectDrawer: React.FC<InspectDrawerProps> = ({
 
           {/* Execution Pipeline Steps */}
           <div className="space-y-3 pt-4 border-t border-[#414141]/10 dark:border-[#484848]">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-[var(--accent-text)]">
+            <div className="text-[11px] font-mono uppercase tracking-widest text-[var(--accent-text)]">
               Automated Data Pipeline
             </div>
             {detail.steps.map((step, idx) => (

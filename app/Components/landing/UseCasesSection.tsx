@@ -47,10 +47,7 @@ export const UseCasesSection: React.FC = () => {
     >
       {/* Header */}
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#8FA98F]" />
-          Built For Your Entire Team
-        </div>
+        <p className="eyebrow">Built for your team</p>
         <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal leading-tight">
           Clarity tailored to how you work.
         </h2>
@@ -61,14 +58,11 @@ export const UseCasesSection: React.FC = () => {
         {USE_CASES.map((uc, idx) => (
           <div
             key={uc.role}
-            className={`${USE_CASES.length % 2 === 1 && idx === USE_CASES.length - 1 ? 'md:col-span-2 ' : ''}glass-card rounded-3xl p-8 md:p-10 space-y-4 border border-[var(--border)] dark:bg-[#1B1B1B] hover:border-[#8FA98F]/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5`}
+            className={`${USE_CASES.length % 2 === 1 && idx === USE_CASES.length - 1 ? 'md:col-span-2 ' : ''}glass-card card-static rounded-3xl p-8 md:p-10 space-y-4 border border-[var(--border)] dark:bg-[#1B1B1B]`}
           >
-            <div className="flex items-center justify-between">
-              <span className="font-serif text-2xl text-[var(--text-primary)] font-normal">
-                {uc.role}
-              </span>
-              <span className="w-2 h-2 rounded-full bg-[#8FA98F]" />
-            </div>
+            <h3 className="font-serif text-2xl text-[var(--text-primary)] font-normal">
+              {uc.role}
+            </h3>
 
             <p className="text-base font-medium text-[var(--text-primary)]">
               &ldquo;{uc.tagline}&rdquo;

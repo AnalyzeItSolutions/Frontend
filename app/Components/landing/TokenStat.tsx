@@ -19,7 +19,7 @@ export function TokenStat() {
         <p className="text-sm font-medium text-[var(--text-primary)]">
           fewer prompt tokens on long conversations
           {published && rollingOut ? (
-            <span className="ml-2 rounded-full border border-[var(--border-strong)] px-1.5 py-0.5 align-middle text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            <span className="ml-2 rounded-full border border-[var(--border-strong)] px-1.5 py-0.5 align-middle text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
               Rolling out
             </span>
           ) : null}
@@ -38,7 +38,7 @@ export function TokenStat() {
           </p>
         ) : (
           <p className="text-xs text-[var(--text-secondary)]">
-            <span className="mr-1.5 rounded-full border border-[var(--border-strong)] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+            <span className="mr-1.5 rounded-full border border-[var(--border-strong)] px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">
               Placeholder
             </span>
             Not a measured result. We publish the benchmark and its method before quoting a number.

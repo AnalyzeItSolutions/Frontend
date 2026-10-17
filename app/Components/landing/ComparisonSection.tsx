@@ -38,10 +38,7 @@ export const ComparisonSection: React.FC = () => {
       <div id="why-calm" className="absolute -top-28 h-px w-px overflow-hidden" aria-hidden="true" />
       {/* Header */}
       <div className="max-w-2xl space-y-4">
-        <div className="inline-flex items-center gap-2 text-xs font-mono tracking-widest uppercase text-[var(--text-secondary)]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand)]" />
-          Why not a chatbot?
-        </div>
+        <p className="eyebrow">Why not a chatbot?</p>
         <h2 className="font-serif text-4xl md:text-5xl text-[var(--text-primary)] font-normal leading-tight">
           You can upload a file to a chatbot. Here is{' '}
           <em className="font-serif not-italic text-[var(--accent-text)]">

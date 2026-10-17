@@ -77,7 +77,7 @@ export const MemorySection: React.FC = () => (
   >
     <div className="max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
       <div className="space-y-6">
-        <p className="text-xs font-medium uppercase tracking-widest text-[var(--text-muted)]">Fewer tokens, more memory</p>
+        <p className="eyebrow">Fewer tokens, more memory</p>
         <h2 className="font-heading text-3xl md:text-5xl leading-tight">
           A memory that feels like{' '}
           <em className="font-heading not-italic text-[var(--accent-text)]">a bigger context window.</em>
