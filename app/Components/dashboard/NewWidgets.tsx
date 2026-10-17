@@ -34,7 +34,7 @@ function CitationFooter({
   const badge = provenanceBadge({ provenance, freshness });
   if (!badge) return null;
   return (
-    <div className="mt-3 pt-2.5 border-t border-[#414141]/10 dark:border-[#262626] text-[11px] font-sans text-[#414141]/60 dark:text-[#888888]">
+    <div className="mt-3 pt-2.5 border-t border-[#414141]/10 dark:border-[#262626] text-[11px] font-sans text-[var(--text-muted)]">
       <span className="truncate">{provenanceBadgeText(badge)}</span>
     </div>
   );
@@ -52,7 +52,7 @@ function shell(
     <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[var(--coral)]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div className="min-w-0">
-          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             {metric}
           </span>
           <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED] truncate">
@@ -63,7 +63,7 @@ function shell(
           <button
             type="button"
             onClick={onDelete}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -156,7 +156,7 @@ export function DonutChartWidget({
               <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: s.color }} />
               <span className="truncate text-[#414141] dark:text-[#EDEDED]">{s.label}</span>
             </span>
-            <span className="font-mono tabular-nums text-[#414141]/60 dark:text-[#888888]">
+            <span className="font-mono tabular-nums text-[var(--text-muted)]">
               {((s.value / total) * 100).toFixed(0)}%
             </span>
           </li>
@@ -270,7 +270,7 @@ export function RadarChartWidget({
       </svg>
       <div className="flex flex-wrap gap-2 mt-1 justify-center">
         {seriesRaw.map((s, i) => (
-          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#414141]/70 dark:text-[#888888]">
+          <span key={i} className="text-[11px] font-mono flex items-center gap-1 text-[var(--text-muted)]">
             <span className="w-2 h-2 rounded-full" style={{ background: s.color || PALETTE[i % PALETTE.length] }} />
             {s.name}
           </span>
@@ -316,7 +316,7 @@ export function ChoroplethMapWidget({
     metric,
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
     <>
-      <p className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888] mb-2">
+      <p className="text-[11px] font-mono text-[var(--text-muted)] mb-2">
         Region intensity tiles (not a geographic basemap)
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -404,7 +404,7 @@ export function TransactionListWidget({
               <div className="text-[12px] font-medium text-[#414141] dark:text-[#EDEDED] truncate">
                 {row.description}
               </div>
-              <div className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888]">
+              <div className="text-[11px] font-mono text-[var(--text-muted)]">
                 {row.time}
                 {row.status ? ` · ${row.status}` : ''}
               </div>
@@ -472,7 +472,7 @@ export function BubbleGridWidget({
     onWidgetAction ? () => onWidgetAction(widget.id, 'delete') : undefined,
     <>
       {(p.xLabel || p.yLabel) && (
-        <p className="text-[10px] font-mono text-[#414141]/50 dark:text-[#888888] mb-1">
+        <p className="text-[11px] font-mono text-[var(--text-muted)] mb-1">
           {String(p.xLabel || 'X')} × {String(p.yLabel || 'Y')} · size = magnitude
         </p>
       )}
@@ -559,7 +559,7 @@ export function MultiSeriesChartWidget({
       </svg>
       <div className="flex flex-wrap gap-2 mt-1">
         {seriesRaw.map((s, i) => (
-          <span key={i} className="text-[10px] font-mono flex items-center gap-1 text-[#414141]/70 dark:text-[#888888]">
+          <span key={i} className="text-[11px] font-mono flex items-center gap-1 text-[var(--text-muted)]">
             <span className="w-2 h-2 rounded-full" style={{ background: s.color || PALETTE[i % PALETTE.length] }} />
             {s.name}
           </span>

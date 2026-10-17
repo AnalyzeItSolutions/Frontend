@@ -28,11 +28,11 @@ export default function ContactPage() {
             href={`mailto:${item.email}`}
             className="rounded-2xl border border-[#414141]/10 dark:border-[#262626] bg-white/50 dark:bg-[#1B1B1B] p-5 hover:border-[#E4E4E2]/40 transition-colors"
           >
-            <div className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888] mb-1">
+            <div className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-1">
               {item.label}
             </div>
             <div className="font-medium text-[#414141] dark:text-[#EDEDED]">{item.email}</div>
-            <div className="text-xs mt-1 text-[#414141]/55 dark:text-[#BABABA]">{item.note}</div>
+            <div className="text-xs mt-1 text-[var(--text-muted)] dark:text-[#BABABA]">{item.note}</div>
           </a>
         ))}
       </div>

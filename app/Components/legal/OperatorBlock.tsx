@@ -18,11 +18,11 @@ export function OperatorBlock({
     <section
       className={
         quiet
-          ? 'mt-16 space-y-1 rounded-2xl border border-[var(--border)] bg-white/30 dark:bg-[#1B1B1B]/40 p-5 text-xs text-[#414141]/65 dark:text-[#BABABA]/80'
+          ? 'mt-16 space-y-1 rounded-2xl border border-[var(--border)] bg-white/30 dark:bg-[#1B1B1B]/40 p-5 text-xs text-[var(--text-secondary)]'
           : 'mt-4 space-y-1 rounded-2xl border border-[var(--border)] bg-white/40 dark:bg-[#1B1B1B]/60 p-5 text-sm'
       }
     >
-      <p className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888]">
+      <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)]">
         Legal entity
       </p>
       <p className={`font-medium text-[var(--text-primary)] ${quiet ? 'text-xs' : ''}`}>
@@ -39,7 +39,7 @@ export function OperatorBlock({
         </a>
       </p>
       {updated ? (
-        <p className="pt-2 text-[11px] text-[#414141]/45 dark:text-[#888888]">
+        <p className="pt-2 text-[11px] text-[var(--text-muted)]">
           Last updated {updated}
         </p>
       ) : null}

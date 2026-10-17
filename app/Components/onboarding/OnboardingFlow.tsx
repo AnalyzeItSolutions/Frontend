@@ -590,7 +590,7 @@ export function OnboardingFlow() {
             ) : null}
           </div>
           {progress.zeroTokenTool && usableAnswer ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]">
               From tools · 0 tokens · {labelZeroTokenTool(progress.zeroTokenTool)}
             </span>
           ) : null}

@@ -71,7 +71,7 @@ export function ProjectRunHistory({ projectId, unavailableNote, researchHref }: 
                   className="flex w-full items-start justify-between gap-3 px-3 py-2 text-left"
                 >
                   <span className="line-clamp-2 text-xs text-[var(--text-primary)]">{run.question || 'Question not kept'}</span>
-                  <span className="shrink-0 text-[10px] text-[var(--text-muted)]">
+                  <span className="shrink-0 text-[11px] text-[var(--text-muted)]">
                     {run.status && run.status !== 'completed' ? `${run.status} · ` : ''}
                     {relativeTime(run.created_at || '') || ''}
                   </span>

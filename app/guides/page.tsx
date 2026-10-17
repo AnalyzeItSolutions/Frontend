@@ -19,11 +19,11 @@ export default function Page() {
               {g.title}
             </Link>
             <p className="mt-1 text-[15px] text-[#414141]/85 dark:text-[#BABABA]">{g.description}</p>
-            <p className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888]">{readMinutes(g)} min read</p>
+            <p className="mt-1 text-xs text-[var(--text-muted)]">{readMinutes(g)} min read</p>
           </li>
         ))}
       </ul>
-      <p className="mt-10 text-sm text-[#414141]/70 dark:text-[#BABABA]">
+      <p className="mt-10 text-sm text-[var(--text-secondary)]">
         Prefer to see it work? <Link href="/demo" className="text-[#141414] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
         <Link href="/cases" className="text-[#141414] underline underline-offset-2">worked examples</Link>.
       </p>

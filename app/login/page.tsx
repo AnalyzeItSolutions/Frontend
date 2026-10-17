@@ -58,7 +58,7 @@ const Field: React.FC<FieldProps> = ({
       {label}
     </label>
     <div className="relative">
-      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#414141]/40 dark:text-[#888888] pointer-events-none">
+      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none">
         {icon}
       </span>
       <input
@@ -75,7 +75,7 @@ const Field: React.FC<FieldProps> = ({
         }`}
       />
       {rightElement && (
-        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#414141]/40 dark:text-[#888888]">
+        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
           {rightElement}
         </span>
       )}
@@ -415,7 +415,7 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
         )}
       </button>
       {generalError && !loading ? (
-        <p className="text-center text-[11px] text-[#414141]/55 dark:text-[#888888]">
+        <p className="text-center text-[11px] text-[var(--text-muted)]">
           Button unlocked — fix the issue above, then try again. If the account was created, use Sign in.
         </p>
       ) : null}
@@ -459,7 +459,7 @@ const SuccessState: React.FC<{ isNew: boolean }> = ({ isNew }) => {
         <h3 className="font-serif text-xl text-[var(--text-primary)] mb-1">
           {isNew ? 'Account created!' : 'Welcome back!'}
         </h3>
-        <p className="text-sm text-[#414141]/55 dark:text-[#BABABA]">
+        <p className="text-sm text-[var(--text-muted)] dark:text-[#BABABA]">
           {isNew
             ? 'Your account is ready. A short setup is next…'
             : "You're signed in. Redirecting to your dashboard…"}
@@ -528,7 +528,7 @@ function LoginInner() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[var(--bg)]">
         <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
-        <p className="font-mono text-[11px] uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
+        <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
           Checking account…
         </p>
       </div>
@@ -546,7 +546,7 @@ function LoginInner() {
           <ThemeToggle />
           <Link
             href="/"
-            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED] transition-colors"
           >
             ← Back to home
           </Link>
@@ -579,7 +579,7 @@ function LoginInner() {
                 )}
               </motion.h1>
             </AnimatePresence>
-            <p className="text-sm text-[#414141]/50 dark:text-[#888888]">
+            <p className="text-sm text-[var(--text-muted)]">
               {tab === 'login'
                 ? 'Sign in to your workspace'
                 : 'Create a free account to get started'}
@@ -600,7 +600,7 @@ function LoginInner() {
                       className={`flex-1 py-2 rounded-lg text-xs font-mono uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                         tab === t
                           ? 'bg-white dark:bg-[#2C2C2C] shadow-xs text-[var(--text-primary)] font-semibold border border-[#414141]/10 dark:border-[#484848]'
-                          : 'text-[#414141]/45 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
+                          : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                       }`}
                     >
                       {t === 'login' ? 'Sign In' : 'Register'}
@@ -626,7 +626,7 @@ function LoginInner() {
                 </AnimatePresence>
 
                 {/* Bottom toggle */}
-                <p className="text-center text-xs text-[#414141]/45 dark:text-[#888888] mt-6">
+                <p className="text-center text-xs text-[var(--text-muted)] mt-6">
                   {tab === 'login' ? (
                     <>
                       Don&apos;t have an account?{' '}
@@ -649,7 +649,7 @@ function LoginInner() {
             )}
           </div>
 
-          <p className="text-center text-xs text-[#414141]/40 dark:text-[#888888]/70 mt-6 font-mono space-x-3">
+          <p className="text-center text-xs text-[var(--text-muted)] dark:text-[#888888]/70 mt-6 font-mono space-x-3">
             <Link href="/privacy" className="hover:text-[#E4E4E2] transition-colors">Privacy</Link>
             <Link href="/refund" className="hover:text-[#E4E4E2] transition-colors">Refund</Link>
             <Link href="/shipping" className="hover:text-[#E4E4E2] transition-colors">Shipping</Link>

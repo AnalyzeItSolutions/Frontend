@@ -121,7 +121,7 @@ export function DemoClient({ preset }: { preset?: string } = {}) {
           {turn.result.zeroTool ? (
             <p className="mt-3">
               <span
-                className="inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]"
                 title="This answer came from a live tool. No AI model was used."
               >
                 From tools · 0 tokens · {toolLabel(turn.result.zeroTool)}

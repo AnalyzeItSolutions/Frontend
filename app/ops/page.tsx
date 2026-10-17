@@ -43,7 +43,7 @@ function excBadge(row: unknown) {
   const p = row && typeof row === 'object' ? (row as Labeled).provenance : undefined;
   if (!p || p === 'measured' || p === 'public_price') return null;
   return (
-    <span className="ml-1 rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] uppercase text-amber-900" title={(row as Labeled).note || p}>
+    <span className="ml-1 rounded-full bg-amber-100 px-1.5 py-0.5 text-[11px] uppercase text-amber-900" title={(row as Labeled).note || p}>
       {p}
     </span>
   );
@@ -160,9 +160,9 @@ export default function OpsPage() {
               className={`flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-sm capitalize ${section === name ? 'bg-[var(--surface-2,#F8F8F8)]' : ''}`}
             >
               {name}
-              {name === 'feedback' && badges.feedback > 0 ? <span className="rounded-full bg-[var(--text,#343434)] px-1.5 text-[10px] text-white">{badges.feedback}</span> : null}
+              {name === 'feedback' && badges.feedback > 0 ? <span className="rounded-full bg-[var(--text,#343434)] px-1.5 text-[11px] text-white">{badges.feedback}</span> : null}
               {name === 'health' && badges.health ? <span className="h-2 w-2 rounded-full bg-red-600" /> : null}
-              {name === 'audit' && badges.audit > 0 ? <span className="text-[10px] text-[var(--text-muted,#818181)]">{badges.audit}</span> : null}
+              {name === 'audit' && badges.audit > 0 ? <span className="text-[11px] text-[var(--text-muted,#818181)]">{badges.audit}</span> : null}
             </button>
           ))}
         </nav>

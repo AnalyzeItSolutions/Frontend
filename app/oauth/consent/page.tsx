@@ -101,7 +101,7 @@ function ConsentInner() {
         {stage === 'invalid' && (
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is no longer valid</h1>
-            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Connection links expire after a few minutes. Start again from your AI assistant.</p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">Connection links expire after a few minutes. Start again from your AI assistant.</p>
             <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]">Back to analyzeit.si</Link>
           </div>
         )}
@@ -109,7 +109,7 @@ function ConsentInner() {
         {(stage === 'confirm' || stage === 'working' || stage === 'error') && details && (
           <>
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Connect {app} to AnalyzeIt?</h1>
-            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">
+            <p className="mt-2 text-sm text-[var(--text-muted)]">
               Signed in as <strong className="text-[#262626] dark:text-[#E5E5E5]">{user?.email}</strong>. After you allow, you will be sent back to{' '}
               <strong className="text-[#262626] dark:text-[#E5E5E5]">{details.redirect_host}</strong>.
             </p>
@@ -129,19 +129,19 @@ function ConsentInner() {
                       />
                       <span>
                         {sc.description}
-                        {!sc.required ? <span className="ml-1 text-xs text-[#414141]/60 dark:text-[#888888]">(optional, off unless you tick it)</span> : null}
+                        {!sc.required ? <span className="ml-1 text-xs text-[var(--text-muted)]">(optional, off unless you tick it)</span> : null}
                       </span>
                     </label>
                   </li>
                 ))}
               </ul>
-              <p className="mt-3 text-xs text-[#414141]/70 dark:text-[#888888]">
+              <p className="mt-3 text-xs text-[var(--text-muted)]">
                 It sees nothing until you allow AI access to a project’s data in that project’s settings, and you can disconnect it any time under Profile → Connected AI apps.
                 It never receives your password.
               </p>
             </div>
 
-            <p className="mt-4 text-xs text-[#414141]/60 dark:text-[#888888]">Only continue if you just started this from {app}. If you did not, choose Cancel.</p>
+            <p className="mt-4 text-xs text-[var(--text-muted)]">Only continue if you just started this from {app}. If you did not, choose Cancel.</p>
             {error && <p role="alert" className="mt-3 text-sm text-red-600 dark:text-[#D97870]">{error}</p>}
             <div className="mt-5 flex flex-col gap-2">
               <button type="button" onClick={() => decide(true)} disabled={stage === 'working'} className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-[#343434] hover:bg-[var(--brand-hover)] disabled:opacity-60">
@@ -150,7 +150,7 @@ function ConsentInner() {
               <button type="button" onClick={() => decide(false)} disabled={stage === 'working'} className="rounded-lg border border-[#E4E4E2]/25 px-4 py-2.5 text-sm text-[#414141] dark:text-[#BFBFBF] hover:bg-[var(--brand)]/10 disabled:opacity-60">
                 Cancel
               </button>
-              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[#414141]/60 dark:text-[#888888] hover:text-[#E4E4E2]">
+              <button type="button" onClick={switchAccount} className="mt-1 text-xs text-[var(--text-muted)] hover:text-[#E4E4E2]">
                 Use a different account
               </button>
             </div>
@@ -160,14 +160,14 @@ function ConsentInner() {
         {stage === 'sent' && (
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Connected. Returning to {app}…</h1>
-            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">If nothing happens, go back to your assistant: it is connected now.</p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">If nothing happens, go back to your assistant: it is connected now.</p>
           </div>
         )}
 
         {stage === 'cancelled' && (
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Not connected</h1>
-            <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing was shared. You can close this page.</p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">Nothing was shared. You can close this page.</p>
           </div>
         )}
       </div>

@@ -131,7 +131,7 @@ export function FeedbackWidget() {
                 />
               </label>
               {(projectId || pathname) && (
-                <p className="truncate text-[10px] text-[var(--text-muted)]">
+                <p className="truncate text-[11px] text-[var(--text-muted)]">
                   {pathname}
                   {projectId ? ` · project ${projectId.slice(0, 8)}…` : ''}
                 </p>

@@ -991,10 +991,10 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                 </div>
 
                 <div className="flex items-center gap-1.5 mb-2.5">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono bg-[var(--surface-muted)] text-[var(--text-muted)] border border-[var(--border)]">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-mono bg-[var(--surface-muted)] text-[var(--text-muted)] border border-[var(--border)]">
                     Auto-Schema
                   </span>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                     Auto-Cleaned
                   </span>
                 </div>
@@ -1027,12 +1027,12 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                       <p className="text-[var(--danger)]">{activeConn.error_message}</p>
                     ) : null}
                     {p.authMode === 'connection' && p.id !== 'stripe' && p.id !== 'salesforce' && (
-                      <p className="text-[10px] text-neutral-400 font-mono mt-1 break-all">
+                      <p className="text-[11px] text-neutral-400 font-mono mt-1 break-all">
                         id={activeConn.id} — bind widgets with query_type=sql_query
                       </p>
                     )}
                     {p.authMode === 'catalog' && activeConn.connection_meta?.dataset && (
-                      <p className="text-[10px] text-neutral-400 font-mono mt-1 break-all">
+                      <p className="text-[11px] text-neutral-400 font-mono mt-1 break-all">
                         dataset={String(activeConn.connection_meta.dataset)}
                       </p>
                     )}

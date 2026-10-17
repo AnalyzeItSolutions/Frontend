@@ -79,8 +79,8 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
   return (
     <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{view.client_name} wants to read data in “{view.project_name}”</h1>
-      {view.reason ? <p className="mt-2 text-sm"><span className="text-[#414141]/60 dark:text-[#888888]">It says:</span> {view.reason}</p> : null}
-      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">This is what it would be able to read. Nothing is shared until you allow it, and you can turn it off again in the project’s AI data access settings.</p>
+      {view.reason ? <p className="mt-2 text-sm"><span className="text-[var(--text-muted)]">It says:</span> {view.reason}</p> : null}
+      <p className="mt-2 text-sm text-[var(--text-muted)]">This is what it would be able to read. Nothing is shared until you allow it, and you can turn it off again in the project’s AI data access settings.</p>
 
       {state !== 'done' ? (
         <>
@@ -91,15 +91,15 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
                   <input type="checkbox" className="mt-1" checked={Boolean(picked[t.api_name])} disabled={whole} onChange={(e) => setPicked((p) => ({ ...p, [t.api_name]: e.target.checked }))} />
                   <span className="min-w-0">
                     <span className="font-medium">{t.label}</span>{' '}
-                    <span className="text-xs text-[#414141]/60 dark:text-[#888888]">{t.records.toLocaleString()} records{t.source.startsWith('connector') ? ' · from a connected source' : ''}</span>
-                    <span className="mt-1 block text-xs text-[#414141]/70 dark:text-[#888888]">Fields: {t.fields.map((f) => f.api_name).join(', ') || 'none'}</span>
+                    <span className="text-xs text-[var(--text-muted)]">{t.records.toLocaleString()} records{t.source.startsWith('connector') ? ' · from a connected source' : ''}</span>
+                    <span className="mt-1 block text-xs text-[var(--text-muted)]">Fields: {t.fields.map((f) => f.api_name).join(', ') || 'none'}</span>
                   </span>
                 </label>
                 {t.sample?.length ? (
                   <div className="mt-2 overflow-x-auto">
                     <table className="w-full text-xs">
                       <thead>
-                        <tr className="text-left text-[#414141]/60 dark:text-[#888888]">{t.sample[0].columns.map((c) => <th key={c} className="py-0.5 pr-3 font-mono font-normal">{c}</th>)}</tr>
+                        <tr className="text-left text-[var(--text-muted)]">{t.sample[0].columns.map((c) => <th key={c} className="py-0.5 pr-3 font-mono font-normal">{c}</th>)}</tr>
                       </thead>
                       <tbody>
                         {t.sample.map((r, i) => (
@@ -107,7 +107,7 @@ function AccessReview({ id, onGone }: { id: string; onGone: () => void }) {
                         ))}
                       </tbody>
                     </table>
-                    <p className="mt-1 text-[11px] text-[#414141]/60 dark:text-[#888888]">A few example rows, shown only to you.</p>
+                    <p className="mt-1 text-[11px] text-[var(--text-muted)]">A few example rows, shown only to you.</p>
                   </div>
                 ) : null}
               </li>
@@ -212,14 +212,14 @@ function DataReview({ id }: { id: string }) {
     <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{view.client_name} wants to add data to “{view.project_name}”</h1>
       <p className="mt-2 text-sm font-medium">{dataHeadline(view.client_name, snap)}</p>
-      {snap.description ? <p className="mt-1 text-sm text-[#414141]/70 dark:text-[#888888]">{snap.description}</p> : null}
-      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing has been added yet. {snap.kit ? 'This is made-up example data, and you can remove it in one click later.' : 'This is what it would create from the data you gave it.'}</p>
+      {snap.description ? <p className="mt-1 text-sm text-[var(--text-muted)]">{snap.description}</p> : null}
+      <p className="mt-2 text-sm text-[var(--text-muted)]">Nothing has been added yet. {snap.kit ? 'This is made-up example data, and you can remove it in one click later.' : 'This is what it would create from the data you gave it.'}</p>
 
       {snap.columns ? (
         <div className="mt-3 overflow-x-auto rounded-xl border border-[#E4E4E2]/20 p-3">
           <table className="w-full text-xs">
             <thead>
-              <tr className="text-left text-[#414141]/60 dark:text-[#888888]">
+              <tr className="text-left text-[var(--text-muted)]">
                 {snap.columns.map((c) => (
                   <th key={c.api_name} className="py-1 pr-3 font-normal"><span className="font-mono">{c.api_name}</span> <span className="opacity-70">({c.type})</span></th>
                 ))}
@@ -231,8 +231,8 @@ function DataReview({ id }: { id: string }) {
               ))}
             </tbody>
           </table>
-          <p className="mt-2 text-[11px] text-[#414141]/60 dark:text-[#888888]">First {snap.sample?.length || 0} of {snap.rows.toLocaleString()} rows.{snap.truncated ? ' The file was cut at the row limit.' : ''}</p>
-          {(snap.notes || []).map((n) => <p key={n} className="mt-1 text-[11px] text-[#414141]/70 dark:text-[#888888]">{n}</p>)}
+          <p className="mt-2 text-[11px] text-[var(--text-muted)]">First {snap.sample?.length || 0} of {snap.rows.toLocaleString()} rows.{snap.truncated ? ' The file was cut at the row limit.' : ''}</p>
+          {(snap.notes || []).map((n) => <p key={n} className="mt-1 text-[11px] text-[var(--text-muted)]">{n}</p>)}
         </div>
       ) : null}
       {snap.tables ? (
@@ -321,7 +321,7 @@ function ChangeReview({ id, project, onGone }: { id: string; project: string; on
   return (
     <div className="text-[#262626] dark:text-[#E5E5E5]">
       <h1 className="text-lg font-semibold">{client} suggests a change to your data</h1>
-      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">Nothing has changed yet. Review exactly what would happen, then approve or reject it.</p>
+      <p className="mt-2 text-sm text-[var(--text-muted)]">Nothing has changed yet. Review exactly what would happen, then approve or reject it.</p>
       <BulkChangeCard projectId={project} proposal={proposal} status={status} result={result} error={error} onApprove={() => void decide(true)} onReject={() => void decide(false)} onUndo={() => void undo()} />
     </div>
   );
@@ -332,7 +332,7 @@ function Gone({ onGone }: { onGone: () => void }) {
   return (
     <div className="text-center">
       <h1 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">This link is no longer valid</h1>
-      <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">It may have expired, or it belongs to a different account. Ask your assistant to prepare it again.</p>
+      <p className="mt-2 text-sm text-[var(--text-muted)]">It may have expired, or it belongs to a different account. Ask your assistant to prepare it again.</p>
       <Link href="/" className="mt-5 inline-block text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]">Back to analyzeit.si</Link>
     </div>
   );
@@ -377,7 +377,7 @@ function ApproveInner() {
         {stage === 'ready' && what?.kind === 'access' && <AccessReview id={what.id} onGone={() => {}} />}
         {stage === 'ready' && what?.kind === 'data' && <DataReview id={what.id} />}
         {stage === 'ready' && what?.kind === 'change' && <ChangeReview id={what.id} project={what.project} onGone={() => {}} />}
-        {stage === 'ready' && user?.email ? <p className="mt-6 text-center text-xs text-[#414141]/50 dark:text-[#888888]">Signed in as {user.email}</p> : null}
+        {stage === 'ready' && user?.email ? <p className="mt-6 text-center text-xs text-[var(--text-muted)]">Signed in as {user.email}</p> : null}
       </div>
     </main>
   );

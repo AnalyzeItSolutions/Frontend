@@ -186,7 +186,7 @@ export function EventDetailCard({
     <div className="flex h-full flex-col">
       <div className="flex items-start justify-between gap-3 border-b border-[var(--border)] px-4 py-3">
         <div className="min-w-0">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)]">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
             {isFlight ? 'Aircraft' : isSat ? 'Satellite' : isSpaceWeather ? 'Space weather' : isMyData ? `Your data · ${meta.object_label ?? 'record'}` : (EVENT_KIND[String(meta.type)] ?? 'Event')}
           </p>
           <h2 className="truncate font-serif text-lg text-[var(--text-primary)]">{point.label}</h2>
@@ -221,7 +221,7 @@ export function EventDetailCard({
             key={k}
             className="flex items-baseline justify-between gap-3 rounded-lg bg-[var(--surface-2)] px-3 py-2"
           >
-            <dt className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">{k}</dt>
+            <dt className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">{k}</dt>
             <dd className="text-right text-sm font-medium text-[var(--text-primary)]">{v}</dd>
           </div>
         ))}

@@ -129,7 +129,7 @@ export function ModulePipelineView({ projectId, onRefreshLayout }: ModulePipelin
             {pipeline.provided_capabilities?.map((cap) => (
               <span
                 key={cap}
-                className="px-2 py-0.5 rounded-full bg-[var(--coral)]/10 text-[var(--coral)] text-[10px] font-mono border border-[var(--coral)]/25"
+                className="px-2 py-0.5 rounded-full bg-[var(--coral)]/10 text-[var(--coral)] text-[11px] font-mono border border-[var(--coral)]/25"
               >
                 {cap}
               </span>
@@ -161,14 +161,14 @@ export function ModulePipelineView({ projectId, onRefreshLayout }: ModulePipelin
                         </div>
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+                            <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
                               #{m.order}
                             </span>
                             <h4 className="font-semibold text-xs text-[var(--text-primary)]">
                               {tmpl?.name || m.module_id}
                             </h4>
                           </div>
-                          <span className="text-[10px] text-neutral-400 font-mono">v1 pinned</span>
+                          <span className="text-[11px] text-neutral-400 font-mono">v1 pinned</span>
                         </div>
                       </div>
 
@@ -183,7 +183,7 @@ export function ModulePipelineView({ projectId, onRefreshLayout }: ModulePipelin
 
                     <div className="flex flex-wrap gap-1">
                       {tmpl?.provides?.map((p) => (
-                        <span key={p} className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500">
+                        <span key={p} className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500">
                           +{p}
                         </span>
                       ))}
@@ -223,7 +223,7 @@ export function ModulePipelineView({ projectId, onRefreshLayout }: ModulePipelin
                     <div className="p-2.5 rounded-xl bg-neutral-100 dark:bg-neutral-800">
                       {getModuleIcon(template.id)}
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-[var(--text-muted)]">
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-[var(--text-muted)]">
                       v{template.version} seed
                     </span>
                   </div>

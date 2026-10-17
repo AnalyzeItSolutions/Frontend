@@ -289,7 +289,7 @@ export function ProjectsManager({
                 >
                   {project.name}
                 </Link>
-                <p className="truncate font-mono text-[10px] text-[var(--text-muted)]">
+                <p className="truncate font-mono text-[11px] text-[var(--text-muted)]">
                   {project.id.slice(0, 18)}…
                   {project.widget_count != null ? ` · ${project.widget_count} widgets` : ''}
                 </p>

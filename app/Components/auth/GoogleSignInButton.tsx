@@ -136,7 +136,7 @@ export function GoogleSignInButton({
       />
       <div className="relative flex items-center gap-3 py-1">
         <div className="h-px flex-1 bg-[#414141]/12 dark:bg-[#262626]" />
-        <span className="text-[10px] font-mono uppercase tracking-wider text-[#414141]/45 dark:text-[#888888]">
+        <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
           or
         </span>
         <div className="h-px flex-1 bg-[#414141]/12 dark:bg-[#262626]" />
@@ -147,7 +147,7 @@ export function GoogleSignInButton({
         aria-busy={busy}
       />
       {!ready && !localError ? (
-        <p className="text-center text-[11px] text-[#414141]/45 dark:text-[#888888]">Loading Google…</p>
+        <p className="text-center text-[11px] text-[var(--text-muted)]">Loading Google…</p>
       ) : null}
       {busy ? (
         <p className="text-center text-[11px] font-mono text-[#E4E4E2]">Signing in with Google…</p>

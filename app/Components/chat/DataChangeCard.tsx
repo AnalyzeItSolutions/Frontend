@@ -27,7 +27,7 @@ export function DataChangeCard({
   const done = status === 'applied' || status === 'rejected';
   return (
     <div role="group" aria-label="Proposed data change" className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3">
-      <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Proposed change · needs your approval</p>
+      <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Proposed change · needs your approval</p>
       <p className="mt-1 text-sm font-medium text-[var(--text-primary)]">{d.headline}</p>
 
       {d.rows.length > 0 && (

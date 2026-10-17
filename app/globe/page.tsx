@@ -129,13 +129,13 @@ function RankedBars({ points }: { points: SourcePoint[] }) {
   const max = rows[0].score || 1;
   return (
     <div className="space-y-1.5 pt-1">
-      <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+      <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
         Strongest {ranked.unit ? `· ${ranked.unit}` : 'on the map'}
       </p>
       {rows.map((row) => (
         <div key={row.id} className="grid grid-cols-[1fr_auto] items-center gap-2">
           <div className="min-w-0">
-            <div className="truncate text-[10px] text-[var(--text-secondary)]">{row.label}</div>
+            <div className="truncate text-[11px] text-[var(--text-secondary)]">{row.label}</div>
             <div className="mt-0.5 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]">
               <div
                 className="h-full rounded-full bg-[#E4E4E2]"
@@ -143,7 +143,7 @@ function RankedBars({ points }: { points: SourcePoint[] }) {
               />
             </div>
           </div>
-          <span className="font-mono text-[10px] tabular-nums text-[var(--text-muted)]">
+          <span className="font-mono text-[11px] tabular-nums text-[var(--text-muted)]">
             {Number.isInteger(row.score) ? row.score : row.score.toFixed(1)}
           </span>
         </div>
@@ -960,7 +960,7 @@ function GlobePageInner() {
           <div className="min-h-0 flex-1 overflow-y-auto p-3">
             {query.trim().length >= 2 ? (
               <div className="space-y-1">
-                <p className="mb-2 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   Results
                 </p>
                 {searching && hits.length === 0 ? (
@@ -980,7 +980,7 @@ function GlobePageInner() {
                     <IconMapPin size={14} className="mt-0.5 shrink-0 text-[#E4E4E2]" />
                     <span className="min-w-0">
                       <span className="block font-medium text-[var(--text-primary)]">{hit.name}</span>
-                      <span className="mt-0.5 block text-[10px] text-[var(--text-muted)]">
+                      <span className="mt-0.5 block text-[11px] text-[var(--text-muted)]">
                         {hit.display_name ||
                           `${hit.region || ''}${hit.country ? ` · ${hit.country}` : ''}`}
                       </span>
@@ -997,7 +997,7 @@ function GlobePageInner() {
               <div className="space-y-3">
                 <RankedBars points={layers.catalog ? [...archivePoints, ...overlayPoints] : overlayPoints} />
                 <div>
-                  <p className="mb-2 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                  <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                     Hubs
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -1021,7 +1021,7 @@ function GlobePageInner() {
                 </div>
                 {compare.length > 0 ? (
                   <div>
-                    <p className="mb-2 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                    <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                       Compare ({compare.length}/3)
                     </p>
                     <div className="space-y-1">
@@ -1170,7 +1170,7 @@ function GlobePageInner() {
               <div className="space-y-2 border-t border-[var(--border)] p-3">
                 {compare.length >= 2 ? (
                   <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-2.5">
-                    <p className="mb-2 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                    <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                       Compare KPIs
                     </p>
                     <div className="grid gap-2">
@@ -1183,7 +1183,7 @@ function GlobePageInner() {
                             {kpis(p.context).map((k) => (
                               <span
                                 key={k.label}
-                                className="rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[10px] text-[var(--text-secondary)]"
+                                className="rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[11px] text-[var(--text-secondary)]"
                               >
                                 {k.label} {k.value}
                               </span>

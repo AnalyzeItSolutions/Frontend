@@ -37,7 +37,7 @@ export default async function ProductsPage() {
         entitlements change.
       </p>
 
-      <p className="text-xs text-[#414141]/55 dark:text-[#888888]">
+      <p className="text-xs text-[var(--text-muted)]">
         Policies:{' '}
         <a href="/refund" className="text-[#E4E4E2] hover:underline">
           Refunds and cancellations

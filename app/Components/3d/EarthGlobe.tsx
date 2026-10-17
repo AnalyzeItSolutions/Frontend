@@ -957,7 +957,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
 
       {/* Loading Skeleton */}
       {!isSceneReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-xs font-mono text-xs text-[#414141]/60 dark:text-[#888888]">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-xs font-mono text-xs text-[var(--text-muted)]">
           <span className="w-3 h-3 rounded-full bg-[var(--brand)] animate-ping mr-2" />
           <span>{minimal ? 'Loading sources…' : 'Initializing 3D Planetary WebGL…'}</span>
         </div>
@@ -1034,7 +1034,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                         setSearchQuery('');
                         setIsSearchOpen(false);
                       }}
-                      className="text-[#414141]/40 dark:text-[#888888] hover:text-[#414141] dark:hover:text-white cursor-pointer"
+                      className="text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-white cursor-pointer"
                     >
                       <IconX size={13} />
                     </button>
@@ -1046,7 +1046,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                   <div className="absolute left-0 right-0 top-full mt-2 rounded-2xl glass-card dark:bg-[#2C2C2C]/95 border border-[#414141]/15 dark:border-[#484848] shadow-2xl backdrop-blur-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="max-h-72 overflow-y-auto p-1.5 space-y-0.5 overscroll-contain">
                       {searchingWorld ? (
-                        <p className="px-3 py-2 text-[10px] font-mono text-[#414141]/50">Searching the world…</p>
+                        <p className="px-3 py-2 text-[11px] font-mono text-[var(--text-muted)]">Searching the world…</p>
                       ) : null}
                       {worldHits.map((loc) => (
                         <button
@@ -1065,18 +1065,18 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                             <span className="font-serif text-sm text-[#414141] dark:text-[#EDEDED] group-hover:text-[#E4E4E2] transition-colors block line-clamp-2 break-words">
                               {loc.name}
                             </span>
-                            <span className="text-[10px] text-[#414141]/50 dark:text-[#888888]">
+                            <span className="text-[11px] text-[var(--text-muted)]">
                               {loc.country}
                               {loc.region && loc.region !== loc.country ? ` · ${loc.region}` : ''}
                             </span>
                           </div>
-                          <span className="text-[9px] text-[#414141]/40 dark:text-[#888888] shrink-0">
+                          <span className="text-[11px] text-[var(--text-muted)] shrink-0">
                             {loc.lat.toFixed(1)}°, {loc.lon.toFixed(1)}°
                           </span>
                         </button>
                       ))}
                       {!searchingWorld && worldHits.length === 0 ? (
-                        <p className="px-3 py-2 text-[10px] font-mono text-[#414141]/50">
+                        <p className="px-3 py-2 text-[11px] font-mono text-[var(--text-muted)]">
                           No match — click anywhere on the globe instead.
                         </p>
                       ) : null}
@@ -1086,7 +1086,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
               </div>
             </div>
             {hintOpen ? (
-              <div className="app-card pointer-events-auto flex items-start justify-between gap-2 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.12em] text-[#6E6E6E]">
+              <div className="app-card pointer-events-auto flex items-start justify-between gap-2 px-3 py-2 text-[11px] font-mono uppercase tracking-[0.12em] text-[#6E6E6E]">
                 <span>Click anywhere on Earth, or search any city</span>
                 <button
                   type="button"
@@ -1106,21 +1106,21 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <h4 className="font-serif text-base font-semibold">{selectedHub.name}</h4>
-                    <span className="text-[10px] font-mono text-[#414141]/50">
+                    <span className="text-[11px] font-mono text-[var(--text-muted)]">
                       {selectedHub.country} · {selectedHub.region} · {selectedHub.lat.toFixed(2)}°, {selectedHub.lon.toFixed(2)}°
                     </span>
                   </div>
-                  <span className="shrink-0 text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-700">
+                  <span className="shrink-0 text-[11px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-700">
                     Sample
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs font-mono border-t border-[#414141]/10 pt-2">
                   <div>
-                    <span className="text-[10px] opacity-50 block">Illustrative ping</span>
+                    <span className="text-[11px] opacity-50 block">Illustrative ping</span>
                     <span className="font-bold text-[#E4E4E2]">{selectedHub.ping}</span>
                   </div>
                   <div>
-                    <span className="text-[10px] opacity-50 block">Illustrative bandwidth</span>
+                    <span className="text-[11px] opacity-50 block">Illustrative bandwidth</span>
                     <span className="font-bold">{selectedHub.throughput}</span>
                   </div>
                 </div>
@@ -1186,7 +1186,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E4E4E2]/40 ${
                   showGrid
                     ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
-                    : 'text-[#414141]/50 dark:text-[#888888] hover:text-[#414141] dark:hover:text-white'
+                    : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-white'
                 }`}
                 title="Toggle Latitude/Longitude Grid Lines"
               >
@@ -1199,7 +1199,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E4E4E2]/40 ${
                   showClouds
                     ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
-                    : 'text-[#414141]/50 dark:text-[#888888] hover:text-[#414141] dark:hover:text-white'
+                    : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-white'
                 }`}
                 title="Toggle Atmospheric Clouds"
               >
@@ -1212,7 +1212,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 className={`p-2.5 rounded-xl transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#E4E4E2]/40 ${
                   showTelemetry
                     ? 'bg-[var(--brand)] text-[var(--brand-ink)]'
-                    : 'text-[#414141]/50 dark:text-[#888888] hover:text-[#414141] dark:hover:text-white'
+                    : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-white'
                 }`}
                 title="Toggle Telemetry Flight Arcs"
               >
@@ -1234,7 +1234,7 @@ export const EarthGlobe = React.forwardRef<EarthGlobeHandle, EarthGlobeProps>(fu
                 </span>
               </div>
             ) : (
-              <div className="pointer-events-auto hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl glass-card text-xs font-mono text-[#414141]/70 dark:text-[#BABABA] shadow-lg">
+              <div className="pointer-events-auto hidden sm:flex items-center gap-2 px-4 py-2 rounded-2xl glass-card text-xs font-mono text-[var(--text-secondary)] shadow-lg">
                 <IconActivity size={14} className="text-[#E4E4E2]" />
                 <span>Click any land or ocean — coverage is global</span>
               </div>

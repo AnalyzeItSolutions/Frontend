@@ -44,11 +44,11 @@ export function ExternalActionCard({
   return (
     <div role="group" aria-label={`Proposed action: ${action.title}`} className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+        <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
           {action.status === 'pending' ? 'Needs your approval' : 'Action'} · {action.provider_name}
         </p>
-        <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[10px] text-[var(--text-muted)]">{riskLabel(action.risk)}</span>
-        {action.edited ? <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[10px] text-[var(--text-muted)]">Edited by you</span> : null}
+        <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--text-muted)]">{riskLabel(action.risk)}</span>
+        {action.edited ? <span className="rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] text-[var(--text-muted)]">Edited by you</span> : null}
       </div>
       <p className="mt-1 text-sm font-medium text-[var(--text-primary)]">{action.title}</p>
       {action.account ? (

@@ -276,12 +276,12 @@ function MathFindingCard({
       aria-labelledby={`${id}-t`}
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
+        <span className="font-mono text-[11px] uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
           {math.methodLabel}
         </span>
         <div className="flex flex-wrap items-center gap-2">
           {fromTools ? (
-            <span className="inline-flex items-center rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]">
+            <span className="inline-flex items-center rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]">
               {fromTools}
             </span>
           ) : null}
@@ -361,7 +361,7 @@ function FindingCard({ f, source, onAsk, disabled }: { f: Finding; source?: Find
   return (
     <article id={`finding-${f.id}`} className="app-card space-y-3 p-4" aria-labelledby={`${id}-t`}>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
+        <span className="font-mono text-[11px] uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
           {f.kindLabel}
         </span>
         <ConfidencePill f={f} />

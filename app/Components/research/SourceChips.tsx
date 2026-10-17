@@ -46,7 +46,7 @@ export function SourceChips({ sources }: { sources: ResearchSource[] }) {
           href={source.url || `https://${source.host}`}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[10px] text-[var(--text-secondary)] transition-colors hover:border-[#E4E4E2]/40 hover:text-[var(--text-primary)]"
+          className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--text-secondary)] transition-colors hover:border-[#E4E4E2]/40 hover:text-[var(--text-primary)]"
         >
           {source.category ? (
             <span

@@ -120,7 +120,7 @@ export function PlaceContextCard({
               </>
             )}
           </h4>
-          <p className="break-words text-[10px] font-mono text-[var(--text-muted)]">
+          <p className="break-words text-[11px] font-mono text-[var(--text-muted)]">
             {place?.country || place?.countrycode || '—'}
             {place ? ` · ${place.lat.toFixed(2)}°, ${place.lon.toFixed(2)}°` : ''}
             {clock?.available && clock.local_time ? ` · ${clock.local_time} local` : ''}
@@ -170,7 +170,7 @@ export function PlaceContextCard({
           <>
             {wikipedia?.available && wikipedia.summary?.extract ? (
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5 text-[11px] text-[var(--text-secondary)]">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconBook size={12} className="text-[#E4E4E2]" /> Wikipedia
                 </div>
                 <p className="leading-snug text-[var(--text-primary)]">
@@ -182,13 +182,13 @@ export function PlaceContextCard({
                     href={wikipedia.summary.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-1 inline-block text-[10px] text-[#E4E4E2] underline-offset-2 hover:underline"
+                    className="mt-1 inline-block text-[11px] text-[#E4E4E2] underline-offset-2 hover:underline"
                   >
                     Full article
                   </a>
                 ) : null}
                 {wikipedia.nearby && wikipedia.nearby.length > 0 ? (
-                  <p className="mt-1.5 text-[10px] text-[var(--text-muted)]">
+                  <p className="mt-1.5 text-[11px] text-[var(--text-muted)]">
                     Nearby pages:{' '}
                     {wikipedia.nearby
                       .slice(0, 5)
@@ -202,7 +202,7 @@ export function PlaceContextCard({
 
             {(country?.available || holidays?.available || elevation?.available) && (
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5 text-[11px] text-[var(--text-secondary)]">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconWorld size={12} className="text-[#E4E4E2]" /> Civic
                 </div>
                 {country?.available ? (
@@ -217,7 +217,7 @@ export function PlaceContextCard({
                       {country.subregion ? ` / ${country.subregion}` : ''}
                       {country.languages?.length ? ` · ${country.languages.join(', ')}` : ''}
                     </p>
-                    <p className="mt-0.5 text-[10px] text-[var(--text-muted)]">
+                    <p className="mt-0.5 text-[11px] text-[var(--text-muted)]">
                       {country.currencies?.length ? `CCY ${country.currencies.join(', ')}` : ''}
                       {country.calling_codes?.length ? ` · ${country.calling_codes.slice(0, 3).join(' ')}` : ''}
                       {country.car_side ? ` · drive ${country.car_side}` : ''}
@@ -245,7 +245,7 @@ export function PlaceContextCard({
 
             <div className="grid grid-cols-2 gap-2">
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconCloud size={12} className="text-[#E4E4E2]" /> Weather
                 </div>
                 {weather?.available ? (
@@ -258,19 +258,19 @@ export function PlaceContextCard({
                       {weather.feels_like_c != null ? ` · feels ${Math.round(weather.feels_like_c)}°` : ''}
                       {weather.humidity_pct != null ? ` · ${weather.humidity_pct}% RH` : ''}
                     </p>
-                    <p className="mt-1 flex items-center gap-1 text-[10px] text-[var(--text-muted)]">
+                    <p className="mt-1 flex items-center gap-1 text-[11px] text-[var(--text-muted)]">
                       <IconSun size={11} />
                       UV {weather.uv_index ?? '—'}
                       {weather.wind_speed_kmh != null ? ` · wind ${Math.round(weather.wind_speed_kmh)}` : ''}
                       {weather.pressure_hpa != null ? ` · ${Math.round(weather.pressure_hpa)} hPa` : ''}
                     </p>
-                    <p className="text-[10px] text-[var(--text-muted)]">
+                    <p className="text-[11px] text-[var(--text-muted)]">
                       {weather.sunrise ? `↑${timeOnly(weather.sunrise)}` : ''}
                       {weather.sunset ? ` ↓${timeOnly(weather.sunset)}` : ''}
                       {weather.day_length_hours != null ? ` · ${weather.day_length_hours}h day` : ''}
                     </p>
                     {weather.source ? (
-                      <p className="mt-1 text-[10px] text-[var(--text-muted)]">Source: {weather.source}</p>
+                      <p className="mt-1 text-[11px] text-[var(--text-muted)]">Source: {weather.source}</p>
                     ) : null}
                   </>
                 ) : (
@@ -279,7 +279,7 @@ export function PlaceContextCard({
               </div>
 
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconWind size={12} className="text-[#E4E4E2]" /> Air quality
                 </div>
                 {aqi?.available ? (
@@ -291,13 +291,13 @@ export function PlaceContextCard({
                       {aqiLabel(aqi.us_aqi)}
                       {aqi.pm2_5 != null ? ` · PM2.5 ${Math.round(aqi.pm2_5)}` : ''}
                     </p>
-                    <p className="mt-1 text-[10px] text-[var(--text-muted)]">
+                    <p className="mt-1 text-[11px] text-[var(--text-muted)]">
                       {aqi.pm10 != null ? `PM10 ${Math.round(aqi.pm10)}` : ''}
                       {aqi.ozone != null ? ` · O₃ ${Math.round(aqi.ozone)}` : ''}
                       {aqi.no2 != null ? ` · NO₂ ${Math.round(aqi.no2)}` : ''}
                     </p>
                     {aqi.source ? (
-                      <p className="mt-1 text-[10px] text-[var(--text-muted)]">Source: {aqi.source}</p>
+                      <p className="mt-1 text-[11px] text-[var(--text-muted)]">Source: {aqi.source}</p>
                     ) : null}
                   </>
                 ) : (
@@ -306,7 +306,7 @@ export function PlaceContextCard({
               </div>
 
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconChartLine size={12} className="text-[#E4E4E2]" /> Market
                 </div>
                 {market?.available && market.index_value?.price != null ? (
@@ -330,7 +330,7 @@ export function PlaceContextCard({
                       ) : null}
                     </p>
                     {market.fx_rate_to_usd?.rate_to_usd != null && market.currency && market.currency !== 'USD' ? (
-                      <p className="text-[10px] text-[var(--text-muted)]">
+                      <p className="text-[11px] text-[var(--text-muted)]">
                         1 {market.currency} ≈ {market.fx_rate_to_usd.rate_to_usd.toFixed(4)} USD
                       </p>
                     ) : null}
@@ -343,7 +343,7 @@ export function PlaceContextCard({
               </div>
 
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconSatellite size={12} className="text-[#E4E4E2]" /> ISS
                 </div>
                 {iss?.available && iss.distance_km != null ? (
@@ -363,7 +363,7 @@ export function PlaceContextCard({
 
             {weather?.available && weather.forecast_daily && weather.forecast_daily.length > 0 ? (
               <div className="space-y-1.5">
-                <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconSun size={12} className="text-[#E4E4E2]" /> 7-day forecast
                 </div>
                 <div className="grid grid-cols-7 gap-1">
@@ -372,11 +372,11 @@ export function PlaceContextCard({
                       key={day.date || `d-${i}`}
                       className="rounded-lg bg-[var(--surface-2)] px-1 py-1.5 text-center"
                     >
-                      <p className="text-[9px] font-mono text-[var(--text-muted)]">{shortDate(day.date)}</p>
-                      <p className="text-[10px] font-semibold text-[var(--text-primary)]">
+                      <p className="text-[11px] font-mono text-[var(--text-muted)]">{shortDate(day.date)}</p>
+                      <p className="text-[11px] font-semibold text-[var(--text-primary)]">
                         {day.temp_max_c != null ? Math.round(day.temp_max_c) : '—'}°
                       </p>
-                      <p className="text-[9px] text-[var(--text-muted)]">
+                      <p className="text-[11px] text-[var(--text-muted)]">
                         {day.temp_min_c != null ? Math.round(day.temp_min_c) : '—'}°
                       </p>
                     </div>
@@ -387,14 +387,14 @@ export function PlaceContextCard({
 
             <div className="grid grid-cols-2 gap-2">
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconWaveSawTool size={12} className="text-[#E4E4E2]" /> Quakes (30d)
                 </div>
                 {quakes?.source ? (
-                  <p className="mb-1 text-[10px] text-[var(--text-muted)]">Source: {quakes.source}</p>
+                  <p className="mb-1 text-[11px] text-[var(--text-muted)]">Source: {quakes.source}</p>
                 ) : null}
                 {quakes?.available && quakes.events.length > 0 ? (
-                  <ul className="space-y-1 text-[10px] text-[var(--text-secondary)]">
+                  <ul className="space-y-1 text-[11px] text-[var(--text-secondary)]">
                     {quakes.events.slice(0, 8).map((ev, i) => (
                       <li key={`${ev.time}-${i}`} className="truncate">
                         M{ev.mag}
@@ -414,14 +414,14 @@ export function PlaceContextCard({
                 )}
               </div>
               <div className="rounded-xl bg-[var(--surface-2)] p-2.5">
-                <div className="mb-1 flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="mb-1 flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconPlane size={12} className="text-[#E4E4E2]" /> Flights
                   <span className="normal-case tracking-normal text-[var(--text-muted)]">
                     (sampled ADS-B · no routes)
                   </span>
                 </div>
                 {flights?.available && flights.aircraft.length > 0 ? (
-                  <ul className="space-y-1 text-[10px] text-[var(--text-secondary)]">
+                  <ul className="space-y-1 text-[11px] text-[var(--text-secondary)]">
                     {flights.aircraft.slice(0, 6).map((ac, i) => (
                       <li key={`${ac.callsign}-${i}`} className="truncate">
                         {ac.callsign || 'Aircraft'} ·{' '}
@@ -445,7 +445,7 @@ export function PlaceContextCard({
 
             {pois?.available && pois.pois.length > 0 ? (
               <div className="space-y-1.5">
-                <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconMapPin size={12} className="text-[#E4E4E2]" /> Nearby POIs
                   <span className="normal-case tracking-normal text-[var(--text-muted)]">
                     ({pois.count ?? pois.pois.length})
@@ -463,7 +463,7 @@ export function PlaceContextCard({
             ) : null}
 
             <div className="space-y-1.5">
-                <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                 <IconNews size={12} className="text-[#E4E4E2]" /> News
                 {news?.count != null ? (
                   <span className="normal-case tracking-normal">({news.count})</span>
@@ -503,7 +503,7 @@ export function PlaceContextCard({
 
             {onThisDay?.available && onThisDay.events.length > 0 ? (
               <div className="space-y-1.5">
-                <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                <div className="flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                   <IconBulb size={12} className="text-[#E4E4E2]" /> On this day
                   <IconCalendarEvent size={11} className="opacity-50" />
                 </div>

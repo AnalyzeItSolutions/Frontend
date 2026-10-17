@@ -208,7 +208,7 @@ export function RelationCombobox({
               <span className="font-medium text-neutral-900 dark:text-white truncate">
                 {displayLabel}
               </span>
-              <span className="font-mono text-[10px] text-neutral-400 truncate">
+              <span className="font-mono text-[11px] text-neutral-400 truncate">
                 {targetLabel} • ID: {value.slice(0, 10)}...
               </span>
             </div>
@@ -330,7 +330,7 @@ export function RelationCombobox({
                         </span>
                       )}
                     </div>
-                    <span className="font-mono text-[10px] text-neutral-400 shrink-0">
+                    <span className="font-mono text-[11px] text-neutral-400 shrink-0">
                       {rec.id.slice(0, 8)}...
                     </span>
                   </div>
@@ -342,7 +342,7 @@ export function RelationCombobox({
           {/* Footer with Quick Create Action */}
           {onQuickCreate && (
             <div className="p-1.5 border-t border-neutral-200 dark:border-white/10 bg-neutral-50/70 dark:bg-neutral-800/30 flex justify-between items-center">
-              <span className="text-[10px] text-neutral-400 font-mono px-1">
+              <span className="text-[11px] text-neutral-400 font-mono px-1">
                 {results.length} record{results.length !== 1 ? 's' : ''} shown
               </span>
               <button

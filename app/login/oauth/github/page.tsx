@@ -117,7 +117,7 @@ function GitHubOAuthInner() {
       ) : (
         <>
           <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
-          <p className="font-mono text-[11px] uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
             {status}
           </p>
         </>

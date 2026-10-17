@@ -92,7 +92,7 @@ export function TimeControls({ days, onDays, cursor, onCursor, playing, onPlay, 
           Live
         </button>
       </div>
-      <p className="mt-1 text-[10px] text-[var(--text-muted)]" aria-live="polite">
+      <p className="mt-1 text-[11px] text-[var(--text-muted)]" aria-live="polite">
         {label}
       </p>
     </div>

@@ -104,7 +104,7 @@ export function StarterKits({ projectId, onApplied }: { projectId: string; onApp
             <article key={kit.id} className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
               <h3 className="text-sm font-medium text-[var(--text-primary)]">{kit.name}</h3>
               <p className="mt-1 flex-1 text-xs leading-relaxed text-[var(--text-secondary)]">{kit.description}</p>
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)]">{kitSummary(kit)}</p>
+              <p className="mt-2 font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">{kitSummary(kit)}</p>
               {done[kit.id] ? (
                 <div className="mt-3 space-y-1.5">
                   <p className="text-[11px] font-medium text-[var(--text-primary)]">Try asking:</p>

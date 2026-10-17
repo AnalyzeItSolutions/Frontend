@@ -1879,13 +1879,13 @@ function ChatInner() {
                       }`}
                     >
                       {!isUser && msg.mode === 'research' && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#E4E4E2]">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[#E4E4E2]">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
                       {!isUser && shouldShowZeroTokenChip(msg) && (
                         <span
-                          className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]"
+                          className="ml-1 inline-flex items-center gap-1 rounded-full bg-[#8FA98F]/15 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[#4A7C59] dark:text-[#9EBB9A]"
                           title="Answer came from a live tool with no LLM tokens"
                         >
                           From tools · 0 tokens · {labelZeroTokenTool(msg.zeroToken!.toolName)}
@@ -1894,7 +1894,7 @@ function ChatInner() {
                       
                       {!isUser && msg.contextCompress && (
                         <span
-                          className="ml-1 inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]"
+                          className="ml-1 inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]"
                           title="Context was compressed before the model call"
                         >
                           Compressed · {compressLabel(msg.contextCompress.method)}
@@ -1902,7 +1902,7 @@ function ChatInner() {
                       )}
                       {!isUser && msg.rlmSteps && msg.rlmSteps.length > 0 && (
                         <span
-                          className="ml-1 inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]"
+                          className="ml-1 inline-flex items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]"
                           title="Recursive language-model inspect steps over an external store"
                         >
                           Recursive inspect · depth {Math.max(...msg.rlmSteps.map((s) => s.depth))}
@@ -1910,7 +1910,7 @@ function ChatInner() {
                       )}
                       {!isUser && msg.contextBudget && (
                         <span
-                          className={`ml-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${
+                          className={`ml-1 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider ${
                             msg.contextBudget.truncated
                               ? 'bg-amber-500/15 text-amber-800 dark:text-amber-200'
                               : 'border border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)]'
@@ -1940,7 +1940,7 @@ function ChatInner() {
                         </p>
                       )}
                       {isUser && msg.mode === 'research' && (
-                        <span className="mb-1 inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider opacity-60">
+                        <span className="mb-1 inline-flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider opacity-60">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
@@ -2051,7 +2051,7 @@ function ChatInner() {
                       {!isUser && msg.widget && (
                         <div className="mt-2 space-y-2 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-2">
                           <div className="flex items-center justify-between px-1">
-                            <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                            <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                               Widget proposal
                             </p>
                             <button
@@ -2282,7 +2282,7 @@ function ChatInner() {
                   <ComposerModeControl mode={composerMode} onMode={setComposerMode} />
                   <span
                     title="Message frequency hints prepared in your browser before send"
-                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted,#787878)]"
+                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-muted,#787878)]"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#E4E4E2)]" aria-hidden />
                     Prepared on device
@@ -2302,7 +2302,7 @@ function ChatInner() {
                   {liveBudget && (
                     <span
                       title="Context used by this answer, out of what your plan allows per answer"
-                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-medium ${
+                      className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${
                         liveBudget.truncated
                           ? 'bg-amber-500/15 text-amber-800 dark:text-amber-200'
                           : 'border border-[var(--border)] bg-[var(--surface,#FCFCFC)] text-[var(--text-muted,#787878)]'
@@ -2311,7 +2311,7 @@ function ChatInner() {
                       {formatBudgetChip(liveBudget, liveRlmDepth || undefined)}
                     </span>
                   )}
-                  <span className="ml-auto hidden text-[10px] text-[var(--text-muted)] sm:inline">
+                  <span className="ml-auto hidden text-[11px] text-[var(--text-muted)] sm:inline">
                     Enter to send · Shift+Enter for newline
                   </span>
                 </div>
@@ -2353,10 +2353,10 @@ function ChatInner() {
                           <IconFile size={13} className="shrink-0 text-[#E4E4E2]" />
                           <span className="truncate">{att.filename}</span>
                           {att.status === 'parsed' ? (
-                            <span className="text-[9px] uppercase tracking-wide text-[#4A7C59]">ready</span>
+                            <span className="text-[11px] uppercase tracking-wide text-[#4A7C59]">ready</span>
                           ) : null}
                           {att.status === 'failed' ? (
-                            <span className="text-[9px] uppercase tracking-wide">failed</span>
+                            <span className="text-[11px] uppercase tracking-wide">failed</span>
                           ) : null}
                           <button
                             type="button"

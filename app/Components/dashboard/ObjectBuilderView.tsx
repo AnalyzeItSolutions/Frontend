@@ -1170,7 +1170,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                                           <span>{cellText(r, f)}</span>
                                         )}
                                         {isOverridden && (
-                                          <span className="px-1 py-0.5 text-[9px] rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-medium" title="Manual user override protected from connector overwrite">
+                                          <span className="px-1 py-0.5 text-[11px] rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 font-medium" title="Manual user override protected from connector overwrite">
                                             override
                                           </span>
                                         )}
@@ -1239,7 +1239,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                               <dl className="mt-1 grid grid-cols-2 gap-x-3 gap-y-0.5">
                                 {rest.slice(0, 4).map((f) => (
                                   <div key={f.api_name} className="min-w-0">
-                                    <dt className="text-[10px] uppercase tracking-wide text-[var(--text-muted)]">{f.label}</dt>
+                                    <dt className="text-[11px] uppercase tracking-wide text-[var(--text-muted)]">{f.label}</dt>
                                     <dd className="text-xs text-[var(--text-primary)] truncate">{cellText(r, f)}</dd>
                                   </div>
                                 ))}
@@ -1697,7 +1697,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                               {f.label} {f.required && <span className="text-red-500">*</span>}
                             </label>
                             {isOverridden && (
-                              <span className="text-[10px] text-amber-500 font-medium">Overridden</span>
+                              <span className="text-[11px] text-amber-500 font-medium">Overridden</span>
                             )}
                           </div>
 
@@ -1813,7 +1813,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                             <IconLink className="w-3.5 h-3.5 text-[var(--coral)]" />
                             {group.object_label} ({group.count})
                           </span>
-                          <span className="text-[10px] text-[var(--text-muted)] font-mono">
+                          <span className="text-[11px] text-[var(--text-muted)] font-mono">
                             via field: {group.field_name}
                           </span>
                         </div>
@@ -1829,7 +1829,7 @@ export function ObjectBuilderView({ projectId, initialObject, createRequest }: O
                               >
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium text-[var(--text-primary)]">{title}</span>
-                                  <span className="font-mono text-[10px] text-[var(--text-muted)]">{cr.id.slice(0, 10)}...</span>
+                                  <span className="font-mono text-[11px] text-[var(--text-muted)]">{cr.id.slice(0, 10)}...</span>
                                 </div>
                                 <span className="text-[11px] text-[var(--text-muted)]">
                                   {crData.amount ? `$${crData.amount}` : crData.status || '—'}

@@ -36,7 +36,7 @@ export function BulkChangeCard({
   const decided = status === 'applied' || status === 'rejected' || status === 'undoing' || status === 'undone';
   return (
     <div role="group" aria-label="Proposed change to many records" className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3">
-      <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Proposed change to many records · needs your approval</p>
+      <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Proposed change to many records · needs your approval</p>
       <p className="mt-1 text-sm font-medium text-[var(--text-primary)]">{bulkHeadline(proposal)}</p>
       {proposal.where.length ? (
         <p className="mt-1 text-xs text-[var(--text-muted)]">

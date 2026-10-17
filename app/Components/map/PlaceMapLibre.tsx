@@ -1101,7 +1101,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
                   }}
                 >
                   <span className="flex flex-col items-center" title={point.label}>
-                    <span className="mb-0.5 max-w-[7rem] truncate text-[9px] font-mono text-[var(--text-primary)]">
+                    <span className="mb-0.5 max-w-[7rem] truncate text-[11px] font-mono text-[var(--text-primary)]">
                       {point.label}
                     </span>
                     <span

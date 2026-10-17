@@ -7,10 +7,10 @@ export function MemoryCitations({ citations }: { citations: MemoryCitation[] }) 
   if (!citations.length) return null;
   return (
     <div className="mt-3" aria-label="Sources from your notes">
-      <p className="mb-1 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">From your notes</p>
+      <p className="mb-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">From your notes</p>
       <div className="flex flex-wrap gap-1.5">
         {citations.map((c) => (
-          <details key={c.key} className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[10px] text-[var(--text-secondary)] open:w-full">
+          <details key={c.key} className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--text-secondary)] open:w-full">
             <summary className="cursor-pointer list-none font-medium transition-colors hover:text-[var(--text-primary)]">
               {c.label}
               <span className="ml-1.5 opacity-50">{c.opened ? 'read in full' : 'matched'}</span>

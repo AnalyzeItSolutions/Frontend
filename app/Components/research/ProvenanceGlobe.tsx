@@ -42,15 +42,15 @@ export function ProvenanceGlobe({ sources }: { sources: ResearchSource[] }) {
   return (
     <div className="mt-3 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-2)]">
       <div className="flex items-center justify-between px-3 py-2">
-        <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+        <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
           Sources used
         </p>
-        <p className="text-[10px] text-[var(--text-muted)]">{markers.length} queried</p>
+        <p className="text-[11px] text-[var(--text-muted)]">{markers.length} queried</p>
       </div>
       {legend.length > 0 ? (
         <div className="flex flex-wrap gap-2 px-3 pb-2">
           {legend.map((cat) => (
-            <span key={cat} className="inline-flex items-center gap-1 text-[10px] text-[var(--text-secondary)]">
+            <span key={cat} className="inline-flex items-center gap-1 text-[11px] text-[var(--text-secondary)]">
               <span
                 className="h-1.5 w-1.5 rounded-full"
                 style={{ background: CATEGORY_COLOR[cat] || '#E4E4E2' }}

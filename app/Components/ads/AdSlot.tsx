@@ -242,19 +242,19 @@ export function AdSlot({ placement, enabled, onLoaded, onDismiss, className = ''
     >
       {showChrome ? (
         <div className="mb-1 flex items-center justify-between gap-2">
-          <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
+          <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--text-muted)]">
             Sponsored{isVideo ? ' · video' : ''}
           </span>
           <div className="flex items-center gap-2">
             {isVideo ? (
-              <span className="text-[10px] tabular-nums text-[var(--text-muted)]">
+              <span className="text-[11px] tabular-nums text-[var(--text-muted)]">
                 {remaining > 0 ? `${remaining}s to unlock` : 'Unlocked'}
               </span>
             ) : null}
             <button
               type="button"
               onClick={skip}
-              className="text-[10px] font-medium text-[var(--text-muted)] underline underline-offset-2"
+              className="text-[11px] font-medium text-[var(--text-muted)] underline underline-offset-2"
             >
               Skip
             </button>

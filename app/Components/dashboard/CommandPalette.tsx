@@ -223,7 +223,7 @@ export function CommandPalette({
                   aria-label="Search commands"
                   autoComplete="off"
                 />
-                <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-2)] border border-[var(--border)] text-[var(--text-muted)]">
+                <kbd className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-2)] border border-[var(--border)] text-[var(--text-muted)]">
                   Esc
                 </kbd>
               </div>
@@ -239,7 +239,7 @@ export function CommandPalette({
                   let globalIdx = 0;
                   return groups.map(({ group, actions }) => (
                     <div key={group}>
-                      <div className="px-4 py-1.5 text-[10px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
+                      <div className="px-4 py-1.5 text-[11px] font-mono uppercase tracking-widest text-[var(--text-muted)]">
                         {groupLabel[group] || group}
                       </div>
                       {actions.map((action) => {
@@ -289,7 +289,7 @@ export function CommandPalette({
               </div>
 
               {/* Footer */}
-              <div className="px-4 py-2 border-t border-[var(--border)] flex items-center gap-3 text-[10px] font-mono text-[var(--text-muted)]">
+              <div className="px-4 py-2 border-t border-[var(--border)] flex items-center gap-3 text-[11px] font-mono text-[var(--text-muted)]">
                 <span className="flex items-center gap-1"><IconKeyboard size={11} /> Navigate</span>
                 <span>↑↓ select · Enter confirm · Esc close</span>
               </div>

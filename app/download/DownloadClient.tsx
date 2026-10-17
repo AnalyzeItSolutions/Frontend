@@ -60,7 +60,7 @@ function Command({ title, hint, command }: { title: string; hint: string; comman
         <CopyButton text={command} label="Copy command" />
       </div>
       <pre className="mt-2 overflow-x-auto rounded-lg bg-black/80 p-3 text-xs leading-relaxed text-[#E4E4E2]"><code>{command}</code></pre>
-      <p className="mt-2 text-xs text-[#414141]/70 dark:text-[#888888]">{hint}</p>
+      <p className="mt-2 text-xs text-[var(--text-muted)]">{hint}</p>
     </div>
   );
 }
@@ -103,7 +103,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
     <div className="not-prose space-y-10">
       {/* One-line install: the main way */}
       <section className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
-        <div className="font-mono text-xs uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">{detected ? `Detected: ${osLabel}` : 'Install'} · copy, paste, done</div>
+        <div className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)]">{detected ? `Detected: ${osLabel}` : 'Install'} · copy, paste, done</div>
         <h2 className="mt-1 text-xl font-semibold text-[#262626] dark:text-[#E5E5E5]">Install AnalyzeIt with one line</h2>
         <p className="mt-2 text-sm text-[#414141]/80 dark:text-[#BABABA]">
           {os === 'windows' ? 'Open PowerShell' : 'Open Terminal'}, paste a line, press Enter. It picks the right build for your computer, checks its SHA-256 and installs it.
@@ -136,7 +136,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
             </>
           )}
         </div>
-        <p className="mt-4 text-xs text-[#414141]/70 dark:text-[#888888]">
+        <p className="mt-4 text-xs text-[var(--text-muted)]">
           Read the script first at <a className="text-[#E4E4E2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E4E4E2] hover:underline" href="/install.ps1">/install.ps1</a>. Updates afterwards are signed and verified by the program itself.
         </p>
       </section>
@@ -172,11 +172,11 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
                     <div className="text-sm font-medium text-[#262626] dark:text-[#E5E5E5]">{KIND_LABELS[f.kind as keyof typeof KIND_LABELS] || f.kind}</div>
-                    <div className="font-mono text-[11px] text-[#414141]/60 dark:text-[#888888]">{f.name} · {formatSize(f.size)}</div>
+                    <div className="font-mono text-[11px] text-[var(--text-muted)]">{f.name} · {formatSize(f.size)}</div>
                   </div>
                   <a href={f.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
                 </div>
-                <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-muted)]">
                   <span className="break-all">SHA-256 {f.sha256}</span>
                   <CopyButton text={f.sha256} label="Copy" />
                 </div>
@@ -184,17 +184,17 @@ export function DownloadClient({ releases }: { releases: Releases }) {
             ))}
           </ul>
         ) : (
-          <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">No desktop installer for this system yet.</p>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">No desktop installer for this system yet.</p>
         )}
 
         <h3 className="mt-8 text-sm font-semibold text-[#262626] dark:text-[#E5E5E5]">Command line{cli ? ` ${cli.version}` : ''}</h3>
         {cliFile ? (
           <div className="mt-2 rounded-xl border border-[#414141]/10 dark:border-[#262626] p-4 flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="font-mono text-[11px] text-[#414141]/60 dark:text-[#888888]">{cliFile.name} · {formatSize(cliFile.size)}</div>
+              <div className="font-mono text-[11px] text-[var(--text-muted)]">{cliFile.name} · {formatSize(cliFile.size)}</div>
               <a href={cliFile.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
+            <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-muted)]">
               <span className="break-all">SHA-256 {cliFile.sha256}</span>
               <CopyButton text={cliFile.sha256} label="Copy" />
             </div>
@@ -203,7 +203,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
               : `chmod +x ${cliFile.name}\nsudo mv ${cliFile.name} /usr/local/bin/analyzeit\nanalyzeit login            # opens your browser\nanalyzeit update           # keeps it current`}</pre>
           </div>
         ) : (
-          <p className="mt-2 text-sm text-[#414141]/70 dark:text-[#888888]">No command-line build for this system yet.</p>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">No command-line build for this system yet.</p>
         )}
       </section>
 

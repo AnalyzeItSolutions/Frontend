@@ -18,7 +18,7 @@ export function MathStepRail({
   if (!steps.length) return null;
   return (
     <nav aria-label="Math steps" className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
-      <p className="mb-1.5 text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
+      <p className="mb-1.5 text-[11px] font-mono uppercase tracking-wider" style={{ color: 'var(--finding-soft)' }}>
         Math steps
       </p>
       <ol className="space-y-1">
@@ -41,7 +41,7 @@ export function MathStepRail({
                 </span>
                 <span className={`flex-1 ${s.state === 'running' ? 'font-medium text-[var(--text-primary)]' : 'text-[var(--text-primary)]'}`}>{s.label}</span>
                 <span
-                  className="shrink-0 font-mono text-[10px] uppercase tracking-wide"
+                  className="shrink-0 font-mono text-[11px] uppercase tracking-wide"
                   style={{
                     color:
                       s.state === 'done'

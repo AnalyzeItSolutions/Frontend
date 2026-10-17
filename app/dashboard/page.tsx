@@ -678,7 +678,7 @@ export default function DashboardPage() {
                     className="absolute right-0 mt-2 w-64 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl p-2 z-50 space-y-1"
                   >
                     <div className="px-3 py-1.5 border-b border-[var(--border)]">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
                         Document Export Suite
                       </span>
                     </div>
@@ -694,7 +694,7 @@ export default function DashboardPage() {
                       <IconFileTypePdf size={16} className="text-[#EF6C6C] shrink-0" />
                       <div>
                         <div className="font-medium">Printable PDF Report</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">High-DPI editorial layout</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">High-DPI editorial layout</div>
                       </div>
                     </button>
 
@@ -709,7 +709,7 @@ export default function DashboardPage() {
                       <IconFileTypePpt size={16} className="text-[#D98F3F] shrink-0" />
                       <div>
                         <div className="font-medium">Slide Deck (PPTX)</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">Executive presentation</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">Executive presentation</div>
                       </div>
                     </button>
 
@@ -724,7 +724,7 @@ export default function DashboardPage() {
                       <IconFileSpreadsheet size={16} className="text-[#3FB68C] shrink-0" />
                       <div>
                         <div className="font-medium">Spreadsheet (XLSX)</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">Multi-table workbook</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">Multi-table workbook</div>
                       </div>
                     </button>
 
@@ -739,7 +739,7 @@ export default function DashboardPage() {
                       <IconFileTypeDoc size={16} className="text-[var(--coral)] shrink-0" />
                       <div>
                         <div className="font-medium">Narrative Brief (Word)</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">Editable document</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">Editable document</div>
                       </div>
                     </button>
 
@@ -763,7 +763,7 @@ export default function DashboardPage() {
                       <IconCode size={16} className="text-[var(--info)] shrink-0" />
                       <div>
                         <div className="font-medium">Design spec (JSON)</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">Layout + tokens — not app source</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">Layout + tokens — not app source</div>
                       </div>
                     </button>
 
@@ -786,7 +786,7 @@ export default function DashboardPage() {
                       <IconFileZip size={16} className="text-[var(--coral)] shrink-0" />
                       <div>
                         <div className="font-medium">Project Bundle (ZIP)</div>
-                        <div className="text-[10px] text-[var(--text-muted)]">Schemas, records, layout</div>
+                        <div className="text-[11px] text-[var(--text-muted)]">Schemas, records, layout</div>
                       </div>
                     </button>
 
@@ -809,7 +809,7 @@ export default function DashboardPage() {
                         <IconShare size={16} className="shrink-0" />
                         <div>
                           <div className="font-medium">Copy Shareable Link</div>
-                          <div className="text-[10px] text-[var(--text-muted)]">Anyone with it can view this dashboard</div>
+                          <div className="text-[11px] text-[var(--text-muted)]">Anyone with it can view this dashboard</div>
                         </div>
                       </button>
                       <button
@@ -927,7 +927,7 @@ export default function DashboardPage() {
 
                     {activeProjectId ? (
                       <div className="space-y-1.5 border-t border-[var(--border)] pt-3">
-                        <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Personal link</p>
+                        <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Personal link</p>
                         <div className="flex items-center gap-1.5">
                           <IconLink size={12} className="text-[var(--text-muted)] shrink-0" />
                           <input
@@ -937,9 +937,9 @@ export default function DashboardPage() {
                             className="w-28 bg-transparent border-b border-[var(--border)] text-[11px] font-mono text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]/50"
                             title="Premium personal subdomain: slug.analyzeit.si"
                           />
-                          <span className="text-[10px] text-[var(--text-muted)] shrink-0">.analyzeit.si</span>
+                          <span className="text-[11px] text-[var(--text-muted)] shrink-0">.analyzeit.si</span>
                           {personalSlugAllowed(user) === false ? (
-                            <Link href="/billing" className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--coral)]">
+                            <Link href="/billing" className="text-[11px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--coral)]">
                               Premium
                             </Link>
                           ) : (
@@ -971,7 +971,7 @@ export default function DashboardPage() {
                                   setSlugBusy(false);
                                 }
                               }}
-                              className="text-[10px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-40"
+                              className="text-[11px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-40"
                             >
                               Save
                             </button>
@@ -981,7 +981,7 @@ export default function DashboardPage() {
                     ) : null}
 
                     <div className="border-t border-[var(--border)] pt-3 space-y-2">
-                      <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Layout v{layoutVersion}</p>
+                      <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Layout v{layoutVersion}</p>
                       <LayoutSwitcher
                         projectId={activeProjectId}
                         currentLayout={currentLayout}
@@ -1219,10 +1219,10 @@ export default function DashboardPage() {
                     >
                       <div className="space-y-2.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[var(--coral)]/15 text-[var(--coral)] border border-[var(--coral)]/30">
+                          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[var(--coral)]/15 text-[var(--coral)] border border-[var(--coral)]/30">
                             {template.badge}
                           </span>
-                          <span className="text-[10px] font-mono text-[var(--text-muted)]">
+                          <span className="text-[11px] font-mono text-[var(--text-muted)]">
                             {template.widgets.length} widget{template.widgets.length === 1 ? '' : 's'}
                           </span>
                         </div>
@@ -1240,7 +1240,7 @@ export default function DashboardPage() {
                           {template.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-2)] text-[var(--text-muted)]"
+                              className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-[var(--surface-2)] text-[var(--text-muted)]"
                             >
                               #{tag}
                             </span>
@@ -1380,12 +1380,12 @@ export default function DashboardPage() {
                           <div className="flex items-center gap-2">
                             <span className="text-xs font-medium text-[var(--text-primary)]">{proj.name}</span>
                             {isActive && (
-                              <span className="text-[10px] font-mono text-[#3FB68C] px-1.5 py-0.5 rounded bg-[#3FB68C]/15">
+                              <span className="text-[11px] font-mono text-[#3FB68C] px-1.5 py-0.5 rounded bg-[#3FB68C]/15">
                                 Active
                               </span>
                             )}
                           </div>
-                          <span className="text-[10px] font-mono text-[var(--text-muted)]">ID: {proj.id.slice(0, 16)}...</span>
+                          <span className="text-[11px] font-mono text-[var(--text-muted)]">ID: {proj.id.slice(0, 16)}...</span>
                         </div>
                         <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                           <button

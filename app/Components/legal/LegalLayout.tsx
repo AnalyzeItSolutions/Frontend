@@ -43,7 +43,7 @@ export function LegalLayout({
       {subtitle}
     </p>
   ) : showHeroUpdated && updated ? (
-    <p className="text-sm text-[#414141]/50 dark:text-[#888888] mb-10">
+    <p className="text-sm text-[var(--text-muted)] mb-10">
       Last updated {updated}
     </p>
   ) : (
@@ -60,7 +60,7 @@ export function LegalLayout({
           <ThemeToggle />
           <Link
             href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888] hover:text-[#E4E4E2] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-[#E4E4E2] transition-colors"
           >
             Sign in
           </Link>
@@ -75,7 +75,7 @@ export function LegalLayout({
 
       <main id="main-content" className="flex-1 w-full max-w-3xl mx-auto px-6 py-14 sm:py-20">
         {eyebrow !== false ? (
-          <p className="font-mono text-[11px] uppercase tracking-widest text-[#414141]/45 dark:text-[#888888] mb-3">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-3">
             {eyebrow}
           </p>
         ) : null}
@@ -92,7 +92,7 @@ export function LegalLayout({
           />
         </article>
 
-        <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[#414141]/50 dark:text-[#888888]">
+        <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
           {LEGAL_NAV.map((item) => (
             <Link key={item.href} href={item.href} className="hover:text-[#E4E4E2] transition-colors">
               {item.label}

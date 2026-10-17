@@ -66,7 +66,7 @@ export function LayoutSwitcher({ projectId, currentLayout, onLoadLayout }: Props
         Save layout
       </button>
       {error ? (
-        <span role="alert" className="text-[10px] text-[#EF6C6C]">
+        <span role="alert" className="text-[11px] text-[#EF6C6C]">
           {error}
         </span>
       ) : null}

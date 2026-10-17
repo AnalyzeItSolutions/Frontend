@@ -26,7 +26,7 @@ export function DocPage({ title, subtitle, children }: { title: string; subtitle
       <div className="max-w-2xl space-y-5 text-[15px] leading-relaxed text-[#383838] dark:text-[#DCDCDC] [&_h2]:mt-8 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:text-[#2D2D2D] dark:[&_h2]:text-[#EDEDED] [&_a]:text-[#141414] [&_a]:underline [&_a]:underline-offset-2 [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
         {children}
       </div>
-      <p className="mt-10 text-sm text-[#414141]/70 dark:text-[#BABABA]">
+      <p className="mt-10 text-sm text-[var(--text-secondary)]">
         Want to see it rather than read about it? <Link href="/demo" className="text-[#141414] underline underline-offset-2">Try the live demo</Link>, no account needed.
       </p>
     </LegalLayout>

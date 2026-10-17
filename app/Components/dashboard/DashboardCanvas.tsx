@@ -536,18 +536,18 @@ export function DashboardCanvas({
             {activeProposals.length}{' '}
             {activeProposals.length === 1 ? 'pending proposal' : 'pending proposals'}
           </span>
-          <span className="text-[#414141]/40 dark:text-[#888888]">·</span>
-          <span className="text-[#414141]/70 dark:text-[#BABABA]">
+          <span className="text-[var(--text-muted)]">·</span>
+          <span className="text-[var(--text-secondary)]">
             {widgets.length} {widgets.length === 1 ? 'widget' : 'widgets'} applied
           </span>
-          <span className="text-[#414141]/40 dark:text-[#888888]">·</span>
-          <span className="text-[#414141]/70 dark:text-[#BABABA]">
+          <span className="text-[var(--text-muted)]">·</span>
+          <span className="text-[var(--text-secondary)]">
             v{layoutVersion}
           </span>
         </div>
 
         {activeProposals.length > 0 && (
-          <div className="flex items-center gap-2 text-[10px] text-[#414141]/60 dark:text-[#888888]">
+          <div className="flex items-center gap-2 text-[11px] text-[var(--text-muted)]">
             <span>
               Press{' '}
               <kbd className="px-1.5 py-0.5 rounded bg-black/10 dark:bg-[#2C2C2C] font-bold text-[#414141] dark:text-[#EDEDED]">
@@ -664,7 +664,7 @@ export function DashboardCanvas({
             <span className="px-2 py-0.5 rounded-md bg-[#E4E4E2]/20 font-bold">
               {activeFilter.dimension} = &quot;{activeFilter.value}&quot;
             </span>
-            <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
+            <span className="text-[11px] text-[var(--text-muted)]">
               (Only widgets tagged with &apos;{activeFilter.dimension}&apos; react)
             </span>
           </div>
@@ -723,18 +723,18 @@ export function DashboardCanvas({
                   </h2>
                   <IconPencil
                     size={14}
-                    className="opacity-0 group-hover:opacity-60 text-[#414141]/50 dark:text-[#888888] transition-opacity"
+                    className="opacity-0 group-hover:opacity-60 text-[var(--text-muted)] transition-opacity"
                   />
                 </div>
               )}
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
                 v{layoutVersion}
               </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#2C2C2C] text-[#414141]/60 dark:text-[#BABABA]">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-black/5 dark:bg-[#2C2C2C] text-[var(--text-muted)] dark:text-[#BABABA]">
                 {widgets.length} {widgets.length === 1 ? 'widget' : 'widgets'}
               </span>
             </div>
-            <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5 flex items-center gap-2 flex-wrap">
+            <p className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5 flex items-center gap-2 flex-wrap">
               {projectId ? (
                 <>
                   Project ID: <span className="underline">{projectId.slice(0, 8)}…</span> ·{' '}
@@ -742,7 +742,7 @@ export function DashboardCanvas({
               ) : null}
               Last updated by <span className="font-semibold">{updatedBy || 'agent'}</span>
               {presenceUsers && presenceUsers.length > 0 && (
-                <span className="inline-flex items-center gap-1.5 ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono border border-emerald-500/20">
+                <span className="inline-flex items-center gap-1.5 ml-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono border border-emerald-500/20">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span>{presenceUsers.length} online</span>
                   <span className="flex items-center -space-x-1 ml-0.5">
@@ -751,7 +751,7 @@ export function DashboardCanvas({
                       return (
                         <span
                           key={u.user_id}
-                          className="w-4 h-4 rounded-full bg-[#E4E4E2] text-white text-[8px] font-bold flex items-center justify-center ring-1 ring-white dark:ring-[#1B1B1B]"
+                          className="w-4 h-4 rounded-full bg-[#E4E4E2] text-white text-[11px] font-bold flex items-center justify-center ring-1 ring-white dark:ring-[#1B1B1B]"
                           title={`${u.user_name}${u.focused_widget_id ? ` (viewing ${u.focused_widget_id})` : ''}`}
                         >
                           {init}
@@ -777,7 +777,7 @@ export function DashboardCanvas({
               <IconHistory size={13} />
               <span>History</span>
               {layoutHistory.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] text-[9px] font-semibold">
+                <span className="px-1.5 py-0.2 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] text-[11px] font-semibold">
                   {layoutHistory.length}
                 </span>
               )}
@@ -877,7 +877,7 @@ export function DashboardCanvas({
                     <IconSparkles size={15} className="text-[#E4E4E2]" />
                     Agent Proposed Dashboard Modification
                     {isStale && (
-                      <span className="inline-flex items-center gap-1 text-[10px] text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full font-normal">
+                      <span className="inline-flex items-center gap-1 text-[11px] text-amber-600 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full font-normal">
                         <IconClock size={12} /> Stale (&gt;15m)
                       </span>
                     )}
@@ -949,7 +949,7 @@ export function DashboardCanvas({
                     </div>
                   )}
 
-                  <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                  <p className="text-[11px] font-mono text-[var(--text-muted)]">
                     Action ID: {proposal.actionId} · Safety Gate: Human Confirmation Required
                   </p>
                 </div>
@@ -984,7 +984,7 @@ export function DashboardCanvas({
                       >
                         <IconX size={14} />
                         <span>Reject</span>
-                        <kbd className="hidden sm:inline-block text-[9px] px-1 py-0.2 rounded bg-black/10 dark:bg-[#2C2C2C] opacity-70">
+                        <kbd className="hidden sm:inline-block text-[11px] px-1 py-0.2 rounded bg-black/10 dark:bg-[#2C2C2C] opacity-70">
                           Esc
                         </kbd>
                       </button>
@@ -1003,7 +1003,7 @@ export function DashboardCanvas({
                           <>
                             <IconCheck size={14} />
                             <span>Accept &amp; Apply</span>
-                            <kbd className="hidden sm:inline-block text-[9px] px-1 py-0.2 rounded bg-white/20 text-white font-mono">
+                            <kbd className="hidden sm:inline-block text-[11px] px-1 py-0.2 rounded bg-white/20 text-white font-mono">
                               ↵
                             </kbd>
                           </>
@@ -1017,7 +1017,7 @@ export function DashboardCanvas({
               {/* Edit-Before-Accept: Timeframe Selector for charts */}
               {!isMultiWidget && proposal.widgetSpec && (componentType === 'line_chart' || componentType === 'bar_chart') && (
                 <div className="flex items-center gap-2 pt-2 border-t border-[#414141]/10 dark:border-[#262626] text-xs font-mono">
-                  <span className="text-[#414141]/60 dark:text-[#888888]">Timeframe:</span>
+                  <span className="text-[var(--text-muted)]">Timeframe:</span>
                   {(['1D', '1W', '1M', '1Y'] as const).map((tf) => {
                     const currentTf = proposal.widgetSpec?.timeframe || proposal.widgetSpec?.props?.timeframe || '1D';
                     const isSelected = currentTf === tf;
@@ -1038,10 +1038,10 @@ export function DashboardCanvas({
                             onUpdateProposalSpec(proposal.actionId, updated);
                           }
                         }}
-                        className={`px-2 py-0.5 rounded-md text-[10px] font-mono transition-all cursor-pointer ${
+                        className={`px-2 py-0.5 rounded-md text-[11px] font-mono transition-all cursor-pointer ${
                           isSelected
                             ? 'bg-[#E4E4E2] text-white font-semibold'
-                            : 'bg-black/5 dark:bg-[#262626] text-[#414141]/70 dark:text-[#BABABA] hover:bg-black/10'
+                            : 'bg-black/5 dark:bg-[#262626] text-[var(--text-secondary)] hover:bg-black/10'
                         }`}
                       >
                         {tf}
@@ -1061,9 +1061,9 @@ export function DashboardCanvas({
 
               {/* Live Preview Box of the Proposed Widget (or Multi-Widget Grid) */}
               <div className="mt-3 pt-3 border-t border-[#414141]/10 dark:border-[#262626]">
-                <div className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider mb-2 flex items-center justify-between">
+                <div className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider mb-2 flex items-center justify-between">
                   <span>Widget Preview</span>
-                  <span className="text-[9px] text-[#888888]">Interactive sandbox preview</span>
+                  <span className="text-[11px] text-[#888888]">Interactive sandbox preview</span>
                 </div>
 
                 {isMultiWidget ? (
@@ -1161,7 +1161,7 @@ export function DashboardCanvas({
             <h3 className="font-serif text-xl font-medium text-[#414141] dark:text-[#EDEDED]">
               Interactive Dashboard Canvas
             </h3>
-            <p className="text-xs text-[#414141]/60 dark:text-[#888888] leading-relaxed">
+            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
               Your generated widgets, trend lines, and KPI metrics will render here as you explore data. Ask the AI agent in the chat or tap a starter below to build your canvas.
             </p>
           </div>
@@ -1243,7 +1243,7 @@ export function DashboardCanvas({
                     <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
                       Layout Version History
                     </h3>
-                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                    <p className="text-[11px] font-mono text-[var(--text-muted)]">
                       Current: v{layoutVersion} · Monotonic OCC
                     </p>
                   </div>
@@ -1251,7 +1251,7 @@ export function DashboardCanvas({
                 <button
                   type="button"
                   onClick={() => setIsHistoryOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={16} />
                 </button>
@@ -1259,7 +1259,7 @@ export function DashboardCanvas({
 
               <div className="flex-1 overflow-y-auto space-y-3 pr-1">
                 {(!layoutHistory || layoutHistory.length === 0) ? (
-                  <div className="p-8 text-center text-xs font-mono text-[#414141]/60 dark:text-[#888888] border border-dashed border-[#414141]/20 dark:border-[#484848] rounded-2xl">
+                  <div className="p-8 text-center text-xs font-mono text-[var(--text-muted)] border border-dashed border-[#414141]/20 dark:border-[#484848] rounded-2xl">
                     No previous snapshots yet. Canvas mutations create checkpoints here.
                   </div>
                 ) : (
@@ -1272,7 +1272,7 @@ export function DashboardCanvas({
                         <span className="font-semibold px-2 py-0.5 rounded-md bg-[#E4E4E2]/10 text-[#E4E4E2]">
                           v{snap.version}
                         </span>
-                        <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
+                        <span className="text-[11px] text-[var(--text-muted)]">
                           {snap.timestamp}
                         </span>
                       </div>
@@ -1282,7 +1282,7 @@ export function DashboardCanvas({
                       </p>
 
                       <div className="flex items-center justify-between pt-2 border-t border-[#414141]/5 dark:border-[#484848]">
-                        <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                        <span className="text-[11px] font-mono text-[var(--text-muted)]">
                           {snap.widgets.length} widgets
                         </span>
                         {onRollback && (
@@ -1304,7 +1304,7 @@ export function DashboardCanvas({
                 )}
               </div>
 
-              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-[#262626] text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
+              <div className="p-3 rounded-xl bg-black/[0.03] dark:bg-[#262626] text-[11px] font-mono text-[var(--text-muted)]">
                 Rolling back applies the snapshot layout and advances version to <strong>v{layoutVersion + 1}</strong> monotonically.
               </div>
             </motion.div>
@@ -1332,13 +1332,13 @@ export function DashboardCanvas({
                 <button
                   type="button"
                   onClick={() => setIsExportOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={16} />
                 </button>
               </div>
 
-              <p className="text-xs font-mono text-[#414141]/70 dark:text-[#BABABA]">
+              <p className="text-xs font-mono text-[var(--text-secondary)]">
                 Choose an export format for &quot;{projectName}&quot; (v{layoutVersion}, {widgets.length} widgets).
               </p>
 
@@ -1359,7 +1359,7 @@ export function DashboardCanvas({
                     <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED] group-hover:text-[#E4E4E2]">
                       High-DPI Image (.PNG)
                     </h4>
-                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5">
+                    <p className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">
                       Full visual snapshot. Sandboxed iframes isolated with security boundary card.
                     </p>
                   </div>
@@ -1386,7 +1386,7 @@ export function DashboardCanvas({
                     <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED] group-hover:text-[#0284C7]">
                       {copiedMarkdown ? 'Copied to Clipboard!' : 'Markdown Report'}
                     </h4>
-                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] mt-0.5">
+                    <p className="text-[11px] font-mono text-[var(--text-muted)] mt-0.5">
                       Structured Markdown tables, KPI metrics, and data provenance.
                     </p>
                   </div>
@@ -1416,7 +1416,7 @@ export function DashboardCanvas({
                     <h3 className="font-serif text-lg font-semibold text-[#414141] dark:text-[#EDEDED]">
                       Dashboard Templates
                     </h3>
-                    <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                    <p className="text-[11px] font-mono text-[var(--text-muted)]">
                       Export reusable canvas blueprints or load existing recipes
                     </p>
                   </div>
@@ -1424,7 +1424,7 @@ export function DashboardCanvas({
                 <button
                   type="button"
                   onClick={() => setIsTemplateModalOpen(false)}
-                  className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
+                  className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED] cursor-pointer"
                 >
                   <IconX size={18} />
                 </button>
@@ -1438,7 +1438,7 @@ export function DashboardCanvas({
                   className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors ${
                     activeTemplateTab === 'save'
                       ? 'bg-[#E4E4E2]/15 text-[#E4E4E2] font-semibold'
-                      : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
+                      : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                   }`}
                 >
                   Save Current Canvas
@@ -1455,7 +1455,7 @@ export function DashboardCanvas({
                   className={`px-3 py-1.5 rounded-lg cursor-pointer transition-colors ${
                     activeTemplateTab === 'browse'
                       ? 'bg-[#E4E4E2]/15 text-[#E4E4E2] font-semibold'
-                      : 'text-[#414141]/60 dark:text-[#888888] hover:text-[#414141] dark:hover:text-[#EDEDED]'
+                      : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                   }`}
                 >
                   Browse Library ({availableTemplates.length})
@@ -1564,7 +1564,7 @@ export function DashboardCanvas({
               {activeTemplateTab === 'browse' && (
                 <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
                   {availableTemplates.length === 0 ? (
-                    <div className="text-center py-8 text-xs font-mono text-[#414141]/60 dark:text-[#888888]">
+                    <div className="text-center py-8 text-xs font-mono text-[var(--text-muted)]">
                       No templates saved yet. Click &quot;Save Current Canvas&quot; to create one.
                     </div>
                   ) : (
@@ -1577,12 +1577,12 @@ export function DashboardCanvas({
                           <h4 className="font-serif text-sm font-semibold text-[#414141] dark:text-[#EDEDED]">
                             {tpl.name}
                           </h4>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
+                          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
                             {tpl.widgets?.length || 0} widgets
                           </span>
                         </div>
                         {tpl.description && (
-                          <p className="text-[11px] font-mono text-[#414141]/70 dark:text-[#BABABA]">
+                          <p className="text-[11px] font-mono text-[var(--text-secondary)]">
                             {tpl.description}
                           </p>
                         )}
@@ -1591,7 +1591,7 @@ export function DashboardCanvas({
                             {tpl.tags?.map((t) => (
                               <span
                                 key={t}
-                                className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-black/5 dark:bg-[#2C2C2C] text-[#414141]/60 dark:text-[#888888]"
+                                className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-black/5 dark:bg-[#2C2C2C] text-[var(--text-muted)]"
                               >
                                 #{t}
                               </span>

@@ -112,7 +112,7 @@ export function CitationFooter({
           </span>
         )}
         {snapStatus === 'error' && snapError && (
-          <span className="text-[10px] text-[#EF6C6C] truncate max-w-[120px]" title={snapError}>
+          <span className="text-[11px] text-[#EF6C6C] truncate max-w-[120px]" title={snapError}>
             {snapError}
           </span>
         )}
@@ -364,14 +364,14 @@ export function BarChartWidget({
           const heightPct = Math.round((item.value / maxVal) * 100);
           return (
             <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end">
-              <span className="text-[10px] font-mono tabular-nums text-[var(--text-muted)]">
+              <span className="text-[11px] font-mono tabular-nums text-[var(--text-muted)]">
                 {item.value}
               </span>
               <div
                 className="w-full max-w-[32px] bg-[#E4E4E2] hover:bg-[#E4E4E2] rounded-t transition-all shadow-xs"
                 style={{ height: `${Math.max(heightPct, 8)}%` }}
               />
-              <span className="text-[10px] font-medium text-[var(--text-muted)]">
+              <span className="text-[11px] font-medium text-[var(--text-muted)]">
                 {item.label}
               </span>
             </div>
@@ -614,7 +614,7 @@ export function ProgressRingWidget({
     <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             {metric}
           </span>
           <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -625,7 +625,7 @@ export function ProgressRingWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -669,7 +669,7 @@ export function ProgressRingWidget({
             {label}
           </p>
           {sublabel && (
-            <p className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] truncate">
+            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate">
               {sublabel}
             </p>
           )}
@@ -707,7 +707,7 @@ export function ComparisonPairWidget({
     <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             {metric}
           </span>
           <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -718,7 +718,7 @@ export function ComparisonPairWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -728,28 +728,28 @@ export function ComparisonPairWidget({
 
       <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-black/[0.02] dark:bg-[#262626] border border-[#414141]/05 dark:border-[#262626] relative">
         <div className="space-y-1">
-          <span className="text-[10px] font-mono uppercase text-[#414141]/60 dark:text-[#888888]">
+          <span className="text-[11px] font-mono uppercase text-[var(--text-muted)]">
             {a.label}
           </span>
           <div className="font-serif text-xl font-bold text-[#414141] dark:text-[#EDEDED]">
             {a.value}
           </div>
           {a.sub && (
-            <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] block">
               {a.sub}
             </span>
           )}
         </div>
 
         <div className="space-y-1 border-l border-[#414141]/10 dark:border-[#262626] pl-3">
-          <span className="text-[10px] font-mono uppercase text-[#414141]/60 dark:text-[#888888]">
+          <span className="text-[11px] font-mono uppercase text-[var(--text-muted)]">
             {b.label}
           </span>
           <div className="font-serif text-xl font-bold text-[#E4E4E2]">
             {b.value}
           </div>
           {b.sub && (
-            <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] block">
               {b.sub}
             </span>
           )}
@@ -758,7 +758,7 @@ export function ComparisonPairWidget({
 
       {delta && (
         <div className="mt-3 flex items-center justify-between text-xs font-mono">
-          <span className="text-[#414141]/60 dark:text-[#888888]">Variance:</span>
+          <span className="text-[var(--text-muted)]">Variance:</span>
           <span className="px-2 py-0.5 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] font-semibold">
             {delta}
           </span>
@@ -796,7 +796,7 @@ export function TimelineWidget({
     <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+          <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
             {metric}
           </span>
           <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -807,7 +807,7 @@ export function TimelineWidget({
           <button
             type="button"
             onClick={() => onWidgetAction(widget.id, 'delete')}
-            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+            className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
             title="Remove widget"
           >
             <IconTrash size={14} />
@@ -820,14 +820,14 @@ export function TimelineWidget({
           <div key={idx} className="relative group/item">
             <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-[#E4E4E2] border-2 border-white dark:border-[#1B1B1B]" />
             <div className="space-y-0.5">
-              <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
+              <span className="text-[11px] font-mono text-[var(--text-muted)]">
                 {ev.date}
               </span>
               <h4 className="text-xs font-mono font-semibold text-[#414141] dark:text-[#EDEDED]">
                 {ev.label}
               </h4>
               {ev.description && (
-                <p className="text-[11px] font-sans text-[#414141]/70 dark:text-[#BABABA]">
+                <p className="text-[11px] font-sans text-[var(--text-secondary)]">
                   {ev.description}
                 </p>
               )}
@@ -886,7 +886,7 @@ export function HeatmapWidget({
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
-            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               {metric}
             </span>
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -897,7 +897,7 @@ export function HeatmapWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -908,7 +908,7 @@ export function HeatmapWidget({
         {/* Heatmap Matrix */}
         <div className="overflow-x-auto py-2">
           <div className="min-w-[240px]">
-            <div className="flex items-center text-[10px] font-mono text-[#414141]/60 dark:text-[#888888] mb-1 ml-12">
+            <div className="flex items-center text-[11px] font-mono text-[var(--text-muted)] mb-1 ml-12">
               {cols.map((col, idx) => (
                 <div key={idx} className="flex-1 text-center truncate px-0.5">
                   {col}
@@ -921,7 +921,7 @@ export function HeatmapWidget({
                 const rowVals = rawValues[rIdx] || [];
                 return (
                   <div key={rIdx} className="flex items-center gap-1.5">
-                    <span className="w-10 text-[10px] font-mono text-[#414141]/70 dark:text-[#888888] text-right truncate">
+                    <span className="w-10 text-[11px] font-mono text-[var(--text-muted)] text-right truncate">
                       {row}
                     </span>
                     <div className="flex-1 flex items-center gap-1">
@@ -956,7 +956,7 @@ export function HeatmapWidget({
         </div>
 
         {/* Hover detail */}
-        <div className="min-h-[18px] text-[10px] font-mono text-[#414141]/70 dark:text-[#BABABA] mt-1">
+        <div className="min-h-[18px] text-[11px] font-mono text-[var(--text-secondary)] mt-1">
           {hoveredCell ? (
             <span className="flex items-center gap-2">
               <span className="font-semibold text-[#E4E4E2]">
@@ -1047,7 +1047,7 @@ export function SparklineListWidget({
       <div>
         <div className="flex items-center justify-between mb-3">
           <div>
-            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               {metric}
             </span>
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -1058,7 +1058,7 @@ export function SparklineListWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1084,12 +1084,12 @@ export function SparklineListWidget({
                     {item.label}
                   </h4>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-[10px] font-mono text-[#414141]/60 dark:text-[#888888]">
+                    <span className="text-[11px] font-mono text-[var(--text-muted)]">
                       {item.value}
                     </span>
                     {item.change && (
                       <span
-                        className={`text-[9px] font-mono font-semibold ${
+                        className={`text-[11px] font-mono font-semibold ${
                           isPositive ? 'text-[#9EBB9A]' : 'text-[#D97870]'
                         }`}
                       >
@@ -1145,7 +1145,7 @@ export function FunnelWidget({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               {metric}
             </span>
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -1156,7 +1156,7 @@ export function FunnelWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1184,7 +1184,7 @@ export function FunnelWidget({
                     <span className="font-bold text-[#414141] dark:text-[#EDEDED]">
                       {stg.value.toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-[#414141]/60 dark:text-[#888888]">
+                    <span className="text-[11px] text-[var(--text-muted)]">
                       ({overallPct}%)
                     </span>
                   </div>
@@ -1193,12 +1193,12 @@ export function FunnelWidget({
                 <div className="w-full bg-black/5 dark:bg-[#262626] h-6 rounded-lg overflow-hidden flex items-center relative">
                   <div
                     style={{ width: `${barPct}%` }}
-                    className="h-full rounded-lg bg-gradient-to-r from-[#E4E4E2] to-[#E4E4E2] transition-all flex items-center justify-between px-2.5 text-[10px] font-mono text-[#292929] font-medium shadow-inner"
+                    className="h-full rounded-lg bg-gradient-to-r from-[#E4E4E2] to-[#E4E4E2] transition-all flex items-center justify-between px-2.5 text-[11px] font-mono text-[#292929] font-medium shadow-inner"
                   >
                     <span className="truncate">{stg.sublabel || `${overallPct}% total`}</span>
                   </div>
                   {idx > 0 && dropPct > 0 && (
-                    <span className="ml-2 text-[9px] font-mono text-[#D97870] flex-shrink-0">
+                    <span className="ml-2 text-[11px] font-mono text-[#D97870] flex-shrink-0">
                       -{dropPct}% drop
                     </span>
                   )}
@@ -1247,7 +1247,7 @@ export function DistributionWidget({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               {metric}
             </span>
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -1258,7 +1258,7 @@ export function DistributionWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1272,7 +1272,7 @@ export function DistributionWidget({
             const share = Math.round((b.count / totalCount) * 100);
             return (
               <div key={idx} className="flex-1 flex flex-col items-center h-full justify-end group/bar relative">
-                <div className="opacity-0 group-hover/bar:opacity-100 transition-opacity absolute -top-5 text-[9px] font-mono bg-black/80 dark:bg-[#2C2C2C] border border-transparent dark:border-[#484848] text-white dark:text-[#EDEDED] px-1.5 py-0.5 rounded shadow whitespace-nowrap z-10">
+                <div className="opacity-0 group-hover/bar:opacity-100 transition-opacity absolute -top-5 text-[11px] font-mono bg-black/80 dark:bg-[#2C2C2C] border border-transparent dark:border-[#484848] text-white dark:text-[#EDEDED] px-1.5 py-0.5 rounded shadow whitespace-nowrap z-10">
                   {b.count.toLocaleString()} {unit} ({share}%)
                 </div>
                 <div
@@ -1284,7 +1284,7 @@ export function DistributionWidget({
           })}
         </div>
 
-        <div className="flex items-center gap-2 mt-1.5 text-[9px] font-mono text-[#414141]/60 dark:text-[#888888]">
+        <div className="flex items-center gap-2 mt-1.5 text-[11px] font-mono text-[var(--text-muted)]">
           {buckets.map((b, idx) => (
             <div key={idx} className="flex-1 text-center truncate" title={b.range}>
               {b.range}
@@ -1355,7 +1355,7 @@ export function NodeGraphWidget({
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
-            <span className="text-[11px] font-mono text-[#414141]/60 dark:text-[#888888] uppercase tracking-wider block">
+            <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
               {metric} ({rawNodes.length} nodes)
             </span>
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
@@ -1366,7 +1366,7 @@ export function NodeGraphWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove widget"
             >
               <IconTrash size={14} />
@@ -1648,7 +1648,7 @@ export function AnnotatedChartWidget({
                   className="absolute top-0 -translate-x-1/2 pointer-events-auto"
                 >
                   <span
-                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-[9px] font-mono shadow-xs ${badgeStyle.bg}`}
+                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-[11px] font-mono shadow-xs ${badgeStyle.bg}`}
                     title={`${isUser ? 'User Note' : (ann.type || 'Event')}: ${ann.label}`}
                   >
                     {isUser ? (
@@ -1667,7 +1667,7 @@ export function AnnotatedChartWidget({
         {/* Dimension 4: User Click-to-Annotate Popover */}
         {selectedPoint && (
           <div className="mt-2.5 p-2.5 rounded-xl border border-[#91AEB5]/30 bg-[#253034]/20 dark:bg-[#2C2C2C] dark:border-[#484848] space-y-2 text-xs">
-            <div className="flex items-center justify-between font-mono text-[10px] text-[#91AEB5] font-semibold">
+            <div className="flex items-center justify-between font-mono text-[11px] text-[#91AEB5] font-semibold">
               <span className="flex items-center gap-1">
                 <IconPin size={11} /> Add note at {selectedPoint.x} ({unit}{selectedPoint.y})
               </span>
@@ -1694,7 +1694,7 @@ export function AnnotatedChartWidget({
               <select
                 value={noteType}
                 onChange={(e) => setNoteType(e.target.value as any)}
-                className="px-2 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-[10px] font-mono bg-white dark:bg-[#262626] text-[#414141] dark:text-[#EDEDED]"
+                className="px-2 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-[11px] font-mono bg-white dark:bg-[#262626] text-[#414141] dark:text-[#EDEDED]"
               >
                 <option value="note">Note</option>
                 <option value="event">Event</option>
@@ -1711,7 +1711,7 @@ export function AnnotatedChartWidget({
           </div>
         )}
 
-        <div className="flex items-center justify-between text-[9px] font-mono text-[#414141]/60 dark:text-[#888888] mt-1 px-1">
+        <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mt-1 px-1">
           <span>{series[0]?.x} · {unit}{series[0]?.y}</span>
           <span>{series[series.length - 1]?.x} · {unit}{series[series.length - 1]?.y}</span>
         </div>
@@ -1785,7 +1785,7 @@ export function AlertBannerWidget({
                 <h4 className="font-serif text-sm font-semibold tracking-tight">
                   {title}
                 </h4>
-                <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded uppercase font-bold tracking-wider ${style.badge}`}>
+                <span className={`text-[11px] font-mono px-1.5 py-0.2 rounded uppercase font-bold tracking-wider ${style.badge}`}>
                   {severity}
                 </span>
               </div>
@@ -1839,7 +1839,7 @@ export function CompositeGroupWidget({
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
               Composite · {childWidgets.length} primitives
             </span>
           </div>
@@ -1848,7 +1848,7 @@ export function CompositeGroupWidget({
             <button
               type="button"
               onClick={() => onWidgetAction(widget.id, 'delete')}
-              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[#414141]/40 hover:text-red-500 transition-all p-1"
+              className="opacity-0 group-hover:opacity-60 hover:opacity-100! text-[var(--text-muted)] hover:text-red-500 transition-all p-1"
               title="Remove composite group"
             >
               <IconTrash size={14} />
@@ -2138,7 +2138,7 @@ export function SandboxedFrameWidget({
         <span className="text-xs font-serif font-medium truncate text-[#414141] dark:text-[#EDEDED]">
           {title}
         </span>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400">
+        <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400">
           Sandboxed
         </span>
       </div>
@@ -2148,7 +2148,7 @@ export function SandboxedFrameWidget({
           <div className="flex items-center gap-1.5 text-xs font-mono text-amber-500 font-semibold">
             <IconAlertTriangle size={14} /> Code Exceeds Safety Cap
           </div>
-          <p className="text-[10px] font-mono opacity-80">
+          <p className="text-[11px] font-mono opacity-80">
             Payload ({widget.code?.length.toLocaleString()} chars) exceeds limit.
           </p>
         </div>
@@ -2157,7 +2157,7 @@ export function SandboxedFrameWidget({
           <div className="flex items-center gap-1.5 text-xs font-mono text-red-500 font-semibold">
             <IconAlertTriangle size={14} /> Frame Error
           </div>
-          <p className="text-[10px] font-mono text-red-400 max-w-full break-words">
+          <p className="text-[11px] font-mono text-red-400 max-w-full break-words">
             {iframeError}
           </p>
           <button
@@ -2166,7 +2166,7 @@ export function SandboxedFrameWidget({
               setIframeError(null);
               setReloadKey((k) => k + 1);
             }}
-            className="px-2.5 py-1 text-[10px] font-mono rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30"
+            className="px-2.5 py-1 text-[11px] font-mono rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30"
           >
             Reload Frame
           </button>
@@ -2267,7 +2267,7 @@ export function SandboxedWidgetRenderer({
     return (
       <div className="relative">
         <div className="absolute top-3 right-3 z-10">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-stone-500/10 dark:bg-stone-400/10 text-stone-600 dark:text-[#BABABA] border border-stone-500/20">
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-stone-500/10 dark:bg-stone-400/10 text-stone-600 dark:text-[#BABABA] border border-stone-500/20">
             Draft Preview
           </span>
         </div>
@@ -2310,7 +2310,7 @@ export function SandboxedWidgetRenderer({
       {/* Active Filter Scope Badge */}
       {isFilteredIn && activeFilter && (
         <div className="absolute top-3 left-3 z-10">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] border border-[#E4E4E2]/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] border border-[#E4E4E2]/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
             <IconFilter size={11} />
             {activeFilter.dimension}: {activeFilter.value}
           </span>
@@ -2328,7 +2328,7 @@ export function SandboxedWidgetRenderer({
               onClick={exportCsv}
               title="Download data as CSV"
               aria-label="Download data as CSV"
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconDownload size={13} />
             </button>
@@ -2340,7 +2340,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onRefine(widget)}
               title="Refine with AI (Click-to-chat)"
               aria-label="Refine with AI"
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconSparkles size={13} />
             </button>
@@ -2352,7 +2352,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onToggleWidth(widget.id)}
               title={widget.span === 2 ? 'Set to 1 Column' : 'Expand to 2 Columns'}
               aria-label={widget.span === 2 ? 'Set to 1 column' : 'Expand to 2 columns'}
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconColumns size={13} />
             </button>
@@ -2364,7 +2364,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveUp(widget.id)}
               title="Move Widget Up"
               aria-label="Move widget up"
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconArrowUp size={13} />
             </button>
@@ -2376,7 +2376,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveDown(widget.id)}
               title="Move Widget Down"
               aria-label="Move widget down"
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconArrowDown size={13} />
             </button>
@@ -2388,7 +2388,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onWidgetAction(widget.id, 'duplicate')}
               title="Duplicate Widget"
               aria-label="Duplicate widget"
-              className="p-1 rounded-lg text-[#414141]/70 dark:text-[#BABABA] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
             >
               <IconCopy size={13} />
             </button>
@@ -2400,7 +2400,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onWidgetAction(widget.id, 'delete')}
               title="Remove Widget"
               aria-label="Remove widget"
-              className="p-1 rounded-lg text-[#414141]/40 hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-red-500/10 transition-all cursor-pointer"
             >
               <IconTrash size={13} />
             </button>

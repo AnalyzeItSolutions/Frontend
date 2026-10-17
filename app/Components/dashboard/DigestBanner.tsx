@@ -169,7 +169,7 @@ export function DigestBanner({ dashboardId, className = '' }: { dashboardId: str
 
           {/* AI narration hint if available */}
           {data.threshold_crossed.length > 0 && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#D4A017]/80 shrink-0">
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#D4A017]/80 shrink-0">
               <IconSparkles size={10} />
               <span>Threshold alert</span>
             </span>
