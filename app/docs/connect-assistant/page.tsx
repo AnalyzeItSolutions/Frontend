@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/docs/connect-assistant' },
 };
 
-const MCP_URL = 'https://backend-qwiq.onrender.com/mcp';
+const MCP_URL = 'https://api.analyzeit.si/mcp';
 
 export default function Page() {
   return (
