@@ -7,6 +7,11 @@ interface FAQItem {
 
 const FAQS: FAQItem[] = [
   {
+    question: 'Is AnalyzeIt only for data questions?',
+    answer:
+      'No. Ask it anything: draft an email, write or fix code, plan a project, explain a concept, research a topic, or work out a loan or an investment. It is strongest where numbers matter: sums, statistics and money maths run in code, so the figures are exact, and answers on your own data show which tools produced them. Attach a file or connect a source when you want it to work on your own numbers; you never need data to ask a question.',
+  },
+  {
     question: 'What data sources can I connect?',
     answer:
       'GitHub, Stripe, Salesforce, Postgres, SQLite, and online datasets from Kaggle, Hugging Face, and OpenML. Stripe accepts OAuth or a restricted API key; Salesforce accepts OAuth or an access token. Chat attachments upload into a turn for spreadsheet and document analysis. Agent tools also cover markets, weather, web search, and project objects.',

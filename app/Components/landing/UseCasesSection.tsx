@@ -31,6 +31,12 @@ const USE_CASES: UseCase[] = [
     detail:
       'Track MRR movements, expansion trends, and churn factors in plain words alongside clean reconcile-ready data tables.',
   },
+  {
+    role: 'Everyone, every day',
+    tagline: 'One place for the question you actually have.',
+    detail:
+      'Draft the email, fix the script, plan the trip, check the loan. Everyday requests get a direct answer, and anything involving numbers is calculated rather than guessed.',
+  },
 ];
 
 export const UseCasesSection: React.FC = () => {
@@ -50,12 +56,12 @@ export const UseCasesSection: React.FC = () => {
         </h2>
       </div>
 
-      {/* 4 Persona Cards with Staggered Entrance */}
+      {/* Persona Cards with Staggered Entrance */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {USE_CASES.map((uc, idx) => (
           <div
             key={uc.role}
-            className="glass-card rounded-3xl p-8 md:p-10 space-y-4 border border-[var(--border)] dark:bg-[#1B1B1B] hover:border-[#8FA98F]/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5"
+            className={`${USE_CASES.length % 2 === 1 && idx === USE_CASES.length - 1 ? 'md:col-span-2 ' : ''}glass-card rounded-3xl p-8 md:p-10 space-y-4 border border-[var(--border)] dark:bg-[#1B1B1B] hover:border-[#8FA98F]/40 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5`}
           >
             <div className="flex items-center justify-between">
               <span className="font-serif text-2xl text-[var(--text-primary)] font-normal">

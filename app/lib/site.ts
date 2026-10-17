@@ -1,5 +1,5 @@
 export const SITE_URL = 'https://www.analyzeit.si';
 export const SITE_NAME = 'AnalyzeIt';
-export const SITE_TAGLINE = 'Ask your data anything';
+export const SITE_TAGLINE = 'Ask anything. Check the answer.';
 export const SITE_DESCRIPTION =
-  'Ask questions about your data in plain words. AnalyzeIt finds what changed and why, forecasts with a tested range, and shows the numbers and sources behind every answer.';
+  'An assistant for any question: analysis, calculations, research, writing and code. On your own data it finds what changed and why and forecasts with a tested range; on everything else it shows its sources. Numbers come from code, not guesses.';
