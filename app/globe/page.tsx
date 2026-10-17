@@ -1237,8 +1237,11 @@ function GlobePageInner() {
 export default function GlobePage() {
   // useSearchParams (project scope for "My data") needs a Suspense boundary at build time.
   return (
-    <Suspense fallback={null}>
-      <GlobePageInner />
-    </Suspense>
+    <>
+      <h1 className="sr-only">Globe</h1>
+      <Suspense fallback={null}>
+        <GlobePageInner />
+      </Suspense>
+    </>
   );
 }

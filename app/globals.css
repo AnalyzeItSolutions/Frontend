@@ -613,7 +613,7 @@ textarea:focus-visible {
 }
 
 .tier-badge {
-  font-size: 10px;
+  font-size: 11px;
   font-family: var(--font-mono), monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1194,7 +1194,7 @@ details > summary::-webkit-details-marker {
   max-width: 14rem;
   padding: 2px 7px;
   border-radius: 6px;
-  font-size: 10px;
+  font-size: 11px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   line-height: 1.25;
   white-space: nowrap;

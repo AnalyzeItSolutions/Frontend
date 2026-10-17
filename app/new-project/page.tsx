@@ -1372,11 +1372,12 @@ function NewProjectContent() {
             : 'bg-[#F8F8F8]/80 dark:bg-[#1B1B1B]/80 border-[#414141]/10 dark:border-[#262626]'
         }`}
       >
-        <div className="flex items-center gap-3 sm:gap-5">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
           {/* Back to Dashboard Link with preserved Project ID */}
           <Link
             href={projectId ? `/dashboard?projectId=${projectId}` : '/dashboard'}
             onClick={handleBackToDashboard}
+            aria-label="Back to dashboard"
             className={`flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${
               isIncognito
                 ? 'border-purple-500/30 text-purple-300 hover:bg-purple-950/50'
@@ -1384,11 +1385,11 @@ function NewProjectContent() {
             }`}
           >
             <IconArrowLeft size={14} />
-            <span>Dashboard</span>
+            <span className="hidden sm:inline">Dashboard</span>
           </Link>
 
           {/* Project Title Editor */}
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             {isEditingTitle ? (
               <input
                 type="text"
@@ -1416,49 +1417,52 @@ function NewProjectContent() {
         </div>
 
         {/* View Switcher & Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {/* View Mode Segment Switcher */}
           <div className="flex items-center p-1 rounded-full bg-black/5 dark:bg-[#262626] border border-[#414141]/10 dark:border-[#262626] text-xs font-mono">
             {!isMobile && (
               <button
                 type="button"
                 onClick={() => setActiveView('split')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full transition-all cursor-pointer ${
                   activeView === 'split'
                     ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
                     : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
                 }`}
                 title="Split screen (Chat + Live Canvas)"
+                aria-label="Split"
               >
                 <IconColumns size={13} />
-                <span>Split</span>
+                <span className="hidden sm:inline">Split</span>
               </button>
             )}
             <button
               type="button"
               onClick={() => setActiveView('chat')}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full transition-all cursor-pointer ${
                 activeView === 'chat'
                   ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
                   : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
               }`}
               title="Chat Copilot view"
+                aria-label="Chat"
             >
               <IconMessageDots size={13} />
-              <span>Chat</span>
+              <span className="hidden sm:inline">Chat</span>
             </button>
             <button
               type="button"
               onClick={() => setActiveView('canvas')}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full transition-all cursor-pointer relative ${
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full transition-all cursor-pointer relative ${
                 activeView === 'canvas'
                   ? 'bg-white dark:bg-[#2C2C2C] text-[#414141] dark:text-[#EDEDED] shadow-xs font-semibold'
                   : 'text-[var(--text-muted)] hover:text-[#414141] dark:hover:text-[#EDEDED]'
               }`}
               title="Dashboard Canvas view"
+                aria-label="Canvas"
             >
               <IconLayoutDashboard size={13} />
-              <span>Canvas</span>
+              <span className="hidden sm:inline">Canvas</span>
               {currentLayout.widgets.length > 0 && (
                 <span className="text-[11px] px-1.5 py-0.2 bg-[var(--brand)]/20 text-[#E4E4E2] rounded-full font-bold">
                   {currentLayout.widgets.length}
@@ -2147,6 +2151,7 @@ function NewProjectContent() {
 export default function NewProjectPage() {
   return (
     <RequireAuth>
+      <h1 className="sr-only">New analysis</h1>
       <Suspense
         fallback={
           <div className="min-h-screen flex items-center justify-center font-mono text-xs opacity-50">
