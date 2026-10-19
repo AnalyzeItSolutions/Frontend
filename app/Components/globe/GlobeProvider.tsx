@@ -29,6 +29,7 @@ import type {
   GlobeVariant,
   MapProjectionMode,
   OverlayPath,
+  RasterOverlay,
   QueuedFly,
   SourcePoint,
 } from './types';
@@ -84,6 +85,9 @@ export interface GlobeContextValue {
   setOverlayPoints: Dispatch<SetStateAction<SourcePoint[]>>;
   overlayPaths: OverlayPath[];
   setOverlayPaths: Dispatch<SetStateAction<OverlayPath[]>>;
+  /** Live raster imagery (radar, satellite) drawn under the pins. */
+  overlayRasters: RasterOverlay[];
+  setOverlayRasters: Dispatch<SetStateAction<RasterOverlay[]>>;
   showCatalog: boolean;
   setShowCatalog: (on: boolean) => void;
   mapProjection: MapProjectionMode;
@@ -158,6 +162,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
   );
   const [overlayPoints, setOverlayPoints] = useState<SourcePoint[]>([]);
   const [overlayPaths, setOverlayPaths] = useState<OverlayPath[]>([]);
+  const [overlayRasters, setOverlayRasters] = useState<RasterOverlay[]>([]);
   const [showCatalog, setShowCatalog] = useState(true);
   const [mapProjection, setMapProjection] = useState<MapProjectionMode>('globe');
   const [dataView, setDataView] = useState<GlobeDataView>('pins');
@@ -622,6 +627,8 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
       setOverlayPoints,
       overlayPaths,
       setOverlayPaths,
+      overlayRasters,
+      setOverlayRasters,
       showCatalog,
       setShowCatalog,
       mapProjection,
@@ -658,6 +665,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
       comparePlaces,
       overlayPoints,
       overlayPaths,
+      overlayRasters,
       showCatalog,
       mapProjection,
       dataView,
@@ -720,6 +728,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
               comparePlaces={comparePlaces}
               sourcePoints={displayPoints}
               overlayPaths={overlayPaths}
+              overlayRasters={overlayRasters}
               mapProjection={mapProjection}
               dataView={variant === 'full' ? dataView : 'pins'}
               hideNavControl

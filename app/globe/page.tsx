@@ -26,6 +26,8 @@ import { GlobeCanvas } from '../Components/globe/GlobeCanvas';
 import { QueuedFlyToast } from '../Components/globe/QueuedFlyToast';
 import { GLOBE_HUBS } from '../Components/globe/sourceCatalog';
 import { LIVE_LAYER_POLL_MS } from '../Components/globe/globePerf';
+import { aqiColor, temperatureColor } from '../Components/globe/pinColors.mjs';
+import { RAINVIEWER_INDEX, RADAR_REFRESH_MS, activeRasters } from '../Components/globe/rasterLayers.mjs';
 import { TimeControls } from '../Components/globe/TimeControls';
 import { cursorTime, decodeScene, encodeScene, filterByCursor, windowBounds } from '../Components/globe/scene.mjs';
 import {
@@ -64,7 +66,8 @@ type LayerId =
   | 'markets'
   | 'iss'
   | 'space_weather'
-  | 'elevation'
+  | 'radar'
+  | 'clouds'
   | 'my_data'
   | 'fireballs'
   | 'aurora_oval'
@@ -97,24 +100,25 @@ function readRails(): { left: number; right: number } {
   }
 }
 
-const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'sample' | 'limited' }[] = [
-  { id: 'catalog', label: 'Sources', hint: 'Agency & statistics seats — registry when available, otherwise a built-in list', color: '#A7A7A7', coverage: 'limited' },
-  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M4.5+ · last 7 days', color: '#d97706', coverage: 'complete' },
+const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = [
+  { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: '#A7A7A7', coverage: 'limited' },
+  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M2.5+ · every quake in the window, updated by the minute', color: '#d97706', coverage: 'complete' },
   { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: '#dc2626', coverage: 'complete' },
   { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: '#ef4444', coverage: 'complete' },
   { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: '#E4E4E2', coverage: 'complete' },
   { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: '#b45309', coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Open-Meteo at hubs — sampled, not a global grid', color: '#141414', coverage: 'sample' },
-  { id: 'air_quality', label: 'Air quality', hint: 'AQI at hubs — sampled', color: '#10b981', coverage: 'sample' },
+  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', color: '#f59e0b', coverage: 'complete' },
+  { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', color: '#10b981', coverage: 'complete' },
   { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: '#f43f5e', coverage: 'limited' },
+  { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', color: '#38bdf8', coverage: 'complete' },
+  { id: 'clouds', label: 'Live clouds', hint: 'GOES-East and Himawari satellite imagery (NASA GIBS) · refreshed every 10 min · Americas, Atlantic, East Asia and Oceania', color: '#cbd5e1', coverage: 'limited' },
   { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: '#14b8a6', coverage: 'complete' },
-  { id: 'elevation', label: 'Elevation', hint: 'Meters above sea level at hubs — sampled', color: '#727272', coverage: 'sample' },
   { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: '#E4E4E2', coverage: 'complete' },
   { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: '#f97316', coverage: 'limited' },
   { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: '#0ea5e9', coverage: 'limited' },
   { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: '#22c55e', coverage: 'complete' },
   { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: '#fb7185', coverage: 'limited' },
-  { id: 'markets', label: 'Markets', hint: 'Live equity indices at hubs — sampled', color: '#8b5cf6', coverage: 'sample' },
+  { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: '#8b5cf6', coverage: 'limited' },
 ];
 /** Live layers: this page is the only caller of geo context/events. Poll on LIVE_LAYER_POLL_MS — never in rAF. */
 
@@ -197,6 +201,7 @@ function GlobePageInner() {
     overlayPoints,
     archivePoints,
     setOverlayPaths,
+    setOverlayRasters,
     setShowCatalog,
     mapProjection,
     setMapProjection,
@@ -211,18 +216,19 @@ function GlobePageInner() {
   const [hits, setHits] = useState<GeoSearchHit[]>([]);
   const [searching, setSearching] = useState(false);
   const [layers, setLayers] = useState<Record<LayerId, boolean>>({
-    catalog: true,
+    catalog: false,
     earthquakes: true,
     disasters: false,
     wildfires: false,
     storms: false,
     volcanoes: false,
-    weather: false,
+    weather: true,
     air_quality: false,
     markets: false,
     iss: false,
     space_weather: false,
-    elevation: false,
+    radar: false,
+    clouds: false,
     my_data: false,
     fireballs: false,
     aurora_oval: false,
@@ -305,7 +311,6 @@ function GlobePageInner() {
         'markets',
         'iss',
         'space_weather',
-        'elevation',
         'my_data',
         'fireballs',
         'aurora_oval',
@@ -360,7 +365,7 @@ function GlobePageInner() {
             try {
               const data = await fetchGlobeEvents({
                 layers: [id],
-                minMagnitude: 4.5,
+                minMagnitude: 2.5,
                 days,
                 signal: ac.signal,
               });
@@ -411,6 +416,33 @@ function GlobePageInner() {
       window.clearInterval(timer);
     };
   }, [layers, days, projectId, myDataTick, setOverlayPoints, setOverlayPaths]);
+
+  // Live radar and satellite imagery: tiles come straight from the providers; the radar frame list is re-read every few minutes.
+  const [radarIndex, setRadarIndex] = useState<unknown>(null);
+  useEffect(() => {
+    if (!layers.radar) return undefined;
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const res = await fetch(RAINVIEWER_INDEX, { cache: 'no-store' });
+        if (res.ok && !cancelled) setRadarIndex(await res.json());
+      } catch {
+        /* radar is optional: no frame list simply draws nothing */
+      }
+    };
+    void load();
+    const timer = window.setInterval(() => void load(), RADAR_REFRESH_MS);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+    };
+  }, [layers.radar]);
+
+  useEffect(() => {
+    setOverlayRasters(activeRasters({ radar: layers.radar, clouds: layers.clouds }, radarIndex));
+  }, [layers.radar, layers.clouds, radarIndex, setOverlayRasters]);
+
+  useEffect(() => () => setOverlayRasters([]), [setOverlayRasters]);
 
   // A new time window must not merge with cached events from the old one.
   useEffect(() => {
@@ -911,17 +943,20 @@ function GlobePageInner() {
             <div className="globe-layer-scroll mt-1.5" role="group" aria-label="Map layers">
               {visibleLayers.map((layer) => {
                 const on = layers[layer.id];
+                const isRaster = layer.id === 'radar' || layer.id === 'clouds';
                 const count =
-                  layer.id === 'catalog'
+                  isRaster
+                    ? 1
+                    : layer.id === 'catalog'
                     ? archivePoints.length
                     : replayCounts
                       ? (replayCounts[layer.id] ?? 0)
                       : (layerCounts[layer.id] ?? 0);
                 const health =
-                  layer.id === 'catalog'
+                  layer.id === 'catalog' || isRaster
                     ? { status: 'ok' }
                     : layerHealth[layer.id] || (layersLoading ? { status: 'loading' } : undefined);
-                const healthMessage = layer.id === 'catalog' ? null : layerHealth[layer.id]?.message;
+                const healthMessage = layer.id === 'catalog' || isRaster ? null : layerHealth[layer.id]?.message;
                 return (
                   <button
                     key={layer.id}
@@ -1076,9 +1111,10 @@ function GlobePageInner() {
               <p className="globe-legend-kicker">Legend</p>
               <ul>
                 {LAYERS.filter((l) => layers[l.id]).map((l) => {
-                  const count = l.id === 'catalog' ? archivePoints.length : (layerCounts[l.id] ?? 0);
+                  const isRaster = l.id === 'radar' || l.id === 'clouds';
+                  const count = isRaster ? 1 : l.id === 'catalog' ? archivePoints.length : (layerCounts[l.id] ?? 0);
                   const health =
-                    l.id === 'catalog'
+                    l.id === 'catalog' || isRaster
                       ? { status: 'ok' }
                       : layerHealth[l.id] || (layersLoading ? { status: 'loading' } : undefined);
                   return (
@@ -1095,6 +1131,27 @@ function GlobePageInner() {
                   );
                 })}
               </ul>
+              {layers.weather ? (
+                <div className="mt-2">
+                  <div
+                    className="h-1.5 w-full rounded-full"
+                    style={{ background: `linear-gradient(90deg, ${[-30, -10, 0, 10, 20, 30, 40].map((t) => temperatureColor(t)).join(', ')})` }}
+                    aria-hidden
+                  />
+                  <div className="mt-0.5 flex justify-between font-mono text-[9px] text-[var(--text-muted)]">
+                    <span>−30°C</span>
+                    <span>10°</span>
+                    <span>40°C</span>
+                  </div>
+                </div>
+              ) : null}
+              {layers.air_quality ? (
+                <div className="mt-2 flex gap-1" aria-label="Air quality bands">
+                  {[25, 75, 125, 175, 250, 350].map((v) => (
+                    <span key={v} className="h-1.5 flex-1 rounded-full" style={{ background: aqiColor(v) || undefined }} aria-hidden />
+                  ))}
+                </div>
+              ) : null}
             </div>
           ) : null}
 

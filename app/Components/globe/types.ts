@@ -36,6 +36,16 @@ export interface OverlayPath {
   color?: string;
 }
 
+/** A live raster layer drawn under the pins (weather radar, satellite cloud imagery). */
+export interface RasterOverlay {
+  id: string;
+  tiles: string[];
+  tileSize?: number;
+  maxzoom?: number;
+  opacity?: number;
+  attribution?: string;
+}
+
 export interface GlobeCamera {
   lat: number;
   lng: number;

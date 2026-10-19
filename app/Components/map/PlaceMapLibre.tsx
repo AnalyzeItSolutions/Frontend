@@ -1,5 +1,6 @@
 'use client';
 
+import { valueColor } from '../globe/pinColors.mjs';
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState, forwardRef } from 'react';
 import type * as GeoJSON from 'geojson';
 import { loadMapConfig } from './mapConfig';
@@ -20,6 +21,7 @@ import type {
   GlobeVariant,
   MapProjectionMode,
   OverlayPath,
+  RasterOverlay,
   SourcePoint,
 } from '../globe/types';
 import { ensureMapLibreWorker, isFrontFacing } from './maplibreSetup';
@@ -46,6 +48,7 @@ interface PlaceMapLibreProps {
   comparePlaces?: Array<{ lat: number; lon: number; name?: string }>;
   sourcePoints?: SourcePoint[];
   overlayPaths?: OverlayPath[];
+  overlayRasters?: RasterOverlay[];
   hideNavControl?: boolean;
   hideChrome?: boolean;
   className?: string;
@@ -329,7 +332,7 @@ const LAYER_COLOR: Record<string, string> = {
   wildfires: '#ef4444',
   storms: '#E4E4E2',
   volcanoes: '#b45309',
-  weather: '#141414',
+  weather: '#f59e0b',
   air_quality: '#10b981',
   markets: '#8b5cf6',
   iss: '#f43f5e',
@@ -389,6 +392,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     comparePlaces = [],
     sourcePoints = [],
     overlayPaths = [],
+    overlayRasters = [],
     hideNavControl: _hideNavControl = false,
     hideChrome = false,
     className = '',
@@ -769,7 +773,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
           kind: 'event',
           host,
           label: p.label,
-          color: LAYER_COLOR[host] || '#E4E4E2',
+          color: valueColor(host, p.meta as Record<string, unknown> | undefined) || LAYER_COLOR[host] || '#E4E4E2',
           track: Number.isFinite(Number(p.trackDeg)) ? Number(p.trackDeg) : 0,
         },
         geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
@@ -1054,6 +1058,12 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
           onMapError?.(msg);
         }}
       >
+        {overlayRasters.map((r) => (
+          <Source key={r.id} id={`globe-raster-${r.id}`} type="raster" tiles={r.tiles} tileSize={r.tileSize ?? 256} maxzoom={r.maxzoom ?? 7} attribution={r.attribution}>
+            <Layer id={`globe-raster-layer-${r.id}`} type="raster" paint={{ 'raster-opacity': r.opacity ?? 0.7, 'raster-fade-duration': 0 }} />
+          </Source>
+        ))}
+
         {overlayPaths.length > 0 ? (
           <Source id="globe-overlay-paths" type="geojson" data={pathGeoJson}>
             <Layer {...pathLineLayer} />
@@ -1200,7 +1210,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         </>
       ) : null}
 
-      {!usingLocationIq && !hideChrome ? (
+      {!usingLocationIq && !hideChrome && process.env.NODE_ENV !== 'production' ? (
         <div className="pointer-events-none absolute left-1/2 top-16 z-10 max-w-sm -translate-x-1/2 rounded-xl border border-amber-500/30 bg-amber-50/95 px-3 py-2 text-center text-[11px] text-amber-900 shadow-lg backdrop-blur dark:border-amber-400/20 dark:bg-amber-950/90 dark:text-amber-100">
           Set server-only <code className="font-mono">LOCATIONIQ_KEY</code> (not{' '}
           <code className="font-mono">NEXT_PUBLIC_*</code>) on Vercel. Showing OpenFreeMap fallback.

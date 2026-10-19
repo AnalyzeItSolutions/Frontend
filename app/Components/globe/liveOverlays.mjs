@@ -109,6 +109,12 @@ export function mapLayerEventsToPoints(layerId, events, opts = {}) {
         title: ev.title || ev.label,
         temperature_c: ev.temperature_c,
         humidity_pct: ev.humidity_pct,
+        wind_kmh: ev.wind_kmh,
+        wind_dir_deg: ev.wind_dir_deg,
+        cloud_pct: ev.cloud_pct,
+        precip_mm: ev.precip_mm,
+        pressure_hpa: ev.pressure_hpa,
+        pm2_5: ev.pm2_5,
         weather_code: ev.weather_code,
         aqi: ev.aqi ?? ev.us_aqi ?? ev.european_aqi,
         index_name: ev.index_name,
@@ -162,7 +168,6 @@ export function buildLiveOverlays(enabledLayers, layerPayloads) {
   push('flights', layerPayloads?.flights?.events, { host: 'flights' });
   push('iss', layerPayloads?.iss?.events, { host: 'iss' });
   push('space_weather', layerPayloads?.space_weather?.events, { host: 'space_weather' });
-  push('elevation', layerPayloads?.elevation?.events, { host: 'elevation' });
   push('my_data', layerPayloads?.my_data?.events, { host: 'my_data' });
   push('fireballs', layerPayloads?.fireballs?.events, { host: 'fireballs' });
   push('aurora_oval', layerPayloads?.aurora_oval?.events, { host: 'aurora_oval' });

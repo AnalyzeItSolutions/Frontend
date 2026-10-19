@@ -145,6 +145,15 @@ export function EventDetailCard({
     if (meta.humidity_pct != null && Number.isFinite(Number(meta.humidity_pct))) {
       rows.push(['Humidity', `${Math.round(Number(meta.humidity_pct))}%`]);
     }
+    const finite = (v: unknown) => v != null && Number.isFinite(Number(v));
+    if (finite(meta.wind_kmh)) {
+      const dir = finite(meta.wind_dir_deg) ? ` from ${['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(Number(meta.wind_dir_deg) / 45) % 8]}` : '';
+      rows.push(['Wind', `${Math.round(Number(meta.wind_kmh))} km/h${dir}`]);
+    }
+    if (finite(meta.cloud_pct)) rows.push(['Cloud cover', `${Math.round(Number(meta.cloud_pct))}%`]);
+    if (finite(meta.precip_mm)) rows.push(['Rain now', `${Number(meta.precip_mm).toFixed(1)} mm`]);
+    if (finite(meta.pressure_hpa)) rows.push(['Pressure', `${Math.round(Number(meta.pressure_hpa))} hPa`]);
+    if (finite(meta.pm2_5)) rows.push(['PM2.5', `${Number(meta.pm2_5).toFixed(1)} µg/m³`]);
     if (meta.aqi != null && Number.isFinite(Number(meta.aqi))) {
       rows.push(['Air quality', `AQI ${Math.round(Number(meta.aqi))}`]);
     }
