@@ -12,6 +12,8 @@ import { eventCoordinates, pathCoordinates } from './dataQuality.mjs';
  * ranked list can use them without knowing about each layer.
  * @param {Record<string, any>} ev
  */
+import { FIELD_LAYERS } from './fieldImage.mjs';
+
 export function detailsMeta(ev) {
   const out = {};
   for (const [k, v] of Object.entries(ev.details || {})) out[`d:${k}`] = v;
@@ -149,6 +151,11 @@ export function buildLiveOverlays(enabledLayers, layerPayloads) {
 
   const push = (layerId, events, opts) => {
     if (!enabledLayers?.[layerId]) return;
+    if (FIELD_LAYERS.has(layerId)) {
+      // Weather and air quality are drawn as a smooth colour field, not a dot per grid point; only the count is kept.
+      counts[layerId] = (events || []).length;
+      return;
+    }
     const mapped = mapLayerEventsToPoints(layerId, events || [], opts);
     counts[layerId] = mapped.length;
     points.push(...mapped);

@@ -39,7 +39,10 @@ export interface OverlayPath {
 /** A live raster layer drawn under the pins (weather radar, satellite cloud imagery). */
 export interface RasterOverlay {
   id: string;
-  tiles: string[];
+  /** Tiled imagery (radar, satellite). */
+  tiles?: string[];
+  /** A single georeferenced picture (a smooth weather or air-quality field); coordinates are [lon, lat], clockwise from top-left. */
+  image?: { url: string; coordinates: [number, number][] };
   tileSize?: number;
   maxzoom?: number;
   opacity?: number;

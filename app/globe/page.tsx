@@ -26,7 +26,8 @@ import { GlobeCanvas } from '../Components/globe/GlobeCanvas';
 import { QueuedFlyToast } from '../Components/globe/QueuedFlyToast';
 import { GLOBE_HUBS } from '../Components/globe/sourceCatalog';
 import { LIVE_LAYER_POLL_MS } from '../Components/globe/globePerf';
-import { aqiColor, temperatureColor } from '../Components/globe/pinColors.mjs';
+import { aqiColor, aqiGradient, temperatureColor } from '../Components/globe/pinColors.mjs';
+import { fieldCoordinates, renderField } from '../Components/globe/fieldImage.mjs';
 import { RAINVIEWER_INDEX, RADAR_REFRESH_MS, activeRasters } from '../Components/globe/rasterLayers.mjs';
 import { TimeControls } from '../Components/globe/TimeControls';
 import { cursorTime, decodeScene, encodeScene, filterByCursor, windowBounds } from '../Components/globe/scene.mjs';
@@ -394,6 +395,10 @@ function GlobePageInner() {
         }
 
         const { points, paths, counts } = buildLiveOverlays(layers, merged);
+        setFieldEvents({
+          weather: layers.weather ? ((merged.weather?.events as Array<Record<string, unknown>>) ?? []) : [],
+          air_quality: layers.air_quality ? ((merged.air_quality?.events as Array<Record<string, unknown>>) ?? []) : [],
+        });
 
         setLayerCounts(counts);
         setLayerHealth(health);
@@ -419,6 +424,7 @@ function GlobePageInner() {
 
   // Live radar and satellite imagery: tiles come straight from the providers; the radar frame list is re-read every few minutes.
   const [radarIndex, setRadarIndex] = useState<unknown>(null);
+  const [fieldEvents, setFieldEvents] = useState<Record<string, Array<Record<string, unknown>>>>({});
   useEffect(() => {
     if (!layers.radar) return undefined;
     let cancelled = false;
@@ -438,9 +444,30 @@ function GlobePageInner() {
     };
   }, [layers.radar]);
 
+  // Weather and air quality as a smooth colour field painted from the world grid (one picture, no dots).
+  const fieldRasters = useMemo(() => {
+    const make = (id: string, events: Array<Record<string, unknown>> | undefined, valueOf: (e: Record<string, unknown>) => number | null, colorOf: (v: number) => string | null) => {
+      if (!events || events.length === 0) return null;
+      const img = renderField({ events, valueOf, colorOf, width: 720 });
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
+      return { id, image: { url: canvas.toDataURL('image/png'), coordinates: fieldCoordinates() as [number, number][] }, opacity: 0.9 };
+    };
+    const out = [];
+    const air = make('field-air', fieldEvents.air_quality, (e) => (e.us_aqi ?? e.european_aqi) as number | null, aqiGradient);
+    const wx = make('field-weather', fieldEvents.weather, (e) => e.temperature_c as number | null, temperatureColor);
+    if (air) out.push(air);
+    if (wx) out.push(wx);
+    return out;
+  }, [fieldEvents]);
+
   useEffect(() => {
-    setOverlayRasters(activeRasters({ radar: layers.radar, clouds: layers.clouds }, radarIndex));
-  }, [layers.radar, layers.clouds, radarIndex, setOverlayRasters]);
+    setOverlayRasters([...fieldRasters, ...activeRasters({ radar: layers.radar, clouds: layers.clouds }, radarIndex)]);
+  }, [fieldRasters, layers.radar, layers.clouds, radarIndex, setOverlayRasters]);
 
   useEffect(() => () => setOverlayRasters([]), [setOverlayRasters]);
 

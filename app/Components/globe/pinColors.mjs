@@ -57,3 +57,28 @@ export function valueColor(host, meta) {
   if (host === 'earthquakes') return magnitudeColor(m.mag);
   return null;
 }
+
+const AQI_STOPS = [
+  [0, [34, 197, 94]],
+  [50, [234, 179, 8]],
+  [100, [249, 115, 22]],
+  [150, [239, 68, 68]],
+  [200, [168, 85, 247]],
+  [300, [127, 29, 29]],
+];
+
+/** A continuous version of the AQI bands, for colour fields (the pins use the stepped bands). */
+export function aqiGradient(aqi) {
+  const v = Number(aqi);
+  if (aqi == null || !Number.isFinite(v)) return null;
+  if (v <= AQI_STOPS[0][0]) return hex(AQI_STOPS[0][1]);
+  for (let i = 1; i < AQI_STOPS.length; i += 1) {
+    const [t1, c1] = AQI_STOPS[i];
+    if (v <= t1) {
+      const [t0, c0] = AQI_STOPS[i - 1];
+      const f = (v - t0) / (t1 - t0);
+      return hex(c0.map((x, k) => x + (c1[k] - x) * f));
+    }
+  }
+  return hex(AQI_STOPS[AQI_STOPS.length - 1][1]);
+}

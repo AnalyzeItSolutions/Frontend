@@ -1058,11 +1058,17 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
           onMapError?.(msg);
         }}
       >
-        {overlayRasters.map((r) => (
-          <Source key={r.id} id={`globe-raster-${r.id}`} type="raster" tiles={r.tiles} tileSize={r.tileSize ?? 256} maxzoom={r.maxzoom ?? 7} attribution={r.attribution}>
-            <Layer id={`globe-raster-layer-${r.id}`} type="raster" paint={{ 'raster-opacity': r.opacity ?? 0.7, 'raster-fade-duration': 0 }} />
-          </Source>
-        ))}
+        {overlayRasters.map((r) =>
+          r.image ? (
+            <Source key={r.id} id={`globe-raster-${r.id}`} type="image" url={r.image.url} coordinates={r.image.coordinates as [[number, number], [number, number], [number, number], [number, number]]}>
+              <Layer id={`globe-raster-layer-${r.id}`} type="raster" paint={{ 'raster-opacity': r.opacity ?? 0.85, 'raster-fade-duration': 0, 'raster-resampling': 'linear' }} />
+            </Source>
+          ) : (
+            <Source key={r.id} id={`globe-raster-${r.id}`} type="raster" tiles={r.tiles ?? []} tileSize={r.tileSize ?? 256} maxzoom={r.maxzoom ?? 7} attribution={r.attribution}>
+              <Layer id={`globe-raster-layer-${r.id}`} type="raster" paint={{ 'raster-opacity': r.opacity ?? 0.7, 'raster-fade-duration': 0 }} />
+            </Source>
+          ),
+        )}
 
         {overlayPaths.length > 0 ? (
           <Source id="globe-overlay-paths" type="geojson" data={pathGeoJson}>
