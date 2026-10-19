@@ -60,13 +60,13 @@ export function LegalLayout({
           <ThemeToggle />
           <Link
             href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-[#E4E4E2] transition-colors"
+            className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-brand transition-colors"
           >
             Sign in
           </Link>
           <Link
             href="/login?tab=register"
-            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[#2A2A2A] hover:bg-[var(--brand)] text-[var(--brand-ink)] transition-colors"
+            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] transition-colors"
           >
             Create account
           </Link>
@@ -94,7 +94,7 @@ export function LegalLayout({
 
         <nav className="mt-16 pt-8 border-t border-[var(--border)] flex flex-wrap gap-x-5 gap-y-2 text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
           {LEGAL_NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-[#E4E4E2] transition-colors">
+            <Link key={item.href} href={item.href} className="hover:text-brand transition-colors">
               {item.label}
             </Link>
           ))}

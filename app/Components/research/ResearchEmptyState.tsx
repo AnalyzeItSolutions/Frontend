@@ -39,7 +39,7 @@ export function ResearchEmptyState({
 }) {
   return (
     <div className="flex min-h-[min(28rem,70%)] items-center justify-center py-8 sm:py-12">
-      <div className="w-full max-w-[28rem] rounded-[var(--radius-card)] bg-[var(--surface)]/80 px-5 py-7 text-center backdrop-blur-sm sm:px-6 sm:py-8">
+      <div className="w-full max-w-[28rem] rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)]/85 px-5 py-7 text-center shadow-[var(--shadow-md)] backdrop-blur-md sm:px-6 sm:py-8">
         <ResearchMark />
         <h1 className="font-serif text-[1.75rem] font-medium leading-[1.15] tracking-tight text-[var(--text)] sm:text-[2rem] dark:text-[var(--text-primary)]">
           <EmptyTitle />

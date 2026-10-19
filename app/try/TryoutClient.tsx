@@ -19,12 +19,20 @@ export function TryoutClient() {
   const [turn, setTurn] = useState<Turn | null>(null);
   const [status, setStatus] = useState<TryoutStatus | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     warmAgent({ guest: true });
     void getTryoutStatus().then(setStatus);
     return () => abortRef.current?.abort();
   }, []);
+
+  // The answer lands under the form, often below the fold: bring it into view as soon as a run starts and again when it arrives.
+  useEffect(() => {
+    if (!turn) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    resultRef.current?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }, [turn]);
 
   const ask = async (question: string) => {
     const q = question.trim();
@@ -63,7 +71,7 @@ export function TryoutClient() {
               setInput(ex.question);
               void ask(ex.question);
             }}
-            className="rounded-full border border-[#414141]/20 bg-white/50 px-4 py-2 text-sm transition-colors hover:border-[#E4E4E2] hover:text-[#141414] disabled:opacity-50 dark:border-[#484848] dark:bg-[#1B1B1B]/60"
+            className="rounded-full border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--text-muted)] hover:bg-[var(--surface-2)] disabled:opacity-50"
           >
             {ex.label}
           </button>
@@ -84,43 +92,49 @@ export function TryoutClient() {
           rows={3}
           placeholder="Ask a question about analysing data, metrics or a business problem…"
           aria-label="Your question"
-          className="w-full resize-none rounded-2xl border border-[#414141]/20 bg-white/70 px-5 py-3 text-base dark:border-[#484848] dark:bg-[#1B1B1B]"
+          className="w-full resize-none rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-5 py-3 text-base text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--text-secondary)] focus:outline-none"
         />
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-[#535353] dark:text-[#BABABA]" role="status">
+          <p className="text-xs text-[var(--text-muted)]" role="status">
             {status && status.available ? runsLabel(status.remaining, status.limit) : ''}
           </p>
           <button
             type="submit"
             disabled={busy || out || unavailable || !input.trim()}
-            className="rounded-full bg-[#E4E4E2] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#E4E4E2] disabled:opacity-50"
+            className="rounded-full bg-brand px-6 py-3 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-hover disabled:opacity-50"
           >
             {busy ? 'Working…' : 'Ask'}
           </button>
         </div>
       </form>
 
-      {busy ? (
-        <p className="text-sm text-[#535353] dark:text-[#BABABA]" role="status">
-          {slow ? 'Still working. The first run after a quiet spell can take about 30 seconds…' : 'Working on it…'}
-        </p>
-      ) : null}
+      <div ref={resultRef} className="scroll-mt-6 space-y-4">
+        {busy && turn ? (
+          <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5" aria-busy="true">
+            <p className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">{turn.question}</p>
+            <p className="mt-3 flex items-center gap-2 text-sm text-[var(--text-secondary)]" role="status">
+              <span className="h-2 w-2 animate-pulse rounded-full bg-[var(--accent)]" aria-hidden />
+              {slow ? 'Still working. The first run after a quiet spell can take about 30 seconds…' : 'Working on it…'}
+            </p>
+          </article>
+        ) : null}
 
-      {turn?.result ? (
-        <article className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 dark:border-[#262626] dark:bg-[#1B1B1B]/60" aria-live="polite">
-          <p className="text-xs font-mono uppercase tracking-wider text-[#535353] dark:text-[#BABABA]">{turn.question}</p>
-          <div className="mt-3 text-base leading-relaxed">
-            <ChatMarkdown text={turn.result.answer || 'No answer came back.'} />
-          </div>
-          <SourceChips sources={turn.result.sources} />
-        </article>
-      ) : null}
+        {!busy && turn?.result ? (
+          <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)]" aria-live="polite">
+            <p className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">{turn.question}</p>
+            <div className="mt-3 text-base leading-relaxed text-[var(--text-primary)]">
+              <ChatMarkdown text={turn.result.answer || 'No answer came back.'} />
+            </div>
+            <SourceChips sources={turn.result.sources} />
+          </article>
+        ) : null}
+      </div>
 
       {turn?.failure ? (
-        <div role="alert" className="rounded-2xl border border-[#141414]/25 bg-[#141414]/5 p-5">
+        <div role="alert" className="rounded-2xl border border-[var(--danger)]/40 bg-[var(--danger)]/10 p-5 text-[var(--text-primary)]">
           <p className="text-sm">{turn.failure.message}</p>
           {turn.failure.kind === 'limit' ? (
-            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#E4E4E2] px-5 py-2 text-sm font-medium text-white hover:bg-[#E4E4E2]">
+            <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-brand px-5 py-2 text-sm font-medium text-brand-ink hover:bg-brand-hover">
               Create a free account
             </Link>
           ) : null}
@@ -128,18 +142,18 @@ export function TryoutClient() {
       ) : null}
 
       {out && !turn?.failure ? (
-        <div className="rounded-2xl border border-[#414141]/12 bg-white/60 p-5 text-sm dark:border-[#262626] dark:bg-[#1B1B1B]/60">
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 text-sm">
           <p>
             You have used all {status?.limit} try-out runs. Create a free account to keep going
             {status && status.retry_after_seconds > 0 ? `, or come back in ${formatWait(status.retry_after_seconds)}.` : '.'}
           </p>
-          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-[#E4E4E2] px-5 py-2 text-sm font-medium text-white hover:bg-[#E4E4E2]">
+          <Link href="/login?tab=register" className="mt-3 inline-flex rounded-full bg-brand px-5 py-2 text-sm font-medium text-brand-ink hover:bg-brand-hover">
             Create a free account
           </Link>
         </div>
       ) : null}
 
-      {unavailable ? <p className="text-sm text-[#141414]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
+      {unavailable ? <p className="text-sm text-[var(--text-primary)]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
     </div>
   );
 }

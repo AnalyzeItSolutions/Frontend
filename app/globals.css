@@ -4,6 +4,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
   --font-serif: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-playfair: 'Playfair Display', serif;
@@ -217,11 +220,11 @@ html.lenis, body.lenis {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #E4E4E2;
+  background: var(--text-muted);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #E4E4E2;
+  background: var(--text-muted);
 }
 
 /* Firefox */
@@ -325,7 +328,7 @@ em.font-serif {
   font-family: var(--font-serif), sans-serif;
   font-style: normal;
   font-weight: 650;
-  color: #E4E4E2;
+  color: var(--accent-text);
 }
 
 /* Glass Cards & Containers */
@@ -517,7 +520,7 @@ em.font-serif {
 }
 
 .page-title em {
-  color: #E4E4E2;
+  color: var(--accent-text);
   font-style: italic;
 }
 
@@ -554,8 +557,8 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-pill, 20px);
-  background: var(--coral, #E4E4E2);
-  color: #fff;
+  background: var(--brand);
+  color: var(--brand-ink);
   font-size: 0.875rem;
   padding: 0.5rem 1rem;
   min-height: var(--btn-h, 40px);
@@ -564,7 +567,7 @@ textarea:focus-visible {
 }
 
 .btn-primary:hover {
-  background: var(--coral-dark, #E4E4E2);
+  background: var(--brand-hover);
 }
 
 .btn-secondary {
@@ -633,9 +636,9 @@ textarea:focus-visible {
 }
 
 .composer-mode-btn[data-active='true'] {
-  background: color-mix(in srgb, #E4E4E2 18%, transparent);
-  color: #E4E4E2;
-  border-color: color-mix(in srgb, #E4E4E2 40%, transparent);
+  background: color-mix(in srgb, var(--text-primary) 12%, transparent);
+  color: var(--text-primary);
+  border-color: color-mix(in srgb, var(--text-primary) 40%, transparent);
 }
 
 /* Research home: cream prompt chips, coral on hover and focus. */
@@ -700,12 +703,12 @@ textarea:focus-visible {
 
 .composer-mode-tab[aria-selected='true'] {
   background: var(--coral);
-  color: #fff;
+  color: var(--brand-ink);
   font-weight: 500;
 }
 
 .composer-mode-tab[aria-selected='true']:hover {
-  color: #fff;
+  color: var(--brand-ink);
 }
 
 .composer-mode-tab:focus-visible {
@@ -932,7 +935,7 @@ details > summary::-webkit-details-marker {
   background: #f6e7c8;
 }
 .dark .globe-health--unavailable {
-  color: #E4E4E2;
+  color: var(--text-muted);
   background: #505050;
 }
 .dark .globe-health--stale {
@@ -993,7 +996,7 @@ details > summary::-webkit-details-marker {
   color: #CECECE;
 }
 .globe-legend .globe-health--unavailable {
-  color: #E4E4E2;
+  color: var(--text-muted);
   background: #505050;
 }
 .globe-legend .globe-health--stale {
@@ -1018,7 +1021,7 @@ details > summary::-webkit-details-marker {
   border-radius: 9999px;
   border: 1.5px solid rgba(255, 255, 255, 0.92);
   box-shadow: 0 2px 6px rgba(28, 18, 12, 0.35), 0 0 0 1px rgba(80, 40, 28, 0.12);
-  background: #E4E4E2;
+  background: var(--accent);
   transform: translateZ(0);
 }
 .globe-pin--archive {
@@ -1028,10 +1031,10 @@ details > summary::-webkit-details-marker {
 }
 .globe-pin--live,
 .globe-pin--place {
-  background: #E4E4E2;
+  background: var(--accent);
 }
 .globe-pin--hub {
-  background: #E4E4E2;
+  background: var(--accent);
 }
 .globe-pin--event {
   background: #d97706;
@@ -1077,7 +1080,7 @@ details > summary::-webkit-details-marker {
   box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25), 0 2px 6px rgba(28, 18, 12, 0.28);
 }
 .globe-pin--my_data {
-  background: #E4E4E2;
+  background: var(--accent);
   border-color: rgba(251, 220, 208, 0.95);
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25), 0 2px 6px rgba(28, 18, 12, 0.28);
 }
@@ -1170,7 +1173,7 @@ details > summary::-webkit-details-marker {
   border-color: rgba(254, 202, 202, 0.95);
 }
 .globe-pin--storms {
-  background: #E4E4E2;
+  background: var(--accent);
   border-color: rgba(199, 210, 254, 0.95);
 }
 .globe-pin--volcanoes {
@@ -1252,7 +1255,7 @@ details > summary::-webkit-details-marker {
   margin-bottom: -2px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  background: #E4E4E2;
+  background: var(--accent);
   box-shadow: 0 4px 10px rgba(40, 22, 12, 0.35);
   border: 2px solid #fff;
 }

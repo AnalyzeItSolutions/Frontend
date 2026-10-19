@@ -1197,7 +1197,7 @@ export default function DashboardPage() {
                       onClick={() => setActiveTemplateCategory(cat)}
                       className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                         activeTemplateCategory === cat
-                          ? 'bg-[#E4E4E2] text-white shadow-xs'
+                          ? 'bg-brand text-brand-ink shadow-xs'
                           : 'bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border)]'
                       }`}
                     >
@@ -1215,7 +1215,7 @@ export default function DashboardPage() {
                   return (
                     <div
                       key={template.id}
-                      className="app-card p-5 flex flex-col justify-between space-y-4 transition-all group hover:border-[#E4E4E2]/30"
+                      className="app-card p-5 flex flex-col justify-between space-y-4 transition-all group hover:border-brand/30"
                     >
                       <div className="space-y-2.5">
                         <div className="flex items-center justify-between">

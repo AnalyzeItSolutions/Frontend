@@ -57,8 +57,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           ),
         )}
         <p>
-          Read more: <Link href={g.cta.href} className="text-[#141414] underline underline-offset-2">{g.cta.label}</Link>, or{' '}
-          <Link href="/demo" className="text-[#141414] underline underline-offset-2">try the live demo</Link> with no account.
+          Read more: <Link href={g.cta.href} className="text-[var(--text-primary)] underline underline-offset-2">{g.cta.label}</Link>, or{' '}
+          <Link href="/demo" className="text-[var(--text-primary)] underline underline-offset-2">try the live demo</Link> with no account.
         </p>
       </article>
       <section className="mt-10 max-w-2xl">
@@ -66,7 +66,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[15px]">
           {others.map((o) => (
             <li key={o.slug}>
-              <Link href={`/guides/${o.slug}`} className="text-[#141414] underline underline-offset-2">{o.title}</Link>
+              <Link href={`/guides/${o.slug}`} className="text-[var(--text-primary)] underline underline-offset-2">{o.title}</Link>
             </li>
           ))}
         </ul>

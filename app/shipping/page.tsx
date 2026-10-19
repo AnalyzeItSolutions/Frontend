@@ -27,7 +27,7 @@ export default function ShippingPage() {
           Access is typically <strong>immediate</strong> after successful signup or payment
           confirmation (within minutes). If provisioning is delayed, allow up to{' '}
           <strong>24 hours</strong>. Contact{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#E4E4E2] hover:underline">
+          <a href={`mailto:${EMAIL.support}`} className="text-brand hover:underline">
             {EMAIL.support}
           </a>{' '}
           if access is missing after that window.
@@ -38,7 +38,7 @@ export default function ShippingPage() {
         <p>
           There is nothing physical to exchange. Changing plans is done from Billing: you can move
           between Free, Premium, and other listed plans, and cancellation follows the{' '}
-          <a href="/refund" className="text-[#E4E4E2] hover:underline">
+          <a href="/refund" className="text-brand hover:underline">
             Cancellation and Refund
           </a>{' '}
           policy.

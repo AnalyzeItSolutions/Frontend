@@ -1794,7 +1794,7 @@ function ChatInner() {
                   onClick={() => setShowDashboard((v) => !v)}
                   className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-medium transition-colors ${
                     showDashboard
-                      ? 'border-[#E4E4E2]/40 bg-[var(--brand)]/15 text-[#E4E4E2]'
+                      ? 'border-brand/40 bg-[var(--brand)]/15 text-brand'
                       : 'border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                   }`}
                   title="Show dashboard panel only when you want it"
@@ -1879,7 +1879,7 @@ function ChatInner() {
                       }`}
                     >
                       {!isUser && msg.mode === 'research' && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-[#E4E4E2]">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/12 px-2 py-0.5 text-[11px] font-mono uppercase tracking-wider text-brand">
                           <IconSearch size={11} /> Research
                         </span>
                       )}
@@ -2057,7 +2057,7 @@ function ChatInner() {
                             <button
                               type="button"
                               onClick={() => setShowDashboard(true)}
-                              className="text-[11px] text-[#E4E4E2]"
+                              className="text-[11px] text-brand"
                             >
                               Preview panel
                             </button>
@@ -2193,7 +2193,7 @@ function ChatInner() {
 
             {/* Errors */}
             {error && (
-              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-[#E4E4E2]/60 bg-[var(--surface-2,#FCFCFC)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#343434))] sm:mx-6">
+              <p role="alert" className="relative z-10 mx-4 mb-2 rounded-[var(--radius-card,14px)] border border-brand/60 bg-[var(--surface-2,#FCFCFC)] px-3 py-2 text-xs font-medium text-[var(--text-primary,var(--text,#343434))] sm:mx-6">
                 {error}
                 {upgradeHref ? (
                   <Link href="/billing" className="ml-2 inline-flex min-h-8 items-center rounded-full bg-[var(--coral,#E4E4E2)] px-3 text-[11px] font-medium text-[var(--brand-ink)]">
@@ -2326,7 +2326,7 @@ function ChatInner() {
                   onDrop={handleComposerDrop}
                   className={`app-card flex flex-col gap-2 p-2 ${
                     isIncognito ? 'ring-1 ring-violet-500/30' : ''
-                  } ${composerMode === 'research' ? 'ring-1 ring-[#E4E4E2]/25' : ''}`}
+                  } ${composerMode === 'research' ? 'ring-1 ring-brand/25' : ''}`}
                 >
                   <input
                     ref={fileInputRef}
@@ -2345,12 +2345,12 @@ function ChatInner() {
                           key={att.attachment_id}
                           className={`inline-flex max-w-[14rem] items-center gap-1.5 rounded-lg border px-2 py-1 text-[11px] ${
                             att.status === 'failed'
-                              ? 'border-[#141414]/40 bg-[#141414]/10 text-[#141414]'
+                              ? 'border-[var(--text-primary)]/40 bg-[var(--text-primary)]/10 text-[var(--text-primary)]'
                               : 'border-[var(--border)] bg-[var(--surface-2)] text-[var(--text-secondary)]'
                           }`}
                           title={att.notes?.[0] || att.status}
                         >
-                          <IconFile size={13} className="shrink-0 text-[#E4E4E2]" />
+                          <IconFile size={13} className="shrink-0 text-brand" />
                           <span className="truncate">{att.filename}</span>
                           {att.status === 'parsed' ? (
                             <span className="text-[11px] uppercase tracking-wide text-[#4A7C59]">ready</span>
@@ -2512,7 +2512,7 @@ function ChatInner() {
               >
                 <div className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <IconLayoutDashboard size={16} className="text-[#E4E4E2]" />
+                    <IconLayoutDashboard size={16} className="text-brand" />
                     <span className="text-sm font-medium">Dashboard preview</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -2586,7 +2586,7 @@ function ChatInner() {
                 ) : (
                   <p className="text-sm text-[var(--text-secondary)]">
                     Ask for a chart in chat, or{' '}
-                    <Link href="/dashboard" className="text-[#E4E4E2] underline">
+                    <Link href="/dashboard" className="text-brand underline">
                       open Dashboard
                     </Link>
                     .

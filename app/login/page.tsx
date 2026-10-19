@@ -71,7 +71,7 @@ const Field: React.FC<FieldProps> = ({
         className={`w-full pl-10 ${rightElement ? 'pr-10' : 'pr-4'} py-3 rounded-xl bg-white/60 dark:bg-[#262626] border text-sm text-[var(--text-primary)] placeholder-[#414141]/30 dark:placeholder-[#787878] focus:outline-none focus:ring-2 transition-all duration-200 ${
           error
             ? 'border-red-400/60 dark:border-[#D97870]/60 focus:ring-red-300/40 dark:focus:ring-[#D97870]/30'
-            : 'border-[var(--border)] focus:ring-[#E4E4E2]/30 focus:border-[#E4E4E2]/40'
+            : 'border-[var(--border)] focus:ring-brand/30 focus:border-brand/40'
         }`}
       />
       {rightElement && (
@@ -215,7 +215,7 @@ const LoginForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void }> 
         <div className="flex justify-end">
           <Link
             href="/forgot-password"
-            className="text-xs text-[#E4E4E2] hover:text-[#E4E4E2] font-mono transition-colors cursor-pointer"
+            className="text-xs text-brand hover:text-brand font-mono transition-colors cursor-pointer"
           >
             Forgot password?
           </Link>
@@ -377,19 +377,19 @@ const RegisterForm: React.FC<{ onSuccess: (meta?: { is_new?: boolean }) => void 
             onClick={() => setAgreed((v) => !v)}
             className={`mt-0.5 w-4 h-4 rounded flex-shrink-0 border flex items-center justify-center transition-all duration-200 cursor-pointer ${
               agreed
-                ? 'bg-[var(--brand)] border-[#E4E4E2]'
-                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/20 dark:border-[#262626] group-hover:border-[#E4E4E2]/40'
+                ? 'bg-[var(--brand)] border-brand'
+                : 'bg-white/60 dark:bg-[#262626] border-[#414141]/20 dark:border-[#262626] group-hover:border-brand/40'
             }`}
           >
             {agreed && <IconCheck size={10} stroke={3} className="text-white" />}
           </button>
           <span className="text-xs text-[var(--text-secondary)] leading-relaxed">
             I agree to the{' '}
-            <Link href="/terms" target="_blank" className="text-[#E4E4E2] hover:text-[#E4E4E2] hover:underline">Terms of Service</Link>
+            <Link href="/terms" target="_blank" className="text-brand hover:text-brand hover:underline">Terms of Service</Link>
             {', '}
-            <Link href="/privacy" target="_blank" className="text-[#E4E4E2] hover:text-[#E4E4E2] hover:underline">Privacy Policy</Link>
+            <Link href="/privacy" target="_blank" className="text-brand hover:text-brand hover:underline">Privacy Policy</Link>
             {', and '}
-            <Link href="/acceptable-use" target="_blank" className="text-[#E4E4E2] hover:text-[#E4E4E2] hover:underline">Acceptable Use Policy</Link>
+            <Link href="/acceptable-use" target="_blank" className="text-brand hover:text-brand hover:underline">Acceptable Use Policy</Link>
           </span>
         </label>
         {errors.agreed && (
@@ -467,7 +467,7 @@ const SuccessState: React.FC<{ isNew: boolean }> = ({ isNew }) => {
       </div>
       <Link
         href={continueHref}
-        className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2] transition-colors mt-2"
+        className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand hover:text-brand transition-colors mt-2"
       >
         Continue to workspace <IconArrowRight size={13} />
       </Link>
@@ -527,7 +527,7 @@ function LoginInner() {
   if (checking) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[var(--bg)]">
-        <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-brand/25 border-t-brand" />
         <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
           Checking account…
         </p>
@@ -573,9 +573,9 @@ function LoginInner() {
                 className="font-serif text-3xl sm:text-4xl text-[var(--text-primary)] mb-2"
               >
                 {tab === 'login' ? (
-                  <>Welcome <span className="italic text-[#E4E4E2]">back</span></>
+                  <>Welcome <span className="italic text-brand">back</span></>
                 ) : (
-                  <>Join <span className="italic text-[#E4E4E2]">AnalyzeIt</span></>
+                  <>Join <span className="italic text-brand">AnalyzeIt</span></>
                 )}
               </motion.h1>
             </AnimatePresence>
@@ -630,14 +630,14 @@ function LoginInner() {
                   {tab === 'login' ? (
                     <>
                       Don&apos;t have an account?{' '}
-                      <button type="button" onClick={() => setTab('register')} className="text-[#E4E4E2] hover:text-[#E4E4E2] font-medium transition-colors cursor-pointer">
+                      <button type="button" onClick={() => setTab('register')} className="text-brand hover:text-brand font-medium transition-colors cursor-pointer">
                         Create one
                       </button>
                     </>
                   ) : (
                     <>
                       Already have an account?{' '}
-                      <button type="button" onClick={() => setTab('login')} className="text-[#E4E4E2] hover:text-[#E4E4E2] font-medium transition-colors cursor-pointer">
+                      <button type="button" onClick={() => setTab('login')} className="text-brand hover:text-brand font-medium transition-colors cursor-pointer">
                         Sign in
                       </button>
                     </>
@@ -650,13 +650,13 @@ function LoginInner() {
           </div>
 
           <p className="text-center text-xs text-[var(--text-muted)] dark:text-[#888888]/70 mt-6 font-mono space-x-3">
-            <Link href="/privacy" className="hover:text-[#E4E4E2] transition-colors">Privacy</Link>
-            <Link href="/refund" className="hover:text-[#E4E4E2] transition-colors">Refund</Link>
-            <Link href="/shipping" className="hover:text-[#E4E4E2] transition-colors">Shipping</Link>
+            <Link href="/privacy" className="hover:text-brand transition-colors">Privacy</Link>
+            <Link href="/refund" className="hover:text-brand transition-colors">Refund</Link>
+            <Link href="/shipping" className="hover:text-brand transition-colors">Shipping</Link>
             <span aria-hidden="true">·</span>
-            <Link href="/terms" className="hover:text-[#E4E4E2] transition-colors">Terms</Link>
+            <Link href="/terms" className="hover:text-brand transition-colors">Terms</Link>
             <span aria-hidden="true">·</span>
-            <Link href="/security" className="hover:text-[#E4E4E2] transition-colors">Security</Link>
+            <Link href="/security" className="hover:text-brand transition-colors">Security</Link>
           </p>
         </div>
       </div>
@@ -669,7 +669,7 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
-          <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-brand/25 border-t-brand" />
         </div>
       }
     >

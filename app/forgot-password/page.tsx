@@ -22,7 +22,7 @@ export default function ForgotPasswordPage() {
         </ul>
         <p className="pt-2">
           Write to{' '}
-          <a href="mailto:hello@analyzeit.in?subject=Password%20reset" className="text-[#E4E4E2] hover:underline">
+          <a href="mailto:hello@analyzeit.in?subject=Password%20reset" className="text-brand hover:underline">
             hello@analyzeit.in
           </a>
           .
@@ -31,11 +31,11 @@ export default function ForgotPasswordPage() {
 
       <p>
         Remembered it?{' '}
-        <Link href="/login" className="text-[#E4E4E2] hover:underline">
+        <Link href="/login" className="text-brand hover:underline">
           Sign in
         </Link>
         {' '}or{' '}
-        <Link href="/login?tab=register" className="text-[#E4E4E2] hover:underline">
+        <Link href="/login?tab=register" className="text-brand hover:underline">
           create a new account
         </Link>
         .

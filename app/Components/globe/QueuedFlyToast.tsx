@@ -18,7 +18,7 @@ export function QueuedFlyToast() {
         </p>
         <button
           type="button"
-          className="shrink-0 rounded-full bg-[#E4E4E2] px-2.5 py-1 text-[11px] font-medium text-white"
+          className="shrink-0 rounded-full bg-brand px-2.5 py-1 text-[11px] font-medium text-brand-ink"
           onClick={() => consumeQueuedFly(next.id)}
         >
           Show me

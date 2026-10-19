@@ -31,9 +31,9 @@ export default function AboutPage() {
         <p>
           Numbers come from calculation, not from a model&apos;s guess. Connectors are read-only. We
           do not train public models on your private business data. Details are in our{' '}
-          <Link href="/security" className="text-[#E4E4E2] hover:underline">security</Link> and{' '}
-          <Link href="/privacy" className="text-[#E4E4E2] hover:underline">privacy</Link> pages,
-          and in <Link href="/docs/how-answers-work" className="text-[#E4E4E2] hover:underline">how answers work</Link>.
+          <Link href="/security" className="text-brand hover:underline">security</Link> and{' '}
+          <Link href="/privacy" className="text-brand hover:underline">privacy</Link> pages,
+          and in <Link href="/docs/how-answers-work" className="text-brand hover:underline">how answers work</Link>.
         </p>
       </LegalSection>
 
@@ -41,15 +41,15 @@ export default function AboutPage() {
         <p>
           AnalyzeIt is an independent product operated by {LEGAL_NAME}, {REGISTERED_ADDRESS}.
           Payments are processed by Razorpay; plans and prices are on the{' '}
-          <Link href="/products" className="text-[#E4E4E2] hover:underline">products page</Link>.
+          <Link href="/products" className="text-brand hover:underline">products page</Link>.
         </p>
       </LegalSection>
 
       <LegalSection title="Talk to us">
         <p>
           Questions, feedback or a data source you want supported:{' '}
-          <a href={`mailto:${EMAIL.support}`} className="text-[#E4E4E2] hover:underline">{EMAIL.support}</a>.
-          Other inboxes are on the <Link href="/contact" className="text-[#E4E4E2] hover:underline">contact page</Link>.
+          <a href={`mailto:${EMAIL.support}`} className="text-brand hover:underline">{EMAIL.support}</a>.
+          Other inboxes are on the <Link href="/contact" className="text-brand hover:underline">contact page</Link>.
         </p>
       </LegalSection>
     </LegalLayout>

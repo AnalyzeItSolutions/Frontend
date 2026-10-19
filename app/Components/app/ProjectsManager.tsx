@@ -190,7 +190,7 @@ export function ProjectsManager({
     <section id="projects" className="app-card scroll-mt-24 space-y-4 p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E4E4E2]/15 text-[#E4E4E2]">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand/15 text-brand">
             <IconFolder size={18} />
           </div>
           <div>
@@ -205,7 +205,7 @@ export function ProjectsManager({
               ) : null}
             </p>
             {overLimit ? (
-              <p className="mt-1.5 text-xs text-[#141414]">
+              <p className="mt-1.5 text-xs text-[var(--text-primary)]">
                 Over your plan limit — New and Duplicate are disabled. Delete projects below until you
                 are at {projectLimit}, or{' '}
                 <Link href="/billing" className="underline underline-offset-2 hover:text-[var(--coral,#E4E4E2)]">
@@ -257,7 +257,7 @@ export function ProjectsManager({
         <p className="rounded-lg bg-[#8FA98F]/15 px-3 py-2 text-xs text-[#4A7C59] dark:text-[#9EBB9A]">{note}</p>
       ) : null}
       {error ? (
-        <p role="alert" className="rounded-lg bg-[#141414]/10 px-3 py-2 text-xs text-[#141414]">
+        <p role="alert" className="rounded-lg bg-[var(--danger)]/10 px-3 py-2 text-xs text-[var(--danger)]">
           {error}
         </p>
       ) : null}
@@ -326,7 +326,7 @@ export function ProjectsManager({
                 </button>
                 <button
                   type="button"
-                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[#141414]"
+                  className="rounded-lg p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text-primary)]"
                   title="Delete"
                   onClick={() => setConfirm({ kind: 'delete', project })}
                 >
@@ -424,7 +424,7 @@ export function ProjectsManager({
                 {confirm.kind === 'delete' ? (
                   <button
                     type="button"
-                    className="rounded-full bg-[#141414] px-4 py-2 text-xs font-medium text-white disabled:opacity-50"
+                    className="rounded-full bg-[var(--brand)] px-4 py-2 text-xs font-medium text-[var(--brand-ink)] disabled:opacity-50"
                     disabled={busyId === confirm.project.id}
                     onClick={() => void runDelete(confirm.project)}
                   >

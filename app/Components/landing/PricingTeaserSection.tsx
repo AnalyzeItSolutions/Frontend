@@ -69,7 +69,7 @@ export const PricingTeaserSection: React.FC<{ initialQuote?: MarketingQuote }> =
             key={tier.name}
             className={`relative flex flex-col rounded-3xl border p-7 ${
               tier.popular
-                ? 'border-[#E4E4E2]/40 bg-[#F9F9F9] dark:bg-[#262626] shadow-lg'
+                ? 'border-brand/40 bg-[#F9F9F9] dark:bg-[#262626] shadow-lg'
                 : 'border-[#414141]/12 dark:border-[var(--border)] bg-[var(--surface)]'
             }`}
           >

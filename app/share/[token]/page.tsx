@@ -61,7 +61,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
   const date = data.created_at ? new Date(data.created_at).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : '';
   return (
     <main className="mx-auto max-w-2xl p-8">
-      <p className="text-xs uppercase tracking-widest text-[#141414]">AnalyzeIt report{date ? ` · ${date}` : ''}</p>
+      <p className="text-xs uppercase tracking-widest text-[var(--text-primary)]">AnalyzeIt report{date ? ` · ${date}` : ''}</p>
       <h1 className="mt-2 font-serif text-3xl">{data.title}</h1>
       <div className="mt-4 text-[#383838] dark:text-[#DBDBDB]"><ChatMarkdown text={findings ? withoutFindingList(data.text) : data.text} /></div>
       {tables.map((t, i) => (
@@ -81,7 +81,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
           <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm">
             {sources.map((s, i) => (
               <li key={i}>
-                <a href={s.url} rel="noopener noreferrer nofollow" target="_blank" className="text-[#141414] underline">
+                <a href={s.url} rel="noopener noreferrer nofollow" target="_blank" className="text-[var(--text-primary)] underline">
                   {s.title || s.url}
                 </a>
               </li>
@@ -90,7 +90,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
         </section>
       ) : null}
       <p className="mt-10 text-xs text-[#616161]">Written by an AI from the owner&apos;s data and public sources. Check important figures before relying on them.</p>
-      <a href="/research" className="mt-4 inline-block text-sm text-[#141414]">
+      <a href="/research" className="mt-4 inline-block text-sm text-[var(--text-primary)]">
         Try a question
       </a>
     </main>

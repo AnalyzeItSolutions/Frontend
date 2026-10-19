@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/features' },
 };
 
-const link = 'text-[#E4E4E2] hover:underline';
+const link = 'text-brand hover:underline';
 
 export default function FeaturesPage() {
   return (

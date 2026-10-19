@@ -16,7 +16,7 @@ export function HeroAnswer() {
   return (
     <figure className="w-full max-w-xl lg:max-w-lg" aria-label="An example answer">
       <p className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[var(--text-secondary)]">
-        <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[#141414]" />What you get
+        <span aria-hidden="true" className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />What you get
       </p>
       <div className="ml-auto mb-3 w-fit max-w-[90%] rounded-2xl rounded-br-md bg-[#2D2D2D] px-4 py-2 text-sm text-[var(--brand-ink)] shadow-sm dark:bg-[var(--brand)] dark:text-[#1B1B1B]">
         {example.question}

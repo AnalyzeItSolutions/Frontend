@@ -24,7 +24,7 @@ export function GlobalFilterBar({
   const invalid = value.preset === 'custom' && value.from && value.to && value.from > value.to;
   return (
     <div role="group" aria-label="Dashboard date range" className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-xl border border-[#414141]/10 dark:border-[#262626] bg-[#414141]/[0.03] dark:bg-white/[0.02]">
-      <IconCalendar size={14} className="text-[#E4E4E2]" aria-hidden="true" />
+      <IconCalendar size={14} className="text-brand" aria-hidden="true" />
       <label className="sr-only" htmlFor="dash-date-preset">Date range</label>
       <select
         id="dash-date-preset"
@@ -46,7 +46,7 @@ export function GlobalFilterBar({
         </>
       )}
       {active && (
-        <button type="button" onClick={() => onChange({ preset: 'all', from: '', to: '' })} className="flex items-center gap-1 px-2 py-1 text-xs rounded-lg text-[#E4E4E2] hover:bg-[#E4E4E2]/10 cursor-pointer">
+        <button type="button" onClick={() => onChange({ preset: 'all', from: '', to: '' })} className="flex items-center gap-1 px-2 py-1 text-xs rounded-lg text-brand hover:bg-brand/10 cursor-pointer">
           <IconX size={12} aria-hidden="true" /> Clear
         </button>
       )}

@@ -177,7 +177,7 @@ function ProfileInner() {
           </p>
         ) : null}
         {error ? (
-          <p role="alert" className="rounded-xl bg-[#141414]/10 px-3 py-2 text-sm text-[#141414]">
+          <p role="alert" className="rounded-xl bg-[var(--danger)]/10 px-3 py-2 text-sm text-[var(--danger)]">
             {error}
           </p>
         ) : null}

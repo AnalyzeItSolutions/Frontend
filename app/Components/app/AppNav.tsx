@@ -282,7 +282,7 @@ export function AppNav({
                     <button
                       type="button"
                       role="menuitem"
-                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-[#141414] hover:bg-[var(--surface-3)]"
+                      className="flex w-full items-center gap-2 px-3 py-2 text-left text-[var(--text-primary)] hover:bg-[var(--surface-3)]"
                       onClick={signOut}
                     >
                       <IconLogout size={14} />
@@ -391,7 +391,7 @@ export function AppNav({
                             data-active={activeLink}
                             className={`mb-0.5 flex items-center justify-between rounded-xl px-3 py-3 text-sm font-medium transition-colors ${
                               activeLink
-                                ? 'bg-[#E4E4E2]/15 text-[#E4E4E2]'
+                                ? 'bg-brand/15 text-brand'
                                 : 'text-[var(--text-secondary)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]'
                             }`}
                             onClick={() => setMobileOpen(false)}

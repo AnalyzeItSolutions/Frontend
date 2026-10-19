@@ -368,7 +368,7 @@ export function BarChartWidget({
                 {item.value}
               </span>
               <div
-                className="w-full max-w-[32px] bg-[#E4E4E2] hover:bg-[#E4E4E2] rounded-t transition-all shadow-xs"
+                className="w-full max-w-[32px] bg-brand hover:bg-brand-hover rounded-t transition-all shadow-xs"
                 style={{ height: `${Math.max(heightPct, 8)}%` }}
               />
               <span className="text-[11px] font-medium text-[var(--text-muted)]">
@@ -506,9 +506,9 @@ export function TextBlockWidget({
 
   const variantStyles = {
     insight: {
-      border: 'border-[#E4E4E2]/30',
-      badge: 'bg-[#E4E4E2]/10 text-[#E4E4E2]',
-      dot: 'bg-[#E4E4E2]',
+      border: 'border-brand/30',
+      badge: 'bg-brand/10 text-brand',
+      dot: 'bg-brand',
       label: 'Insight',
     },
     warning: {
@@ -570,7 +570,7 @@ export function TextBlockWidget({
           if (pText.trim().startsWith('- ') || pText.trim().startsWith('• ')) {
             const bullets = pText.split('\n').map((l) => l.replace(/^[-•]\s*/, '').trim()).filter(Boolean);
             return (
-              <ul key={idx} className="space-y-1 pl-4 list-disc marker:text-[#E4E4E2]">
+              <ul key={idx} className="space-y-1 pl-4 list-disc marker:text-brand">
                 {bullets.map((b, bIdx) => (
                   <li key={bIdx} className="font-sans text-[var(--text-muted)]">{b}</li>
                 ))}
@@ -611,7 +611,7 @@ export function ProgressRingWidget({
   const offset = circumference - (percent / 100) * circumference;
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
           <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
@@ -704,7 +704,7 @@ export function ComparisonPairWidget({
   }
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
           <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
@@ -745,7 +745,7 @@ export function ComparisonPairWidget({
           <span className="text-[11px] font-mono uppercase text-[var(--text-muted)]">
             {b.label}
           </span>
-          <div className="font-serif text-xl font-bold text-[#E4E4E2]">
+          <div className="font-serif text-xl font-bold text-brand">
             {b.value}
           </div>
           {b.sub && (
@@ -759,7 +759,7 @@ export function ComparisonPairWidget({
       {delta && (
         <div className="mt-3 flex items-center justify-between text-xs font-mono">
           <span className="text-[var(--text-muted)]">Variance:</span>
-          <span className="px-2 py-0.5 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] font-semibold">
+          <span className="px-2 py-0.5 rounded-full bg-brand/15 text-brand font-semibold">
             {delta}
           </span>
         </div>
@@ -793,7 +793,7 @@ export function TimelineWidget({
   }
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div className="flex items-center justify-between mb-4">
         <div>
           <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">
@@ -818,7 +818,7 @@ export function TimelineWidget({
       <div className="relative pl-4 space-y-4 border-l-2 border-[#414141]/10 dark:border-[#262626] ml-2">
         {events.map((ev, idx) => (
           <div key={idx} className="relative group/item">
-            <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-[#E4E4E2] border-2 border-white dark:border-[#1B1B1B]" />
+            <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-brand border-2 border-white dark:border-[#1B1B1B]" />
             <div className="space-y-0.5">
               <span className="text-[11px] font-mono text-[var(--text-muted)]">
                 {ev.date}
@@ -882,7 +882,7 @@ export function HeatmapWidget({
   };
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
@@ -959,7 +959,7 @@ export function HeatmapWidget({
         <div className="min-h-[18px] text-[11px] font-mono text-[var(--text-secondary)] mt-1">
           {hoveredCell ? (
             <span className="flex items-center gap-2">
-              <span className="font-semibold text-[#E4E4E2]">
+              <span className="font-semibold text-brand">
                 {hoveredCell.r} · {hoveredCell.c}
               </span>
               <span>Value: <strong>{hoveredCell.v}</strong></span>
@@ -1043,7 +1043,7 @@ export function SparklineListWidget({
   };
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-3">
           <div>
@@ -1141,7 +1141,7 @@ export function FunnelWidget({
   const topValue = stages[0]?.value || 1;
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -1193,7 +1193,7 @@ export function FunnelWidget({
                 <div className="w-full bg-black/5 dark:bg-[#262626] h-6 rounded-lg overflow-hidden flex items-center relative">
                   <div
                     style={{ width: `${barPct}%` }}
-                    className="h-full rounded-lg bg-gradient-to-r from-[#E4E4E2] to-[#E4E4E2] transition-all flex items-center justify-between px-2.5 text-[11px] font-mono text-[#292929] font-medium shadow-inner"
+                    className="h-full rounded-lg bg-gradient-to-r from-brand to-brand transition-all flex items-center justify-between px-2.5 text-[11px] font-mono text-[#292929] font-medium shadow-inner"
                   >
                     <span className="truncate">{stg.sublabel || `${overallPct}% total`}</span>
                   </div>
@@ -1243,7 +1243,7 @@ export function DistributionWidget({
   const totalCount = buckets.reduce((acc, b) => acc + b.count, 0) || 1;
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -1277,7 +1277,7 @@ export function DistributionWidget({
                 </div>
                 <div
                   style={{ height: `${pct}%` }}
-                  className="w-full bg-[#E4E4E2]/80 hover:bg-[#E4E4E2] rounded-t-md transition-all cursor-pointer shadow-xs"
+                  className="w-full bg-brand/80 hover:bg-brand-hover rounded-t-md transition-all cursor-pointer shadow-xs"
                 />
               </div>
             );
@@ -1351,7 +1351,7 @@ export function NodeGraphWidget({
   };
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all group relative">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all group relative">
       <div>
         <div className="flex items-center justify-between mb-2">
           <div>
@@ -1542,8 +1542,8 @@ export function AnnotatedChartWidget({
       case 'event':
       default:
         return {
-          bg: 'bg-[#E4E4E2]/15 text-[#E4E4E2] border-[#E4E4E2]/30',
-          dot: 'bg-[#E4E4E2]',
+          bg: 'bg-brand/15 text-brand border-brand/30',
+          dot: 'bg-brand',
         };
     }
   };
@@ -1688,7 +1688,7 @@ export function AnnotatedChartWidget({
                   if (e.key === 'Enter') handleAddUserAnnotation();
                 }}
                 placeholder="e.g. Campaign launched, market update..."
-                className="flex-1 px-2.5 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-xs bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] placeholder-[#888888] outline-none focus:ring-1 focus:ring-[#E4E4E2]/40"
+                className="flex-1 px-2.5 py-1 rounded-lg border border-[#414141]/20 dark:border-[#262626] text-xs bg-white dark:bg-[#262626] text-[#272727] dark:text-[#EDEDED] placeholder-[#888888] outline-none focus:ring-1 focus:ring-brand/40"
                 autoFocus
               />
               <select
@@ -1831,15 +1831,15 @@ export function CompositeGroupWidget({
   const childWidgets: WidgetSpec[] = Array.isArray(p.widgets) ? p.widgets : [];
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border-2 border-[#E4E4E2]/25 dark:border-[#E4E4E2]/25 flex flex-col justify-between h-full shadow-md hover:border-[#E4E4E2]/40 transition-all group relative bg-black/[0.01] dark:bg-white/[0.01]">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-5 border-2 border-brand/25 dark:border-brand/25 flex flex-col justify-between h-full shadow-md hover:border-brand/40 transition-all group relative bg-black/[0.01] dark:bg-white/[0.01]">
       <div>
         <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#414141]/10 dark:border-[#262626]">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#E4E4E2]" />
+            <span className="w-2 h-2 rounded-full bg-brand" />
             <h3 className="font-serif text-lg font-medium text-[#414141] dark:text-[#EDEDED]">
               {title}
             </h3>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/10 text-[#E4E4E2] font-semibold">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-brand/10 text-brand font-semibold">
               Composite · {childWidgets.length} primitives
             </span>
           </div>
@@ -2133,7 +2133,7 @@ export function SandboxedFrameWidget({
   const srcDoc = isOversized ? '' : generateSandboxedHtml(widget, resolvedData, theme);
 
   return (
-    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-4 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-[#E4E4E2]/30 transition-all min-h-[200px]">
+    <div className="glass-card dark:bg-[#1B1B1B] rounded-2xl p-4 border border-[#414141]/10 dark:border-[#262626] flex flex-col justify-between h-full shadow-sm hover:border-brand/30 transition-all min-h-[200px]">
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-serif font-medium truncate text-[#414141] dark:text-[#EDEDED]">
           {title}
@@ -2301,7 +2301,7 @@ export function SandboxedWidgetRenderer({
     <div
       className={`relative group/canvas-widget h-full transition-all duration-300 ${
         isFilteredIn
-          ? 'ring-2 ring-[#E4E4E2] shadow-lg rounded-2xl'
+          ? 'ring-2 ring-brand shadow-lg rounded-2xl'
           : isFilteredOut
           ? 'opacity-40 hover:opacity-80'
           : ''
@@ -2310,7 +2310,7 @@ export function SandboxedWidgetRenderer({
       {/* Active Filter Scope Badge */}
       {isFilteredIn && activeFilter && (
         <div className="absolute top-3 left-3 z-10">
-          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#E4E4E2]/15 text-[#E4E4E2] border border-[#E4E4E2]/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-brand/15 text-brand border border-brand/30 flex items-center gap-1 font-semibold backdrop-blur-xs">
             <IconFilter size={11} />
             {activeFilter.dimension}: {activeFilter.value}
           </span>
@@ -2328,7 +2328,7 @@ export function SandboxedWidgetRenderer({
               onClick={exportCsv}
               title="Download data as CSV"
               aria-label="Download data as CSV"
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconDownload size={13} />
             </button>
@@ -2340,7 +2340,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onRefine(widget)}
               title="Refine with AI (Click-to-chat)"
               aria-label="Refine with AI"
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconSparkles size={13} />
             </button>
@@ -2352,7 +2352,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onToggleWidth(widget.id)}
               title={widget.span === 2 ? 'Set to 1 Column' : 'Expand to 2 Columns'}
               aria-label={widget.span === 2 ? 'Set to 1 column' : 'Expand to 2 columns'}
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconColumns size={13} />
             </button>
@@ -2364,7 +2364,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveUp(widget.id)}
               title="Move Widget Up"
               aria-label="Move widget up"
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconArrowUp size={13} />
             </button>
@@ -2376,7 +2376,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onMoveDown(widget.id)}
               title="Move Widget Down"
               aria-label="Move widget down"
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconArrowDown size={13} />
             </button>
@@ -2388,7 +2388,7 @@ export function SandboxedWidgetRenderer({
               onClick={() => onWidgetAction(widget.id, 'duplicate')}
               title="Duplicate Widget"
               aria-label="Duplicate widget"
-              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-[#E4E4E2] hover:bg-[#E4E4E2]/10 transition-all cursor-pointer"
+              className="p-1 rounded-lg text-[var(--text-secondary)] hover:text-brand hover:bg-brand/10 transition-all cursor-pointer"
             >
               <IconCopy size={13} />
             </button>

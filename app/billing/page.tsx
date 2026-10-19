@@ -207,7 +207,7 @@ export default function BillingPage() {
               Each payment covers {annual ? 'one year' : '30 days'}, and you can pay again any time. USD amounts are for reference only. See{' '}
             </>
           )}
-          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#141414]">
+          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[var(--text-primary)]">
             pricing
           </Link>
           {' '}for what each plan includes.
@@ -236,7 +236,7 @@ export default function BillingPage() {
         {quoteError ? (
           <div
             role="alert"
-            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[#E4E4E2]/30 bg-[#E4E4E2]/10 px-3 py-2 text-sm text-[#141414]"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-brand/30 bg-brand/10 px-3 py-2 text-sm text-[var(--text-primary)]"
           >
             <span>{quoteError}</span>
             <button type="button" className="btn-secondary text-xs" onClick={() => loadQuote()}>
@@ -281,7 +281,7 @@ export default function BillingPage() {
         ) : null}
 
         {error ? (
-          <p role="alert" className="rounded-xl border border-[#E4E4E2]/30 bg-[#E4E4E2]/10 px-3 py-2 text-sm text-[#141414]">
+          <p role="alert" className="rounded-xl border border-brand/30 bg-brand/10 px-3 py-2 text-sm text-[var(--danger)]">
             {error}
           </p>
         ) : null}
@@ -319,7 +319,7 @@ export default function BillingPage() {
                 <ul className="flex-1 space-y-1.5 text-sm text-[var(--text-muted,#606060)]">
                   {meta.perks.map((perk) => (
                     <li key={perk} className="flex gap-2">
-                      <span className="text-[#141414]" aria-hidden>
+                      <span className="text-[var(--text-primary)]" aria-hidden>
                         ·
                       </span>
                       {perk}
@@ -341,7 +341,7 @@ export default function BillingPage() {
 
         <p className="text-xs text-[var(--text-muted,#606060)]">
           Compare features on the{' '}
-          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[#141414]">
+          <Link href="/#pricing" className="underline underline-offset-2 hover:text-[var(--text-primary)]">
             pricing section
           </Link>
           . You will confirm the charge in-app before Razorpay opens{recurring ? ', and you can cancel any time' : ''}.

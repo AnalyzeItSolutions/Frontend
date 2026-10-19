@@ -138,7 +138,7 @@ function RankedBars({ points }: { points: SourcePoint[] }) {
             <div className="truncate text-[11px] text-[var(--text-secondary)]">{row.label}</div>
             <div className="mt-0.5 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]">
               <div
-                className="h-full rounded-full bg-[#E4E4E2]"
+                className="h-full rounded-full bg-brand"
                 style={{ width: `${Math.max(8, (row.score / max) * 100)}%` }}
               />
             </div>
@@ -741,7 +741,7 @@ function GlobePageInner() {
         <aside className="flex min-w-0 flex-col overflow-hidden border-r border-[var(--border)] bg-[var(--surface)]">
           <div className="space-y-2.5 border-b border-[var(--border)] p-3">
             <div className="flex items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
-              <IconSearch size={15} className="shrink-0 text-[#E4E4E2]" />
+              <IconSearch size={15} className="shrink-0 text-brand" />
               <input
                 type="search"
                 value={query}
@@ -769,7 +769,7 @@ function GlobePageInner() {
                   <IconX size={14} />
                 </button>
               ) : null}
-              {searching ? <IconLoader2 size={14} className="animate-spin text-[#E4E4E2]" /> : null}
+              {searching ? <IconLoader2 size={14} className="animate-spin text-brand" /> : null}
             </div>
 
             <div className="flex items-center gap-1.5">
@@ -977,7 +977,7 @@ function GlobePageInner() {
                     onClick={() => pickHit(hit)}
                     className="flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-left text-xs hover:bg-[var(--surface-2)]"
                   >
-                    <IconMapPin size={14} className="mt-0.5 shrink-0 text-[#E4E4E2]" />
+                    <IconMapPin size={14} className="mt-0.5 shrink-0 text-brand" />
                     <span className="min-w-0">
                       <span className="block font-medium text-[var(--text-primary)]">{hit.name}</span>
                       <span className="mt-0.5 block text-[11px] text-[var(--text-muted)]">
@@ -1010,7 +1010,7 @@ function GlobePageInner() {
                         }
                         className={`min-h-8 whitespace-nowrap rounded-full px-3 text-xs transition-colors ${
                           activeHub === hub.name
-                            ? 'bg-[#E4E4E2] font-semibold text-white'
+                            ? 'bg-brand font-semibold text-brand-ink'
                             : 'border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
                         }`}
                       >
@@ -1062,7 +1062,7 @@ function GlobePageInner() {
           tabIndex={0}
           onPointerDown={(e) => startResize('left', e)}
           onDoubleClick={() => setLeftRail(LEFT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#E4E4E2]"
+          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-brand-hover"
         />
 
         <section className={`${globePageStage.pageClass} relative min-w-0`}>
@@ -1100,7 +1100,7 @@ function GlobePageInner() {
 
           {!mapReady ? (
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-[var(--surface)]/40">
-              <div className="h-full w-1/3 animate-pulse bg-[#E4E4E2]/70" />
+              <div className="h-full w-1/3 animate-pulse bg-brand/70" />
             </div>
           ) : null}
         </section>
@@ -1112,14 +1112,14 @@ function GlobePageInner() {
           tabIndex={0}
           onPointerDown={(e) => startResize('right', e)}
           onDoubleClick={() => setRightRail(RIGHT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-[#E4E4E2]"
+          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-brand-hover"
         />
 
         <aside className="flex min-w-0 flex-col overflow-hidden border-l border-[var(--border)] bg-[var(--surface)]">
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           {!selected && !selectedEvent && !loading && !error ? (
             <div className="flex flex-1 flex-col items-start justify-center gap-3 p-5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#E4E4E2]/12 text-[#E4E4E2]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/12 text-brand">
                 <IconMapPin size={22} />
               </div>
               <div>

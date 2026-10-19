@@ -327,7 +327,7 @@ export function ChoroplethMapWidget({
             onClick={() =>
               onWidgetAction?.(widget.id, 'filter', { dimension: metric, value: r.label })
             }
-            className="rounded-xl p-3 text-left border border-[#414141]/10 dark:border-[#262626] hover:border-[#E4E4E2]/40 transition-colors cursor-pointer"
+            className="rounded-xl p-3 text-left border border-[#414141]/10 dark:border-[#262626] hover:border-brand/40 transition-colors cursor-pointer"
             style={{ background: colorAt(r.value / max) }}
           >
             <div className="text-[11px] font-medium text-[#414141] dark:text-[#EDEDED] truncate">

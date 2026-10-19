@@ -78,7 +78,7 @@ export function TimeControls({ days, onDays, cursor, onCursor, playing, onPlay, 
           }}
           aria-label="Replay position"
           aria-valuetext={label}
-          className="h-1.5 w-full cursor-pointer accent-[#E4E4E2]"
+          className="h-1.5 w-full cursor-pointer accent-brand"
         />
         <button
           type="button"

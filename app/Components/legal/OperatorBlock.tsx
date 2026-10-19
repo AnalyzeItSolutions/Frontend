@@ -34,7 +34,7 @@ export function OperatorBlock({
       {PHONE ? <p>Phone: {PHONE}</p> : null}
       <p>
         Legal:{' '}
-        <a href={`mailto:${EMAIL.legal}`} className="text-[#E4E4E2] hover:underline">
+        <a href={`mailto:${EMAIL.legal}`} className="text-brand hover:underline">
           {EMAIL.legal}
         </a>
       </p>

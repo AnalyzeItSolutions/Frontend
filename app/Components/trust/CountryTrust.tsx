@@ -24,7 +24,7 @@ export function CountryTrust({ className = '' }: { className?: string }) {
         {profile.links.map((link, i) => (
           <span key={link.href}>
             {i > 0 && ' · '}
-            <Link href={link.href} className="text-[#141414] hover:underline">{link.label}</Link>
+            <Link href={link.href} className="text-[var(--text-primary)] hover:underline">{link.label}</Link>
           </span>
         ))}
       </p>

@@ -20,8 +20,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
       suppressHydrationWarning
       className={`relative inline-flex items-center justify-center rounded-full border p-2 transition-all duration-300 cursor-pointer ${
         isDark
-          ? 'bg-[var(--surface-2)] border-[var(--border-strong)] text-[var(--peach,#E4E4E2)] hover:text-[var(--text-primary)] hover:border-[#E4E4E2]'
-          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:text-[#E4E4E2] hover:border-[#E4E4E2]/40'
+          ? 'bg-[var(--surface-2)] border-[var(--border-strong)] text-[var(--peach,#E4E4E2)] hover:text-[var(--text-primary)] hover:border-brand'
+          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-primary)] hover:text-brand hover:border-brand/40'
       } ${className}`}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Light mode' : 'Dark mode'}

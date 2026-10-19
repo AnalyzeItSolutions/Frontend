@@ -60,7 +60,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
   if (!allowed) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[var(--bg)] text-[var(--text-primary)]">
-        <span className="h-5 w-5 animate-spin rounded-full border-2 border-[#E4E4E2]/25 border-t-[#E4E4E2]" />
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-brand/25 border-t-brand" />
         <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)]">
           Checking account…
         </p>

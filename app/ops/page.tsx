@@ -185,7 +185,7 @@ export default function OpsPage() {
             ))}
           </div>
         </header>
-        {error ? <p className="mb-3 text-sm text-[#141414]">{error}</p> : null}
+        {error ? <p className="mb-3 text-sm text-[var(--danger)]">{error}</p> : null}
         {busy ? <p className="text-sm">Loading…</p> : null}
         {section === 'retention' && data ? <RetentionOps data={data} onFlag={(f, b) => post(`retention/flags/${f}`, b)} onKill={(on) => post(`retention/kill-switch?on=${on}`, {})} /> : null}
         {section === 'economics' && data ? (

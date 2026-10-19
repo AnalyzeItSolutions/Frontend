@@ -45,7 +45,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
           /* clipboard may be unavailable */
         }
       }}
-      className="text-[11px] font-mono uppercase tracking-wider text-[#E4E4E2] hover:text-[#E4E4E2]"
+      className="text-[11px] font-mono uppercase tracking-wider text-brand hover:text-brand"
     >
       {done ? 'Copied' : label}
     </button>
@@ -54,12 +54,12 @@ function CopyButton({ text, label }: { text: string; label: string }) {
 
 function Command({ title, hint, command }: { title: string; hint: string; command: string }) {
   return (
-    <div className="rounded-xl border border-[#E4E4E2]/25 bg-[#414141]/[0.06] dark:bg-white/[0.05] p-4">
+    <div className="rounded-xl border border-brand/25 bg-[#414141]/[0.06] dark:bg-white/[0.05] p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div className="text-sm font-semibold text-[#262626] dark:text-[#E5E5E5]">{title}</div>
         <CopyButton text={command} label="Copy command" />
       </div>
-      <pre className="mt-2 overflow-x-auto rounded-lg bg-black/80 p-3 text-xs leading-relaxed text-[#E4E4E2]"><code>{command}</code></pre>
+      <pre className="mt-2 overflow-x-auto rounded-lg bg-black/80 p-3 text-xs leading-relaxed text-brand"><code>{command}</code></pre>
       <p className="mt-2 text-xs text-[var(--text-muted)]">{hint}</p>
     </div>
   );
@@ -92,9 +92,9 @@ export function DownloadClient({ releases }: { releases: Releases }) {
 
   if (!desktop && !cli) {
     return (
-      <div className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6">
+      <div className="rounded-2xl border border-brand/25 bg-white/60 dark:bg-white/[0.03] p-6">
         <h2 className="text-lg font-semibold text-[#262626] dark:text-[#E5E5E5]">Downloads are being prepared</h2>
-        <p className="mt-2 text-sm">The first release is not published yet. Please check back soon, or <a className="text-[#E4E4E2] hover:underline" href="/contact">contact us</a>.</p>
+        <p className="mt-2 text-sm">The first release is not published yet. Please check back soon, or <a className="text-brand hover:underline" href="/contact">contact us</a>.</p>
       </div>
     );
   }
@@ -102,7 +102,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
   return (
     <div className="not-prose space-y-10">
       {/* One-line install: the main way */}
-      <section className="rounded-2xl border border-[#E4E4E2]/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
+      <section className="rounded-2xl border border-brand/25 bg-white/60 dark:bg-white/[0.03] p-6 sm:p-8">
         <div className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)]">{detected ? `Detected: ${osLabel}` : 'Install'} · copy, paste, done</div>
         <h2 className="mt-1 text-xl font-semibold text-[#262626] dark:text-[#E5E5E5]">Install AnalyzeIt with one line</h2>
         <p className="mt-2 text-sm text-[#414141]/80 dark:text-[#BABABA]">
@@ -117,7 +117,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
               aria-selected={os === o.id}
               type="button"
               onClick={() => { setOs(o.id); if (o.id !== 'macos') setArch('x64'); }}
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-[#E4E4E2] bg-[var(--brand)]/15 text-[#262626] dark:text-[#E5E5E5] font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#E4E4E2]/60'}`}
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${os === o.id ? 'border-brand bg-[var(--brand)]/15 text-[#262626] dark:text-[#E5E5E5] font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-brand/60'}`}
             >
               {o.label}
             </button>
@@ -137,7 +137,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
           )}
         </div>
         <p className="mt-4 text-xs text-[var(--text-muted)]">
-          Read the script first at <a className="text-[#E4E4E2] hover:underline" href="/install.sh">/install.sh</a> or <a className="text-[#E4E4E2] hover:underline" href="/install.ps1">/install.ps1</a>. Updates afterwards are signed and verified by the program itself.
+          Read the script first at <a className="text-brand hover:underline" href="/install.sh">/install.sh</a> or <a className="text-brand hover:underline" href="/install.ps1">/install.ps1</a>. Updates afterwards are signed and verified by the program itself.
         </p>
       </section>
 
@@ -156,7 +156,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                 aria-checked={arch === a}
                 type="button"
                 onClick={() => setArch(a)}
-                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-[#E4E4E2] bg-[var(--brand)]/10 font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-[#E4E4E2]/60'}`}
+                className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${arch === a ? 'border-brand bg-[var(--brand)]/10 font-semibold' : 'border-[#414141]/15 dark:border-[#262626] hover:border-brand/60'}`}
               >
                 {ARCH_LABELS[a]}
               </button>
@@ -174,7 +174,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
                     <div className="text-sm font-medium text-[#262626] dark:text-[#E5E5E5]">{KIND_LABELS[f.kind as keyof typeof KIND_LABELS] || f.kind}</div>
                     <div className="font-mono text-[11px] text-[var(--text-muted)]">{f.name} · {formatSize(f.size)}</div>
                   </div>
-                  <a href={f.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
+                  <a href={f.url} className="rounded-lg border border-brand/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-muted)]">
                   <span className="break-all">SHA-256 {f.sha256}</span>
@@ -192,7 +192,7 @@ export function DownloadClient({ releases }: { releases: Releases }) {
           <div className="mt-2 rounded-xl border border-[#414141]/10 dark:border-[#262626] p-4 flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="font-mono text-[11px] text-[var(--text-muted)]">{cliFile.name} · {formatSize(cliFile.size)}</div>
-              <a href={cliFile.url} className="rounded-lg border border-[#E4E4E2]/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
+              <a href={cliFile.url} className="rounded-lg border border-brand/50 px-4 py-1.5 text-sm hover:bg-[var(--brand)]/10">Download</a>
             </div>
             <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-[var(--text-muted)]">
               <span className="break-all">SHA-256 {cliFile.sha256}</span>

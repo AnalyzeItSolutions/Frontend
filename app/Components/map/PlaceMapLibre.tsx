@@ -1105,7 +1105,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
                       {point.label}
                     </span>
                     <span
-                      className="w-2.5 rounded-t-sm bg-[#E4E4E2] shadow-sm"
+                      className="w-2.5 rounded-t-sm bg-brand shadow-sm"
                       style={{ height: px }}
                     />
                   </span>

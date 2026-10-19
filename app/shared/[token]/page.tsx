@@ -43,7 +43,7 @@ export default async function SharedProjectPage({ params }: { params: Promise<{ 
   const date = data.shared_at ? new Date(data.shared_at).toLocaleDateString('en-IN', { dateStyle: 'medium' }) : '';
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-      <p className="text-xs uppercase tracking-widest text-[#141414]">Shared read-only dashboard{date ? ` · shared ${date}` : ''}</p>
+      <p className="text-xs uppercase tracking-widest text-[var(--text-primary)]">Shared read-only dashboard{date ? ` · shared ${date}` : ''}</p>
       <h1 className="mt-2 font-serif text-3xl">{data.title}</h1>
       {data.description ? <p className="mt-2 text-sm text-[var(--text-secondary)]">{data.description}</p> : null}
       <SharedDashboard widgets={Array.isArray(data.widgets) ? data.widgets : []} />

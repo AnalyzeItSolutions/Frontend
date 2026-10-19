@@ -15,7 +15,7 @@ export default function Page() {
       <ul className="max-w-2xl space-y-6">
         {GUIDES.map((g) => (
           <li key={g.slug}>
-            <Link href={`/guides/${g.slug}`} className="font-serif text-2xl text-[#2D2D2D] hover:text-[#141414] dark:text-[#EDEDED]">
+            <Link href={`/guides/${g.slug}`} className="font-serif text-2xl text-[#2D2D2D] hover:text-[var(--text-primary)] dark:text-[#EDEDED]">
               {g.title}
             </Link>
             <p className="mt-1 text-[15px] text-[#414141]/85 dark:text-[#BABABA]">{g.description}</p>
@@ -24,8 +24,8 @@ export default function Page() {
         ))}
       </ul>
       <p className="mt-10 text-sm text-[var(--text-secondary)]">
-        Prefer to see it work? <Link href="/demo" className="text-[#141414] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
-        <Link href="/cases" className="text-[#141414] underline underline-offset-2">worked examples</Link>.
+        Prefer to see it work? <Link href="/demo" className="text-[var(--text-primary)] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
+        <Link href="/cases" className="text-[var(--text-primary)] underline underline-offset-2">worked examples</Link>.
       </p>
     </LegalLayout>
   );
