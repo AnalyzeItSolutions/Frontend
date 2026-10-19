@@ -60,7 +60,7 @@ export function TryoutClient() {
   const out = status !== null && status.remaining <= 0;
   const unavailable = status !== null && !status.available;
   return (
-    <div className="space-y-6">
+    <div className="flex min-h-[calc(100svh-17rem)] flex-col gap-6">
       <div className="flex flex-wrap gap-2" role="group" aria-label="Example questions">
         {TRYOUT_EXAMPLES.map((ex) => (
           <button
@@ -78,37 +78,7 @@ export function TryoutClient() {
         ))}
       </div>
 
-      <form
-        className="space-y-3"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void ask(input);
-        }}
-      >
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          maxLength={400}
-          rows={3}
-          placeholder="Ask a question about analysing data, metrics or a business problem…"
-          aria-label="Your question"
-          className="w-full resize-none rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-5 py-3 text-base text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--text-secondary)] focus:outline-none"
-        />
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-xs text-[var(--text-muted)]" role="status">
-            {status && status.available ? runsLabel(status.remaining, status.limit) : ''}
-          </p>
-          <button
-            type="submit"
-            disabled={busy || out || unavailable || !input.trim()}
-            className="rounded-full bg-brand px-6 py-3 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-hover disabled:opacity-50"
-          >
-            {busy ? 'Working…' : 'Ask'}
-          </button>
-        </div>
-      </form>
-
-      <div ref={resultRef} className="scroll-mt-6 space-y-4">
+      <div ref={resultRef} className="scroll-mt-6 flex-1 space-y-4">
         {busy && turn ? (
           <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5" aria-busy="true">
             <p className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">{turn.question}</p>
@@ -154,6 +124,36 @@ export function TryoutClient() {
       ) : null}
 
       {unavailable ? <p className="text-sm text-[var(--text-primary)]">The try-out is unavailable right now. Please try again in a few minutes.</p> : null}
+
+      <form
+        className="sticky bottom-0 z-10 -mx-6 space-y-3 border-t border-[var(--border)] bg-[var(--bg)]/95 px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 backdrop-blur"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void ask(input);
+        }}
+      >
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          maxLength={400}
+          rows={2}
+          placeholder="Ask a question about analysing data, metrics or a business problem…"
+          aria-label="Your question"
+          className="w-full resize-none rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] px-5 py-3 text-base text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--text-secondary)] focus:outline-none"
+        />
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs text-[var(--text-muted)]" role="status">
+            {status && status.available ? runsLabel(status.remaining, status.limit) : ''}
+          </p>
+          <button
+            type="submit"
+            disabled={busy || out || unavailable || !input.trim()}
+            className="rounded-full bg-brand px-6 py-3 text-sm font-medium text-brand-ink transition-colors hover:bg-brand-hover disabled:opacity-50"
+          >
+            {busy ? 'Working…' : 'Ask'}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
