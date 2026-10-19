@@ -70,6 +70,7 @@ export const ONBOARDING_FILE_EXTENSIONS = [
   'json', 'ndjson', 'jsonl',
   'xlsx', 'xlsm',
   'pdf',
+  'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tif', 'tiff', 'gif',
   'twb', 'twbx',
 ];
 
@@ -170,7 +171,7 @@ export function fileChoiceError(filename) {
   if (!name) return 'Choose a file to upload.';
   const ext = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
   if (!ONBOARDING_FILE_EXTENSIONS.includes(ext)) {
-    return 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, or Tableau file.';
+    return 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, image, or Tableau file.';
   }
   return null;
 }

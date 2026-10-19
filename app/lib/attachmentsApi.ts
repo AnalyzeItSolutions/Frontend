@@ -17,6 +17,7 @@ export const ATTACHMENT_ACCEPT_ATTR = [
   '.json', '.ndjson', '.jsonl',
   '.xlsx', '.xlsm',
   '.pdf',
+  '.png', '.jpg', '.jpeg', '.webp', '.bmp', '.tif', '.tiff', '.gif',
   '.twb', '.twbx',
 ].join(',');
 
