@@ -13,6 +13,9 @@ function hostFromSource(src: { host: string; url?: string }): string {
   }
 }
 
+/** Sites whose headquarters says nothing about what a question is about: never pinned by their publisher address. */
+const GENERIC_HOSTS = /(^|\.)(wikipedia|wikimedia|reddit|medium|quora|youtube|github|stackoverflow|kaggle)\.(org|com)$/i;
+
 export function pointsFromSources(
   sources: Array<{
     host: string;
@@ -23,14 +26,20 @@ export function pointsFromSources(
     lon?: number;
     source_id?: string;
   }>,
+  opts: { allowPublisherFallback?: boolean } = {},
 ): SourcePoint[] {
+  const allowFallback = opts.allowPublisherFallback !== false;
   const points: SourcePoint[] = [];
   const seen = new Set<string>();
   for (const src of sources) {
     const host = hostFromSource(src);
     const entry = lookupSourceHost(host);
-    const explicit = normalizeLatLon(src.lat, src.lon ?? src.lng);
-    const fallback = entry ? normalizeLatLon(entry.lat, entry.lon) : null;
+    // Coordinates that arrive with a catalogued source (it has a source_id) are the publisher's headquarters, so the same rules apply.
+    const headquarters = Boolean(src.source_id);
+    if (GENERIC_HOSTS.test(host)) continue;
+    const explicit = headquarters && !allowFallback ? null : normalizeLatLon(src.lat, src.lon ?? src.lng);
+    // A publisher's headquarters is only a guess about where the answer lives, so it is used when nothing better was found.
+    const fallback = entry && allowFallback && !GENERIC_HOSTS.test(host) ? normalizeLatLon(entry.lat, entry.lon) : null;
     const coords = explicit || fallback;
     if (!coords) continue;
     const { lat, lon } = coords;
@@ -100,6 +109,12 @@ export async function pointFromQuery(query: string): Promise<SourcePoint | null>
   }
 }
 
+/** Capitalised words that are not the first word of the sentence ("India", "New York"), longest first. */
+export function capitalisedNames(text: string): string[] {
+  const names = [...text.matchAll(/(?<!^)(?<![.?!]\s)\b([A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})*)\b/g)].map((m) => m[1]);
+  return [...new Set(names)].sort((a, b) => b.length - a.length);
+}
+
 export async function resolveChatIngest(input: ChatRunIngest): Promise<SourcePoint[]> {
   const points: SourcePoint[] = [];
   const seen = new Set<string>();
@@ -135,9 +150,22 @@ export async function resolveChatIngest(input: ChatRunIngest): Promise<SourcePoi
   }
 
   if (input.city) add(await pointFromCity(input.city));
-  if (input.query) add(await pointFromQuery(input.query));
+  if (input.query) {
+    add(await pointFromQuery(input.query));
+    // "...merchants in India?": the whole sentence finds nothing, so try the capitalised names inside it.
+    if (!points.some((p) => p.kind === 'place')) {
+      for (const name of capitalisedNames(input.query).slice(0, 2)) {
+        const found = await pointFromQuery(name);
+        if (found) {
+          add(found);
+          break;
+        }
+      }
+    }
+  }
   if (input.sources?.length) {
-    for (const point of pointsFromSources(input.sources)) add(point);
+    const hasPlace = points.some((p) => p.kind === 'place');
+    for (const point of pointsFromSources(input.sources, { allowPublisherFallback: !hasPlace })) add(point);
   }
   return points;
 }

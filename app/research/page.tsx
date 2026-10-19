@@ -99,7 +99,7 @@ import { ComposerModeControl } from '../Components/research/ComposerModeControl'
 import { ResearchEmptyState } from '../Components/research/ResearchEmptyState';
 import { SourceChips, type ResearchSource } from '../Components/research/SourceChips';
 import { AppShell } from '../Components/app/AppShell';
-import { ChatMiniGlobe } from '../Components/globe/ChatMiniGlobe';
+import { ChatMiniGlobe, GlobeToolbarControls } from '../Components/globe/ChatMiniGlobe';
 import {
   messageOffersRetry,
   sourceFromProgressPayload,
@@ -1763,7 +1763,7 @@ function ChatInner() {
               showDashboard ? 'w-full lg:w-[55%] xl:w-[58%] border-r border-[var(--border)]' : 'w-full'
             }`}
           >
-            <ChatMiniGlobe />
+            <ChatMiniGlobe controls={false} />
             {/* Toolbar */}
             <div className="relative z-10 flex shrink-0 items-center justify-between gap-3 border-b border-[var(--border)]/70 bg-[var(--bg)]/55 px-4 py-2.5 backdrop-blur-md sm:px-6">
               <div className="min-w-0">
@@ -1789,6 +1789,7 @@ function ChatInner() {
                 </p>
               </div>
               <div className="flex items-center gap-2">
+                <GlobeToolbarControls />
                 <button
                   type="button"
                   onClick={() => setShowDashboard((v) => !v)}

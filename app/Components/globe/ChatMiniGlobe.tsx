@@ -3,10 +3,8 @@
 import { GlobeCanvas } from './GlobeCanvas';
 import { useGlobe } from './useGlobe';
 
-/** Full-bleed Chat globe — visual layer only; never calls POST /v1/geo/context. */
-export function ChatMiniGlobe() {
-  const { flyCallout, inFlight, activePoints, mapReady, expandToFull, selectedPoint } = useGlobe();
-
+function useGlobeStatus() {
+  const { flyCallout, inFlight, activePoints, expandToFull, selectedPoint } = useGlobe();
   const status =
     flyCallout ||
     (inFlight
@@ -16,6 +14,41 @@ export function ChatMiniGlobe() {
         (activePoints.length
           ? `${activePoints.length} source${activePoints.length === 1 ? '' : 's'}`
           : null));
+  return { status, inFlight, expandToFull };
+}
+
+/** The globe's status pill and expand button, for a toolbar row, so they never sit on top of the conversation. */
+export function GlobeToolbarControls() {
+  const { status, inFlight, expandToFull } = useGlobeStatus();
+  return (
+    <>
+      {status ? (
+        <span
+          className={`hidden max-w-[10rem] truncate rounded-full px-2.5 py-1 font-mono text-[11px] tracking-wide sm:inline-block ${
+            inFlight ? 'bg-brand/90 text-brand-ink' : 'border border-[var(--border)] text-[var(--text-secondary)]'
+          }`}
+        >
+          {status}
+        </span>
+      ) : null}
+      <button
+        type="button"
+        onClick={() => expandToFull()}
+        className="inline-flex items-center rounded-full border border-[var(--border)] px-2.5 py-1.5 text-[11px] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-2)]"
+        aria-label="Open full globe"
+        title="Open full globe"
+      >
+        <span className="hidden sm:inline">Expand globe</span>
+        <span className="sm:hidden">Globe</span>
+      </button>
+    </>
+  );
+}
+
+/** Full-bleed Chat globe — visual layer only; never calls POST /v1/geo/context. */
+export function ChatMiniGlobe({ controls = true }: { controls?: boolean } = {}) {
+  const { mapReady } = useGlobe();
+  const { status, inFlight, expandToFull } = useGlobeStatus();
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -27,6 +60,7 @@ export function ChatMiniGlobe() {
         </span>
       ) : null}
 
+      {controls ? (
       <div className="pointer-events-auto absolute right-4 top-3 z-20 flex max-w-[min(16rem,42vw)] flex-col items-end gap-2 sm:right-6 sm:top-4">
         {status ? (
           <span
@@ -48,6 +82,7 @@ export function ChatMiniGlobe() {
           Expand globe
         </button>
       </div>
+      ) : null}
     </div>
   );
 }
