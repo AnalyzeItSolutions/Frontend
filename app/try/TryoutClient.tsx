@@ -39,6 +39,7 @@ export function TryoutClient() {
     if (!q || busy) return;
     setBusy(true);
     setSlow(false);
+    setInput('');
     setTurn({ question: q });
     const slowTimer = window.setTimeout(() => setSlow(true), 6000);
     const controller = new AbortController();
@@ -60,17 +61,14 @@ export function TryoutClient() {
   const out = status !== null && status.remaining <= 0;
   const unavailable = status !== null && !status.available;
   return (
-    <div className="flex min-h-[calc(100svh-17rem)] flex-col gap-6">
+    <div className="flex flex-1 flex-col gap-6">
       <div className="flex flex-wrap gap-2" role="group" aria-label="Example questions">
         {TRYOUT_EXAMPLES.map((ex) => (
           <button
             key={ex.label}
             type="button"
             disabled={busy || out}
-            onClick={() => {
-              setInput(ex.question);
-              void ask(ex.question);
-            }}
+            onClick={() => void ask(ex.question)}
             className="rounded-full border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--text-primary)] transition-colors hover:border-[var(--text-muted)] hover:bg-[var(--surface-2)] disabled:opacity-50"
           >
             {ex.label}

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { LegalLayout } from '../Components/legal/LegalLayout';
+import { BrandLogo } from '../Components/ui/Brand';
+import { ThemeToggle } from '../Components/ui/ThemeToggle';
 import { TryoutClient } from './TryoutClient';
 
 export const metadata: Metadata = {
@@ -11,28 +12,32 @@ export const metadata: Metadata = {
 
 export default function TryPage() {
   return (
-    <LegalLayout
-      title="Start analyzing now."
-      eyebrow={false}
-      showHeroUpdated={false}
-      quietOperator
-      subtitle="Ask a question and get a real answer. No account for your first five runs."
-    >
-      <TryoutClient />
+    <div className="flex min-h-svh flex-col bg-[var(--bg)] text-[var(--text-primary)]">
+      <nav className="flex items-center justify-between border-b border-[var(--border)] px-6 py-5 sm:px-10">
+        <Link href="/" className="flex items-center gap-2">
+          <BrandLogo size={26} />
+        </Link>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <Link href="/login" className="font-mono text-xs uppercase tracking-wider text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]">
+            Sign in
+          </Link>
+          <Link
+            href="/login?tab=register"
+            className="hidden rounded-full bg-[var(--brand)] px-4 py-1.5 text-xs font-medium text-[var(--brand-ink)] transition-colors hover:bg-[var(--brand-hover)] sm:inline-flex"
+          >
+            Create account
+          </Link>
+        </div>
+      </nav>
 
-      <section className="space-y-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-        <h2 className="font-serif text-2xl text-[var(--text-primary)]">About the free runs</h2>
-        <p>
-          Each run is a real answer from an AI model, so the try-out is limited: five runs, then a pause of about a day before you can use it again from the same
-          network or browser. Nothing you type here is saved to an account. Questions about your own files and data, links, and longer questions need a free account.{' '}
-          <Link href="/login?tab=register" className="text-[var(--text-primary)] underline underline-offset-2">Create one</Link> or see{' '}
-          <Link href="/products" className="text-[var(--text-primary)] underline underline-offset-2">what each plan includes</Link>.
+      <main id="main-content" className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 pt-12 sm:pt-16">
+        <h1 className="font-serif text-4xl text-[var(--text-primary)] sm:text-5xl">Start analyzing now.</h1>
+        <p className="mb-8 mt-3 max-w-2xl text-base leading-relaxed text-[var(--text-secondary)]">
+          Ask a question and get a real answer. No account for your first five runs.
         </p>
-        <p>
-          Prefer to watch first?{' '}
-          <Link href="/case" className="text-[var(--text-primary)] underline underline-offset-2">See a real run on public data</Link>, no signup.
-        </p>
-      </section>
-    </LegalLayout>
+        <TryoutClient />
+      </main>
+    </div>
   );
 }
