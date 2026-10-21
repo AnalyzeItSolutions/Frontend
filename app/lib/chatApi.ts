@@ -861,6 +861,7 @@ export interface ProjectSummary {
   updated_at?: string;
   dashboard_slug?: string | null;
   owner_user_id?: string;
+  created_via?: string | null;
 }
 
 export async function getProjects(_userId?: string): Promise<ProjectSummary[]> {

@@ -70,6 +70,8 @@ import { ModulePipelineView } from '../Components/dashboard/ModulePipelineView';
 import { SampleDataBanner, StarterKits } from '../Components/starter/StarterKits';
 import { MemoryHomeCard } from '../Components/memory/MemoryHomeCard';
 import { MyTemplates } from '../Components/dashboard/MyTemplates';
+import { WorkspacesPanel } from '../Components/dashboard/WorkspacesPanel';
+import { getEntitlements } from '../lib/billingApi';
 import {
   DASHBOARD_EMPTY,
   RESEARCH_STARTERS,
@@ -94,7 +96,6 @@ export default function DashboardPage() {
   // Navigation rail tab state
   const [studioTab, setStudioTab] = useState<'canvas' | 'pipeline' | 'templates'>('canvas');
   const [isProjectsModalOpen, setIsProjectsModalOpen] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState('');
 
   // ─── Active Scoped Project & Generative Canvas State ─────────────────────────
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
@@ -142,6 +143,15 @@ export default function DashboardPage() {
   const [projectToDelete, setProjectToDelete] = useState<ProjectSummary | null>(null);
   const [isDeletingProject, setIsDeletingProject] = useState(false);
   const [isDuplicatingProject, setIsDuplicatingProject] = useState<string | null>(null);
+  const [entitlements, setEntitlements] = useState<Record<string, unknown> | null>(null);
+  const projectLimit = Number(entitlements?.project_limit || 0) || null;
+  const planLabel = String(entitlements?.plan_label || entitlements?.tier || 'Free');
+  const isTopPlan = String(entitlements?.tier || '') === 'premium_plus';
+  const usedSlots = serverProjects.filter((p) => p.created_via !== 'connector').length;
+  const atProjectLimit = projectLimit !== null && usedSlots >= projectLimit;
+  useEffect(() => {
+    getEntitlements().then(setEntitlements).catch(() => setEntitlements(null));
+  }, []);
 
   // ─── User Profile & Settings Modal ──────────────────────────────────────────
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
@@ -365,6 +375,12 @@ export default function DashboardPage() {
     if (e) e.preventDefault();
     const name = newProjectName.trim();
     if (!name || isCreatingProject) return;
+    if (atProjectLimit) {
+      // Send them to the manager, where they can free a slot, instead of a bare error.
+      setIsNewProjectOpen(false);
+      setIsProjectsModalOpen(true);
+      return;
+    }
 
     setIsCreatingProject(true);
     try {
@@ -471,6 +487,36 @@ export default function DashboardPage() {
     } finally {
       setIsDeletingProject(false);
     }
+  };
+
+  const handleBulkDelete = async (ids: string[]) => {
+    const done = new Set<string>();
+    for (const id of ids) {
+      try {
+        await deleteProject(id);
+        done.add(id);
+      } catch {
+        /* keep going; failures are reported below */
+      }
+    }
+    const remaining = serverProjects.filter((p) => !done.has(p.id));
+    setServerProjects(remaining);
+    if (activeProjectId && done.has(activeProjectId)) {
+      if (remaining.length > 0) {
+        handleSelectProject(remaining[0]);
+      } else {
+        setActiveProjectId(null);
+        setActiveProjectName('Workspace Canvas');
+        setCurrentLayout({ widgets: [] });
+      }
+    }
+    const failed = ids.length - done.size;
+    setExportToastMsg(
+      failed
+        ? `Deleted ${done.size} of ${ids.length}. ${failed} could not be deleted.`
+        : `Deleted ${done.size} project${done.size === 1 ? '' : 's'}.`,
+    );
+    setTimeout(() => setExportToastMsg(null), 4000);
   };
 
   const handleDuplicateProject = async (project: ProjectSummary) => {
@@ -653,6 +699,18 @@ export default function DashboardPage() {
             ) : (
               <h2 className="text-sm font-medium truncate">{activeProjectName}</h2>
             )}
+            <button
+              type="button"
+              onClick={() => setIsProjectsModalOpen(true)}
+              title={projectLimit !== null ? `${usedSlots} of ${projectLimit} ${planLabel} projects used — manage` : 'Manage projects'}
+              aria-label="Manage projects"
+              className={`flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs transition-colors hover:bg-[var(--surface-2)] ${atProjectLimit ? 'border-[var(--danger)]/50 text-[var(--danger)]' : 'border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`}
+            >
+              <IconFolder size={14} />
+              <span className="font-mono text-[11px]">
+                {projectLimit !== null ? `${usedSlots}/${projectLimit}` : serverProjects.length}
+              </span>
+            </button>
 
           </div>
 
@@ -1312,153 +1370,32 @@ export default function DashboardPage() {
       {/* ─── MODAL: MANAGE / SWITCH PROJECTS ─── */}
       <AnimatePresence>
         {isProjectsModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="w-full max-w-xl bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 shadow-2xl flex flex-col max-h-[85vh] space-y-4"
-            >
-              <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-[var(--coral)]/15 text-[var(--coral)] flex items-center justify-center">
-                    <IconFolder size={18} />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-medium text-[var(--text-primary)]">Analysis Workspaces</h3>
-                    <p className="text-xs text-[var(--text-muted)]">Switch active workspace or manage projects</p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setIsProjectsModalOpen(false)}
-                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
-                >
-                  <IconX size={16} />
-                </button>
-              </div>
-
-              {/* Search projects */}
-              <div className="relative">
-                <IconSearch size={14} className="absolute left-3 top-3 text-[var(--text-muted)]" />
-                <input
-                  type="text"
-                  placeholder="Filter workspaces by name..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 rounded-xl text-xs bg-[var(--surface-2)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--coral)]"
-                />
-              </div>
-
-              {/* Project list */}
-              <div className="overflow-y-auto max-h-[50vh] divide-y divide-[var(--border)]">
-                {serverProjects
-                  .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                  .map((proj) => {
-                    const isActive = activeProjectId === proj.id;
-                    return (
-                      <div
-                        key={proj.id}
-                        className={`py-3 px-3.5 flex items-center justify-between rounded-xl transition-colors cursor-pointer ${
-                          isActive ? 'bg-[var(--surface-2)] border border-[var(--coral)]/30' : 'hover:bg-[var(--surface-2)]'
-                        }`}
-                        role="button"
-                        tabIndex={0}
-                        aria-pressed={isActive}
-                        onClick={() => {
-                          handleSelectProject(proj);
-                          setIsProjectsModalOpen(false);
-                        }}
-                        onKeyDown={(event) => {
-                          if (event.key === 'Enter' || event.key === ' ') {
-                            event.preventDefault();
-                            handleSelectProject(proj);
-                            setIsProjectsModalOpen(false);
-                          }
-                        }}
-                      >
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-medium text-[var(--text-primary)]">{proj.name}</span>
-                            {isActive && (
-                              <span className="text-[11px] font-mono text-[#3FB68C] px-1.5 py-0.5 rounded bg-[#3FB68C]/15">
-                                Active
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-[11px] font-mono text-[var(--text-muted)]">ID: {proj.id.slice(0, 16)}...</span>
-                        </div>
-                        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
-                          <button
-                            onClick={() => {
-                              setProjectToRename(proj);
-                              setRenameName(proj.name);
-                            }}
-                            className="p-1.5 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-                            title="Rename"
-                          >
-                            <IconEdit size={14} />
-                          </button>
-                          <button
-                            onClick={() => setProjectToDelete(proj)}
-                            className="p-1.5 text-[var(--text-muted)] hover:text-[var(--danger)] transition-colors"
-                            title="Delete"
-                          >
-                            <IconTrash size={14} />
-                          </button>
-                          <button
-                            onClick={() => void handleDuplicateProject(proj)}
-                            disabled={isDuplicatingProject !== null}
-                            className="p-1.5 text-[var(--text-muted)] hover:text-[var(--coral)] transition-colors disabled:opacity-40"
-                            title="Duplicate"
-                          >
-                            {isDuplicatingProject === proj.id ? <IconRefresh size={14} className="animate-spin" /> : <IconCopy size={14} />}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                {!isLoadingProjects && serverProjects.filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 && (
-                  <div className="px-4 py-8 text-center">
-                    <p className="text-xs text-[var(--text-muted)]">{searchQuery ? 'No workspaces match this filter.' : 'No workspaces yet.'}</p>
-                    {!searchQuery && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsProjectsModalOpen(false);
-                          setNewProjectName('');
-                          setIsNewProjectOpen(true);
-                        }}
-                        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-[var(--coral)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)]"
-                      >
-                        <IconPlus size={14} /> Create workspace
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between pt-3 border-t border-[var(--border)]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsProjectsModalOpen(false);
-                    setNewProjectName('');
-                    setIsNewProjectOpen(true);
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium cursor-pointer"
-                >
-                  <IconPlus size={14} />
-                  <span>New Workspace</span>
-                </button>
-                <button
-                  onClick={() => setIsProjectsModalOpen(false)}
-                  className="px-3 py-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                >
-                  Close
-                </button>
-              </div>
-            </motion.div>
-          </div>
+          <WorkspacesPanel
+            projects={serverProjects}
+            activeProjectId={activeProjectId}
+            projectLimit={projectLimit}
+            planLabel={planLabel}
+            isTopPlan={isTopPlan}
+            loading={isLoadingProjects}
+            duplicatingId={isDuplicatingProject}
+            onClose={() => setIsProjectsModalOpen(false)}
+            onOpen={(proj) => {
+              handleSelectProject(proj);
+              setIsProjectsModalOpen(false);
+            }}
+            onNew={() => {
+              setIsProjectsModalOpen(false);
+              setNewProjectName('');
+              setIsNewProjectOpen(true);
+            }}
+            onRename={(proj) => {
+              setProjectToRename(proj);
+              setRenameName(proj.name);
+            }}
+            onDelete={(proj) => setProjectToDelete(proj)}
+            onDuplicate={(proj) => void handleDuplicateProject(proj)}
+            onBulkDelete={handleBulkDelete}
+          />
         )}
       </AnimatePresence>
 
@@ -1501,7 +1438,11 @@ export default function DashboardPage() {
                     className="w-full px-3 py-2 rounded-xl bg-[var(--surface-2)] border border-[var(--border)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--coral)]"
                   />
                   <p className="text-[11px] text-[var(--text-muted)]">
-                    Saved securely in MongoDB with continuous telemetry and layout state.
+                    {projectLimit !== null
+                      ? atProjectLimit
+                        ? `All ${projectLimit} ${planLabel} projects are in use. Creating will open the manager so you can free a slot.`
+                        : `Uses 1 of your ${projectLimit - usedSlots} remaining ${planLabel} project slot${projectLimit - usedSlots === 1 ? '' : 's'}.`
+                      : 'Each workspace keeps its own canvas, data and history.'}
                   </p>
                 </div>
 
