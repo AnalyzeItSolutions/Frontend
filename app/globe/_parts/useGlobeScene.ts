@@ -10,14 +10,18 @@ export function useGlobeScene({
   layers,
   setLayers,
   days,
-  setDays,
+  cursor,
+  trail,
+  restoreTime,
   selected,
   compare,
 }: {
   layers: Record<LayerId, boolean>;
   setLayers: React.Dispatch<React.SetStateAction<Record<LayerId, boolean>>>;
   days: number;
-  setDays: (d: number) => void;
+  cursor: number;
+  trail: string;
+  restoreTime: (t: { days?: number | null; cursor?: number | null; trail?: string | null }) => void;
   selected: Selected | null;
   compare: ComparePlace[];
 }) {
@@ -35,11 +39,11 @@ export function useGlobeScene({
       const wanted = new Set(scene.layers);
       setLayers((prev) => Object.fromEntries(Object.keys(prev).map((k) => [k, wanted.has(k)])) as Record<LayerId, boolean>);
     }
-    if (scene.days) setDays(scene.days);
+    restoreTime({ days: scene.days, cursor: scene.cursor, trail: scene.trail });
     if (scene.view) setDataView(scene.view);
     if (scene.projection) setMapProjection(scene.projection);
     if (scene.places.length) setComparePlaces(scene.places);
-  }, [setComparePlaces, setDataView, setMapProjection, setLayers, setDays]);
+  }, [setComparePlaces, setDataView, setMapProjection, setLayers, restoreTime]);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -60,6 +64,8 @@ export function useGlobeScene({
     const qs = encodeScene({
       layers: (Object.keys(layers) as LayerId[]).filter((k) => layers[k]),
       days,
+      cursor,
+      trail: trail === 'all' ? undefined : trail,
       view: dataView,
       projection: mapProjection,
       places: focus,
@@ -73,7 +79,7 @@ export function useGlobeScene({
     }
     setShared(true);
     window.setTimeout(() => setShared(false), 2200);
-  }, [selected, compare, layers, days, dataView, mapProjection, camera]);
+  }, [selected, compare, layers, days, cursor, trail, dataView, mapProjection, camera]);
 
   return { shared, shareScene };
 }

@@ -15,7 +15,8 @@ function projectIdFromSearch(search: URLSearchParams | null): string | null {
   return search.get('projectId') || search.get('project_id') || null;
 }
 
-export function FeedbackWidget() {
+/** `compact` is an icon-only button tucked in the bottom-left, for pages (the Globe) whose bottom-right is taken. */
+export function FeedbackWidget({ compact = false }: { compact?: boolean } = {}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -78,7 +79,11 @@ export function FeedbackWidget() {
   };
 
   return (
-    <div className="pointer-events-none fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
+    <div
+      className={`pointer-events-none fixed z-[60] flex flex-col gap-2 ${
+        compact ? 'bottom-3 left-3 items-start' : 'bottom-5 right-5 items-end sm:bottom-6 sm:right-6'
+      }`}
+    >
       {open ? (
         <div className="pointer-events-auto w-[min(100vw-2rem,22rem)] rounded-[var(--radius-card,14px)] border border-[var(--border)] bg-[var(--surface,#E4E4E2)] p-4 shadow-[0_18px_50px_rgba(40,32,24,0.18)] dark:bg-[var(--surface-1,#1B1B1B)]">
           <div className="mb-3 flex items-start justify-between gap-2">
@@ -153,12 +158,13 @@ export function FeedbackWidget() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface,#E4E4E2)] px-3.5 py-2.5 text-sm text-[var(--text,#343434)] shadow-md transition hover:border-[var(--coral,#E4E4E2)]/50 dark:bg-[var(--surface-1,#1B1B1B)] dark:text-[var(--text-primary)]"
+        className={`pointer-events-auto inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface,#E4E4E2)] ${compact ? 'h-9 w-9 justify-center p-0' : 'px-3.5 py-2.5'} text-sm text-[var(--text,#343434)] shadow-md transition hover:border-[var(--coral,#E4E4E2)]/50 dark:bg-[var(--surface-1,#1B1B1B)] dark:text-[var(--text-primary)]`}
         aria-expanded={open}
         aria-label="Send feedback"
+        title="Send feedback"
       >
         <IconMessageCircle size={18} className="text-[var(--coral,#E4E4E2)]" />
-        <span className="hidden sm:inline">Feedback</span>
+        {compact ? null : <span className="hidden sm:inline">Feedback</span>}
       </button>
     </div>
   );

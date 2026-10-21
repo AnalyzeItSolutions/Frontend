@@ -1,0 +1,21 @@
+/** One colour per live layer, shared by the layer list, the legend, the timeline and the Bars draw mode. */
+export const LAYER_COLORS = {
+  catalog: '#A7A7A7',
+  earthquakes: '#d97706',
+  disasters: '#dc2626',
+  wildfires: '#ef4444',
+  storms: '#E4E4E2',
+  volcanoes: '#b45309',
+  weather: '#f59e0b',
+  air_quality: '#10b981',
+  iss: '#f43f5e',
+  radar: '#38bdf8',
+  clouds: '#cbd5e1',
+  space_weather: '#14b8a6',
+  my_data: '#E4E4E2',
+  weather_alerts: '#f97316',
+  ocean: '#0ea5e9',
+  aurora_oval: '#22c55e',
+  fireballs: '#fb7185',
+  markets: '#8b5cf6',
+};

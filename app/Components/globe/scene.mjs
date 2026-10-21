@@ -13,6 +13,7 @@ export const DAY_OPTIONS = [1, 3, 7, 14, 30];
 export const DATA_VIEWS = ['pins', 'heat', 'density', 'bars'];
 export const PROJECTIONS = ['globe', 'mercator'];
 export const MAX_SCENE_PLACES = 8;
+export const TRAIL_IDS = ['24h', '6h'];
 
 const finite = (n) => typeof n === 'number' && Number.isFinite(n);
 const r = (n, d) => Number(n.toFixed(d));
@@ -24,6 +25,8 @@ export function encodeScene(scene = {}) {
   if (DAY_OPTIONS.includes(scene.days) && scene.days !== 7) q.set('days', String(scene.days));
   if (DATA_VIEWS.includes(scene.view) && scene.view !== 'pins') q.set('view', scene.view);
   if (PROJECTIONS.includes(scene.projection) && scene.projection !== 'globe') q.set('proj', scene.projection);
+  if (finite(scene.cursor) && scene.cursor >= 0 && scene.cursor < 1) q.set('t', String(r(scene.cursor, 3)));
+  if (TRAIL_IDS.includes(scene.trail)) q.set('trail', scene.trail);
   const places = (scene.places || [])
     .filter((p) => finite(p.lat) && finite(p.lon))
     .slice(0, MAX_SCENE_PLACES)
@@ -36,7 +39,7 @@ export function encodeScene(scene = {}) {
 
 export function decodeScene(search = '') {
   const q = new URLSearchParams(String(search).replace(/^\?/, ''));
-  const out = { layers: null, days: null, view: null, projection: null, places: [], camera: null };
+  const out = { layers: null, days: null, view: null, projection: null, places: [], camera: null, cursor: null, trail: null };
 
   const layers = (q.get('layers') || '').split(',').map((s) => s.trim()).filter((l) => LAYER_IDS.includes(l));
   if (layers.length) out.layers = [...new Set(layers)];
@@ -45,6 +48,10 @@ export function decodeScene(search = '') {
   if (DAY_OPTIONS.includes(days)) out.days = days;
   if (DATA_VIEWS.includes(q.get('view'))) out.view = q.get('view');
   if (PROJECTIONS.includes(q.get('proj'))) out.projection = q.get('proj');
+
+  const t = Number(q.get('t'));
+  if (q.get('t') !== null && finite(t) && t >= 0 && t < 1) out.cursor = r(t, 3);
+  if (TRAIL_IDS.includes(q.get('trail'))) out.trail = q.get('trail');
 
   for (const chunk of (q.get('places') || '').split('|').slice(0, MAX_SCENE_PLACES)) {
     const m = /^(.*)@(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)$/.exec(chunk);

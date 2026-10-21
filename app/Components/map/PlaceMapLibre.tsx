@@ -7,10 +7,11 @@ import { loadMapConfig } from './mapConfig';
 import { sameKeySet } from './facingSet.mjs';
 import { isLayerKind, selectedSourceId, sourcePinFeatures } from './sourcePinsGl.mjs';
 import Map, { Marker, Source, Layer, type MapRef } from 'react-map-gl/maplibre';
-import type { CircleLayerSpecification, HeatmapLayerSpecification, LineLayerSpecification, Map as MapLibreMap, StyleSpecification, SymbolLayerSpecification } from 'maplibre-gl';
+import type { CircleLayerSpecification, LineLayerSpecification, Map as MapLibreMap, StyleSpecification, SymbolLayerSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useTheme } from '../ui/ThemeProvider';
-import { eventDrawWeight, strongestRows } from '../globe/dataQuality.mjs';
+import { BarMarkers } from './BarMarkers';
+import { DENSITY_LAYER, HEAT_LAYER, barRows, metricGeoJson } from './metricModes';
 import { globeAtmosphere, globeBasemapTheme, globeStage } from '../globe/globeVisual.mjs';
 import { GLOBE_HUBS } from '../globe/sourceCatalog';
 import { currentTierSettings, fullPixelRatio, miniPixelRatio } from '../globe/globePerf';
@@ -375,11 +376,6 @@ function ensurePlaneIcon(map: MapLibreMap) {
   ctx.stroke();
   const image = ctx.getImageData(0, 0, size, size);
   map.addImage('globe-plane', image, { pixelRatio: 2 });
-}
-
-/** 0–1 strength so heat, density, and bars share one scale. */
-function pointMetric(p: SourcePoint): number | null {
-  return eventDrawWeight(p);
 }
 
 export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(function PlaceMapLibre(
@@ -877,81 +873,8 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     [],
   );
 
-  const metricGeoJson = useMemo((): GeoJSON.FeatureCollection => {
-    const features: GeoJSON.Feature[] = [];
-    for (const p of sourcePoints) {
-      const w = pointMetric(p);
-      if (w == null) continue;
-      features.push({
-        type: 'Feature',
-        properties: { id: p.id, w, label: p.label },
-        geometry: { type: 'Point', coordinates: [p.lon, p.lat] },
-      });
-    }
-    return { type: 'FeatureCollection', features };
-  }, [sourcePoints]);
-
-  const heatLayer = useMemo(
-    (): HeatmapLayerSpecification => ({
-      id: 'globe-metric-heat',
-      type: 'heatmap',
-      source: 'globe-metric',
-      paint: {
-        'heatmap-weight': ['interpolate', ['linear'], ['get', 'w'], 0, 0.05, 1, 1],
-        'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 0.7, 6, 1.4],
-        'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 18, 4, 36, 8, 56],
-        'heatmap-opacity': 0.78,
-        'heatmap-color': [
-          'interpolate',
-          ['linear'],
-          ['heatmap-density'],
-          0,
-          'rgba(0,0,0,0)',
-          0.2,
-          '#7dd3fc',
-          0.45,
-          '#34d399',
-          0.7,
-          '#fbbf24',
-          1,
-          '#ef4444',
-        ],
-      },
-    }),
-    [],
-  );
-
-  const densityLayer = useMemo(
-    (): CircleLayerSpecification => ({
-      id: 'globe-metric-density',
-      type: 'circle',
-      source: 'globe-metric',
-      paint: {
-        'circle-radius': ['interpolate', ['linear'], ['get', 'w'], 0, 10, 1, 42],
-        'circle-color': '#E4E4E2',
-        'circle-opacity': 0.28,
-        'circle-blur': 0.75,
-        'circle-stroke-width': 0,
-      },
-    }),
-    [],
-  );
-
-  const barPoints = useMemo(() => {
-    if (dataView !== 'bars') return [];
-    const ranked = strongestRows(sourcePoints, 80) as {
-      rows: Array<{ id: string; score: number }>;
-    };
-    const max = ranked.rows[0]?.score || 1;
-    const byId = new globalThis.Map(sourcePoints.map((p) => [p.id, p]));
-    return ranked.rows
-      .map((row) => {
-        const point = byId.get(row.id);
-        if (!point) return null;
-        return { point, w: row.score / max };
-      })
-      .filter((row): row is { point: SourcePoint; w: number } => row != null);
-  }, [dataView, sourcePoints]);
+  const metricData = useMemo(() => metricGeoJson(sourcePoints), [sourcePoints]);
+  const bars = useMemo(() => (dataView === 'bars' ? barRows(sourcePoints) : []), [dataView, sourcePoints]);
 
   const pathLineLayer = useMemo(
     (): LineLayerSpecification => ({
@@ -1100,43 +1023,21 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         ) : null}
 
         {dataView === 'heat' || dataView === 'density' ? (
-          <Source id="globe-metric" type="geojson" data={metricGeoJson}>
-            {dataView === 'heat' ? <Layer {...heatLayer} /> : <Layer {...densityLayer} />}
+          <Source id="globe-metric" type="geojson" data={metricData}>
+            {dataView === 'heat' ? <Layer {...HEAT_LAYER} /> : <Layer {...DENSITY_LAYER} />}
           </Source>
         ) : null}
 
         {/* Hub pins: see the 'globe-source-pins' map layer above (full variant). */}
 
-        {dataView === 'bars'
-          ? barPoints.map(({ point, w }) => {
-              const facing = isFacing(point.id);
-              const px = 10 + Math.round(w * 52);
-              return (
-                <Marker
-                  key={`bar-${point.id}`}
-                  longitude={point.lon}
-                  latitude={point.lat}
-                  anchor="bottom"
-                  style={{ pointerEvents: facing ? 'auto' : 'none', opacity: facing ? 1 : 0 }}
-                  onClick={(e) => {
-                    e.originalEvent.stopPropagation();
-                    if (variant === 'mini' || !facing) return;
-                    onPlaceSelect?.({ lat: point.lat, lon: point.lon, name: point.label, event: point });
-                  }}
-                >
-                  <span className="flex flex-col items-center" title={point.label}>
-                    <span className="mb-0.5 max-w-[7rem] truncate text-[11px] font-mono text-[var(--text-primary)]">
-                      {point.label}
-                    </span>
-                    <span
-                      className="w-2.5 rounded-t-sm bg-brand shadow-sm"
-                      style={{ height: px }}
-                    />
-                  </span>
-                </Marker>
-              );
-            })
-          : null}
+        {dataView === 'bars' ? (
+          <BarMarkers
+            rows={bars}
+            isFacing={isFacing}
+            selectable={variant !== 'mini'}
+            onSelect={(point) => onPlaceSelect?.({ lat: point.lat, lon: point.lon, name: point.label, event: point })}
+          />
+        ) : null}
 
         {sourcePoints
           .filter(

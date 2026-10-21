@@ -33,7 +33,7 @@ test('decode rejects everything untrusted', () => {
   assert.equal(d.projection, null);
   assert.deepEqual(d.places.map((p) => p.name), ['b', '<x>']); // out-of-range and malformed dropped; names are data, never markup
   assert.equal(d.camera, null);
-  assert.deepEqual(decodeScene(''), { layers: null, days: null, view: null, projection: null, places: [], camera: null });
+  assert.deepEqual(decodeScene(''), { layers: null, days: null, view: null, projection: null, places: [], camera: null, cursor: null, trail: null });
   assert.equal(decodeScene('?at=95,0,3').camera, null);
 });
 
@@ -104,4 +104,13 @@ test('the newer layers and My data survive a share link', () => {
   const ids = ['my_data', 'fireballs', 'aurora_oval', 'ocean', 'weather_alerts'];
   const q = encodeScene({ layers: ids });
   assert.deepEqual([...(decodeScene(q).layers || [])].sort(), [...ids].sort());
+});
+
+test('the replay position and trail survive a share link; live and junk are dropped', () => {
+  const q = encodeScene({ cursor: 0.4567, trail: '6h' });
+  assert.deepEqual([decodeScene(q).cursor, decodeScene(q).trail], [0.457, '6h']);
+  assert.equal(encodeScene({ cursor: 1 }), '');
+  const bad = decodeScene('?t=2&trail=forever');
+  assert.deepEqual([bad.cursor, bad.trail], [null, null]);
+  assert.equal(decodeScene('').cursor, null);
 });

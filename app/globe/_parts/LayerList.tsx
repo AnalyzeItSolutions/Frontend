@@ -76,7 +76,7 @@ export function LayerList({
             : layer.id === 'catalog'
               ? archivePoints.length
               : replayCounts
-                ? (replayCounts[layer.id] ?? 0)
+                ? (replayCounts[layer.id] ?? layerCounts[layer.id] ?? 0)
                 : (layerCounts[layer.id] ?? 0);
           const message = layer.id === 'catalog' || isRasterLayer(layer.id) ? null : layerHealth[layer.id]?.message;
           return (

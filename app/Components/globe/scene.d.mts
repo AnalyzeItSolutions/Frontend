@@ -10,6 +10,9 @@ export interface SceneInput {
   projection?: string;
   places?: Array<{ name?: string; lat: number; lon: number }>;
   camera?: { lat: number; lng: number; zoom: number } | null;
+  /** Replay position inside the window (0..1); omitted when live. */
+  cursor?: number;
+  trail?: string;
 }
 export interface DecodedScene {
   layers: string[] | null;
@@ -18,6 +21,8 @@ export interface DecodedScene {
   projection: 'globe' | 'mercator' | null;
   places: Array<{ name: string; lat: number; lon: number }>;
   camera: { lat: number; lng: number; zoom: number } | null;
+  cursor: number | null;
+  trail: '24h' | '6h' | null;
 }
 export function encodeScene(scene?: SceneInput): string;
 export function decodeScene(search?: string): DecodedScene;

@@ -1,4 +1,5 @@
 import type { PlaceContext } from '../../lib/geoApi';
+import { LAYER_COLORS } from '../../Components/globe/layerColors.mjs';
 
 export type Selected = { lat: number; lon: number; name?: string; country?: string };
 export type ComparePlace = Selected & { id: string; context?: PlaceContext | null };
@@ -26,24 +27,24 @@ export type LayerId =
 export type LayerHealth = { status: string; message?: string | null };
 
 export const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = [
-  { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: '#A7A7A7', coverage: 'limited' },
-  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M2.5+ · every quake in the window, updated by the minute', color: '#d97706', coverage: 'complete' },
-  { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: '#dc2626', coverage: 'complete' },
-  { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: '#ef4444', coverage: 'complete' },
-  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: '#E4E4E2', coverage: 'complete' },
-  { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: '#b45309', coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', color: '#f59e0b', coverage: 'complete' },
-  { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', color: '#10b981', coverage: 'complete' },
-  { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: '#f43f5e', coverage: 'limited' },
-  { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', color: '#38bdf8', coverage: 'complete' },
-  { id: 'clouds', label: 'Live clouds', hint: 'GOES-East and Himawari satellite imagery (NASA GIBS) · refreshed every 10 min · Americas, Atlantic, East Asia and Oceania', color: '#cbd5e1', coverage: 'limited' },
-  { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: '#14b8a6', coverage: 'complete' },
-  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: '#E4E4E2', coverage: 'complete' },
-  { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: '#f97316', coverage: 'limited' },
-  { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: '#0ea5e9', coverage: 'limited' },
-  { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: '#22c55e', coverage: 'complete' },
-  { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: '#fb7185', coverage: 'limited' },
-  { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: '#8b5cf6', coverage: 'limited' },
+  { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: LAYER_COLORS.catalog, coverage: 'limited' },
+  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M2.5+ · every quake in the window, updated by the minute', color: LAYER_COLORS.earthquakes, coverage: 'complete' },
+  { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: LAYER_COLORS.disasters, coverage: 'complete' },
+  { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: LAYER_COLORS.wildfires, coverage: 'complete' },
+  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: LAYER_COLORS.storms, coverage: 'complete' },
+  { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: LAYER_COLORS.volcanoes, coverage: 'complete' },
+  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', color: LAYER_COLORS.weather, coverage: 'complete' },
+  { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', color: LAYER_COLORS.air_quality, coverage: 'complete' },
+  { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: LAYER_COLORS.iss, coverage: 'limited' },
+  { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', color: LAYER_COLORS.radar, coverage: 'complete' },
+  { id: 'clouds', label: 'Live clouds', hint: 'GOES-East and Himawari satellite imagery (NASA GIBS) · refreshed every 10 min · Americas, Atlantic, East Asia and Oceania', color: LAYER_COLORS.clouds, coverage: 'limited' },
+  { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: LAYER_COLORS.space_weather, coverage: 'complete' },
+  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: LAYER_COLORS.my_data, coverage: 'complete' },
+  { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: LAYER_COLORS.weather_alerts, coverage: 'limited' },
+  { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: LAYER_COLORS.ocean, coverage: 'limited' },
+  { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: LAYER_COLORS.aurora_oval, coverage: 'complete' },
+  { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: LAYER_COLORS.fireballs, coverage: 'limited' },
+  { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: LAYER_COLORS.markets, coverage: 'limited' },
 ];
 
 export const DEFAULT_LAYERS: Record<LayerId, boolean> = {

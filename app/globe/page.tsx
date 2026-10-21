@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useWarmAgent } from '../lib/useWarmAgent';
 import { AppShell } from '../Components/app/AppShell';
@@ -10,6 +10,8 @@ import { GlobeCanvas } from '../Components/globe/GlobeCanvas';
 import { QueuedFlyToast } from '../Components/globe/QueuedFlyToast';
 import { TimeControls } from '../Components/globe/TimeControls';
 import { globeStage } from '../Components/globe/globeVisual.mjs';
+import { cursorFor, activityBuckets, peakEvent } from '../Components/globe/timeline.mjs';
+import { windowBounds } from '../Components/globe/scene.mjs';
 import { useGlobe } from '../Components/globe/useGlobe';
 import { Legend } from './_parts/Legend';
 import { LayerList } from './_parts/LayerList';
@@ -20,7 +22,8 @@ import { useGlobePlaces } from './_parts/useGlobePlaces';
 import { useGlobeLayers } from './_parts/useGlobeLayers';
 import { useGlobeRasters } from './_parts/useGlobeRasters';
 import { useGlobeScene } from './_parts/useGlobeScene';
-import { useGlobeTime } from './_parts/useGlobeTime';
+import { HISTOGRAM_BUCKETS, useGlobeTime } from './_parts/useGlobeTime';
+import { LAYERS } from './_parts/layers';
 import { useRails } from './_parts/useRails';
 import { useReplayOverlay } from './_parts/useReplayOverlay';
 
@@ -35,19 +38,34 @@ function GlobePageInner() {
   const time = useGlobeTime();
   const data = useGlobeLayers(time.days, requestedProject);
   const places = useGlobePlaces();
-  const replayCounts = useReplayOverlay(data.rawPoints, time.cursor, time.days);
+  const { replayCounts, shown } = useReplayOverlay(data.rawPoints, time.cursor, time.days, time.trail);
   useGlobeRasters(data.layers.radar, data.layers.clouds, data.fieldEvents);
   const { shared, shareScene } = useGlobeScene({
     layers: data.layers,
     setLayers: data.setLayers,
     days: time.days,
-    setDays: time.setDays,
+    cursor: time.cursor,
+    trail: time.trail,
+    restoreTime: time.restore,
     selected: places.selected,
     compare: places.compare,
   });
 
+  const activity = useMemo(
+    () => activityBuckets(data.rawPoints, windowBounds(time.days), HISTOGRAM_BUCKETS),
+    [data.rawPoints, time.days],
+  );
+  const layerColors = useMemo(() => Object.fromEntries(LAYERS.map((l) => [l.id, l.color])), []);
+  const peak = useMemo(() => peakEvent(data.rawPoints), [data.rawPoints]);
+  const jumpToPeak = useCallback(() => {
+    if (!peak) return;
+    time.setPlaying(false);
+    time.setCursor(Math.min(1, cursorFor(peak.time, windowBounds(time.days)) + 0.004)); // just after it, so it is on screen
+    places.goTo(peak.point.lat, peak.point.lon, { name: peak.point.label, zoom: 5 });
+  }, [peak, time, places]);
+
   return (
-    <AppShell active="globe" flush hideFeedback>
+    <AppShell active="globe" flush feedback="compact">
       <div
         className="grid w-full min-h-0 flex-1 overflow-hidden bg-[var(--bg)]"
         style={{
@@ -55,7 +73,7 @@ function GlobePageInner() {
           gridTemplateColumns: `${rails.leftRail}px 8px minmax(0, 1fr) 8px ${rails.rightRail}px`,
         }}
       >
-        <aside className="flex min-w-0 flex-col overflow-hidden border-r border-[var(--border)] bg-[var(--surface)]">
+        <aside className="flex min-w-0 flex-col overflow-y-auto overflow-x-hidden border-r border-[var(--border)] bg-[var(--surface)]">
           <SearchControls
             query={places.query}
             onQuery={places.setQuery}
@@ -81,13 +99,23 @@ function GlobePageInner() {
             days={time.days}
             onDays={time.setDays}
             cursor={time.cursor}
-            onCursor={time.setCursor}
             playing={time.playing}
             onPlay={time.setPlaying}
+            onScrub={time.scrubTo}
+            onStep={time.step}
+            speed={time.speed}
+            onSpeed={time.cycleSpeed}
+            trail={time.trail}
+            onTrail={time.setTrail}
+            activity={activity}
+            layerColors={layerColors}
+            shown={shown}
+            total={data.rawPoints.length}
+            onPeak={peak ? jumpToPeak : null}
             shared={shared}
             onShare={() => void shareScene()}
           />
-          <div className="min-h-0 flex-1 overflow-y-auto p-3">
+          <div className="shrink-0 p-3 pb-14">
             <SidePanelBody
               query={places.query}
               hits={places.hits}
