@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useCallback, useMemo } from 'react';
+import { Suspense, useCallback, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useWarmAgent } from '../lib/useWarmAgent';
 import { AppShell } from '../Components/app/AppShell';
@@ -31,7 +31,7 @@ function GlobePageInner() {
   useWarmAgent(); // Ask the globe uses the agent: wake it while the globe loads
   const { theme } = useTheme();
   const stage = globeStage({ variant: 'full', appTheme: theme === 'dark' ? 'dark' : 'light' });
-  const { mapReady, setActiveHub } = useGlobe();
+  const { mapReady, setActiveHub, setRotateHold } = useGlobe();
   const requestedProject = useSearchParams().get('project') || '';
 
   const rails = useRails();
@@ -50,6 +50,13 @@ function GlobePageInner() {
     selected: places.selected,
     compare: places.compare,
   });
+
+  // Rotation is scenery for an idle globe: it holds still for a selected place, a place loading, or a timeline in use.
+  const holdRotation = Boolean(places.selected || places.selectedEvent || places.loading || time.playing || time.cursor < 1);
+  useEffect(() => {
+    setRotateHold(holdRotation);
+    return () => setRotateHold(false);
+  }, [holdRotation, setRotateHold]);
 
   const activity = useMemo(
     () => activityBuckets(data.rawPoints, windowBounds(time.days), HISTOGRAM_BUCKETS),

@@ -60,6 +60,10 @@ export interface GlobeContextValue {
   setOverlayRasters: Dispatch<SetStateAction<RasterOverlay[]>>;
   showCatalog: boolean;
   setShowCatalog: (on: boolean) => void;
+  /** The person's "rotate when idle" switch (remembered), and whether something currently holds it still. */
+  autoRotate: boolean;
+  setAutoRotate: (on: boolean) => void;
+  setRotateHold: (hold: boolean) => void;
   mapProjection: MapProjectionMode;
   setMapProjection: (mode: MapProjectionMode) => void;
   dataView: GlobeDataView;

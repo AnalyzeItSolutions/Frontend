@@ -56,6 +56,23 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
   const [overlayRasters, setOverlayRasters] = useState<RasterOverlay[]>([]);
   const [showCatalog, setShowCatalog] = useState(true);
   const [mapProjection, setMapProjection] = useState<MapProjectionMode>('globe');
+  const [autoRotate, setAutoRotateState] = useState(true);
+  const [rotateHold, setRotateHold] = useState(false);
+  useEffect(() => {
+    try {
+      if (localStorage.getItem('analyzeit_globe_rotate') === 'off') setAutoRotateState(false);
+    } catch {
+      /* no storage: stay on */
+    }
+  }, []);
+  const setAutoRotate = useCallback((on: boolean) => {
+    setAutoRotateState(on);
+    try {
+      localStorage.setItem('analyzeit_globe_rotate', on ? 'on' : 'off');
+    } catch {
+      /* ignore */
+    }
+  }, []);
   const [dataView, setDataView] = useState<GlobeDataView>('pins');
 
   // Dead-reckon aircraft between live polls so planes appear to travel.
@@ -215,6 +232,9 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
       setOverlayRasters,
       showCatalog,
       setShowCatalog,
+      autoRotate,
+      setAutoRotate,
+      setRotateHold,
       mapProjection,
       setMapProjection,
       dataView,
@@ -251,6 +271,8 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
       overlayPaths,
       overlayRasters,
       showCatalog,
+      autoRotate,
+      setAutoRotate,
       mapProjection,
       dataView,
       activeHub,
@@ -313,6 +335,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
               sourcePoints={displayPoints}
               overlayPaths={overlayPaths}
               overlayRasters={overlayRasters}
+              autoRotate={autoRotate && !rotateHold && mapProjection === 'globe'}
               mapProjection={mapProjection}
               dataView={variant === 'full' ? dataView : 'pins'}
               hideNavControl

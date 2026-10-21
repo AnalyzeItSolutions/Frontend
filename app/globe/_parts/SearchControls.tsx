@@ -1,6 +1,6 @@
 'use client';
 
-import { IconCurrentLocation, IconLoader2, IconMap, IconMinus, IconPlus, IconSearch, IconWorld, IconX } from '@tabler/icons-react';
+import { IconCurrentLocation, IconLoader2, IconMap, IconMinus, IconPlus, IconRotate360, IconSearch, IconWorld, IconX } from '@tabler/icons-react';
 import { useGlobe } from '../../Components/globe/useGlobe';
 import type { GeoSearchHit } from '../../lib/geoApi';
 import type { Selected } from './layers';
@@ -35,7 +35,7 @@ export function SearchControls({
   selected: Selected | null;
   onResetRails: () => void;
 }) {
-  const { flyToLatLon, camera, dataView, setDataView, mapProjection, setMapProjection } = useGlobe();
+  const { flyToLatLon, camera, dataView, setDataView, mapProjection, setMapProjection, autoRotate, setAutoRotate } = useGlobe();
 
   const zoomTo = (delta: number, min: number, max: number, fallback: number) => {
     if (!selected) return flyToLatLon(20, 0, { zoom: fallback, user: true });
@@ -88,6 +88,17 @@ export function SearchControls({
           onClick={() => selected && flyToLatLon(selected.lat, selected.lon, { zoom: 6.5, name: selected.name, user: true })}
         >
           <IconCurrentLocation size={14} />
+        </button>
+        <button
+          type="button"
+          className={`${roundBtn} ${autoRotate && mapProjection === 'globe' ? 'border-[var(--coral)] text-[var(--coral)]' : ''}`}
+          title={mapProjection === 'globe' ? (autoRotate ? 'Rotate when idle: on' : 'Rotate when idle: off') : 'Rotation needs the 3D globe'}
+          aria-label="Rotate when idle"
+          aria-pressed={autoRotate}
+          disabled={mapProjection !== 'globe'}
+          onClick={() => setAutoRotate(!autoRotate)}
+        >
+          <IconRotate360 size={14} className={autoRotate && mapProjection === 'globe' ? 'animate-[spin_6s_linear_infinite]' : ''} />
         </button>
         <button type="button" className="ml-auto text-[11px] font-medium text-[var(--text-primary)] underline-offset-2 hover:underline" onClick={onResetRails}>
           Reset width

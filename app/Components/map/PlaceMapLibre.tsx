@@ -32,6 +32,7 @@ import { flyEase } from './mapMotion';
 import { OrbitSvgOverlay } from './OrbitSvgOverlay';
 import { EventMarker, SourcePin } from './MapMarkers';
 import { pauseMapLoop, resumeMapLoop } from './mapLoop';
+import { useAutoRotate } from './useAutoRotate';
 import { ensurePlaneIcon } from './mapImages';
 
 ensureMapLibreWorker();
@@ -65,6 +66,8 @@ interface PlaceMapLibreProps {
   onEngineReady?: (handle: GlobeMapHandle) => void;
   variant?: GlobeVariant;
   idleDrift?: boolean;
+  /** Slow idle rotation on the full globe; the provider decides when it may run. */
+  autoRotate?: boolean;
   inFlight?: boolean;
   flyEasing?: (t: number) => number;
   initialCamera?: GlobeCamera;
@@ -108,6 +111,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     onEngineReady,
     variant = 'full',
     idleDrift = false,
+    autoRotate = false,
     inFlight = false,
     flyEasing,
     initialCamera,
@@ -205,6 +209,8 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
 
   // True from the moment a fly-to starts until it lands, so the idle drift never stops or overrides it.
   const flyActiveRef = useRef(false);
+
+  useAutoRotate({ getMap, enabled: autoRotate && !paused && !inFlight && variant === 'full', flyActive: flyActiveRef });
 
   const runFlyTo = useCallback(
     (opts: { lat: number; lon: number; zoom?: number }) => {
