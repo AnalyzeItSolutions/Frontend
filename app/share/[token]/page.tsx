@@ -89,7 +89,7 @@ export default async function SharePage({ params }: { params: Promise<{ token: s
           </ol>
         </section>
       ) : null}
-      <p className="mt-10 text-xs text-[#616161]">Written by an AI from the owner&apos;s data and public sources. Check important figures before relying on them.</p>
+      <p className="mt-10 text-xs text-[#616161]">Written by an AI from the owner&apos;s data and public sources. Check important figures before relying on them. This is information, not investment, legal or tax advice, and AnalyzeIt is not a registered investment adviser or research analyst.</p>
       <a href="/research" className="mt-4 inline-block text-sm text-[var(--text-primary)]">
         Try a question
       </a>
