@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { LegalLayout, LegalSection } from '../Components/legal/LegalLayout';
 
 export const metadata: Metadata = {
-  title: 'Ask questions of your data: features — AnalyzeIt',
-  description: 'What AnalyzeIt does: plain-language questions, checked calculations, connectors, dashboards, forecasts and shown sources.',
+  title: 'Online data analysis tool: features — AnalyzeIt',
+  description: 'AI data analytics in plain language: checked calculations, data visualization, forecasts, dashboards, connectors and shown sources for business data analysis.',
   alternates: { canonical: '/features' },
 };
 
