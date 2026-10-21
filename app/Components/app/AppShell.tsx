@@ -14,10 +14,13 @@ export function AppShell({
   active,
   children,
   flush,
+  hideFeedback,
 }: {
   active: AppNavId;
   children: React.ReactNode;
   flush?: boolean;
+  /** Pages with their own bottom-right controls (the Globe's ask box) skip the floating Feedback button. */
+  hideFeedback?: boolean;
 }) {
   const { isIncognito } = useTheme();
 
@@ -46,9 +49,11 @@ export function AppShell({
         >
           {children}
         </div>
-        <Suspense fallback={null}>
-          <FeedbackWidget />
-        </Suspense>
+        {hideFeedback ? null : (
+          <Suspense fallback={null}>
+            <FeedbackWidget />
+          </Suspense>
+        )}
       </div>
     </RequireAuth>
   );

@@ -4,10 +4,21 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ApiUnavailableError, SERVICE_UNAVAILABLE_MESSAGE, clearAuthSession, fetchMe, getStoredToken } from '../../lib/auth';
 
+// A signed-in check that just succeeded is trusted for a few minutes, so moving between tabs does not
+// re-verify the account (and flash "Checking account…") on every click. A 401 anywhere clears the token,
+// which invalidates this.
+const VERIFIED_FOR_MS = 5 * 60 * 1000;
+let verified: { token: string; at: number } | null = null;
+
+function recentlyVerified(): boolean {
+  const token = getStoredToken();
+  return Boolean(token && verified && verified.token === token && Date.now() - verified.at < VERIFIED_FOR_MS);
+}
+
 export function RequireAuth({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [allowed, setAllowed] = useState(false);
+  const [allowed, setAllowed] = useState(() => recentlyVerified());
   const [unavailable, setUnavailable] = useState('');
 
   useEffect(() => {
@@ -20,6 +31,11 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
         return;
       }
 
+      if (recentlyVerified()) {
+        setAllowed(true);
+        return;
+      }
+
       try {
         const me = await fetchMe();
         if (cancelled) return;
@@ -29,6 +45,7 @@ export function RequireAuth({ children }: { children: React.ReactNode }) {
           router.replace(`/login?next=${encodeURIComponent(next)}`);
           return;
         }
+        verified = { token: getStoredToken() || '', at: Date.now() };
         setUnavailable('');
         setAllowed(true);
       } catch (err) {

@@ -1,1119 +1,103 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useWarmAgent } from '../lib/useWarmAgent';
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  IconCurrentLocation,
-  IconLayersSubtract,
-  IconLoader2,
-  IconMap,
-  IconMapPin,
-  IconMinus,
-  IconPlus,
-  IconSearch,
-  IconWorld,
-  IconX,
-} from '@tabler/icons-react';
 import { AppShell } from '../Components/app/AppShell';
 import { useTheme } from '../Components/ui/ThemeProvider';
-import { PlaceContextCard } from '../Components/map/PlaceContextCard';
-import { EventDetailCard } from '../Components/map/EventDetailCard';
-import { getProjects } from '../lib/chatApi';
-import { pickScopedProject } from '../lib/projectHome.mjs';
 import { GlobeAsk } from '../Components/globe/GlobeAsk';
 import { GlobeCanvas } from '../Components/globe/GlobeCanvas';
 import { QueuedFlyToast } from '../Components/globe/QueuedFlyToast';
-import { GLOBE_HUBS } from '../Components/globe/sourceCatalog';
-import { LIVE_LAYER_POLL_MS } from '../Components/globe/globePerf';
-import { aqiColor, aqiGradient, temperatureColor } from '../Components/globe/pinColors.mjs';
-import { fieldCoordinates, renderField } from '../Components/globe/fieldImage.mjs';
-import { RAINVIEWER_INDEX, RADAR_REFRESH_MS, activeRasters } from '../Components/globe/rasterLayers.mjs';
 import { TimeControls } from '../Components/globe/TimeControls';
-import { cursorTime, decodeScene, encodeScene, filterByCursor, windowBounds } from '../Components/globe/scene.mjs';
-import {
-  globeAskPrompt,
-  interpretLayerPayload,
-  mergeLayerRefresh,
-  strongestRows,
-} from '../Components/globe/dataQuality.mjs';
-import { globeStage, layerHealthView } from '../Components/globe/globeVisual.mjs';
-import {
-  buildLiveOverlays,
-  selectionLoadsPlaceContext,
-} from '../Components/globe/liveOverlays.mjs';
+import { globeStage } from '../Components/globe/globeVisual.mjs';
 import { useGlobe } from '../Components/globe/useGlobe';
-import type { SourcePoint } from '../Components/globe/types';
-import {
-  fetchGlobeEvents,
-  fetchProjectGlobePoints,
-  fetchPlaceContext,
-  searchPlaces,
-  type GeoSearchHit,
-  type PlaceContext,
-} from '../lib/geoApi';
-
-type Selected = { lat: number; lon: number; name?: string; country?: string };
-type ComparePlace = Selected & { id: string; context?: PlaceContext | null };
-type LayerId =
-  | 'catalog'
-  | 'earthquakes'
-  | 'wildfires'
-  | 'storms'
-  | 'volcanoes'
-  | 'disasters'
-  | 'weather'
-  | 'air_quality'
-  | 'markets'
-  | 'iss'
-  | 'space_weather'
-  | 'radar'
-  | 'clouds'
-  | 'my_data'
-  | 'fireballs'
-  | 'aurora_oval'
-  | 'ocean'
-  | 'weather_alerts';
-
-const RAIL_KEY = 'analyzeit_globe_rails';
-const LEFT_DEFAULT = 280;
-const RIGHT_DEFAULT = 360;
-const LEFT_MIN = 200;
-const LEFT_MAX = 480;
-const RIGHT_MIN = 240;
-const RIGHT_MAX = 560;
-
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
-
-function readRails(): { left: number; right: number } {
-  try {
-    const raw = localStorage.getItem(RAIL_KEY);
-    if (!raw) return { left: LEFT_DEFAULT, right: RIGHT_DEFAULT };
-    const parsed = JSON.parse(raw) as { left?: number; right?: number };
-    return {
-      left: clamp(Number(parsed.left) || LEFT_DEFAULT, LEFT_MIN, LEFT_MAX),
-      right: clamp(Number(parsed.right) || RIGHT_DEFAULT, RIGHT_MIN, RIGHT_MAX),
-    };
-  } catch {
-    return { left: LEFT_DEFAULT, right: RIGHT_DEFAULT };
-  }
-}
-
-const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = [
-  { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: '#A7A7A7', coverage: 'limited' },
-  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M2.5+ · every quake in the window, updated by the minute', color: '#d97706', coverage: 'complete' },
-  { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: '#dc2626', coverage: 'complete' },
-  { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: '#ef4444', coverage: 'complete' },
-  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: '#E4E4E2', coverage: 'complete' },
-  { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: '#b45309', coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', color: '#f59e0b', coverage: 'complete' },
-  { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', color: '#10b981', coverage: 'complete' },
-  { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: '#f43f5e', coverage: 'limited' },
-  { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', color: '#38bdf8', coverage: 'complete' },
-  { id: 'clouds', label: 'Live clouds', hint: 'GOES-East and Himawari satellite imagery (NASA GIBS) · refreshed every 10 min · Americas, Atlantic, East Asia and Oceania', color: '#cbd5e1', coverage: 'limited' },
-  { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: '#14b8a6', coverage: 'complete' },
-  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: '#E4E4E2', coverage: 'complete' },
-  { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: '#f97316', coverage: 'limited' },
-  { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: '#0ea5e9', coverage: 'limited' },
-  { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: '#22c55e', coverage: 'complete' },
-  { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: '#fb7185', coverage: 'limited' },
-  { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: '#8b5cf6', coverage: 'limited' },
-];
-/** Live layers: this page is the only caller of geo context/events. Poll on LIVE_LAYER_POLL_MS — never in rAF. */
-
-function placeId(p: { lat: number; lon: number; name?: string }) {
-  return `${(p.name || 'p').toLowerCase()}-${p.lat.toFixed(3)}-${p.lon.toFixed(3)}`;
-}
-
-function RankedBars({ points }: { points: SourcePoint[] }) {
-  const ranked = strongestRows(points, 8) as { unit: string; rows: Array<{ id: string; label: string; score: number }> };
-  const rows = ranked.rows;
-  if (!rows.length) return null;
-  const max = rows[0].score || 1;
-  return (
-    <div className="space-y-1.5 pt-1">
-      <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
-        Strongest {ranked.unit ? `· ${ranked.unit}` : 'on the map'}
-      </p>
-      {rows.map((row) => (
-        <div key={row.id} className="grid grid-cols-[1fr_auto] items-center gap-2">
-          <div className="min-w-0">
-            <div className="truncate text-[11px] text-[var(--text-secondary)]">{row.label}</div>
-            <div className="mt-0.5 h-1.5 overflow-hidden rounded-full bg-[var(--surface-2)]">
-              <div
-                className="h-full rounded-full bg-brand"
-                style={{ width: `${Math.max(8, (row.score / max) * 100)}%` }}
-              />
-            </div>
-          </div>
-          <span className="font-mono text-[11px] tabular-nums text-[var(--text-muted)]">
-            {Number.isInteger(row.score) ? row.score : row.score.toFixed(1)}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function LayerHealthBadge({
-  count,
-  health,
-}: {
-  count: number;
-  health?: { status: string; message?: string | null };
-}) {
-  const view = layerHealthView(count, health) as { label: string; tone: string };
-  return <span className={`globe-health globe-health--${view.tone}`}>{view.label}</span>;
-}
-
-function kpis(ctx: PlaceContext | null | undefined) {
-  const temp = ctx?.weather?.temperature_c;
-  const aqi = ctx?.air_quality?.us_aqi ?? ctx?.air_quality?.european_aqi;
-  const market = ctx?.market?.index_symbol || ctx?.market?.index_name;
-  return [
-    { label: 'Temp', value: temp != null ? `${Math.round(temp)}°C` : '—' },
-    { label: 'AQI', value: aqi != null ? String(aqi) : '—' },
-    { label: 'Market', value: market || '—' },
-  ];
-}
+import { Legend } from './_parts/Legend';
+import { LayerList } from './_parts/LayerList';
+import { PlacePanel } from './_parts/PlacePanel';
+import { SearchControls } from './_parts/SearchControls';
+import { SidePanelBody } from './_parts/SidePanelBody';
+import { useGlobePlaces } from './_parts/useGlobePlaces';
+import { useGlobeLayers } from './_parts/useGlobeLayers';
+import { useGlobeRasters } from './_parts/useGlobeRasters';
+import { useGlobeScene } from './_parts/useGlobeScene';
+import { useGlobeTime } from './_parts/useGlobeTime';
+import { useRails } from './_parts/useRails';
+import { useReplayOverlay } from './_parts/useReplayOverlay';
 
 function GlobePageInner() {
   useWarmAgent(); // Ask the globe uses the agent: wake it while the globe loads
-  const router = useRouter();
   const { theme } = useTheme();
-  const globePageStage = globeStage({
-    variant: 'full',
-    appTheme: theme === 'dark' ? 'dark' : 'light',
-  });
-  const {
-    flyToLatLon,
-    camera,
-    selectedPoint,
-    dataView,
-    setDataView,
-    mapReady,
-    setOnMapPlaceSelect,
-    setComparePlaces,
-    setActiveHub,
-    activeHub,
-    setOverlayPoints,
-    overlayPoints,
-    archivePoints,
-    setOverlayPaths,
-    setOverlayRasters,
-    setShowCatalog,
-    mapProjection,
-    setMapProjection,
-  } = useGlobe();
-  const [selected, setSelected] = useState<Selected | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<SourcePoint | null>(null);
-  const [context, setContext] = useState<PlaceContext | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState('');
-  const [layerFilter, setLayerFilter] = useState('');
-  const [hits, setHits] = useState<GeoSearchHit[]>([]);
-  const [searching, setSearching] = useState(false);
-  const [layers, setLayers] = useState<Record<LayerId, boolean>>({
-    catalog: false,
-    earthquakes: true,
-    disasters: false,
-    wildfires: false,
-    storms: false,
-    volcanoes: false,
-    weather: true,
-    air_quality: false,
-    markets: false,
-    iss: false,
-    space_weather: false,
-    radar: false,
-    clouds: false,
-    my_data: false,
-    fireballs: false,
-    aurora_oval: false,
-    ocean: false,
-    weather_alerts: false,
-  });
-  const [layerCounts, setLayerCounts] = useState<Partial<Record<LayerId, number>>>({});
-  const [layerHealth, setLayerHealth] = useState<
-    Partial<Record<LayerId, { status: string; message?: string | null }>>
-  >({});
-  const [layersLoading, setLayersLoading] = useState(false);
+  const stage = globeStage({ variant: 'full', appTheme: theme === 'dark' ? 'dark' : 'light' });
+  const { mapReady, setActiveHub } = useGlobe();
   const requestedProject = useSearchParams().get('project') || '';
-  const [projectId, setProjectId] = useState('');
-  /** Bumped while the server is still geocoding place names, so the layer fills in without waiting for the poll. */
-  const [myDataTick, setMyDataTick] = useState(0);
-  const myDataTimer = useRef<number | null>(null);
-  const [days, setDays] = useState(7);
-  const [cursor, setCursor] = useState(1); // replay position inside the window; 1 = live
-  const [playing, setPlaying] = useState(false);
-  const [rawPoints, setRawPoints] = useState<SourcePoint[]>([]);
-  /** Per-layer counts of what the replay cursor currently shows (null = live, use layerCounts). */
-  const [replayCounts, setReplayCounts] = useState<Record<string, number> | null>(null);
-  const [shared, setShared] = useState(false);
-  const [compare, setCompare] = useState<ComparePlace[]>([]);
-  const [leftRail, setLeftRail] = useState(LEFT_DEFAULT);
-  const [rightRail, setRightRail] = useState(RIGHT_DEFAULT);
-  const [railsReady, setRailsReady] = useState(false);
-  const fetchGen = useRef(0);
-  const searchGen = useRef(0);
-  const pollGen = useRef(0);
-  const pollAbortRef = useRef<AbortController | null>(null);
-  const contextAbortRef = useRef<AbortController | null>(null);
-  const layerCacheRef = useRef<
-    Record<string, { events: Array<Record<string, unknown>>; path: Array<{ lat?: number; lon?: number }> | null }>
-  >({});
 
-  const anyLayerOn = useMemo(() => Object.values(layers).some(Boolean), [layers]);
-  const visibleLayers = useMemo(() => {
-    const q = layerFilter.trim().toLowerCase();
-    if (!q) return LAYERS;
-    return LAYERS.filter(
-      (l) => l.label.toLowerCase().includes(q) || l.hint.toLowerCase().includes(q) || l.id.includes(q),
-    );
-  }, [layerFilter]);
-
-  useEffect(() => () => {
-    if (myDataTimer.current) window.clearTimeout(myDataTimer.current);
-  }, []);
-
-  useEffect(() => {
-    if (!layers.my_data || projectId) return;
-    let cancelled = false;
-    getProjects()
-      .then((rows) => {
-        if (cancelled) return;
-        const picked = pickScopedProject(rows, requestedProject);
-        if (picked.status !== 'missing' && picked.projectId) setProjectId(picked.projectId);
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, [layers.my_data, projectId, requestedProject]);
-
-  useEffect(() => {
-    setShowCatalog(Boolean(layers.catalog));
-  }, [layers.catalog, setShowCatalog]);
-
-  useEffect(() => {
-    let cancelled = false;
-    const liveIds = (
-      [
-        'earthquakes',
-        'disasters',
-        'wildfires',
-        'storms',
-        'volcanoes',
-        'weather',
-        'air_quality',
-        'markets',
-        'iss',
-        'space_weather',
-        'my_data',
-        'fireballs',
-        'aurora_oval',
-        'ocean',
-        'weather_alerts',
-      ] as LayerId[]
-    ).filter((id) => layers[id]);
-
-    const buildOverlays = async () => {
-      pollAbortRef.current?.abort();
-      const ac = new AbortController();
-      pollAbortRef.current = ac;
-      const gen = ++pollGen.current;
-      if (liveIds.length === 0) {
-        if (!cancelled) {
-          setLayerCounts({});
-          setLayerHealth({});
-          setRawPoints([]);
-          setOverlayPoints([]);
-          setOverlayPaths([]);
-          setLayersLoading(false);
-        }
-        return;
-      }
-
-      setLayersLoading(true);
-      try {
-        // One request per layer. A slow layer must not blank the others.
-        const payloads = await Promise.all(
-          liveIds.map(async (id) => {
-            if (id === 'my_data') {
-              if (!projectId) return { id, aborted: false as const, payload: { fetchError: 'Opening your project…' } };
-              try {
-                const mine = await fetchProjectGlobePoints(projectId, ac.signal);
-                if (mine.pending > 0 && !ac.signal.aborted) {
-                  if (myDataTimer.current) window.clearTimeout(myDataTimer.current);
-                  myDataTimer.current = window.setTimeout(() => setMyDataTick((n) => n + 1), 4000);
-                }
-                const noLocation = mine.objects.length > 0 && mine.objects.every((o) => o.mode === null);
-                return {
-                  id,
-                  aborted: false as const,
-                  payload: noLocation
-                    ? { error: 'None of your objects has a location field (latitude/longitude, city or country).' }
-                    : { events: mine.points },
-                };
-              } catch (err) {
-                if (ac.signal.aborted) return { id, aborted: true as const, payload: null };
-                return { id, aborted: false as const, payload: { fetchError: err instanceof Error ? err.message : 'Could not load your data' } };
-              }
-            }
-            try {
-              const data = await fetchGlobeEvents({
-                layers: [id],
-                minMagnitude: 2.5,
-                days,
-                signal: ac.signal,
-              });
-              const bucket = (data.layers || {}) as Record<string, Record<string, unknown>>;
-              return { id, payload: bucket[id] || { events: [] } };
-            } catch (err) {
-              if (ac.signal.aborted) return { id, aborted: true as const, payload: null };
-              const message = err instanceof Error ? err.message : 'Could not load layer';
-              return { id, aborted: false as const, payload: { fetchError: message } };
-            }
-          }),
-        );
-        if (cancelled || gen !== pollGen.current) return;
-        const merged: Record<string, { events?: Array<Record<string, unknown>>; path?: Array<{ lat?: number; lon?: number }> }> = {};
-        const health: Partial<Record<LayerId, { status: string; message?: string | null }>> = {};
-        for (const row of payloads) {
-          if (row.aborted) return;
-          const interpreted = interpretLayerPayload(row.payload);
-          const next = mergeLayerRefresh(layerCacheRef.current[row.id], interpreted);
-          layerCacheRef.current[row.id] = { events: next.events, path: next.path };
-          merged[row.id] = {
-            events: next.events,
-            ...(next.path ? { path: next.path } : {}),
-          };
-          health[row.id] = { status: next.status, message: next.message };
-        }
-
-        const { points, paths, counts } = buildLiveOverlays(layers, merged);
-        setFieldEvents({
-          weather: layers.weather ? ((merged.weather?.events as Array<Record<string, unknown>>) ?? []) : [],
-          air_quality: layers.air_quality ? ((merged.air_quality?.events as Array<Record<string, unknown>>) ?? []) : [],
-        });
-
-        setLayerCounts(counts);
-        setLayerHealth(health);
-        setRawPoints(points as SourcePoint[]);
-        setOverlayPaths(paths);
-      } catch {
-        if (!cancelled && gen === pollGen.current) setLayersLoading(false);
-      } finally {
-        if (!cancelled && gen === pollGen.current) setLayersLoading(false);
-      }
-    };
-
-    void buildOverlays();
-    const timer = window.setInterval(() => {
-      void buildOverlays();
-    }, LIVE_LAYER_POLL_MS);
-    return () => {
-      cancelled = true;
-      pollAbortRef.current?.abort();
-      window.clearInterval(timer);
-    };
-  }, [layers, days, projectId, myDataTick, setOverlayPoints, setOverlayPaths]);
-
-  // Live radar and satellite imagery: tiles come straight from the providers; the radar frame list is re-read every few minutes.
-  const [radarIndex, setRadarIndex] = useState<unknown>(null);
-  const [fieldEvents, setFieldEvents] = useState<Record<string, Array<Record<string, unknown>>>>({});
-  useEffect(() => {
-    if (!layers.radar) return undefined;
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const res = await fetch(RAINVIEWER_INDEX, { cache: 'no-store' });
-        if (res.ok && !cancelled) setRadarIndex(await res.json());
-      } catch {
-        /* radar is optional: no frame list simply draws nothing */
-      }
-    };
-    void load();
-    const timer = window.setInterval(() => void load(), RADAR_REFRESH_MS);
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, [layers.radar]);
-
-  // Weather and air quality as a smooth colour field painted from the world grid (one picture, no dots).
-  const fieldRasters = useMemo(() => {
-    const make = (id: string, events: Array<Record<string, unknown>> | undefined, valueOf: (e: Record<string, unknown>) => number | null, colorOf: (v: number) => string | null) => {
-      if (!events || events.length === 0) return null;
-      const img = renderField({ events, valueOf, colorOf, width: 720 });
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return null;
-      ctx.putImageData(new ImageData(img.data, img.width, img.height), 0, 0);
-      return { id, image: { url: canvas.toDataURL('image/png'), coordinates: fieldCoordinates() as [number, number][] }, opacity: 0.9 };
-    };
-    const out = [];
-    const air = make('field-air', fieldEvents.air_quality, (e) => (e.us_aqi ?? e.european_aqi) as number | null, aqiGradient);
-    const wx = make('field-weather', fieldEvents.weather, (e) => e.temperature_c as number | null, temperatureColor);
-    if (air) out.push(air);
-    if (wx) out.push(wx);
-    return out;
-  }, [fieldEvents]);
-
-  useEffect(() => {
-    setOverlayRasters([...fieldRasters, ...activeRasters({ radar: layers.radar, clouds: layers.clouds }, radarIndex)]);
-  }, [fieldRasters, layers.radar, layers.clouds, radarIndex, setOverlayRasters]);
-
-  useEffect(() => () => setOverlayRasters([]), [setOverlayRasters]);
-
-  // A new time window must not merge with cached events from the old one.
-  useEffect(() => {
-    layerCacheRef.current = {};
-    setCursor(1);
-    setPlaying(false);
-  }, [days]);
-
-  // Replay: show only events up to the cursor (undated points like hubs always stay).
-  useEffect(() => {
-    if (cursor >= 1) {
-      setReplayCounts(null);
-      setOverlayPoints(rawPoints);
-      return;
-    }
-    const shown = filterByCursor(rawPoints, cursorTime(cursor, windowBounds(days)));
-    const counts: Record<string, number> = {};
-    for (const p of shown) {
-      const layer = String((p as { host?: string }).host || '');
-      if (layer) counts[layer] = (counts[layer] ?? 0) + 1;
-    }
-    setReplayCounts(counts);
-    setOverlayPoints(shown);
-  }, [rawPoints, cursor, days, setOverlayPoints]);
-
-  // Playback: ~8 s from the start of the window to now.
-  useEffect(() => {
-    if (!playing) return undefined;
-    const id = window.setInterval(() => {
-      setCursor((c) => {
-        const next = c + 0.0125;
-        if (next >= 1) {
-          setPlaying(false);
-          return 1;
-        }
-        return next;
-      });
-    }, 100);
-    return () => window.clearInterval(id);
-  }, [playing]);
-
-  useEffect(() => {
-    return () => {
-      setOverlayPoints([]);
-      setOverlayPaths([]);
-      setShowCatalog(true);
-    };
-  }, [setOverlayPoints, setOverlayPaths, setShowCatalog]);
-
-  // Restore a shared scene (?layers=&days=&view=&proj=&places=&at=). Everything that is just React
-  // state applies immediately; only camera moves wait for the map engine.
-  const sceneRef = useRef<ReturnType<typeof decodeScene> | null>(null);
-  const sceneFlownRef = useRef(false);
-  useEffect(() => {
-    if (sceneRef.current) return;
-    const scene = decodeScene(window.location.search);
-    sceneRef.current = scene;
-    if (scene.layers) {
-      const wanted = new Set(scene.layers);
-      setLayers((prev) => Object.fromEntries(Object.keys(prev).map((k) => [k, wanted.has(k)])) as Record<LayerId, boolean>);
-    }
-    if (scene.days) setDays(scene.days);
-    if (scene.view) setDataView(scene.view);
-    if (scene.projection) setMapProjection(scene.projection);
-    if (scene.places.length) setComparePlaces(scene.places);
-  }, [setComparePlaces, setDataView, setMapProjection]);
-
-  useEffect(() => {
-    const scene = sceneRef.current;
-    if (!mapReady || !scene || sceneFlownRef.current) return;
-    sceneFlownRef.current = true;
-    if (scene.camera) {
-      flyToLatLon(scene.camera.lat, scene.camera.lng, { zoom: scene.camera.zoom, user: true });
-    } else if (scene.places.length) {
-      const first = scene.places[0];
-      flyToLatLon(first.lat, first.lon, { name: first.name, zoom: scene.places.length > 1 ? 3.2 : 5.5, user: true });
-    }
-  }, [mapReady, flyToLatLon]);
-
-  const shareScene = useCallback(async () => {
-    const focus = [...(selected ? [selected] : []), ...compare].filter(
-      (p, i, all) => all.findIndex((q) => q.lat === p.lat && q.lon === p.lon) === i,
-    );
-    const qs = encodeScene({
-      layers: (Object.keys(layers) as LayerId[]).filter((k) => layers[k]),
-      days,
-      view: dataView,
-      projection: mapProjection,
-      places: focus,
-      camera,
-    });
-    const url = `${window.location.origin}/globe${qs ? `?${qs}` : ''}`;
-    try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      window.prompt('Copy this link to share the view', url);
-    }
-    setShared(true);
-    window.setTimeout(() => setShared(false), 2200);
-  }, [selected, compare, layers, days, dataView, mapProjection, camera]);
-
-  const sendToResearch = useCallback(
-    (prompt: string, places?: Selected[]) => {
-      const list = places?.length ? places : selected ? [selected] : [];
-      const labels = list
-        .map((p) => p.name || `${p.lat.toFixed(2)},${p.lon.toFixed(2)}`)
-        .join(' · ');
-      const ids = list.map((p) => `${p.lat},${p.lon}`).join('|');
-      const qs = new URLSearchParams();
-      qs.set(
-        'q',
-        globeAskPrompt(prompt || (labels ? `Analyze ${labels}` : 'Analyze this place'), list),
-      );
-      if (labels) qs.set('place', labels);
-      if (ids) qs.set('placeIds', ids);
-      router.push(`/research?${qs.toString()}`);
-    },
-    [router, selected],
-  );
-
-  const loadContext = useCallback(
-    async (lat: number, lon: number, meta?: { name?: string; country?: string }) => {
-      contextAbortRef.current?.abort();
-      const ac = new AbortController();
-      contextAbortRef.current = ac;
-      const gen = ++fetchGen.current;
-      setSelectedEvent(null);
-      setSelected({ lat, lon, name: meta?.name, country: meta?.country });
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchPlaceContext(lat, lon, { signal: ac.signal });
-        if (gen !== fetchGen.current) return;
-        setContext(data);
-        const name = meta?.name || data.place?.name || undefined;
-        const country = meta?.country || data.place?.country || undefined;
-        if (name || country) {
-          setSelected((prev) =>
-            prev && prev.lat === lat && prev.lon === lon
-              ? { ...prev, name: name || prev.name, country: country || prev.country }
-              : prev,
-          );
-        }
-      } catch (err) {
-        if (gen !== fetchGen.current || ac.signal.aborted) return;
-        setContext(null);
-        const message = err instanceof Error ? err.message : 'Could not load place context';
-        setError(message === 'The operation was aborted.' ? 'Place context timed out. Retry to load this place again.' : message);
-      } finally {
-        if (gen === fetchGen.current) setLoading(false);
-      }
-    },
-    [],
-  );
-
-  const goTo = useCallback(
-    (
-      lat: number,
-      lon: number,
-      opts?: { name?: string; country?: string; zoom?: number; hub?: string | null },
-    ) => {
-      flyToLatLon(lat, lon, {
-        zoom: opts?.zoom ?? 5.8,
-        name: opts?.name,
-        country: opts?.country,
-        hub: opts?.hub ?? null,
-        user: true,
-      });
-      void loadContext(lat, lon, { name: opts?.name, country: opts?.country });
-    },
-    [flyToLatLon, loadContext],
-  );
-
-  const pickHit = useCallback(
-    (hit: GeoSearchHit) => {
-      setQuery(hit.name);
-      setHits([]);
-      goTo(hit.lat, hit.lon, {
-        name: hit.name,
-        country: hit.country || undefined,
-        zoom: 6.5,
-        hub: null,
-      });
-    },
-    [goTo],
-  );
-
-  useEffect(() => {
-    const q = query.trim();
-    if (q.length < 2) {
-      setHits([]);
-      setSearching(false);
-      return;
-    }
-    const gen = ++searchGen.current;
-    setSearching(true);
-    const t = window.setTimeout(() => {
-      void searchPlaces(q, 8)
-        .then((rows) => {
-          if (gen !== searchGen.current) return;
-          setHits(rows);
-        })
-        .catch(() => {
-          if (gen !== searchGen.current) return;
-          setHits([]);
-        })
-        .finally(() => {
-          if (gen === searchGen.current) setSearching(false);
-        });
-    }, 280);
-    return () => window.clearTimeout(t);
-  }, [query]);
-
-  const toggleCompare = useCallback(() => {
-    if (!selected) return;
-    const id = placeId(selected);
-    setCompare((prev) => {
-      if (prev.some((p) => p.id === id)) return prev.filter((p) => p.id !== id);
-      if (prev.length >= 3) return prev;
-      return [...prev, { ...selected, id, context }];
-    });
-  }, [selected, context]);
-
-  useEffect(() => {
-    if (!selected || !context) return;
-    const id = placeId(selected);
-    setCompare((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, context, name: selected.name || p.name } : p)),
-    );
-  }, [selected, context]);
-
-  useEffect(() => {
-    setComparePlaces(compare.map((p) => ({ lat: p.lat, lon: p.lon, name: p.name })));
-  }, [compare, setComparePlaces]);
-
-  useEffect(() => {
-    setOnMapPlaceSelect((place) => {
-      setActiveHub(null);
-      if (!selectionLoadsPlaceContext(place)) {
-        setSelectedEvent(place.event!);
-        setSelected({ lat: place.lat, lon: place.lon, name: place.name });
-        setContext(null);
-        setError(null);
-        setLoading(false);
-        return;
-      }
-      setSelectedEvent(null);
-      void loadContext(place.lat, place.lon, { name: place.name });
-    });
-    return () => setOnMapPlaceSelect(null);
-  }, [loadContext, setActiveHub, setOnMapPlaceSelect]);
-
-  const hydratedFromChat = useRef(false);
-  useEffect(() => {
-    if (hydratedFromChat.current || !selectedPoint) return;
-    hydratedFromChat.current = true;
-    void loadContext(selectedPoint.lat, selectedPoint.lon, { name: selectedPoint.label });
-  }, [loadContext, selectedPoint]);
-
-  const askAboutPlace = useCallback(() => {
-    if (context?.chat_prompt) {
-      sendToResearch(context.chat_prompt, selected ? [selected] : undefined);
-      return;
-    }
-    if (!selected) return;
-    const label = selected.name || `${selected.lat.toFixed(2)}°, ${selected.lon.toFixed(2)}°`;
-    sendToResearch(
-      `Ask about this place: ${label}${selected.country ? ` (${selected.country})` : ''}. Summarize signals, risks, and what to watch.`,
-      [selected],
-    );
-  }, [context, selected, sendToResearch]);
-
-  const askCompare = useCallback(() => {
-    if (compare.length < 2) return;
-    const labels = compare.map((p) => p.name || `${p.lat.toFixed(2)},${p.lon.toFixed(2)}`);
-    sendToResearch(
-      `Compare these places side by side: ${labels.join(' vs ')}. Call out weather, air quality, market, and notable differences.`,
-      compare,
-    );
-  }, [compare, sendToResearch]);
-
-  useEffect(() => {
-    const rails = readRails();
-    setLeftRail(rails.left);
-    setRightRail(rails.right);
-    setRailsReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!railsReady) return;
-    try {
-      localStorage.setItem(RAIL_KEY, JSON.stringify({ left: leftRail, right: rightRail }));
-    } catch {
-      /* ignore */
-    }
-  }, [leftRail, rightRail, railsReady]);
-
-  const startResize = useCallback((side: 'left' | 'right', ev: React.PointerEvent<HTMLDivElement>) => {
-    ev.preventDefault();
-    const startX = ev.clientX;
-    const start = side === 'left' ? leftRail : rightRail;
-    const target = ev.currentTarget;
-    target.setPointerCapture(ev.pointerId);
-    const onMove = (e: PointerEvent) => {
-      const dx = e.clientX - startX;
-      if (side === 'left') setLeftRail(clamp(start + dx, LEFT_MIN, LEFT_MAX));
-      else setRightRail(clamp(start - dx, RIGHT_MIN, RIGHT_MAX));
-    };
-    const onUp = () => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
-    };
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
-  }, [leftRail, rightRail]);
-
-  const inCompare = selected ? compare.some((p) => p.id === placeId(selected)) : false;
+  const rails = useRails();
+  const time = useGlobeTime();
+  const data = useGlobeLayers(time.days, requestedProject);
+  const places = useGlobePlaces();
+  const replayCounts = useReplayOverlay(data.rawPoints, time.cursor, time.days);
+  useGlobeRasters(data.layers.radar, data.layers.clouds, data.fieldEvents);
+  const { shared, shareScene } = useGlobeScene({
+    layers: data.layers,
+    setLayers: data.setLayers,
+    days: time.days,
+    setDays: time.setDays,
+    selected: places.selected,
+    compare: places.compare,
+  });
 
   return (
-    <AppShell active="globe" flush>
+    <AppShell active="globe" flush hideFeedback>
       <div
         className="grid w-full min-h-0 flex-1 overflow-hidden bg-[var(--bg)]"
         style={{
           minHeight: 'calc(100dvh - var(--nav-h, 56px))',
-          gridTemplateColumns: `${leftRail}px 8px minmax(0, 1fr) 8px ${rightRail}px`,
+          gridTemplateColumns: `${rails.leftRail}px 8px minmax(0, 1fr) 8px ${rails.rightRail}px`,
         }}
       >
         <aside className="flex min-w-0 flex-col overflow-hidden border-r border-[var(--border)] bg-[var(--surface)]">
-          <div className="space-y-2.5 border-b border-[var(--border)] p-3">
-            <div className="flex items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
-              <IconSearch size={15} className="shrink-0 text-brand" />
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && hits[0]) {
-                    e.preventDefault();
-                    pickHit(hits[0]);
-                  }
-                }}
-                placeholder="Place, metric, weather…"
-                className="w-full bg-transparent text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none"
-                aria-label="Search places"
-              />
-              {query ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setQuery('');
-                    setHits([]);
-                  }}
-                  className="flex h-8 w-8 items-center justify-center text-[var(--text-muted)]"
-                  aria-label="Clear search"
-                >
-                  <IconX size={14} />
-                </button>
-              ) : null}
-              {searching ? <IconLoader2 size={14} className="animate-spin text-brand" /> : null}
-            </div>
-
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                className="flex h-8 min-w-8 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]"
-                title="Zoom in"
-                aria-label="Zoom in"
-                onClick={() => {
-                  if (!selected) {
-                    flyToLatLon(20, 0, { zoom: 3, user: true });
-                    return;
-                  }
-                  flyToLatLon(selected.lat, selected.lon, {
-                    zoom: Math.min(camera.zoom + 1, 12),
-                    name: selected.name,
-                    user: true,
-                  });
-                }}
-              >
-                <IconPlus size={14} />
-              </button>
-              <button
-                type="button"
-                className="flex h-8 min-w-8 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]"
-                title="Zoom out"
-                aria-label="Zoom out"
-                onClick={() => {
-                  if (!selected) {
-                    flyToLatLon(20, 0, { zoom: 1.6, user: true });
-                    return;
-                  }
-                  flyToLatLon(selected.lat, selected.lon, {
-                    zoom: Math.max(camera.zoom - 1, 1.4),
-                    name: selected.name,
-                    user: true,
-                  });
-                }}
-              >
-                <IconMinus size={14} />
-              </button>
-              <button
-                type="button"
-                className="flex h-8 min-w-8 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)] disabled:opacity-40"
-                title="Locate selection"
-                aria-label="Locate selection"
-                disabled={!selected}
-                onClick={() => {
-                  if (!selected) return;
-                  flyToLatLon(selected.lat, selected.lon, {
-                    zoom: 6.5,
-                    name: selected.name,
-                    user: true,
-                  });
-                }}
-              >
-                <IconCurrentLocation size={14} />
-              </button>
-              <button
-                type="button"
-                className="ml-auto text-[11px] font-medium text-[var(--text-primary)] underline-offset-2 hover:underline"
-                onClick={() => {
-                  setLeftRail(LEFT_DEFAULT);
-                  setRightRail(RIGHT_DEFAULT);
-                }}
-              >
-                Reset width
-              </button>
-            </div>
-
-            <div className="globe-seg" role="group" aria-label="Map projection">
-              <button
-                type="button"
-                aria-pressed={mapProjection === 'globe'}
-                onClick={() => setMapProjection('globe')}
-                title="3D globe"
-              >
-                <IconWorld size={12} />
-                Globe
-              </button>
-              <button
-                type="button"
-                aria-pressed={mapProjection === 'mercator'}
-                onClick={() => setMapProjection('mercator')}
-                title="Flat geographic map"
-              >
-                <IconMap size={12} />
-                Flat
-              </button>
-            </div>
-
-            <div className="globe-seg" role="group" aria-label="Draw mode">
-              {(
-                [
-                  ['pins', 'Pins'],
-                  ['heat', 'Heat'],
-                  ['density', 'Density'],
-                  ['bars', 'Bars'],
-                ] as const
-              ).map(([id, label]) => (
-                <button
-                  key={id}
-                  type="button"
-                  aria-pressed={dataView === id}
-                  onClick={() => setDataView(id)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-b border-[var(--border)] px-3 py-2">
-            <div className="mb-1.5 flex items-center justify-between gap-2">
-              <p className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[var(--text-primary)]">
-                <IconLayersSubtract size={13} aria-hidden />
-                Layers
-              </p>
-              {layersLoading ? (
-                <span className="inline-flex items-center gap-1 text-[11px] text-[var(--text-secondary)]">
-                  <IconLoader2 size={12} className="animate-spin" aria-hidden />
-                  Updating
-                </span>
-              ) : null}
-            </div>
-            <label className="relative block">
-              <IconSearch
-                size={14}
-                className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]"
-              />
-              <input
-                value={layerFilter}
-                onChange={(e) => setLayerFilter(e.target.value)}
-                placeholder="Filter layers…"
-                aria-label="Filter layers"
-                className="h-8 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] pl-8 pr-3 text-[12px] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-secondary)] focus:border-[var(--border-strong)]"
-              />
-            </label>
-            <div className="globe-layer-scroll mt-1.5" role="group" aria-label="Map layers">
-              {visibleLayers.map((layer) => {
-                const on = layers[layer.id];
-                const isRaster = layer.id === 'radar' || layer.id === 'clouds';
-                const count =
-                  isRaster
-                    ? 1
-                    : layer.id === 'catalog'
-                    ? archivePoints.length
-                    : replayCounts
-                      ? (replayCounts[layer.id] ?? 0)
-                      : (layerCounts[layer.id] ?? 0);
-                const health =
-                  layer.id === 'catalog' || isRaster
-                    ? { status: 'ok' }
-                    : layerHealth[layer.id] || (layersLoading ? { status: 'loading' } : undefined);
-                const healthMessage = layer.id === 'catalog' || isRaster ? null : layerHealth[layer.id]?.message;
-                return (
-                  <button
-                    key={layer.id}
-                    type="button"
-                    aria-pressed={on}
-                    title={healthMessage ? `${layer.hint} — ${healthMessage}` : layer.hint}
-                    onClick={() => setLayers((prev) => ({ ...prev, [layer.id]: !prev[layer.id] }))}
-                    className={`globe-layer-toggle${on ? ' is-on' : ''}`}
-                  >
-                    <span className="globe-layer-swatch" style={{ background: layer.color }} aria-hidden />
-                    <span className="globe-layer-name">{layer.label}</span>
-                    {layer.coverage !== 'complete' ? (
-                      <span className="globe-layer-coverage">{layer.coverage}</span>
-                    ) : null}
-                    {on ? <LayerHealthBadge count={count} health={health} /> : null}
-                  </button>
-                );
-              })}
-            </div>
-            {layerFilter.trim() && visibleLayers.length === 0 ? (
-              <p className="px-1 pt-2 text-[12px] text-[var(--text-secondary)]">No layers match that filter.</p>
-            ) : null}
-          </div>
-
+          <SearchControls
+            query={places.query}
+            onQuery={places.setQuery}
+            hits={places.hits}
+            searching={places.searching}
+            onPick={places.pickHit}
+            onClear={() => {
+              places.setQuery('');
+              places.setHits([]);
+            }}
+            selected={places.selected}
+            onResetRails={rails.reset}
+          />
+          <LayerList
+            layers={data.layers}
+            onToggle={data.toggleLayer}
+            layerCounts={data.layerCounts}
+            layerHealth={data.layerHealth}
+            replayCounts={replayCounts}
+            loading={data.layersLoading}
+          />
           <TimeControls
-            days={days}
-            onDays={setDays}
-            cursor={cursor}
-            onCursor={setCursor}
-            playing={playing}
-            onPlay={setPlaying}
+            days={time.days}
+            onDays={time.setDays}
+            cursor={time.cursor}
+            onCursor={time.setCursor}
+            playing={time.playing}
+            onPlay={time.setPlaying}
             shared={shared}
             onShare={() => void shareScene()}
           />
-
           <div className="min-h-0 flex-1 overflow-y-auto p-3">
-            {query.trim().length >= 2 ? (
-              <div className="space-y-1">
-                <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
-                  Results
-                </p>
-                {searching && hits.length === 0 ? (
-                  <div className="space-y-2">
-                    {[0, 1, 2].map((i) => (
-                      <div key={i} className="h-12 animate-pulse rounded-xl bg-[var(--surface-2)]" />
-                    ))}
-                  </div>
-                ) : null}
-                {hits.map((hit) => (
-                  <button
-                    key={`${hit.name}-${hit.lat}-${hit.lon}`}
-                    type="button"
-                    onClick={() => pickHit(hit)}
-                    className="flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-left text-xs hover:bg-[var(--surface-2)]"
-                  >
-                    <IconMapPin size={14} className="mt-0.5 shrink-0 text-brand" />
-                    <span className="min-w-0">
-                      <span className="block font-medium text-[var(--text-primary)]">{hit.name}</span>
-                      <span className="mt-0.5 block text-[11px] text-[var(--text-muted)]">
-                        {hit.display_name ||
-                          `${hit.region || ''}${hit.country ? ` · ${hit.country}` : ''}`}
-                      </span>
-                    </span>
-                  </button>
-                ))}
-                {!searching && hits.length === 0 ? (
-                  <p className="px-1 py-2 text-[11px] text-[var(--text-muted)]">
-                    No match — click the map instead.
-                  </p>
-                ) : null}
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <RankedBars points={layers.catalog ? [...archivePoints, ...overlayPoints] : overlayPoints} />
-                <div>
-                  <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
-                    Hubs
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {GLOBE_HUBS.map((hub) => (
-                      <button
-                        key={hub.name}
-                        type="button"
-                        onClick={() =>
-                          goTo(hub.lat, hub.lon, { name: hub.name, zoom: 5.5, hub: hub.name })
-                        }
-                        className={`min-h-8 whitespace-nowrap rounded-full px-3 text-xs transition-colors ${
-                          activeHub === hub.name
-                            ? 'bg-brand font-semibold text-brand-ink'
-                            : 'border border-[var(--border)] text-[var(--text-secondary)] hover:bg-[var(--surface-2)]'
-                        }`}
-                      >
-                        {hub.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                {compare.length > 0 ? (
-                  <div>
-                    <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
-                      Compare ({compare.length}/3)
-                    </p>
-                    <div className="space-y-1">
-                      {compare.map((p) => (
-                        <div
-                          key={p.id}
-                          className="flex items-center justify-between gap-2 rounded-xl border border-[var(--border)] px-2.5 py-2 text-xs"
-                        >
-                          <span className="min-w-0 truncate font-medium text-[var(--text-primary)]">
-                            {p.name || `${p.lat.toFixed(2)}, ${p.lon.toFixed(2)}`}
-                          </span>
-                          <button
-                            type="button"
-                            className="text-[var(--text-muted)] hover:text-[var(--text-primary)]"
-                            aria-label={`Remove ${p.name || 'place'}`}
-                            onClick={() => setCompare((prev) => prev.filter((x) => x.id !== p.id))}
-                          >
-                            <IconX size={14} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <p className="text-[11px] leading-relaxed text-[var(--text-muted)]">
-                    Search a place to begin — or jump a hub, then add up to three places to compare.
-                  </p>
-                )}
-              </div>
-            )}
+            <SidePanelBody
+              query={places.query}
+              hits={places.hits}
+              searching={places.searching}
+              onPick={places.pickHit}
+              onHub={(hub) => places.goTo(hub.lat, hub.lon, { name: hub.name, zoom: 5.5, hub: hub.name })}
+              compare={places.compare}
+              onRemoveCompare={(id) => places.setCompare((prev) => prev.filter((x) => x.id !== id))}
+              showCatalog={data.layers.catalog}
+            />
           </div>
         </aside>
 
@@ -1122,66 +106,17 @@ function GlobePageInner() {
           aria-orientation="vertical"
           aria-label="Resize search panel"
           tabIndex={0}
-          onPointerDown={(e) => startResize('left', e)}
-          onDoubleClick={() => setLeftRail(LEFT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-brand-hover"
+          onPointerDown={(e) => rails.startResize('left', e)}
+          onDoubleClick={() => rails.setLeftRail(280)}
+          className="z-10 cursor-col-resize bg-[var(--border)] transition-colors hover:bg-brand-hover"
         />
 
-        <section className={`${globePageStage.pageClass} relative min-w-0`}>
+        <section className={`${stage.pageClass} relative min-w-0`}>
           <div className="absolute inset-0">
             <GlobeCanvas variant="full" />
           </div>
           <QueuedFlyToast />
-
-          {anyLayerOn ? (
-            <div className="globe-legend absolute bottom-3 left-3 z-20" aria-label="Layer legend">
-              <p className="globe-legend-kicker">Legend</p>
-              <ul>
-                {LAYERS.filter((l) => layers[l.id]).map((l) => {
-                  const isRaster = l.id === 'radar' || l.id === 'clouds';
-                  const count = isRaster ? 1 : l.id === 'catalog' ? archivePoints.length : (layerCounts[l.id] ?? 0);
-                  const health =
-                    l.id === 'catalog' || isRaster
-                      ? { status: 'ok' }
-                      : layerHealth[l.id] || (layersLoading ? { status: 'loading' } : undefined);
-                  return (
-                    <li key={l.id}>
-                      <span className="globe-layer-swatch" style={{ background: l.color }} aria-hidden />
-                      <span className="globe-legend-name">{l.label}</span>
-                      {l.coverage !== 'complete' ? (
-                        <span className="globe-legend-coverage">{l.coverage}</span>
-                      ) : (
-                        <span />
-                      )}
-                      <LayerHealthBadge count={count} health={health} />
-                    </li>
-                  );
-                })}
-              </ul>
-              {layers.weather ? (
-                <div className="mt-2">
-                  <div
-                    className="h-1.5 w-full rounded-full"
-                    style={{ background: `linear-gradient(90deg, ${[-30, -10, 0, 10, 20, 30, 40].map((t) => temperatureColor(t)).join(', ')})` }}
-                    aria-hidden
-                  />
-                  <div className="mt-0.5 flex justify-between font-mono text-[9px] text-[var(--text-muted)]">
-                    <span>−30°C</span>
-                    <span>10°</span>
-                    <span>40°C</span>
-                  </div>
-                </div>
-              ) : null}
-              {layers.air_quality ? (
-                <div className="mt-2 flex gap-1" aria-label="Air quality bands">
-                  {[25, 75, 125, 175, 250, 350].map((v) => (
-                    <span key={v} className="h-1.5 flex-1 rounded-full" style={{ background: aqiColor(v) || undefined }} aria-hidden />
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-
+          <Legend layers={data.layers} layerCounts={data.layerCounts} layerHealth={data.layerHealth} loading={data.layersLoading} />
           {!mapReady ? (
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1 overflow-hidden bg-[var(--surface)]/40">
               <div className="h-full w-1/3 animate-pulse bg-brand/70" />
@@ -1194,129 +129,51 @@ function GlobePageInner() {
           aria-orientation="vertical"
           aria-label="Resize place panel"
           tabIndex={0}
-          onPointerDown={(e) => startResize('right', e)}
-          onDoubleClick={() => setRightRail(RIGHT_DEFAULT)}
-          className="z-10 cursor-col-resize bg-[var(--border)] hover:bg-brand-hover"
+          onPointerDown={(e) => rails.startResize('right', e)}
+          onDoubleClick={() => rails.setRightRail(360)}
+          className="z-10 cursor-col-resize bg-[var(--border)] transition-colors hover:bg-brand-hover"
         />
 
         <aside className="flex min-w-0 flex-col overflow-hidden border-l border-[var(--border)] bg-[var(--surface)]">
-          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-          {!selected && !selectedEvent && !loading && !error ? (
-            <div className="flex flex-1 flex-col items-start justify-center gap-3 p-5">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand/12 text-brand">
-                <IconMapPin size={22} />
-              </div>
-              <div>
-                <h2 className="font-serif text-lg text-[var(--text-primary)]">No place selected</h2>
-                <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">
-                  Pick a search result, hub, map point, flight, or satellite. Details land here.
-                </p>
-              </div>
-            </div>
-          ) : selectedEvent ? (
-            <div className="min-h-0 flex-1 overflow-y-auto">
-              <EventDetailCard
-                point={selectedEvent}
-                onClose={() => {
-                  setSelectedEvent(null);
-                  setSelected(null);
-                }}
-              />
-            </div>
-          ) : (
-            <>
-              <div className="min-h-0 flex-1 overflow-y-auto">
-                <PlaceContextCard
-                  context={context}
-                  loading={loading}
-                  error={error}
-                  rail
-                  onRetry={
-                    selected
-                      ? () =>
-                          void loadContext(selected.lat, selected.lon, {
-                            name: selected.name,
-                            country: selected.country,
-                          })
-                      : undefined
-                  }
-                  onClose={() => {
-                    setContext(null);
-                    setError(null);
-                    setSelected(null);
-                    setSelectedEvent(null);
-                    setActiveHub(null);
-                  }}
-                  onSendToChat={(prompt) => sendToResearch(prompt, selected ? [selected] : undefined)}
-                />
-              </div>
-
-              <div className="space-y-2 border-t border-[var(--border)] p-3">
-                {compare.length >= 2 ? (
-                  <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-2.5">
-                    <p className="mb-2 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">
-                      Compare KPIs
-                    </p>
-                    <div className="grid gap-2">
-                      {compare.map((p) => (
-                        <div key={p.id} className="rounded-lg bg-[var(--surface)] px-2 py-1.5">
-                          <p className="truncate text-[11px] font-medium text-[var(--text-primary)]">
-                            {p.name || `${p.lat.toFixed(2)}, ${p.lon.toFixed(2)}`}
-                          </p>
-                          <div className="mt-1 flex flex-wrap gap-2">
-                            {kpis(p.context).map((k) => (
-                              <span
-                                key={k.label}
-                                className="rounded-full bg-[var(--surface-2)] px-2 py-0.5 text-[11px] text-[var(--text-secondary)]"
-                              >
-                                {k.label} {k.value}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={askCompare}
-                      className="btn-secondary mt-2 min-h-8 w-full text-xs"
-                    >
-                      Ask Research to compare
-                    </button>
-                  </div>
-                ) : null}
-
-                <button
-                  type="button"
-                  disabled={!selected}
-                  onClick={toggleCompare}
-                  className="btn-secondary min-h-8 w-full text-xs disabled:opacity-50"
-                >
-                  {inCompare ? 'Remove from compare' : 'Add to compare'}
-                </button>
-                <button
-                  type="button"
-                  disabled={!selected && !context}
-                  onClick={askAboutPlace}
-                  className="btn-primary flex min-h-10 w-full items-center justify-center gap-1.5 text-sm disabled:opacity-50"
-                >
-                  Ask about this place
-                </button>
-              </div>
-            </>
-          )}
-          </div>
+          <PlacePanel
+            selected={places.selected}
+            selectedEvent={places.selectedEvent}
+            context={places.context}
+            loading={places.loading}
+            error={places.error}
+            compare={places.compare}
+            inCompare={places.inCompare}
+            onRetry={
+              places.selected
+                ? () => void places.loadContext(places.selected!.lat, places.selected!.lon, { name: places.selected!.name, country: places.selected!.country })
+                : undefined
+            }
+            onClose={places.clearSelection}
+            onCloseEvent={() => {
+              places.setSelectedEvent(null);
+              places.setSelected(null);
+              setActiveHub(null);
+            }}
+            onToggleCompare={places.toggleCompare}
+            onAsk={places.askAboutPlace}
+            onAskCompare={places.askCompare}
+          />
           <GlobeAsk
-            state={{ selected, compare, layers, layerCounts, days }}
-            projectId={projectId || requestedProject || undefined}
-            onFly={(p) => goTo(p.lat, p.lon, { name: p.name })}
+            state={{
+              selected: places.selected,
+              compare: places.compare,
+              layers: data.layers,
+              layerCounts: data.layerCounts,
+              days: time.days,
+            }}
+            projectId={data.projectId || requestedProject || undefined}
+            onFly={(p) => places.goTo(p.lat, p.lon, { name: p.name })}
           />
         </aside>
       </div>
     </AppShell>
   );
 }
-
 
 export default function GlobePage() {
   // useSearchParams (project scope for "My data") needs a Suspense boundary at build time.

@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { IconLoader2, IconPlayerStop, IconSend } from '@tabler/icons-react';
+import { useCallback, useRef, useState } from 'react';
+import { IconLoader2, IconPlayerStop, IconSend, IconX } from '@tabler/icons-react';
 import { ChatMarkdown } from '../chat/ChatMarkdown';
 import { ChatRequestError, streamChat, type StreamEvent } from '../../lib/chatApi';
 import { parseExtras } from '../../lib/chatExtras.mjs';
+import { useSessionState } from '../../lib/sessionState';
 import { askSuggestions, clampAnswer, globeAskMessage, type AskState } from './askGlobe.mjs';
 import { useGlobe } from './useGlobe';
 
@@ -25,15 +26,14 @@ type Props = {
 export function GlobeAsk({ state, projectId, onFly }: Props) {
   const { ingestChatRun } = useGlobe();
   const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [places, setPlaces] = useState<Place[]>([]);
+  // Kept across tab changes, so the answer is still here after a trip to Chat.
+  const [answer, setAnswer] = useSessionState<string>('globe.answer', '');
+  const [places, setPlaces] = useSessionState<Place[]>('globe.places', []);
   const [status, setStatus] = useState<'idle' | 'running' | 'error'>('idle');
   const [note, setNote] = useState<string | null>(null);
   const [needsAccess, setNeedsAccess] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
-  const [lastQuestion, setLastQuestion] = useState('');
-
-  useEffect(() => () => abortRef.current?.abort(), []);
+  const [lastQuestion, setLastQuestion] = useSessionState<string>('globe.question', '');
 
   const ask = useCallback(
     async (raw?: string) => {
@@ -90,6 +90,15 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
   );
 
   const stop = () => abortRef.current?.abort();
+  const clear = () => {
+    abortRef.current?.abort();
+    setAnswer('');
+    setPlaces([]);
+    setLastQuestion('');
+    setNote(null);
+    setNeedsAccess(false);
+    setStatus('idle');
+  };
   const suggestions = askSuggestions(state);
   const hasOutput = Boolean(answer || note || status === 'running');
   const researchHref = `/research?q=${encodeURIComponent(lastQuestion)}${projectId ? `&project=${encodeURIComponent(projectId)}` : ''}`;
@@ -98,6 +107,20 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
     <section aria-label="Ask the globe" className="flex max-h-[55%] min-h-0 flex-col border-t border-[var(--border)] bg-[var(--surface)]">
       {hasOutput ? (
         <div className="min-h-0 flex-1 overflow-y-auto px-3 pt-3" aria-live="polite">
+          <div className="mb-2 flex items-start justify-between gap-2">
+            <p className="min-w-0 truncate text-[11px] text-[var(--text-muted)]" title={lastQuestion}>
+              You asked: <span className="text-[var(--text-secondary)]">{lastQuestion}</span>
+            </p>
+            <button
+              type="button"
+              onClick={clear}
+              aria-label="Clear answer"
+              title="Clear answer"
+              className="shrink-0 rounded-full p-1 text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]"
+            >
+              <IconX size={13} />
+            </button>
+          </div>
           {answer ? (
             <div className="text-[13px] leading-relaxed text-[var(--text-primary)]">
               <ChatMarkdown text={answer} />

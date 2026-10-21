@@ -377,7 +377,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
         if (!next) break;
         await runFly(next, undefined, gen);
         if (gen !== flyGenRef.current) continue;
-        await sleep(720, gen, flyGenRef);
+        await sleep(450, gen, flyGenRef);
       }
     } finally {
       sequenceRunningRef.current = false;
@@ -421,7 +421,16 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
     if (!point) setActiveHub(null);
   }, []);
 
+  // What this chat run has located so far. A source's publisher HQ (usgs.gov -> Virginia) is only a fallback for a
+  // run that never found a real place, and must never overtake the place the question itself named.
+  const runPlaceRef = useRef(false);
+  const runPendingRef = useRef<Promise<unknown>>(Promise.resolve());
+  const runGenRef = useRef(0);
+
   const beginChatRun = useCallback(() => {
+    runGenRef.current += 1;
+    runPlaceRef.current = false;
+    runPendingRef.current = Promise.resolve();
     flyGenRef.current += 1;
     sequenceRef.current = [];
     setActivePoints([]);
@@ -432,8 +441,13 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
 
   const ingestChatRun = useCallback(
     (input: ChatRunIngest) => {
-      void (async () => {
-        const points = await resolveChatIngest(input);
+      const gen = runGenRef.current;
+      const task = (async () => {
+        // Sources wait for any place lookup already under way, so the place is always flown to first.
+        if (!input.query && !input.places?.length && !input.city) await runPendingRef.current;
+        const points = await resolveChatIngest(input, { hasPlaceAlready: runPlaceRef.current });
+        if (gen !== runGenRef.current) return; // a newer chat run began while this was resolving
+        if (points.some((p) => p.kind === 'place')) runPlaceRef.current = true;
         if (!points.length) return;
         setActivePoints((prev) => {
           const seen = new Set(prev.map((p) => p.id));
@@ -455,6 +469,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
         }
         void drainSequence();
       })();
+      if (input.query || input.places?.length || input.city) runPendingRef.current = task;
     },
     [drainSequence, queueIfFull],
   );

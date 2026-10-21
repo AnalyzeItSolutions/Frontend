@@ -16,7 +16,11 @@ import {
 } from './liveOverlays.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const pageSource = fs.readFileSync(path.join(__dirname, '../../globe/page.tsx'), 'utf8');
+// The Globe page is split into small files under globe/_parts; the invariants cover all of them.
+const globeDir = path.join(__dirname, '../../globe');
+const partFiles = fs.readdirSync(path.join(globeDir, '_parts')).map((f) => path.join(globeDir, '_parts', f));
+const pageSource = [path.join(globeDir, 'page.tsx'), ...partFiles].map((f) => fs.readFileSync(f, 'utf8')).join('\n');
+const layersSource = fs.readFileSync(path.join(globeDir, '_parts', 'useGlobeLayers.ts'), 'utf8');
 
 describe('bug #7 — overlay build ignores place selection/context', () => {
   it('maps flights + iss without place-context extras even when payloads are rich', () => {
@@ -137,16 +141,16 @@ describe('displayPoints merge', () => {
   });
 });
 
-describe('bug #7 — source invariants in globe/page.tsx', () => {
-  it('overlay poll effect deps exclude selected and context', () => {
-    const match = pageSource.match(
-      /void buildOverlays\(\);\s*const timer = window\.setInterval\(\(\) => \{\s*void buildOverlays\(\);\s*\}, LIVE_LAYER_POLL_MS\);\s*return \(\) => \{[\s\S]*?\};\s*\}, \[([^\]]+)\]\);/,
-    );
-    assert.ok(match, 'expected overlay poll useEffect dependency array');
-    const deps = match[1];
-    assert.ok(!/\bselected\b/.test(deps), `deps must not include selected: ${deps}`);
-    assert.ok(!/\bcontext\b/.test(deps), `deps must not include context: ${deps}`);
-    assert.ok(/\blayers\b/.test(deps), `deps must include layers: ${deps}`);
+describe('bug #7 — source invariants in globe/ (page + _parts)', () => {
+  it('live layer fetching never depends on the selected place or its context', () => {
+    assert.ok(!/\bselected\b/.test(layersSource), 'layer hook must not read selected');
+    assert.ok(!/\bcontext\b/.test(layersSource), 'layer hook must not read context');
+    assert.ok(/window\.setInterval\(/.test(layersSource) && /LIVE_LAYER_POLL_MS/.test(layersSource), 'layers poll on LIVE_LAYER_POLL_MS');
+    assert.ok(!/requestAnimationFrame/.test(layersSource), 'never poll in an animation frame');
+  });
+
+  it('fetches one request per layer, so one slow layer cannot blank the others', () => {
+    assert.ok(/layers: \[id\]/.test(layersSource));
   });
 
   it('uses buildLiveOverlays and selectionLoadsPlaceContext helpers', () => {

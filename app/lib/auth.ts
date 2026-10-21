@@ -1,3 +1,4 @@
+import { resetSessionState } from './sessionState';
 import { AUTH_COOKIE, SESSION_COOKIE, appDomainOf } from './personalHost.mjs';
 import { withRetry } from './retry.mjs';
 
@@ -182,6 +183,7 @@ export function clearAuthSession(): void {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
   writeAuthCookie(false);
+  resetSessionState();
 }
 
 export function getAuthHeaders(): Record<string, string> {

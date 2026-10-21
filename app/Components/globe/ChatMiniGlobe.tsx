@@ -47,11 +47,17 @@ export function GlobeToolbarControls() {
 
 /** Full-bleed Chat globe — visual layer only; never calls POST /v1/geo/context. */
 export function ChatMiniGlobe({ controls = true }: { controls?: boolean } = {}) {
-  const { mapReady } = useGlobe();
+  const { mapReady, activePoints, overlayPoints, inFlight: flying } = useGlobe();
   const { status, inFlight, expandToFull } = useGlobeStatus();
+  // The globe only earns its place when a question is about somewhere. It stays mounted (so the map engine is
+  // warm and the first fly-to is instant) but fades away until a place or a live layer is on it.
+  const needed = activePoints.length > 0 || overlayPoints.length > 0 || flying;
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+    <div
+      className={`pointer-events-none absolute inset-0 z-0 overflow-hidden transition-opacity duration-700 ease-out ${needed ? 'opacity-100' : 'opacity-0'}`}
+      aria-hidden={!needed}
+    >
       <GlobeCanvas variant="mini" className="h-full w-full" />
       <div className="chat-globe-scrim absolute inset-0" />
       {!mapReady ? (

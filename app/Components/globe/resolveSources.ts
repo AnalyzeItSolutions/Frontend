@@ -115,7 +115,10 @@ export function capitalisedNames(text: string): string[] {
   return [...new Set(names)].sort((a, b) => b.length - a.length);
 }
 
-export async function resolveChatIngest(input: ChatRunIngest): Promise<SourcePoint[]> {
+export async function resolveChatIngest(
+  input: ChatRunIngest,
+  opts: { hasPlaceAlready?: boolean } = {},
+): Promise<SourcePoint[]> {
   const points: SourcePoint[] = [];
   const seen = new Set<string>();
   const add = (point: SourcePoint | null | undefined) => {
@@ -164,7 +167,7 @@ export async function resolveChatIngest(input: ChatRunIngest): Promise<SourcePoi
     }
   }
   if (input.sources?.length) {
-    const hasPlace = points.some((p) => p.kind === 'place');
+    const hasPlace = opts.hasPlaceAlready || points.some((p) => p.kind === 'place');
     for (const point of pointsFromSources(input.sources, { allowPublisherFallback: !hasPlace })) add(point);
   }
   return points;

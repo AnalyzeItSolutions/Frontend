@@ -15,7 +15,6 @@ import {
   IconSend,
   IconSparkles,
   IconTrash,
-  IconWorld,
   IconX,
   IconCheck,
   IconPlayerStop,
@@ -70,10 +69,10 @@ import mathFixture from '../lib/fixtures/findings.math.json';
 import { parseExtras, type ResultTable } from '../lib/chatExtras.mjs';
 import { memoryToolStatus, queueStatus } from '../lib/runStatus.mjs';
 import { historyTurns } from '../lib/historyTurns.mjs';
+import { useSessionState } from '../lib/sessionState';
 import { useWarmAgent } from '../lib/useWarmAgent';
 import { normalizeMemorySources, type MemoryCitation } from '../lib/memoryCitations.mjs';
 import { MemoryCitations } from '../Components/research/MemoryCitations';
-import { globeLinkForPlaces } from '../Components/globe/scene.mjs';
 import { ChatMarkdown } from '../Components/chat/ChatMarkdown';
 import {
   applyUIAction,
@@ -100,6 +99,8 @@ import { ResearchEmptyState } from '../Components/research/ResearchEmptyState';
 import { SourceChips, type ResearchSource } from '../Components/research/SourceChips';
 import { AppShell } from '../Components/app/AppShell';
 import { ChatMiniGlobe, GlobeToolbarControls } from '../Components/globe/ChatMiniGlobe';
+import { OpenOnGlobe } from '../Components/globe/OpenOnGlobe';
+import { useChatLayers } from '../Components/globe/useChatLayers';
 import {
   messageOffersRetry,
   sourceFromProgressPayload,
@@ -371,8 +372,9 @@ function ChatInner() {
   const router = useRouter();
   const { isIncognito } = useTheme();
   const { beginChatRun, ingestChatRun } = useGlobe();
+  const { showFor: showChatLayers } = useChatLayers();
 
-  const [composerMode, setComposerMode] = useState<ComposerMode>('chat');
+  const [composerMode, setComposerMode] = useSessionState<ComposerMode>('chat.mode', 'chat');
   const [modelSizeMax, setModelSizeMax] = useState<ModelSize>('small');
   const [selectedModelSize, setSelectedModelSize] = useState<ModelSize>('small');
   // Only a size the person chose is sent. The plan's own size shown by default is not a choice, so the server can
@@ -383,10 +385,10 @@ function ChatInner() {
   );
   const [input, setInput] = useState(() => params.get('q') || '');
   const guestQuerySent = useRef(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useSessionState<ChatMessage[]>('chat.messages', []);
   const [liveBudget, setLiveBudget] = useState<ContextBudget | null>(null);
   const [liveRlmDepth, setLiveRlmDepth] = useState(0);
-  const [isStreaming, setIsStreaming] = useState(false);
+  const [isStreaming, setIsStreaming] = useSessionState<boolean>('chat.streaming', false);
   const [awaitingAd, setAwaitingAd] = useState(false);
   const [showPostRunAd, setShowPostRunAd] = useState(false);
   const [adsFree, setAdsFree] = useState(() => {
@@ -405,8 +407,8 @@ function ChatInner() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [dashStatus, setDashStatus] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [projectId, setProjectId] = useState<string | null>(null);
-  const [runId, setRunId] = useState<string | null>(null);
+  const [projectId, setProjectId] = useSessionState<string | null>('chat.projectId', null);
+  const [runId, setRunId] = useSessionState<string | null>('chat.runId', null);
   useWarmAgent();
   useEffect(() => {
     if (runId) sessionStorage.setItem('analyzeit_last_run_id', runId);
@@ -860,6 +862,7 @@ function ChatInner() {
       const mode = modeOverride || composerMode;
       beginChatRun();
       if (value) ingestChatRun({ query: value });
+      void showChatLayers(value); // draws earthquakes / storms / air quality… only if the question is about them
       const userId = `user-${Date.now()}`;
       const assistantId = `asst-${Date.now()}`;
       const chipMeta = (resend ?? pendingAttachments.filter((a) => a.status !== 'failed')).map((a) => ({
@@ -2148,15 +2151,11 @@ function ChatInner() {
                       ) : null}
                       {!isUser && !msg.streaming && msg.charts?.map((c, ci) => <ChartCard key={ci} chart={c} />)}
                       {!isUser && !msg.streaming && msg.tables?.map((t, ti) => <TableCard key={ti} table={t} />)}
-                      {!isUser && !msg.streaming && msg.places?.length ? (
-                        <button
-                          type="button"
-                          onClick={() => router.push(globeLinkForPlaces(msg.places ?? []))}
-                          className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]"
-                        >
-                          <IconWorld size={13} aria-hidden />
-                          Open {msg.places.length === 1 ? msg.places[0].name : `${msg.places.length} places`} on the globe
-                        </button>
+                      {!isUser && !msg.streaming ? (
+                        <OpenOnGlobe
+                          places={msg.places}
+                          question={[...messages.slice(0, msgIndex)].reverse().find((m) => m.role === 'user')?.content ?? ''}
+                        />
                       ) : null}
                       {!isUser && !msg.streaming && !msg.findings && msgIndex === messages.length - 1 && msg.suggestions?.length ? (
                         <SuggestionChips

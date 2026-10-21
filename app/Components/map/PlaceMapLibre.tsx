@@ -496,11 +496,15 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     [onHubSelect, onPlaceSelect, sourcePoints, variant],
   );
 
+  // True from the moment a fly-to starts until it lands, so the idle drift never stops or overrides it.
+  const flyActiveRef = useRef(false);
+
   const runFlyTo = useCallback(
     (opts: { lat: number; lon: number; zoom?: number }) => {
       const map = getMap();
       if (!map) return Promise.resolve();
       const gen = ++flyGenRef.current;
+      flyActiveRef.current = true; // before stop(): its moveend must not restart the idle drift
       try {
         map.stop();
       } catch {
@@ -511,18 +515,21 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         const finish = () => {
           if (settled || gen !== flyGenRef.current) return;
           settled = true;
+          flyActiveRef.current = false;
           map.off('moveend', finish);
           resolve();
         };
-        map.once('moveend', finish);
         map.flyTo({
           center: [opts.lon, opts.lat],
           zoom: opts.zoom ?? Math.max(map.getZoom(), variant === 'mini' ? 2.6 : 5.2),
-          speed: 0.62,
+          speed: 0.95,
           curve: 1.62,
           easing: flyEasing || flyEase,
           essential: true,
         });
+        // Listen only after the flight has started: flyTo stops whatever was moving, and that moveend must not count.
+        map.once('moveend', finish);
+        if (!map.isMoving()) finish();
         window.setTimeout(finish, 7000);
       });
     },
@@ -587,7 +594,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     if (!map) return;
     let stopped = false;
     const spin = () => {
-      if (stopped) return;
+      if (stopped || flyActiveRef.current) return;
       const mapNow = getMap();
       if (!mapNow || mapNow.isMoving()) return;
       const c = mapNow.getCenter();
@@ -606,6 +613,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
     return () => {
       stopped = true;
       map.off('moveend', onEnd);
+      if (flyActiveRef.current) return; // a fly-to has taken over; stopping now would cut it short
       try {
         (map as MapLibreMap & { stop: () => void }).stop();
       } catch {
