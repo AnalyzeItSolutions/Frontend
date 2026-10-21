@@ -120,7 +120,7 @@ export function WorkspacesPanel({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Analysis workspaces"
+        aria-label="Projects"
         className="flex max-h-[88vh] w-full max-w-2xl flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-2xl"
       >
         <div className="flex items-start justify-between gap-3">
@@ -129,7 +129,7 @@ export function WorkspacesPanel({
               <IconFolder size={18} />
             </div>
             <div>
-              <h3 className="text-base font-medium text-[var(--text-primary)]">Workspaces</h3>
+              <h3 className="text-base font-medium text-[var(--text-primary)]">Projects</h3>
               <p className="text-xs text-[var(--text-muted)]">Open, organise or clear out your projects</p>
             </div>
           </div>
@@ -216,10 +216,10 @@ export function WorkspacesPanel({
 
         <div className="max-h-[46vh] space-y-1 overflow-y-auto pr-1">
           {loading ? (
-            <p className="py-8 text-center text-xs text-[var(--text-muted)]">Loading workspaces…</p>
+            <p className="py-8 text-center text-xs text-[var(--text-muted)]">Loading projects…</p>
           ) : visible.length === 0 ? (
             <div className="px-4 py-8 text-center">
-              <p className="text-xs text-[var(--text-muted)]">{query ? 'No workspaces match this filter.' : 'No workspaces yet.'}</p>
+              <p className="text-xs text-[var(--text-muted)]">{query ? 'No projects match this filter.' : 'No projects yet.'}</p>
             </div>
           ) : (
             visible.map((proj) => {
@@ -359,11 +359,11 @@ export function WorkspacesPanel({
                 type="button"
                 onClick={onNew}
                 disabled={atLimit}
-                title={atLimit ? 'Project limit reached' : 'New workspace'}
+                title={atLimit ? 'Project limit reached' : 'New project'}
                 className="flex cursor-pointer items-center gap-1.5 rounded-lg bg-[var(--coral)] px-3 py-1.5 text-xs font-medium text-[var(--brand-ink)] hover:bg-[var(--coral-dark)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <IconPlus size={14} />
-                New workspace
+                New project
               </button>
               <button type="button" onClick={onClose} className="cursor-pointer px-3 py-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]">
                 Close

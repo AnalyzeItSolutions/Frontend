@@ -716,7 +716,7 @@ export function DashboardCanvas({
                 <div
                   onClick={() => setIsEditingTitle(true)}
                   className="group flex items-center gap-1.5 cursor-pointer"
-                  title="Click to rename workspace"
+                  title="Click to rename project"
                 >
                   <h2 className="font-serif text-lg sm:text-xl font-medium tracking-tight text-[#414141] dark:text-[#EDEDED] hover:text-[var(--coral-hover,#E4E4E2)] transition-colors">
                     {projectName}

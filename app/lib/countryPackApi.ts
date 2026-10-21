@@ -14,7 +14,7 @@ export interface MetricRule {
   id: string;
   widget_id: string;
   label: string;
-  op: 'gt' | 'lt';
+  op: 'gt' | 'lt' | 'up_pct' | 'down_pct';
   threshold: number;
   severity: 'high' | 'medium';
   enabled: boolean;
@@ -24,6 +24,8 @@ export interface MetricRule {
 }
 
 export interface PackResult {
+  kind?: string;
+  name?: string;
   country: string;
   iso3: string;
   widgets: number;
@@ -74,4 +76,26 @@ export async function updateMetricRule(projectId: string, id: string, body: Part
 export async function deleteMetricRule(projectId: string, id: string): Promise<void> {
   const res = await fetch(`${API_V1}/projects/${projectId}/metric-rules/${id}`, { method: 'DELETE', headers: { ...getAuthHeaders() } });
   if (!res.ok) throw await apiErrorFrom(res, 'Could not remove the alert');
+}
+
+export type TrackKind = 'country' | 'market' | 'place' | 'topic';
+
+export interface Trackable {
+  kind: TrackKind;
+  ref: string;
+  name: string;
+  subtitle: string;
+}
+
+/** What a few typed letters could mean: a country, a company or other market, a place, or any topic. */
+export async function searchTrackables(q: string, signal?: AbortSignal): Promise<Trackable[]> {
+  const res = await fetch(`${API_V1}/trackers/search?q=${encodeURIComponent(q)}`, { headers: { ...getAuthHeaders() }, signal });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not search');
+  return res.json();
+}
+
+export async function buildTracker(projectId: string, item: Pick<Trackable, 'kind' | 'ref' | 'name'>): Promise<PackResult> {
+  const res = await fetch(`${API_V1}/projects/${projectId}/packs/track`, { method: 'POST', headers: { ...json, ...getAuthHeaders() }, body: JSON.stringify(item) });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not build the dashboard');
+  return res.json();
 }

@@ -101,6 +101,8 @@ import { AppShell } from '../Components/app/AppShell';
 import { ChatMiniGlobe, GlobeToolbarControls } from '../Components/globe/ChatMiniGlobe';
 import { OpenOnGlobe } from '../Components/globe/OpenOnGlobe';
 import { AddToDashboard, NoDataNextSteps, isNoticeWidget } from '../Components/chat/AddToDashboard';
+import { CONTINUE_PROMPT, looksCutOff } from '../lib/answerQuality.mjs';
+import { keepAnswerOnDashboard } from '../lib/keepAnswer';
 import { useChatLayers } from '../Components/globe/useChatLayers';
 import {
   messageOffersRetry,
@@ -2191,8 +2193,33 @@ function ChatInner() {
                           >
                             Share this result
                           </button>
+                          {msg.content.length > 80 && !msg.toolError ? (
+                            <AddToDashboard
+                              compact
+                              label="Keep on dashboard"
+                              chatProjectId={projectId}
+                              apply={(pid) =>
+                                keepAnswerOnDashboard(pid, {
+                                  question: [...messages.slice(0, msgIndex)].reverse().find((m) => m.role === 'user')?.content ?? '',
+                                  text: msg.content,
+                                  sources: msg.sources,
+                                  tables: msg.tables,
+                                })
+                              }
+                              onAdded={() => {
+                                setDashStatus('Kept on your dashboard.');
+                                setShowDashboard(true);
+                              }}
+                            />
+                          ) : null}
                         </div>
                       )}
+                      {!isUser && !msg.streaming && msgIndex === messages.length - 1 && !isStreaming && looksCutOff(msg.content) ? (
+                        <p role="status" className="flex flex-wrap items-center gap-2 rounded-lg bg-[var(--surface-2)] px-3 py-2 text-xs text-[var(--text-secondary)]">
+                          This answer stopped mid-sentence, so part of it is missing.
+                          <button type="button" onClick={() => void sendMessage(CONTINUE_PROMPT)} className="btn-secondary text-[11px]">Continue</button>
+                        </p>
+                      ) : null}
                     </div>
                   </motion.div>
                 );

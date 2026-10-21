@@ -6,7 +6,7 @@ type Status = 'loading' | 'empty' | 'error' | 'content';
 
 export function WorkspaceStatus({
   status,
-  loadingLabel = 'Loading workspace…',
+  loadingLabel = 'Loading project…',
   emptyTitle,
   emptyBody,
   emptyPrimary,

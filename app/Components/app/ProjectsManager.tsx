@@ -101,9 +101,9 @@ export function ProjectsManager({
   };
 
   const runCreate = async () => {
-    const name = draftName.trim() || 'Untitled workspace';
+    const name = draftName.trim() || 'Untitled project';
     if (atLimit) {
-      setError(`Project limit reached (${projectLimit}). Upgrade or delete a workspace.`);
+      setError(`Project limit reached (${projectLimit}). Upgrade or delete a project.`);
       return;
     }
     setBusyId('create');
@@ -156,7 +156,7 @@ export function ProjectsManager({
 
   const runDuplicate = async (project: ProjectSummary) => {
     if (atLimit) {
-      setError(`Project limit reached (${projectLimit}). Upgrade or delete a workspace first.`);
+      setError(`Project limit reached (${projectLimit}). Upgrade or delete a project first.`);
       return;
     }
     setBusyId(project.id);
@@ -164,7 +164,7 @@ export function ProjectsManager({
     try {
       const duplicated = await duplicateProject(project.id);
       await refresh();
-      setNote(`Duplicated as a new workspace (${duplicated.project_id.slice(0, 8)}…).`);
+      setNote(`Duplicated as a new project (${duplicated.project_id.slice(0, 8)}…).`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not duplicate project');
     } finally {
@@ -196,7 +196,7 @@ export function ProjectsManager({
           <div>
             <h2 className="text-sm font-medium text-[var(--text-primary)]">Projects</h2>
             <p className="text-xs text-[var(--text-muted)]">
-              Create, rename, duplicate, or remove analysis workspaces.
+              Create, rename, duplicate, or remove projects.
               {typeof projectLimit === 'number' ? (
                 <>
                   {' '}
@@ -234,7 +234,7 @@ export function ProjectsManager({
               ? `Over limit (${projects.length}/${projectLimit}) — delete projects or upgrade`
               : atLimit
                 ? 'Project limit reached'
-                : 'New workspace'
+                : 'New project'
           }
         >
           <IconPlus size={14} />
@@ -272,7 +272,7 @@ export function ProjectsManager({
             </p>
             {!query ? (
               <button type="button" onClick={openCreate} className="mt-3 text-sm text-[var(--coral,#E4E4E2)] hover:underline">
-                Create your first workspace
+                Create your first project
               </button>
             ) : null}
           </div>
@@ -359,15 +359,15 @@ export function ProjectsManager({
                 <div>
                   <h3 className="text-base font-medium">
                     {confirm.kind === 'create'
-                      ? 'New workspace'
+                      ? 'New project'
                       : confirm.kind === 'rename'
-                        ? 'Rename workspace'
-                        : 'Delete workspace'}
+                        ? 'Rename project'
+                        : 'Delete project'}
                   </h3>
                   <p className="mt-1 text-xs text-[var(--text-muted)]">
                     {confirm.kind === 'delete'
                       ? `This permanently removes “${confirm.project.name}” and its canvas data.`
-                      : 'Give this analysis workspace a clear name.'}
+                      : 'Give this project a clear name.'}
                   </p>
                 </div>
                 <button
@@ -385,7 +385,7 @@ export function ProjectsManager({
                   autoFocus
                   value={draftName}
                   onChange={(e) => setDraftName(e.target.value)}
-                  placeholder="Workspace name"
+                  placeholder="Project name"
                   className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm outline-none focus:border-[var(--coral,#E4E4E2)]"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {

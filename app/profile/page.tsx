@@ -162,7 +162,7 @@ function ProfileInner() {
         >
           <PageTitle title="Profile" />
           <p className="mt-2 max-w-xl text-sm text-[var(--text-muted)]">
-            Manage your account, security, appearance, and analysis workspaces.
+            Manage your account, security, appearance, and projects.
           </p>
         </motion.div>
 

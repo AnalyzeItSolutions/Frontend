@@ -65,8 +65,8 @@ export function EditBar({
         <span className="text-[11px] text-[var(--text-muted)]">Add, arrange, rename and remove widgets.</span>
       )}
       <span className="ml-auto" />
-      <button type="button" onClick={onTrackCountry} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-2)]" title="Build a whole dashboard for a country from open data">
-        <IconWorld size={14} /> Track a country
+      <button type="button" onClick={onTrackCountry} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-2)]" title="Build a dashboard for a country, company, currency, city, person or topic from open data">
+        <IconWorld size={14} /> Track anything
       </button>
       <button type="button" onClick={onAlerts} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs text-[var(--text-secondary)] hover:bg-[var(--surface-2)]">
         <IconBell size={14} /> Alerts

@@ -22,11 +22,18 @@ export function AddToDashboard({
   proposalProjectId,
   chatProjectId,
   onAdded,
+  apply: customApply,
+  label = 'Add to dashboard',
+  compact = false,
 }: {
-  actionId: string;
+  actionId?: string;
   proposalProjectId?: string | null;
   chatProjectId?: string | null;
   onAdded: (projectId: string) => void;
+  /** Used instead of applying a model proposal, e.g. to save a chat answer as widgets. */
+  apply?: (projectId: string) => Promise<unknown>;
+  label?: string;
+  compact?: boolean;
 }) {
   const [state, setState] = useState<'idle' | 'choosing' | 'adding' | 'done' | 'error'>('idle');
   const [projects, setProjects] = useState<ProjectSummary[]>([]);
@@ -48,7 +55,8 @@ export function AddToDashboard({
   const apply = async (projectId: string, name?: string) => {
     setState('adding');
     try {
-      await applyUIAction(projectId, actionId, true);
+      if (customApply) await customApply(projectId);
+      else await applyUIAction(projectId, actionId || '', true);
       setMessage(name ? `Added to “${name}”.` : 'Added to your dashboard.');
       setState('done');
       onAdded(projectId);
@@ -85,7 +93,7 @@ export function AddToDashboard({
   };
 
   return (
-    <div className="relative flex items-center justify-end gap-3 px-1 pb-1" ref={wrapRef}>
+    <div className={`relative flex items-center gap-3 ${compact ? '' : 'justify-end px-1 pb-1'}`} ref={wrapRef}>
       {message ? (
         <span className={`text-[11px] ${state === 'error' ? 'text-[var(--danger)]' : 'text-[var(--text-muted)]'}`} role={state === 'error' ? 'alert' : 'status'}>
           {message}
@@ -95,14 +103,14 @@ export function AddToDashboard({
         type="button"
         onClick={() => void start()}
         disabled={state === 'adding' || state === 'done'}
-        className="btn-primary inline-flex items-center gap-1 text-[11px] disabled:opacity-60"
+        className={compact ? 'inline-flex items-center gap-1 text-[11px] text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-60' : 'btn-primary inline-flex items-center gap-1 text-[11px] disabled:opacity-60'}
       >
         {state === 'adding' ? <IconLoader2 size={12} className="animate-spin" /> : state === 'done' ? <IconCheck size={12} /> : null}
-        {state === 'done' ? 'Added' : 'Add to dashboard'}
+        {state === 'done' ? (compact ? 'Kept' : 'Added') : label}
         {!known && state !== 'done' && state !== 'adding' ? <IconChevronDown size={12} /> : null}
       </button>
       {state === 'choosing' ? (
-        <div className="absolute bottom-full right-1 z-20 mb-1 w-64 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xl" role="menu">
+        <div className="absolute bottom-full left-0 z-20 mb-1 w-64 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-xl" role="menu">
           <p className="px-3 pt-2 text-[10px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Add to which project?</p>
           <div className="max-h-56 overflow-y-auto py-1">
             {projects.slice(0, 12).map((p) => (

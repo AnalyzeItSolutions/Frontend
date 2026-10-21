@@ -12,6 +12,13 @@ export interface WatchableWidget {
   latest: number;
 }
 
+const OPS: Array<{ id: MetricRule['op']; label: string; verb: string }> = [
+  { id: 'gt', label: 'above', verb: 'goes above' },
+  { id: 'lt', label: 'below', verb: 'goes below' },
+  { id: 'up_pct', label: 'rises by more than %', verb: 'rises by more than (%)' },
+  { id: 'down_pct', label: 'falls by more than %', verb: 'falls by more than (%)' },
+];
+
 const field = 'rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-2 py-1 text-xs outline-none focus:border-[var(--coral)]';
 
 const round = (v?: number | null) => (typeof v === 'number' ? Number(v.toFixed(2)) : v);
@@ -28,7 +35,7 @@ export function AlertRulesModal({ open, onClose, projectId, watchable }: { open:
   const [settings, setSettings] = useState<AlertSettings | null>(null);
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
-  const [draft, setDraft] = useState<{ widget_id: string; op: 'gt' | 'lt'; threshold: string }>({ widget_id: '', op: 'gt', threshold: '' });
+  const [draft, setDraft] = useState<{ widget_id: string; op: MetricRule['op']; threshold: string }>({ widget_id: '', op: 'gt', threshold: '' });
 
   const load = useCallback(async () => {
     try {
@@ -75,9 +82,8 @@ export function AlertRulesModal({ open, onClose, projectId, watchable }: { open:
                 <input type="checkbox" checked={r.enabled} aria-label={`${r.label} alert on`} disabled={busy} onChange={(e) => void run(() => updateMetricRule(projectId, r.id, { enabled: e.target.checked }))} />
                 <span className="min-w-0 flex-1 truncate font-medium text-[var(--text-primary)]" title={r.meaning}>{r.label}</span>
                 <span className="text-[var(--text-muted)]">when</span>
-                <select className={field} value={r.op} aria-label="Above or below" disabled={busy} onChange={(e) => void run(() => updateMetricRule(projectId, r.id, { op: e.target.value as 'gt' | 'lt' }))}>
-                  <option value="gt">above</option>
-                  <option value="lt">below</option>
+                <select className={field} value={r.op} aria-label="Condition" disabled={busy} onChange={(e) => void run(() => updateMetricRule(projectId, r.id, { op: e.target.value as MetricRule['op'] }))}>
+                  {OPS.map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
                 </select>
                 <input type="number" step="any" className={`${field} w-20`} defaultValue={r.threshold} aria-label="Alert level" disabled={busy} onBlur={(e) => { const v = Number(e.target.value); if (e.target.value !== '' && v !== r.threshold) void run(() => updateMetricRule(projectId, r.id, { threshold: v })); }} />
                 <span className={`rounded-full px-2 py-0.5 text-[10px] ${r.last_state === 'breached' ? 'bg-[var(--danger)]/15 text-[var(--danger)]' : 'bg-[var(--surface-2)] text-[var(--text-muted)]'}`}>
@@ -100,9 +106,8 @@ export function AlertRulesModal({ open, onClose, projectId, watchable }: { open:
               <option value="">Watch a figure…</option>
               {addable.map((w) => <option key={w.id} value={w.id}>{w.title} (now {round(w.latest)})</option>)}
             </select>
-            <select className={field} value={draft.op} aria-label="Above or below" onChange={(e) => setDraft((d) => ({ ...d, op: e.target.value as 'gt' | 'lt' }))}>
-              <option value="gt">goes above</option>
-              <option value="lt">goes below</option>
+            <select className={field} value={draft.op} aria-label="Condition" onChange={(e) => setDraft((d) => ({ ...d, op: e.target.value as MetricRule['op'] }))}>
+              {OPS.map((o) => <option key={o.id} value={o.id}>{o.verb}</option>)}
             </select>
             <input type="number" step="any" className={`${field} w-24`} placeholder="level" aria-label="New alert level" value={draft.threshold} onChange={(e) => setDraft((d) => ({ ...d, threshold: e.target.value }))} />
             <button type="submit" disabled={busy || !draft.widget_id || draft.threshold === ''} className="btn-secondary text-xs disabled:opacity-50">Add alert</button>

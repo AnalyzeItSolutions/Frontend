@@ -72,7 +72,7 @@ import { MemoryHomeCard } from '../Components/memory/MemoryHomeCard';
 import { MyTemplates } from '../Components/dashboard/MyTemplates';
 import { WorkspacesPanel } from '../Components/dashboard/WorkspacesPanel';
 import { AddWidgetModal } from '../Components/dashboard/AddWidgetModal';
-import { CountryPackModal } from '../Components/dashboard/CountryPackModal';
+import { TrackerModal } from '../Components/dashboard/TrackerModal';
 import { AlertRulesModal } from '../Components/dashboard/AlertRulesModal';
 import { AlertsBanner } from '../Components/dashboard/AlertsBanner';
 import { ShareDialog } from '../Components/dashboard/ShareDialog';
@@ -111,7 +111,7 @@ export default function DashboardPage() {
   const activeProjectIdRef = useRef<string | null>(null);
   activeProjectIdRef.current = activeProjectId;
   const [kitRefresh, setKitRefresh] = useState(0);
-  const [activeProjectName, setActiveProjectName] = useState<string>('Workspace Canvas');
+  const [activeProjectName, setActiveProjectName] = useState<string>('Project');
   const [layoutVersion, setLayoutVersion] = useState<number>(1);
   const [updatedBy, setUpdatedBy] = useState<string>('system');
   const [currentLayout, setCurrentLayout] = useState<{ widgets: WidgetSpec[] }>({
@@ -259,9 +259,9 @@ export default function DashboardPage() {
               target = await getProjectById(projectParam);
             } catch (err) {
               if (cancelled) return;
-              setWorkspaceError(redactClientError(err, 'This project isn’t in your workspace.'));
+              setWorkspaceError(redactClientError(err, 'This project isn’t one of your projects.'));
               setActiveProjectId(null);
-              setActiveProjectName('Workspace Canvas');
+              setActiveProjectName('Project');
               setCurrentLayout({ widgets: [] });
               return;
             }
@@ -295,7 +295,7 @@ export default function DashboardPage() {
           }
         } else {
           setActiveProjectId(null);
-          setActiveProjectName('Workspace Canvas');
+          setActiveProjectName('Project');
           setCurrentLayout({ widgets: [] });
         }
       } catch (err) {
@@ -485,7 +485,7 @@ export default function DashboardPage() {
           handleSelectProject(remaining[0]);
         } else {
           setActiveProjectId(null);
-          setActiveProjectName('Workspace Canvas');
+          setActiveProjectName('Project');
           setCurrentLayout({ widgets: [] });
         }
       }
@@ -515,7 +515,7 @@ export default function DashboardPage() {
         handleSelectProject(remaining[0]);
       } else {
         setActiveProjectId(null);
-        setActiveProjectName('Workspace Canvas');
+        setActiveProjectName('Project');
         setCurrentLayout({ widgets: [] });
       }
     }
@@ -973,81 +973,43 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, y: 4, scale: 0.96 }}
                     className="absolute right-0 mt-2 w-80 rounded-xl border border-[var(--border)] bg-[var(--surface)] shadow-2xl p-3 z-50 space-y-3"
                   >
-                    <div className="flex flex-wrap gap-2">
-                      <button
-                        type="button"
-                        className="btn-secondary text-xs"
-                        onClick={() => {
-                          setIsWorkspaceMenuOpen(false);
-                          setNewProjectName('');
-                          setIsNewProjectOpen(true);
-                        }}
-                      >
-                        New project
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-secondary text-xs"
-                        onClick={() => {
-                          setIsWorkspaceMenuOpen(false);
-                          setIsProjectsModalOpen(true);
-                        }}
-                      >
-                        Projects
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-secondary text-xs"
-                        onClick={() => {
-                          setIsWorkspaceMenuOpen(false);
-                          setStudioTab('pipeline');
-                        }}
-                      >
-                        Pipeline
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-secondary text-xs"
-                        onClick={() => {
-                          setIsWorkspaceMenuOpen(false);
-                          setStudioTab('templates');
-                        }}
-                      >
-                        Sample layouts
-                      </button>
-                      <Link href="/embeddings" className="btn-secondary text-xs" onClick={() => setIsWorkspaceMenuOpen(false)}>
+                    <div role="menu" className="flex flex-col">
+                      {([
+                        ['New project', () => { setNewProjectName(''); setIsNewProjectOpen(true); }],
+                        ['All projects', () => setIsProjectsModalOpen(true)],
+                        ['Pipeline', () => setStudioTab('pipeline')],
+                        ['Sample layouts', () => setStudioTab('templates')],
+                        ['Share…', () => activeProjectId && setIsShareOpen(true)],
+                      ] as Array<[string, () => void]>).map(([label, run]) => (
+                        <button
+                          key={label}
+                          type="button"
+                          role="menuitem"
+                          className="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-xs text-[var(--text-primary)] hover:bg-[var(--surface-2)]"
+                          onClick={() => {
+                            setIsWorkspaceMenuOpen(false);
+                            run();
+                          }}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                      <Link href="/embeddings" role="menuitem" className="flex min-h-9 w-full items-center rounded-lg px-3 text-left text-xs text-[var(--text-primary)] hover:bg-[var(--surface-2)]" onClick={() => setIsWorkspaceMenuOpen(false)}>
                         Embeddings
                       </Link>
-                      <button
-                        type="button"
-                        className="btn-secondary text-xs"
-                        onClick={async () => {
-                          setIsWorkspaceMenuOpen(false);
-                          try {
-                            await copyShareableLink(activeProjectId);
-                            setExportToastMsg('Shareable link copied to clipboard!');
-                            setTimeout(() => setExportToastMsg(null), 3000);
-                          } catch (err) {
-                            setExportToastMsg(err instanceof Error ? err.message : 'Failed to create shareable link');
-                            setTimeout(() => setExportToastMsg(null), 5000);
-                          }
-                        }}
-                      >
-                        <IconShare size={14} />
-                        Share
-                      </button>
                     </div>
 
                     {activeProjectId ? (
                       <div className="space-y-1.5 border-t border-[var(--border)] pt-3">
-                        <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Personal link</p>
+                        <p className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Private link</p>
+                        <p className="text-[11px] text-[var(--text-muted)]">A short address that only you can open.</p>
                         <div className="flex items-center gap-1.5">
                           <IconLink size={12} className="text-[var(--text-muted)] shrink-0" />
                           <input
                             value={slugDraft}
                             onChange={(e) => setSlugDraft(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
                             placeholder="personal-link"
-                            className="w-28 bg-transparent border-b border-[var(--border)] text-[11px] font-mono text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]/50"
+                            className="min-w-0 flex-1 bg-transparent border-b border-[var(--border)] py-1 text-xs font-mono text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]/50"
                             title="Premium personal subdomain: slug.analyzeit.si"
                           />
                           <span className="text-[11px] text-[var(--text-muted)] shrink-0">.analyzeit.si</span>
@@ -1084,7 +1046,7 @@ export default function DashboardPage() {
                                   setSlugBusy(false);
                                 }
                               }}
-                              className="text-[11px] px-1.5 py-0.5 rounded border border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-40"
+                              className="min-h-8 px-3 text-xs rounded-lg border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] disabled:opacity-40"
                             >
                               Save
                             </button>
@@ -1264,7 +1226,7 @@ export default function DashboardPage() {
                     ) : null}
                     {activeProjectId ? (
                       <button type="button" onClick={() => setIsCountryOpen(true)} className="btn-primary min-h-11 px-5 text-sm">
-                        Track a country
+                        Track anything
                       </button>
                     ) : null}
                     <Link href={DASHBOARD_EMPTY.primaryHref} className="btn-secondary min-h-11 px-5 text-sm">
@@ -1435,7 +1397,7 @@ export default function DashboardPage() {
             role="status"
             className="fixed top-20 left-1/2 z-50 -translate-x-1/2 rounded-xl border border-[#D98F3F]/40 bg-[#202020] px-4 py-2.5 text-xs font-medium text-[#F2C078] shadow-2xl"
           >
-            You are offline. Changes will not reach the workspace until the connection returns.
+            You are offline. Changes will not reach the project until the connection returns.
           </motion.div>
         )}
         {exportToastMsg && (
@@ -1455,7 +1417,7 @@ export default function DashboardPage() {
 
       {activeProjectId ? (
         <>
-          <CountryPackModal
+          <TrackerModal
             open={isCountryOpen}
             onClose={() => setIsCountryOpen(false)}
             projectId={activeProjectId}
@@ -1554,7 +1516,7 @@ export default function DashboardPage() {
                       ? atProjectLimit
                         ? `All ${projectLimit} ${planLabel} projects are in use. Creating will open the manager so you can free a slot.`
                         : `Uses 1 of your ${projectLimit - usedSlots} remaining ${planLabel} project slot${projectLimit - usedSlots === 1 ? '' : 's'}.`
-                      : 'Each workspace keeps its own canvas, data and history.'}
+                      : 'Each project keeps its own dashboard, data and history.'}
                   </p>
                 </div>
 
@@ -1571,7 +1533,7 @@ export default function DashboardPage() {
                     disabled={isCreatingProject || !newProjectName.trim()}
                     className="px-4 py-2 rounded-xl bg-[var(--coral)] hover:bg-[var(--coral-dark)] text-[var(--brand-ink)] text-xs font-medium shadow-sm transition-all disabled:opacity-50 cursor-pointer"
                   >
-                    {isCreatingProject ? 'Creating…' : 'Create Workspace'}
+                    {isCreatingProject ? 'Creating…' : 'Create project'}
                   </button>
                 </div>
               </form>
@@ -1591,7 +1553,7 @@ export default function DashboardPage() {
               className="w-full max-w-md bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 shadow-2xl space-y-4"
             >
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-medium text-[var(--text-primary)]">Rename Workspace</h3>
+                <h3 className="text-base font-medium text-[var(--text-primary)]">Rename project</h3>
                 <button
                   type="button"
                   onClick={() => setProjectToRename(null)}
