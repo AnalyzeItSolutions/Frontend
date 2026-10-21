@@ -119,8 +119,10 @@ describe('research empty state', () => {
     const newer = read('app/Components/dashboard/NewWidgets.tsx');
     assert.match(page, /DASHBOARD_EMPTY/);
     assert.match(page, /partitionDashboardWidgets/);
-    assert.match(page, /data-widget-role="primary"/);
-    assert.match(page, /data-widget-role="secondary"/);
+    // Each widget goes through one cell() that tags its role, so editing controls wrap primary and supporting alike.
+    assert.match(page, /data-widget-role=\{role\}/);
+    assert.match(page, /cell\(w, 'primary'\)/);
+    assert.match(page, /cell\(w, 'secondary'\)/);
     assert.equal(page.includes('A quiet canvas'), false);
     assert.equal(page.includes('Ask in Chat'), false);
     assert.equal(renderer.includes('Preview · not live'), false);

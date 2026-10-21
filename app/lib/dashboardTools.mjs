@@ -321,3 +321,85 @@ export function objectTableWidget(id, projectId, objectApiName, label) {
 export function newWidgetId(prefix = 'w') {
   return `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 }
+
+// ─── Charts from your own data ──────────────────────────────────────────────
+// A chart is bound live to an object aggregate (count / sum / avg / min / max, optionally grouped), so it shows
+// the person's real records and refreshes when they change. Nothing here invents numbers.
+
+export const CHART_KINDS = [
+  { type: 'bar_chart', label: 'Bar chart', hint: 'Compare groups', groups: true },
+  { type: 'donut_chart', label: 'Donut', hint: 'Share of the whole', groups: true },
+  { type: 'line_chart', label: 'Trend over time', hint: 'Needs a date field', groups: true, dateGroup: true },
+  { type: 'metric_card', label: 'Single number', hint: 'One headline figure', groups: false },
+];
+export const CHART_METRICS = [
+  { id: 'count', label: 'Count of records', needsField: false },
+  { id: 'sum', label: 'Sum of', needsField: true },
+  { id: 'avg', label: 'Average of', needsField: true },
+  { id: 'min', label: 'Smallest', needsField: true },
+  { id: 'max', label: 'Largest', needsField: true },
+];
+export const NUMERIC_FIELD_TYPES = ['number', 'currency'];
+export const DATE_FIELD_TYPES = ['date', 'datetime'];
+export const BUCKETS = ['day', 'week', 'month'];
+
+/** Fields of an object that a chart's group-by / value picker may offer. */
+export function chartFieldChoices(schema, kind) {
+  const fields = (schema && schema.fields) || [];
+  const k = CHART_KINDS.find((c) => c.type === kind);
+  const groupable = fields.filter((f) =>
+    k && k.dateGroup ? DATE_FIELD_TYPES.includes(f.type) : !['relation', 'lookup', 'url', 'email'].includes(f.type),
+  );
+  return { groupable, numeric: fields.filter((f) => NUMERIC_FIELD_TYPES.includes(f.type)) };
+}
+
+/** {key: message} for a chart form; an empty object means it can be added. */
+export function validateChartForm(schema, form) {
+  const errors = {};
+  const kind = CHART_KINDS.find((c) => c.type === form.kind);
+  if (!kind) errors.kind = 'Pick a chart type';
+  const choices = chartFieldChoices(schema, form.kind);
+  if (kind && kind.groups && !choices.groupable.some((f) => f.api_name === form.groupBy)) {
+    errors.groupBy = kind.dateGroup ? 'Pick a date field' : 'Pick a field to group by';
+  }
+  const metric = CHART_METRICS.find((m) => m.id === form.metric);
+  if (!metric) errors.metric = 'Pick what to measure';
+  else if (metric.needsField && !choices.numeric.some((f) => f.api_name === form.field)) {
+    errors.field = choices.numeric.length ? 'Pick a number field' : 'This object has no number field to measure';
+  }
+  return errors;
+}
+
+function chartTitle(schema, form) {
+  const label = (key) => ((schema.fields || []).find((f) => f.api_name === key) || {}).label || key;
+  const metric = CHART_METRICS.find((m) => m.id === form.metric);
+  const what = metric.id === 'count' ? `${schema.label_plural || schema.label} (count)` : `${metric.label.replace(/ of$/, '')} ${label(form.field)}`;
+  return form.groupBy ? `${what} by ${label(form.groupBy)}` : what;
+}
+
+/** The widget for a validated chart form; the server computes its data when it refreshes. */
+export function objectChartWidget(id, projectId, schema, form) {
+  const kind = CHART_KINDS.find((c) => c.type === form.kind);
+  const params = {
+    project_id: projectId,
+    object_api_name: schema.api_name,
+    group_by: kind.groups ? form.groupBy : null,
+    metric: form.metric,
+    field: form.metric === 'count' ? null : form.field,
+    filters: [],
+    limit: 12,
+  };
+  if (kind.dateGroup) params.bucket = BUCKETS.includes(form.bucket) ? form.bucket : 'month';
+  const title = (form.title || '').trim() || chartTitle(schema, form);
+  return {
+    id,
+    type: form.kind,
+    component: form.kind,
+    title,
+    metric: title,
+    span: form.kind === 'metric_card' || form.kind === 'donut_chart' ? 1 : 2,
+    binding_type: 'object_bound',
+    refresh_policy: { mode: 'on_open' },
+    binding: { query_type: 'object_aggregate', params },
+  };
+}

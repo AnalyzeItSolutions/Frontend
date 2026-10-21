@@ -18,4 +18,6 @@ export const LAYER_COLORS = {
   aurora_oval: '#22c55e',
   fireballs: '#fb7185',
   markets: '#8b5cf6',
+  elevation: '#727272',
+  flights: '#0284c7',
 };

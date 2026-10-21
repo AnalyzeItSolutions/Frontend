@@ -720,8 +720,8 @@ textarea:focus-visible {
 @media (min-width: 640px) {
   .composer-mode-tab {
     flex: 0 0 auto;
-    min-height: 2rem;
-    padding: 0 0.9rem;
+    min-height: 1.75rem;
+    padding: 0 0.75rem;
   }
 }
 

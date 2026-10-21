@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Modal } from '../ui/Modal';
 import { Skeleton } from '../ui/Skeleton';
 import { fetchObjectSchemas, type ObjectSchema } from '../../lib/customObjectsApi';
+import { ObjectChartBuilder } from './ObjectChartBuilder';
 import {
   WIDGET_CATALOG,
   formDefaults,
@@ -36,6 +37,7 @@ export function AddWidgetModal({
   const [schemas, setSchemas] = useState<ObjectSchema[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [entry, setEntry] = useState<CatalogEntry | null>(null);
+  const [chartFor, setChartFor] = useState<ObjectSchema | null>(null);
   const [values, setValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -52,6 +54,7 @@ export function AddWidgetModal({
 
   const reset = () => {
     setEntry(null);
+    setChartFor(null);
     setValues({});
     setErrors({});
   };
@@ -84,13 +87,15 @@ export function AddWidgetModal({
     `px-3 py-1.5 text-sm rounded-lg cursor-pointer ${active ? 'bg-[var(--coral)]/10 text-[var(--coral)] font-medium' : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'}`;
 
   return (
-    <Modal open={open} onClose={close} title={entry ? `New ${entry.label.toLowerCase()}` : 'Add a widget'} description={entry ? undefined : 'Type in a value, or build a live table from your own data.'} size="lg">
+    <Modal open={open} onClose={close} title={chartFor ? `Chart of ${chartFor.label_plural || chartFor.label}` : entry ? `New ${entry.label.toLowerCase()}` : 'Add a widget'} description={entry || chartFor ? undefined : 'Type in a value, or build live tables and charts from your own data.'} size="lg">
       {disabledReason && (
         <p role="alert" className="mb-3 text-xs rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300 px-3 py-2">
           {disabledReason}
         </p>
       )}
-      {entry ? (
+      {chartFor && projectId ? (
+        <ObjectChartBuilder schema={chartFor} projectId={projectId} disabled={Boolean(disabledReason)} onBack={() => setChartFor(null)} onAdd={add} />
+      ) : entry ? (
         <form onSubmit={submit} noValidate className="flex flex-col gap-3">
           {entry.fields.map((f) => {
             const id = `aw-${entry.type}-${f.key}`;
@@ -159,7 +164,7 @@ export function AddWidgetModal({
       ) : (
         <ul className="flex flex-col gap-2">
           {schemas.map((s) => (
-            <li key={s.id}>
+            <li key={s.id} className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 disabled={Boolean(disabledReason) || !projectId}
@@ -168,6 +173,15 @@ export function AddWidgetModal({
               >
                 <span className="block text-sm font-medium text-[var(--text-primary)]">{s.label} · live table</span>
                 <span className="block text-xs text-[var(--text-muted)] mt-0.5">{s.fields?.length ?? 0} fields · refreshes from your records</span>
+              </button>
+              <button
+                type="button"
+                disabled={Boolean(disabledReason) || !projectId}
+                onClick={() => setChartFor(s)}
+                className="w-full text-left rounded-xl border border-[var(--border)] p-3 hover:border-[var(--coral)] hover:bg-[var(--coral)]/5 disabled:opacity-50 cursor-pointer"
+              >
+                <span className="block text-sm font-medium text-[var(--text-primary)]">{s.label} · chart</span>
+                <span className="block text-xs text-[var(--text-muted)] mt-0.5">Bar, donut, trend or a single number</span>
               </button>
             </li>
           ))}

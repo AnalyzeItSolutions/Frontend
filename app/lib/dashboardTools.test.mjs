@@ -171,3 +171,50 @@ test('newWidgetId is unique', () => {
   assert.notEqual(newWidgetId(), newWidgetId());
   assert.match(newWidgetId('x'), /^x_/);
 });
+
+import { chartFieldChoices, objectChartWidget, validateChartForm } from './dashboardTools.mjs';
+
+const dealSchema = {
+  api_name: 'deal', label: 'Deal', label_plural: 'Deals',
+  fields: [
+    { api_name: 'stage', label: 'Stage', type: 'picklist' },
+    { api_name: 'amount', label: 'Amount', type: 'currency' },
+    { api_name: 'closed_on', label: 'Closed on', type: 'date' },
+    { api_name: 'owner', label: 'Owner', type: 'relation' },
+  ],
+};
+
+test('charts: offers the right fields for each chart kind', () => {
+  assert.deepEqual(chartFieldChoices(dealSchema, 'bar_chart').groupable.map((f) => f.api_name), ['stage', 'amount', 'closed_on']);
+  assert.deepEqual(chartFieldChoices(dealSchema, 'line_chart').groupable.map((f) => f.api_name), ['closed_on']);
+  assert.deepEqual(chartFieldChoices(dealSchema, 'bar_chart').numeric.map((f) => f.api_name), ['amount']);
+});
+
+test('charts: validates the form field by field', () => {
+  assert.deepEqual(validateChartForm(dealSchema, { kind: 'bar_chart', groupBy: 'stage', metric: 'count' }), {});
+  assert.ok(validateChartForm(dealSchema, { kind: 'bar_chart', metric: 'count' }).groupBy);
+  assert.ok(validateChartForm(dealSchema, { kind: 'bar_chart', groupBy: 'stage', metric: 'sum', field: 'stage' }).field);
+  assert.ok(validateChartForm(dealSchema, { kind: 'line_chart', groupBy: 'stage', metric: 'count' }).groupBy);
+  assert.deepEqual(validateChartForm(dealSchema, { kind: 'metric_card', metric: 'sum', field: 'amount' }), {});
+  assert.ok(validateChartForm({ fields: [] }, { kind: 'metric_card', metric: 'avg', field: 'x' }).field);
+});
+
+test('charts: builds a live-bound widget that carries no invented numbers', () => {
+  const w = objectChartWidget('w1', 'p1', dealSchema, { kind: 'bar_chart', groupBy: 'stage', metric: 'sum', field: 'amount' });
+  assert.equal(w.type, 'bar_chart');
+  assert.equal(w.title, 'Sum Amount by Stage');
+  assert.equal(w.binding_type, 'object_bound');
+  assert.deepEqual(w.binding.params, { project_id: 'p1', object_api_name: 'deal', group_by: 'stage', metric: 'sum', field: 'amount', filters: [], limit: 12 });
+  assert.equal(w.series, undefined);
+  assert.equal(w.data, undefined);
+});
+
+test('charts: a trend gets a time bucket and a single number gets no grouping', () => {
+  const t = objectChartWidget('w2', 'p1', dealSchema, { kind: 'line_chart', groupBy: 'closed_on', metric: 'count', bucket: 'week' });
+  assert.equal(t.binding.params.bucket, 'week');
+  assert.equal(t.title, 'Deals (count) by Closed on');
+  const k = objectChartWidget('w3', 'p1', dealSchema, { kind: 'metric_card', metric: 'count', title: ' Open deals ' });
+  assert.equal(k.binding.params.group_by, null);
+  assert.equal(k.title, 'Open deals');
+  assert.equal(k.span, 1);
+});

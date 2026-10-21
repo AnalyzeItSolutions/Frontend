@@ -2,13 +2,17 @@
 
 import type { MemoryCitation } from '../../lib/memoryCitations.mjs';
 
-/** "From your notes" chips under an answer. Each opens the passage the answer was built from, in the user's own words. */
+/** "From your notes" under an answer: one quiet line that opens to the passages the answer was built from. */
 export function MemoryCitations({ citations }: { citations: MemoryCitation[] }) {
   if (!citations.length) return null;
   return (
-    <div className="mt-3" aria-label="Sources from your notes">
-      <p className="mb-1 text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">From your notes</p>
-      <div className="flex flex-wrap gap-1.5">
+    <details className="group mt-2 text-[11px]" aria-label="Sources from your notes">
+      <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]">
+        <span className="font-mono uppercase tracking-wider text-[10px]">From your notes</span>
+        <span className="rounded-full bg-[var(--surface-2)] px-1.5 py-0.5">{citations.length}</span>
+        <span aria-hidden className="transition-transform group-open:rotate-90">›</span>
+      </summary>
+      <div className="mt-1.5 flex flex-wrap gap-1.5">
         {citations.map((c) => (
           <details key={c.key} className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-[11px] text-[var(--text-secondary)] open:w-full">
             <summary className="cursor-pointer list-none font-medium transition-colors hover:text-[var(--text-primary)]">
@@ -19,6 +23,6 @@ export function MemoryCitations({ citations }: { citations: MemoryCitation[] }) 
           </details>
         ))}
       </div>
-    </div>
+    </details>
   );
 }

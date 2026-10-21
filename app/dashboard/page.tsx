@@ -71,6 +71,10 @@ import { SampleDataBanner, StarterKits } from '../Components/starter/StarterKits
 import { MemoryHomeCard } from '../Components/memory/MemoryHomeCard';
 import { MyTemplates } from '../Components/dashboard/MyTemplates';
 import { WorkspacesPanel } from '../Components/dashboard/WorkspacesPanel';
+import { AddWidgetModal } from '../Components/dashboard/AddWidgetModal';
+import { EditBar } from './_parts/EditBar';
+import { EditableCell } from './_parts/EditableCell';
+import { useLayoutEditor } from './_parts/useLayoutEditor';
 import { getEntitlements } from '../lib/billingApi';
 import {
   DASHBOARD_EMPTY,
@@ -656,6 +660,36 @@ export default function DashboardPage() {
 
   const { primary: primaryWidgets, secondary: secondaryWidgets } = partitionDashboardWidgets(currentLayout.widgets);
   const hasWidgets = currentLayout.widgets.length > 0;
+  const widgetCap = Number(entitlements?.dashboard_widget_caps) || 12;
+  const [isAddWidgetOpen, setIsAddWidgetOpen] = useState(false);
+  const editor = useLayoutEditor({
+    projectId: activeProjectId,
+    widgets: currentLayout.widgets,
+    version: layoutVersion,
+    setWidgets: (widgets) => setCurrentLayout({ widgets }),
+    setVersion: setLayoutVersion,
+    cap: widgetCap,
+  });
+  const cell = (w: WidgetSpec, role: 'primary' | 'secondary') => {
+    const i = currentLayout.widgets.findIndex((x) => x.id === w.id);
+    return (
+      <div key={w.id} data-widget-role={role} className="min-w-0">
+        <EditableCell
+          editing={editor.editing}
+          title={String(w.title || w.label || 'Widget')}
+          isFirst={i <= 0}
+          isLast={i === currentLayout.widgets.length - 1}
+          onMove={(d) => editor.move(w.id, d)}
+          onToggleSpan={() => editor.toggleSpan(w.id)}
+          onDuplicate={() => editor.duplicate(w.id)}
+          onRename={(t) => editor.rename(w.id, t)}
+          onRemove={() => editor.remove(w.id)}
+        >
+          <SandboxedWidgetRenderer widget={w} onWidgetAction={handleWidgetAction} />
+        </EditableCell>
+      </div>
+    );
+  };
 
   return (
     <AppShell active="dashboard" flush>
@@ -673,7 +707,7 @@ export default function DashboardPage() {
       <div className="px-[var(--gutter)] pt-4">
         <PageTitle title="Dashboard" />
         <p className="mt-1 max-w-xl text-sm text-[var(--text-secondary)]">
-          What you kept from Research. Ask the next question when you want another chart.
+          Build your dashboard here — add, arrange and remove widgets. What you keep from Research lands here too.
         </p>
       </div>
 
@@ -1059,6 +1093,21 @@ export default function DashboardPage() {
         <main className="flex-1 min-h-0 overflow-y-auto p-6 lg:p-10 space-y-8 chat-scroll">
 
           {/* ─── TAB: DASHBOARD CANVAS ─── */}
+          {studioTab === 'canvas' && activeProjectId && !isLoadingProjects && !slugGate && !workspaceError ? (
+            <EditBar
+              editing={editor.editing}
+              onToggle={() => editor.setEditing(!editor.editing)}
+              onAdd={() => setIsAddWidgetOpen(true)}
+              onUndo={editor.undo}
+              canUndo={editor.canUndo}
+              count={currentLayout.widgets.length}
+              cap={widgetCap}
+              saving={editor.saving}
+              saved={Boolean(editor.savedAt) && !editor.saving}
+              error={editor.error}
+              onDismissError={editor.clearError}
+            />
+          ) : null}
           {studioTab === 'canvas' && activeProjectId ? (
             <div className="mb-4">
               <SampleDataBanner projectId={activeProjectId} refreshKey={kitRefresh} onRemoved={refreshActiveProjectLayout} />
@@ -1128,11 +1177,7 @@ export default function DashboardPage() {
                         <h2 className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Primary</h2>
                       ) : null}
                       <div className="grid grid-cols-1 gap-6">
-                        {primaryWidgets.map((w) => (
-                          <div key={w.id} data-widget-role="primary" className="min-w-0">
-                            <SandboxedWidgetRenderer widget={w} onWidgetAction={handleWidgetAction} />
-                          </div>
-                        ))}
+                        {primaryWidgets.map((w) => cell(w, 'primary'))}
                       </div>
                     </section>
                   )}
@@ -1142,11 +1187,7 @@ export default function DashboardPage() {
                         <h2 className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)]">Supporting</h2>
                       ) : null}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {secondaryWidgets.map((w) => (
-                          <div key={w.id} data-widget-role="secondary" className="min-w-0">
-                            <SandboxedWidgetRenderer widget={w} onWidgetAction={handleWidgetAction} />
-                          </div>
-                        ))}
+                        {secondaryWidgets.map((w) => cell(w, 'secondary'))}
                       </div>
                     </section>
                   )}
@@ -1181,7 +1222,19 @@ export default function DashboardPage() {
                     ))}
                   </div>
                   <div className="mt-8 flex flex-wrap items-center gap-3">
-                    <Link href={DASHBOARD_EMPTY.primaryHref} className="btn-primary min-h-11 px-5 text-sm">
+                    {activeProjectId ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          editor.setEditing(true);
+                          setIsAddWidgetOpen(true);
+                        }}
+                        className="btn-primary min-h-11 px-5 text-sm"
+                      >
+                        Add a widget
+                      </button>
+                    ) : null}
+                    <Link href={DASHBOARD_EMPTY.primaryHref} className={`${activeProjectId ? 'btn-secondary' : 'btn-primary'} min-h-11 px-5 text-sm`}>
                       {DASHBOARD_EMPTY.primaryLabel}
                     </Link>
                     {!activeProjectId ? (
@@ -1366,6 +1419,16 @@ export default function DashboardPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AddWidgetModal
+        open={isAddWidgetOpen}
+        onClose={() => setIsAddWidgetOpen(false)}
+        projectId={activeProjectId || undefined}
+        disabledReason={editor.atCap ? `Your plan allows ${widgetCap} widgets. Remove one or upgrade to add more.` : undefined}
+        onAdd={(spec) => {
+          if (editor.add(spec as WidgetSpec) && (spec as WidgetSpec).binding) void editor.flush().then(() => handleWidgetAction(spec.id, 'refresh'));
+        }}
+      />
 
       {/* ─── MODAL: MANAGE / SWITCH PROJECTS ─── */}
       <AnimatePresence>

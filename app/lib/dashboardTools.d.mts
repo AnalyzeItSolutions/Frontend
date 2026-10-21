@@ -22,3 +22,16 @@ export function moveIndex(from: number, to: number, length: number): { from: num
 export function reorder<T>(items: T[], from: number, to: number): T[];
 export function objectTableWidget(id: string, projectId: string, objectApiName: string, label?: string): WidgetLike;
 export function newWidgetId(prefix?: string): string;
+
+export interface ChartKind { type: string; label: string; hint: string; groups: boolean; dateGroup?: boolean }
+export interface ChartMetric { id: string; label: string; needsField: boolean }
+export interface ChartField { api_name: string; label: string; type: string }
+export interface ChartForm { kind: string; groupBy?: string; metric: string; field?: string; bucket?: string; title?: string }
+export const CHART_KINDS: ChartKind[];
+export const CHART_METRICS: ChartMetric[];
+export const NUMERIC_FIELD_TYPES: string[];
+export const DATE_FIELD_TYPES: string[];
+export const BUCKETS: string[];
+export function chartFieldChoices(schema: { fields?: ChartField[] } | null | undefined, kind: string): { groupable: ChartField[]; numeric: ChartField[] };
+export function validateChartForm(schema: { fields?: ChartField[] } | null | undefined, form: ChartForm): Record<string, string>;
+export function objectChartWidget(id: string, projectId: string, schema: { api_name: string; label: string; label_plural?: string; fields?: ChartField[] }, form: ChartForm): WidgetLike;

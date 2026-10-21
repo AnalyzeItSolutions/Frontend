@@ -100,6 +100,7 @@ import { SourceChips, type ResearchSource } from '../Components/research/SourceC
 import { AppShell } from '../Components/app/AppShell';
 import { ChatMiniGlobe, GlobeToolbarControls } from '../Components/globe/ChatMiniGlobe';
 import { OpenOnGlobe } from '../Components/globe/OpenOnGlobe';
+import { AddToDashboard, NoDataNextSteps, isNoticeWidget } from '../Components/chat/AddToDashboard';
 import { useChatLayers } from '../Components/globe/useChatLayers';
 import {
   messageOffersRetry,
@@ -409,6 +410,8 @@ function ChatInner() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [projectId, setProjectId] = useSessionState<string | null>('chat.projectId', null);
   const [runId, setRunId] = useSessionState<string | null>('chat.runId', null);
+  const projectIdRef = useRef<string | null>(null);
+  projectIdRef.current = projectId;
   useWarmAgent();
   useEffect(() => {
     if (runId) sessionStorage.setItem('analyzeit_last_run_id', runId);
@@ -814,10 +817,11 @@ function ChatInner() {
   const addProposalToDashboard = async (proposal: { action_id: string; project_id?: string }) => {
     setDashStatus('Adding…');
     try {
-      let projectId = proposal.project_id;
+      // "default" is the model's placeholder for a chat with no project, not a real project.
+      let projectId = proposal.project_id && proposal.project_id !== 'default' ? proposal.project_id : projectIdRef.current;
       if (!projectId) {
         const projects = await getProjects();
-        projectId = projects[0]?.id;
+        projectId = projects[0]?.id; // newest first
       }
       if (!projectId) {
         setDashStatus('Create a project on Dashboard first.');
@@ -1456,7 +1460,8 @@ function ChatInner() {
 
         // Never keep 0-token success chrome after a tool failure (hint_tools / web_search agent path).
         const resolvedZeroToken = sawToolFailure ? null : zeroTokenTool;
-        const failedWithoutZeroToken = sawToolFailure && !resolvedZeroToken && !streamed.trim();
+        // A tool that missed along the way is not a failed answer when the run still produced text, a widget or a proposal.
+        const failedWithoutZeroToken = sawToolFailure && !resolvedZeroToken && !streamed.trim() && !widget && !proposalMeta;
         const webSearchFailed =
           sawToolFailure &&
           (toolFailureName.includes('web_search') || toolFailureName.includes('web search'));
@@ -1858,7 +1863,7 @@ function ChatInner() {
               className="chat-scroll relative z-10 min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6"
             >
               {/* User stays on the trailing edge; the reply sits on the opposite side of the globe. */}
-              <div className="flex w-full flex-col gap-4">
+              <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
               {messages.length === 0 && (
                 <ResearchEmptyState prompts={prompts} onPick={(prompt) => void sendMessage(prompt)} />
               )}
@@ -1871,7 +1876,7 @@ function ChatInner() {
                     key={msg.id}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`flex w-full ${isUser ? 'justify-end pl-[18%]' : 'justify-start pr-[18%]'}`}
+                    className={`flex w-full ${isUser ? 'justify-end pl-10' : 'justify-start'}`}
                   >
                     <div
                       className={`max-w-[min(100%,28rem)] space-y-2 ${
@@ -1963,7 +1968,7 @@ function ChatInner() {
                       )}
 
                       <div className="leading-relaxed">
-                        {msg.toolError ? (
+                        {msg.toolError && !msg.streaming ? (
                           <p className="whitespace-pre-wrap">{msg.toolError}</p>
                         ) : isUser ? (
                           <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -2074,17 +2079,21 @@ function ChatInner() {
                             </button>
                           </div>
                           <SandboxedWidgetRenderer widget={msg.widget} isDraftPreview />
-                          {msg.proposal && (
-                            <div className="flex items-center justify-end gap-2 px-1 pb-1">
-                              <button
-                                type="button"
-                                onClick={() => void addProposalToDashboard(msg.proposal!)}
-                                className="btn-primary text-[11px]"
-                              >
-                                <IconCheck size={12} className="mr-1" /> Add to dashboard
-                              </button>
-                            </div>
-                          )}
+                          {msg.proposal ? (
+                            isNoticeWidget(msg.widget) ? (
+                              <NoDataNextSteps onUpload={() => fileInputRef.current?.click()} />
+                            ) : (
+                              <AddToDashboard
+                                actionId={msg.proposal.action_id}
+                                proposalProjectId={msg.proposal.project_id}
+                                chatProjectId={projectId}
+                                onAdded={() => {
+                                  setDashStatus('Added to dashboard.');
+                                  setShowDashboard(true);
+                                }}
+                              />
+                            )
+                          ) : null}
                         </div>
                       )}
 
@@ -2276,17 +2285,10 @@ function ChatInner() {
             ) : null}
 
             {/* Composer — pinned to the bottom of the chat column */}
-            <div className="relative z-10 shrink-0 border-t border-[var(--border)]/70 bg-[var(--bg)]/70 px-3 py-3 backdrop-blur-md sm:px-6">
-              <div className="mx-auto max-w-3xl space-y-2">
+            <div className="relative z-10 shrink-0 border-t border-[var(--border)]/70 bg-[var(--bg)]/70 px-3 py-2 backdrop-blur-md sm:px-6">
+              <div className="mx-auto max-w-3xl space-y-1.5">
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <ComposerModeControl mode={composerMode} onMode={setComposerMode} />
-                  <span
-                    title="Message frequency hints prepared in your browser before send"
-                    className="hidden items-center gap-1 sm:inline-flex rounded-full border border-[var(--border)] bg-[var(--surface,#FCFCFC)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-muted,#787878)]"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--coral,#E4E4E2)]" aria-hidden />
-                    Prepared on device
-                  </span>
                   {llmQuota?.show ? (
                     <span
                       className={`inline-flex min-h-8 items-center rounded-full border px-3 text-[11px] ${
@@ -2311,7 +2313,7 @@ function ChatInner() {
                       {formatBudgetChip(liveBudget, liveRlmDepth || undefined)}
                     </span>
                   )}
-                  <span className="ml-auto hidden text-[11px] text-[var(--text-muted)] sm:inline">
+                  <span className={`ml-auto hidden text-[11px] text-[var(--text-muted)] transition-opacity sm:inline ${input.trim() ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!input.trim()}>
                     Enter to send · Shift+Enter for newline
                   </span>
                 </div>
