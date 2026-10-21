@@ -4,7 +4,7 @@ import { DocPage } from '../../Components/docs/DocPage';
 
 export const metadata: Metadata = {
   title: 'Connect an AI assistant to AnalyzeIt — AnalyzeIt',
-  description: 'Use ChatGPT, Claude, Grok, Cursor or any assistant that supports remote MCP servers on your AnalyzeIt data. One sign-in on this site, read-only, and you choose what it can see.',
+  description: 'Use ChatGPT, Claude, Grok, Cursor or any MCP-capable assistant on your AnalyzeIt data. One sign-in, read-only, and you choose what it can see.',
   alternates: { canonical: '/docs/connect-assistant' },
 };
 

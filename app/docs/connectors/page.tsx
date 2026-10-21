@@ -4,7 +4,7 @@ import { DocPage } from '../../Components/docs/DocPage';
 
 export const metadata: Metadata = {
   title: 'Connectors: what you can connect — AnalyzeIt docs',
-  description: 'Which data sources AnalyzeIt can connect to today (Razorpay, Stripe, Salesforce, GitHub, Google Drive when configured, SQL databases, public datasets), how access is controlled, the weekly digest, teammates, and what is still rolling out.',
+  description: 'Data sources AnalyzeIt connects to: Razorpay, Stripe, Salesforce, GitHub, SQL databases and public data, plus how access is controlled.',
   alternates: { canonical: '/docs/connectors' },
 };
 

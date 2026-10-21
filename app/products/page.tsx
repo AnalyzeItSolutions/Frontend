@@ -8,7 +8,7 @@ import { ProductsPlans } from './ProductsPlans';
 
 export const metadata: Metadata = {
   title: 'Products & pricing — AnalyzeIt',
-  description: 'AnalyzeIt plans: Free, Premium and VIP, billed via Razorpay in your local currency (INR in India). USD amounts are for reference; the exact price is confirmed at checkout.',
+  description: 'AnalyzeIt plans: Free, Premium and VIP, billed via Razorpay in your local currency (INR in India). The exact price is confirmed at checkout.',
 };
 
 export const dynamic = 'force-dynamic';

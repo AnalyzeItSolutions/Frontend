@@ -5,7 +5,7 @@ import { DownloadClient } from './DownloadClient';
 
 export const metadata: Metadata = {
   title: 'Download AnalyzeIt for macOS, Windows and Linux',
-  description: 'The AnalyzeIt desktop app and command line. Analyse your files and folders on your own computer, offline, with data encrypted on the device and signed automatic updates.',
+  description: 'The AnalyzeIt desktop app and command line: analyse files and folders offline on your own computer, with encrypted data and signed automatic updates.',
   alternates: { canonical: '/download' },
 };
 

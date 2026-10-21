@@ -4,7 +4,7 @@ import { DocPage } from '../../Components/docs/DocPage';
 
 export const metadata: Metadata = {
   title: 'Discovery, forecasts, online data and bulk edits — AnalyzeIt',
-  description: 'How AnalyzeIt finds what stands out in your data, forecasts a number with a tested range, brings in public data with its source shown, and changes many records only after a preview you approve.',
+  description: 'How AnalyzeIt finds what stands out in your data, forecasts with a tested range, adds public data with sources, and changes records only after you approve.',
   alternates: { canonical: '/docs/discovery' },
 };
 

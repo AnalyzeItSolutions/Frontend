@@ -6,7 +6,7 @@ import { TOKEN_BENCHMARK } from '../../lib/benchmark';
 export const metadata: Metadata = {
   title: 'Fewer tokens, longer memory: how it was measured — AnalyzeIt docs',
   description:
-    'How AnalyzeIt keeps long conversations on a small prompt: what was measured, the numbers before and after, what the saving does not cover, and how it is switched on.',
+    'How AnalyzeIt keeps long conversations on a small prompt: what was measured, the numbers before and after, what it does not cover, and how to switch it on.',
   alternates: { canonical: '/docs/tokens' },
 };
 
