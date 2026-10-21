@@ -50,7 +50,7 @@ export function AlertsPanel({ projectId }: { projectId: string }) {
     setMessage('');
     try {
       const { created } = await checkAlertsNow(projectId);
-      setMessage(created.length ? `${created.length} new alert${created.length === 1 ? '' : 's'}.` : 'Nothing new. Payments look normal against the week before.');
+      setMessage(created.length ? `${created.length} new alert${created.length === 1 ? '' : 's'}.` : 'Checked: nothing new.');
       await load();
     } catch (err) {
       setMessage(err instanceof Error ? err.message : 'Could not check.');
@@ -65,7 +65,7 @@ export function AlertsPanel({ projectId }: { projectId: string }) {
         <div>
           <h3 className="font-semibold text-[var(--text-primary)]">Alerts</h3>
           <p className="text-xs text-[var(--text-muted)]">
-            After each Razorpay sync, the last 24 hours are compared with the week before. You hear about a fall in success rate, one payment method failing, a burst of refunds, or Razorpay no longer syncing.
+            Tells you when a number you watch crosses the level you set (choose them under Alerts on the Dashboard), and, once Razorpay is connected, when payments change: a fall in success rate, one method failing, a burst of refunds.
           </p>
         </div>
         <label className="inline-flex cursor-pointer items-center gap-2 text-sm">

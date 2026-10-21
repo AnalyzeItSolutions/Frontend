@@ -1,5 +1,7 @@
 'use client';
 
+import { TrendChart } from './TrendChart';
+
 import React, { useRef, useState, useEffect } from 'react';
 import {
   IconAlertTriangle,
@@ -156,9 +158,11 @@ export function MetricCardWidget({
     <div className="bg-[var(--surface)] rounded-xl p-4.5 border border-[var(--border)] hover:border-[var(--border-strong)] flex flex-col justify-between h-full shadow-sm transition-all group relative">
       <div>
         <div className="flex items-center justify-between">
-          <span className="text-[13px] font-medium text-[var(--text-muted)] block mb-1">
-            {metric}
-          </span>
+          {metric.trim().toLowerCase() !== title.trim().toLowerCase() ? (
+            <span className="text-[13px] font-medium text-[var(--text-muted)] block mb-1">
+              {metric}
+            </span>
+          ) : null}
           {onWidgetAction && (
             <button
               type="button"
@@ -225,25 +229,15 @@ export function LineChartWidget({
     return <WidgetEmptyState title={title} />;
   }
 
-  const maxVal = Math.max(...data.map((d) => d.value), 1);
-  const minVal = Math.min(...data.map((d) => d.value), 0);
-  const range = maxVal - minVal || 1;
-
-  const points = data
-    .map((d, i) => {
-      const x = 30 + (i / Math.max(data.length - 1, 1)) * 240;
-      const y = 90 - ((d.value - minVal) / range) * 70;
-      return `${x},${y}`;
-    })
-    .join(' ');
-
   return (
     <div className="bg-[var(--surface)] rounded-xl p-6 border border-[var(--border)] hover:border-[var(--border-strong)] flex flex-col justify-between h-full shadow-md transition-all group relative">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="text-[13px] font-medium text-[var(--text-muted)] block">
-            {metric}
-          </span>
+          {metric.trim().toLowerCase() !== title.trim().toLowerCase() ? (
+            <span className="text-[13px] font-medium text-[var(--text-muted)] block">
+              {metric}
+            </span>
+          ) : null}
           <h3 className="text-base font-medium text-[var(--text-primary)]">
             {title}
           </h3>
@@ -260,46 +254,8 @@ export function LineChartWidget({
         )}
       </div>
 
-      <div className="w-full h-36 my-2">
-        <svg viewBox="0 0 300 110" className="w-full h-full overflow-visible">
-          {/* Subtle grid lines */}
-          <line x1="20" y1="20" x2="280" y2="20" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
-          <line x1="20" y1="55" x2="280" y2="55" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
-          <line x1="20" y1="90" x2="280" y2="90" stroke="rgba(255,255,255,0.05)" strokeDasharray="3 3" />
-
-          {/* Area fill */}
-          <polygon
-            points={`30,90 ${points} 270,90`}
-            fill="rgba(255, 255, 255, 0.14)"
-          />
-
-          {/* Technical Cobalt curve */}
-          <polyline
-            fill="none"
-            stroke="#E4E4E2"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            points={points}
-          />
-          {data.map((d, i) => {
-            const cx = 30 + (i / Math.max(data.length - 1, 1)) * 240;
-            const cy = 90 - ((d.value - minVal) / range) * 70;
-            return (
-              <g key={i}>
-                <circle cx={cx} cy={cy} r="3" fill="var(--surface)" stroke="#E4E4E2" strokeWidth="2" />
-                <text
-                  x={cx}
-                  y={104}
-                  textAnchor="middle"
-                  className="text-[9px] fill-[var(--text-muted)] font-mono"
-                >
-                  {d.date}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+      <div className="my-2 w-full">
+        <TrendChart data={data} unit={String(p.unit ?? widget.unit ?? '')} />
       </div>
 
       <CitationFooter
@@ -408,7 +364,9 @@ export function TableWidget({
   if (rows.length === 0) {
     return <WidgetEmptyState title={title} />;
   }
-  const keys = rows.length > 0 ? Object.keys(rows[0]) : [];
+  // A "Link" column is not shown as a column of raw addresses: it makes the first column's text a link instead.
+  const linkKey = Object.keys(rows[0] || {}).find((k) => k.toLowerCase() === 'link');
+  const keys = (rows.length > 0 ? Object.keys(rows[0]) : []).filter((k) => k !== linkKey);
 
   // Helper to test if a cell is numeric / tabular measurement
   const isNumericValue = (val: unknown): boolean => {
@@ -468,7 +426,13 @@ export function TableWidget({
                       key={k}
                       className={`py-2 px-3 text-[var(--text-primary)] ${isNum ? 'font-mono tabular-nums text-[11px]' : 'font-sans text-xs'}`}
                     >
-                      {strVal}
+                      {linkKey && k === keys[0] && /^https?:\/\//.test(String(row[linkKey] ?? '')) ? (
+                        <a href={String(row[linkKey])} target="_blank" rel="noreferrer noopener" className="underline-offset-2 hover:underline">
+                          {strVal}
+                        </a>
+                      ) : (
+                        strVal
+                      )}
                     </td>
                   );
                 })}

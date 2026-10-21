@@ -69,7 +69,7 @@ export async function downloadProjectZip(projectId: string, customFilename?: str
 /**
  * Generates a public, tokenized read-only link for the project.
  */
-export async function createProjectShareLink(projectId: string): Promise<{ share_token: string; share_url: string }> {
+export async function createProjectShareLink(projectId: string, expiresInDays?: number | null): Promise<{ share_token: string; share_url: string; expires_at?: string | null }> {
   const headers = getAuthHeaders();
   const res = await fetch(`${API_V1}/projects/${projectId}/share`, {
     method: 'POST',
@@ -77,6 +77,8 @@ export async function createProjectShareLink(projectId: string): Promise<{ share
       'Content-Type': 'application/json',
       ...headers,
     },
+    // Without a body the server keeps the link and its expiry as they are; with one, the choice (including "never") replaces them.
+    ...(expiresInDays === undefined ? {} : { body: JSON.stringify({ expires_in_days: expiresInDays }) }),
   });
 
   if (!res.ok) {

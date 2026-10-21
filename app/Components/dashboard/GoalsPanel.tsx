@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { AllowAssistantButton } from './AllowAssistantButton';
 import { changeLine, goalStatusLine, runGoalMessage, runKindLabel } from '../../lib/goalsView.mjs';
 import { createGoal, deleteGoal, listGoalRuns, listGoals, runGoalNow, updateGoal, type GoalEvery, type GoalRun, type StandingGoal } from '../../lib/goalsApi';
 
@@ -137,6 +138,7 @@ export function GoalsPanel({ projectId }: { projectId: string }) {
         </div>
       ) : null}
       {message ? <p role="status" className="text-xs text-[var(--text-muted)]">{message}</p> : null}
+      {/AI data access/.test(message) ? <AllowAssistantButton projectId={projectId} onAllowed={() => { setMessage('Allowed. Run it again.'); void load(); }} /> : null}
     </section>
   );
 }

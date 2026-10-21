@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useToast } from '../ui/Toast';
 import { AgentAccessPanel } from './AgentAccessPanel';
 import { DigestPanel } from './DigestPanel';
@@ -101,6 +101,16 @@ type AuthMode = 'oauth' | 'connection' | 'catalog';
 export function ConnectorsView({ projectId, notice = null, initialSearch = '' }: ConnectorsViewProps) {
   const toast = useToast();
   const confirm = useConfirm();
+  const automationsRef = useRef<HTMLDetailsElement | null>(null);
+  // Following a "Jump to" link to the automations should open them, not just scroll to a closed box.
+  useEffect(() => {
+    const open = () => {
+      if (window.location.hash === '#automations' && automationsRef.current) automationsRef.current.open = true;
+    };
+    open();
+    window.addEventListener('hashchange', open);
+    return () => window.removeEventListener('hashchange', open);
+  }, []);
   const [available, setAvailable] = useState<AvailableConnector[]>([]);
   const [connectors, setConnectors] = useState<Connector[]>([]);
   const [loading, setLoading] = useState(false);
@@ -473,6 +483,12 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
 
   return (
     <div className="flex flex-col gap-6 w-full">
+      <nav aria-label="Jump to" className="flex flex-wrap items-center gap-2 text-xs text-[var(--text-secondary)]">
+        <span className="text-[var(--text-muted)]">Jump to</span>
+        <a href="#own-sources" className="rounded-full border border-[var(--border)] px-3 py-1 hover:bg-[var(--surface-2)]">Add a public JSON / CSV source</a>
+        <a href="#automations" className="rounded-full border border-[var(--border)] px-3 py-1 hover:bg-[var(--surface-2)]">Alerts, digest &amp; standing questions</a>
+        <a href="/dashboard" className="rounded-full border border-[var(--border)] px-3 py-1 hover:bg-[var(--surface-2)]">Build a country dashboard</a>
+      </nav>
       <AgentAccessPanel projectId={projectId} />
       <SyncedDataLinks projectId={projectId} />
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200 dark:border-white/10">
@@ -926,6 +942,7 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
           const setup = p.setup;
           const isUnavailable = !isLinked && setup.kind === 'unavailable';
           const isComingSoon = !isLinked && setup.kind === 'coming_soon';
+          const oauthReadyEarly = setup.kind === 'ready' && setup.oauth;
           const oauthReady = setup.kind === 'ready' && setup.oauth;
           const canConnectForm = setup.kind === 'ready' && setup.connection && (
             BUILT_IN_FORM_CONNECTORS.has(p.id)
@@ -935,6 +952,8 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
             && setup.connection
             && !BUILT_IN_FORM_CONNECTORS.has(p.id)
             && Boolean(catalogRow?.config_fields?.length);
+          const hasSelfServe = Boolean(oauthReadyEarly || canConnectForm || canConnectGeneric);
+          const isNotSelfServe = !isLinked && !isUnavailable && !isComingSoon && !hasSelfServe;
           const syncReport = activeConn ? syncReports[activeConn.id] : undefined;
           const authorizeError = authorizeErrors[p.id];
 
@@ -982,6 +1001,10 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                   ) : isComingSoon ? (
                     <span className="shrink-0 px-2.5 py-1 rounded-full bg-[var(--surface-muted)] text-[var(--text-muted)] text-xs font-medium border border-[var(--border)]">
                       Coming soon
+                    </span>
+                  ) : isNotSelfServe ? (
+                    <span className="shrink-0 px-2.5 py-1 rounded-full bg-[var(--surface-muted)] text-[var(--text-muted)] text-xs font-medium border border-[var(--border)]" title="No self-serve setup yet">
+                      Not self-serve yet
                     </span>
                   ) : (
                     <span className="shrink-0 px-2.5 py-1 rounded-full bg-[var(--surface-muted)] text-[var(--text-muted)] text-xs font-medium border border-[var(--border)]">
@@ -1121,6 +1144,11 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
                   </>
                 ) : isUnavailable || isComingSoon ? (
                   <p className="text-xs leading-relaxed text-[var(--text-muted)]">{setup.reason}</p>
+                ) : isNotSelfServe ? (
+                  <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                    This one cannot be set up from here yet. For a public JSON or CSV address, or an RSS feed, use{' '}
+                    <a href="#own-sources" className="underline underline-offset-2 hover:text-[var(--text-primary)]">Your own sources</a>; to connect another tool, tell us in Feedback.
+                  </p>
                 ) : (
                   <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
                     {oauthReady && (
@@ -1169,9 +1197,11 @@ export function ConnectorsView({ projectId, notice = null, initialSearch = '' }:
         })}
       </div>
 
-      <CustomSourcesPanel projectId={projectId} />
+      <div id="own-sources" className="scroll-mt-24">
+        <CustomSourcesPanel projectId={projectId} />
+      </div>
 
-      <details className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+      <details id="automations" ref={automationsRef} className="scroll-mt-24 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
         <summary className="cursor-pointer text-sm font-medium text-[var(--text-primary)]">
           Automations and team
         </summary>

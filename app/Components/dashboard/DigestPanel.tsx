@@ -1,5 +1,6 @@
 'use client';
 
+import { AllowAssistantButton } from './AllowAssistantButton';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { deliveryLine, digestStatusLine, runNowMessage } from '../../lib/digestView.mjs';
@@ -73,7 +74,10 @@ export function DigestPanel({ projectId }: { projectId: string }) {
       </div>
 
       {!settings.ai_access_allowed ? (
-        <p className="text-xs text-[var(--text-muted)]">The digest reads this project&apos;s data the way the assistant does, so it needs the assistant to be allowed to. Choose Allow under AI data access, above.</p>
+        <div className="space-y-2">
+          <p className="text-xs text-[var(--text-muted)]">The digest reads this project&apos;s data the way the assistant does, so it needs the assistant to be allowed to.</p>
+          <AllowAssistantButton projectId={projectId} onAllowed={() => void load()} />
+        </div>
       ) : null}
 
       {settings.enabled ? (

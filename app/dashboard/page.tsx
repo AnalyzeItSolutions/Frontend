@@ -72,6 +72,11 @@ import { MemoryHomeCard } from '../Components/memory/MemoryHomeCard';
 import { MyTemplates } from '../Components/dashboard/MyTemplates';
 import { WorkspacesPanel } from '../Components/dashboard/WorkspacesPanel';
 import { AddWidgetModal } from '../Components/dashboard/AddWidgetModal';
+import { CountryPackModal } from '../Components/dashboard/CountryPackModal';
+import { AlertRulesModal } from '../Components/dashboard/AlertRulesModal';
+import { AlertsBanner } from '../Components/dashboard/AlertsBanner';
+import { ShareDialog } from '../Components/dashboard/ShareDialog';
+import { refreshPublicData } from '../lib/countryPackApi';
 import { EditBar } from './_parts/EditBar';
 import { EditableCell } from './_parts/EditableCell';
 import { useLayoutEditor } from './_parts/useLayoutEditor';
@@ -662,6 +667,29 @@ export default function DashboardPage() {
   const hasWidgets = currentLayout.widgets.length > 0;
   const widgetCap = Number(entitlements?.dashboard_widget_caps) || 12;
   const [isAddWidgetOpen, setIsAddWidgetOpen] = useState(false);
+  const [isCountryOpen, setIsCountryOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [isAlertsOpen, setIsAlertsOpen] = useState(false);
+  const [alertsTick, setAlertsTick] = useState(0);
+  const [isRefreshingData, setIsRefreshingData] = useState(false);
+  const watchable = currentLayout.widgets
+    .filter((w) => typeof (w.props as { latest?: unknown } | undefined)?.latest === 'number')
+    .map((w) => ({ id: w.id, title: String(w.title || w.label || 'Figure'), latest: (w.props as { latest: number }).latest }));
+  const refreshPublic = async () => {
+    if (!activeProjectId) return;
+    setIsRefreshingData(true);
+    try {
+      const out = await refreshPublicData(activeProjectId);
+      await refreshActiveProjectLayout();
+      setAlertsTick((n) => n + 1);
+      setExportToastMsg(out.refreshed ? `Refreshed ${out.refreshed} live widget${out.refreshed === 1 ? '' : 's'}.` : 'Nothing needed refreshing.');
+    } catch (err) {
+      setExportToastMsg(err instanceof Error ? err.message : 'Could not refresh the data');
+    } finally {
+      setIsRefreshingData(false);
+      setTimeout(() => setExportToastMsg(null), 3500);
+    }
+  };
   const editor = useLayoutEditor({
     projectId: activeProjectId,
     widgets: currentLayout.widgets,
@@ -885,23 +913,16 @@ export default function DashboardPage() {
                     <div className="pt-1 border-t border-[var(--border)]">
                       <button
                         type="button"
-                        onClick={async () => {
+                        onClick={() => {
                           setIsExportMenuOpen(false);
-                          try {
-                            await copyShareableLink(activeProjectId);
-                            setExportToastMsg('Shareable link copied to clipboard!');
-                            setTimeout(() => setExportToastMsg(null), 3000);
-                          } catch (err) {
-                            setExportToastMsg(err instanceof Error ? err.message : 'Failed to create shareable link');
-                            setTimeout(() => setExportToastMsg(null), 5000);
-                          }
+                          if (activeProjectId) setIsShareOpen(true);
                         }}
                         className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-[var(--coral)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer text-left"
                       >
                         <IconShare size={16} className="shrink-0" />
                         <div>
-                          <div className="font-medium">Copy Shareable Link</div>
-                          <div className="text-[11px] text-[var(--text-muted)]">Anyone with it can view this dashboard</div>
+                          <div className="font-medium">Share…</div>
+                          <div className="text-[11px] text-[var(--text-muted)]">Private read-only link, expiry, stop sharing</div>
                         </div>
                       </button>
                       <button
@@ -1106,7 +1127,14 @@ export default function DashboardPage() {
               saved={Boolean(editor.savedAt) && !editor.saving}
               error={editor.error}
               onDismissError={editor.clearError}
+              onTrackCountry={() => setIsCountryOpen(true)}
+              onAlerts={() => setIsAlertsOpen(true)}
+              onRefreshData={() => void refreshPublic()}
+              refreshing={isRefreshingData}
             />
+          ) : null}
+          {studioTab === 'canvas' && activeProjectId && !isLoadingProjects && !slugGate && !workspaceError ? (
+            <AlertsBanner projectId={activeProjectId} refreshKey={alertsTick} onOpen={() => setIsAlertsOpen(true)} />
           ) : null}
           {studioTab === 'canvas' && activeProjectId ? (
             <div className="mb-4">
@@ -1229,12 +1257,17 @@ export default function DashboardPage() {
                           editor.setEditing(true);
                           setIsAddWidgetOpen(true);
                         }}
-                        className="btn-primary min-h-11 px-5 text-sm"
+                        className="btn-secondary min-h-11 px-5 text-sm"
                       >
                         Add a widget
                       </button>
                     ) : null}
-                    <Link href={DASHBOARD_EMPTY.primaryHref} className={`${activeProjectId ? 'btn-secondary' : 'btn-primary'} min-h-11 px-5 text-sm`}>
+                    {activeProjectId ? (
+                      <button type="button" onClick={() => setIsCountryOpen(true)} className="btn-primary min-h-11 px-5 text-sm">
+                        Track a country
+                      </button>
+                    ) : null}
+                    <Link href={DASHBOARD_EMPTY.primaryHref} className="btn-secondary min-h-11 px-5 text-sm">
                       {DASHBOARD_EMPTY.primaryLabel}
                     </Link>
                     {!activeProjectId ? (
@@ -1419,6 +1452,22 @@ export default function DashboardPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {activeProjectId ? (
+        <>
+          <CountryPackModal
+            open={isCountryOpen}
+            onClose={() => setIsCountryOpen(false)}
+            projectId={activeProjectId}
+            onBuilt={() => {
+              void refreshActiveProjectLayout();
+              setAlertsTick((n) => n + 1);
+            }}
+          />
+          <ShareDialog open={isShareOpen} onClose={() => setIsShareOpen(false)} projectId={activeProjectId} />
+          <AlertRulesModal open={isAlertsOpen} onClose={() => { setIsAlertsOpen(false); setAlertsTick((n) => n + 1); }} projectId={activeProjectId} watchable={watchable} />
+        </>
+      ) : null}
 
       <AddWidgetModal
         open={isAddWidgetOpen}

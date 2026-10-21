@@ -106,9 +106,9 @@ function getPasswordStrength(pw: string): { score: number; label: string; color:
 
 const PasswordStrength: React.FC<{ password: string }> = ({ password }) => {
   const { score, label, color } = getPasswordStrength(password);
-  if (!password) return null;
+  // Always takes its space, so the form below does not jump while you type.
   return (
-    <div className="flex items-center gap-2 mt-1">
+    <div className={`flex h-4 items-center gap-2 mt-1 transition-opacity ${password ? 'opacity-100' : 'opacity-0'}`} aria-hidden={!password}>
       <div className="flex gap-1 flex-1">
         {[1, 2, 3, 4].map((i) => (
           <div

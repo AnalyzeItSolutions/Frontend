@@ -326,9 +326,9 @@ function compressLabel(method: string): string {
 
 
 const CHAT_PROMPTS = [
-  'Summarize what changed in my last analysis',
-  'Explain this metric in plain words',
-  'What should I look at next?',
+  'Give me a sourced overview of Japan’s economy',
+  'Explain a trade deficit in plain words',
+  'What should I watch on a new dashboard?',
 ];
 
 const RESEARCH_PROMPTS = [
