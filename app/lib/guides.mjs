@@ -2,7 +2,7 @@
 // and every claim about AnalyzeIt describes something that exists today (see /docs/discovery and the changelog).
 // Blocks: { p }, { h2 }, { ul: [...] }, { ol: [...] }.
 
-export const GUIDES_UPDATED = '2026-10-11';
+export const GUIDES_UPDATED = '2026-10-21';
 
 export const GUIDES = [
   {
