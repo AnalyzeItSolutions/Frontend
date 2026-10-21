@@ -61,11 +61,11 @@ export default function SecurityPage() {
       <LegalSection title="6. Desktop app and command line">
         <p>
           The <a href="/download" className="text-brand hover:underline">desktop app and command line</a>{' '}
-          keep data you import on your own computer, in a vault encrypted at rest with a key held in
-          your system keychain. Nothing in the vault is uploaded; when you ask the online assistant
+          keep data you import on your own computer, in a vault encrypted at rest with a key kept in
+          an owner-only file on that computer. Nothing in the vault is uploaded; when you ask the online assistant
           about a local dataset, only your question and a column summary you allowed are sent,
           never rows. Sign-in happens in your browser (no password is typed into the app), and the
-          session token is stored in the system keychain. Queries you run on local data are
+          session token is stored in an owner-only file on that computer. Queries you run on local data are
           read-only and limited to your own datasets.
         </p>
         <p>
