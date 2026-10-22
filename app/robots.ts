@@ -29,7 +29,7 @@ export default function robots(): MetadataRoute.Robots {
         '/api/',
       ],
     },
-    sitemap: [`${SITE_URL}/sitemap.xml`, ...Array.from({ length: DATA_SITEMAP_COUNT }, (_, i) => `${SITE_URL}/sitemaps/data/sitemap/${i}.xml`)],
+    sitemap: [`${SITE_URL}/sitemap.xml`, ...Array.from({ length: DATA_SITEMAP_COUNT }, (_, i) => `${SITE_URL}/sitemaps/data/sitemap/${i}.xml`), `${SITE_URL}/sitemaps/unicode/sitemap.xml`],
     host: SITE_URL,
   };
 }

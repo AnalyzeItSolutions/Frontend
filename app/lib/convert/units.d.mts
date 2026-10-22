@@ -1,0 +1,12 @@
+export type Unit = { id: string; name: string; plural: string; symbol: string; factor?: number; def: string };
+export type Category = { slug: string; name: string; base: string; affine?: boolean; units: Unit[] };
+export type Pair = { category: Category; from: Unit; to: Unit; slug: string };
+export const CATEGORIES: Category[];
+export const PAIRS: Pair[];
+export function pair(slug: string): Pair | undefined;
+export function category(slug: string): Category | undefined;
+export function convert(p: Pair, v: number): number;
+export function factorOf(p: Pair): number | null;
+export function nice(v: number): string;
+export function formula(p: Pair): string;
+export function tableInputs(p: Pair): number[];

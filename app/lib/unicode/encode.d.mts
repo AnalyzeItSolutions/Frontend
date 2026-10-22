@@ -1,0 +1,11 @@
+export function uPlus(cp: number): string;
+export function utf8(cp: number): number[];
+export function utf16(cp: number): number[];
+export function codes(cp: number, opts?: { entities?: string[] | null; name?: string | null }): [string, string][];
+export const GENERAL_CATEGORY: Record<string, string>;
+export const BIDI: Record<string, string>;
+export function isVisible(gc: string): boolean;
+export function titleCase(name: string): string;
+export function decomposition(field: string): { canonical: boolean; tag: string | null; cps: number[] } | null;
+export function scriptName(s: string | null): string | null;
+export function htmlRefWorks(cp: number): boolean;

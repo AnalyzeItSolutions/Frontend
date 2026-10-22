@@ -4,6 +4,8 @@ import { GUIDES } from './lib/guides.mjs';
 import { LIVE_CASES, LIVE_CASES_UPDATED } from './lib/liveCases.mjs';
 import { DATA_UPDATED } from './lib/pseo/data.mjs';
 import { allMethodPaths, allMetricPaths } from './lib/pseo/pages.mjs';
+import { PAIRS } from './lib/convert/units.mjs';
+import { TOOLS } from './lib/tools/tools.mjs';
 
 const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']; priority: number }[] = [
   { path: '/', changeFrequency: 'weekly', priority: 1 },
@@ -29,6 +31,8 @@ const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number
   { path: '/methods', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/data', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/indicators', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/tools', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/convert', changeFrequency: 'monthly', priority: 0.7 },
   { path: '/cases/usd-to-inr', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/cases/weather-mumbai', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/cases/aapl-stock-price', changeFrequency: 'monthly', priority: 0.8 },
@@ -63,5 +67,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly' as const,
     priority: p.split('/').length === 3 ? 0.7 : 0.5,
   }));
-  return [...fixed, ...guides, ...cases, ...reference];
+  const tools = [...TOOLS.map((t) => `/tools/${t.slug}`), ...PAIRS.map((p) => `/convert/${p.slug}`)].map((p) => ({ url: `${SITE_URL}${p}`, changeFrequency: 'yearly' as const, priority: p.startsWith('/tools') ? 0.7 : 0.5 }));
+  return [...fixed, ...guides, ...cases, ...reference, ...tools];
 }

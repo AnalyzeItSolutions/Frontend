@@ -48,6 +48,7 @@ export const Footer: React.FC = () => {
             <li><Link href="/metrics" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Business metrics</Link></li>
             <li><Link href="/methods" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Statistics methods</Link></li>
             <li><Link href="/data" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Country data</Link></li>
+            <li><Link href="/tools" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Tools</Link></li>
             <li><Link href="/changelog" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Changelog</Link></li>
             <li><Link href="/contact" className="hover:text-[var(--accent-text)] dark:hover:text-[var(--accent-text)] transition-colors">Contact Support</Link></li>
           </ul>

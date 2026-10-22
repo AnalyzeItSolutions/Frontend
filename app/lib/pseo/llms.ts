@@ -6,6 +6,9 @@ import { METRICS, METRIC_CATEGORIES } from './metrics.mjs';
 import { METHODS, METHOD_CATEGORIES, TOOLS, methodTools, methodValueText, metricTitle, summary } from './pages.mjs';
 import { excel } from './expr.mjs';
 import { INDICATORS, WDI_PAGES } from '../wdi/wdi';
+import { TOOLS as DEV_TOOLS } from '../tools/tools.mjs';
+import { PAIRS } from '../convert/units.mjs';
+import { CHAR_COUNT, UNICODE_VERSION } from '../unicode/unicode';
 
 const DOCS: [string, string, string][] = [
   ['/docs/how-answers-work', 'How AnalyzeIt answers', 'Which tools and models produce an answer, and how figures are computed by code rather than guessed.'],
@@ -41,6 +44,11 @@ export function llmsTxt() {
     '## Country data (World Bank, CC BY 4.0)',
     `- [Country data](${SITE_URL}/data): ${WDI_PAGES.toLocaleString('en-US')} pages, one per country and indicator, each with yearly history, chart, ranking and source`,
     `- [Indicators by topic](${SITE_URL}/indicators): ${INDICATORS.length.toLocaleString('en-US')} World Development Indicators, each ranked by country`,
+    '',
+    '## Tools and reference',
+    `- [Tools](${SITE_URL}/tools): ${DEV_TOOLS.length} in-browser tools: ${DEV_TOOLS.map((t) => t.name).join('; ')}`,
+    `- [Unicode lookup](${SITE_URL}/unicode): ${CHAR_COUNT.toLocaleString('en-US')} characters (Unicode ${UNICODE_VERSION}) with UTF-8, HTML, CSS, JavaScript and Python codes`,
+    `- [Unit conversions](${SITE_URL}/convert): ${PAIRS.length} conversions with exact formulas`,
     '',
     '## Guides',
     ...GUIDES.map((g) => `- [${g.title}](${SITE_URL}/guides/${g.slug}): ${g.description}`),
