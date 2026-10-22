@@ -20,7 +20,7 @@ export class ApiUnavailableError extends Error {
 }
 
 function throwIfApiUnavailable(res: Response): void {
-  if (res.status === 502 || res.status === 503 || res.status === 504) {
+  if (res.status === 429 || res.status === 502 || res.status === 503 || res.status === 504) {
     throw new ApiUnavailableError();
   }
   const contentType = res.headers.get('content-type') || '';
