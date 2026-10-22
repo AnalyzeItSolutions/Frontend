@@ -25,7 +25,11 @@ export const WDI_LATEST_YEAR = meta.latest_year;
 export const WDI_MIN_OBS = meta.min_obs;
 // Google allows 50,000 URLs per sitemap file; sitemap 0 holds the hubs and rankings, the rest the country pages.
 export const DATA_SITEMAP_PER = 45000;
-export const DATA_SITEMAP_COUNT = 1 + Math.ceil(meta.pages / DATA_SITEMAP_PER);
+// Only pairs with a reasonably long, current series are offered to crawlers; the rest stay reachable but are not submitted.
+export const SITEMAP_MIN_OBS = 15;
+export const inSitemap = (c: Cell) => c[1] >= SITEMAP_MIN_OBS && c[3] >= meta.latest_year - 2;
+export const SITEMAP_PAGES = Object.values(cells).reduce((n, cs) => n + cs.filter(inSitemap).length, 0);
+export const DATA_SITEMAP_COUNT = 1 + Math.ceil(SITEMAP_PAGES / DATA_SITEMAP_PER);
 
 export const COUNTRIES: Country[] = meta.countries.map(([iso3, name, slug, region, income, aggregate, iso2], index) => ({ iso3, name, slug, region, income, aggregate: aggregate === 1, iso2, index }));
 export const INDICATORS: Indicator[] = meta.indicators.map(([id, name, slug, topic, source]) => ({ id, name, slug, topic, source }));

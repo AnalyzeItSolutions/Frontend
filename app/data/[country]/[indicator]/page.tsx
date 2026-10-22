@@ -9,12 +9,9 @@ import { lowerFirst, changeSentence, fmtExact, fmtValue, kindOf, ordinal, rankAm
 import { COUNTRIES, apiUrl, cell, cellsFor, country, countryIso3, definition, fetchSeries, indicator, indicatorsFor, sourceUrl } from '../../../lib/wdi/wdi';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
 
-// 221k pages: none are built at deploy time. Each is rendered on its first visit, cached, and refreshed monthly.
-export const revalidate = 2592000;
-export const dynamicParams = true;
-export function generateStaticParams() {
-  return [];
-}
+// 221k pages: rendered per request and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages,
+// so a crawl of the whole set does not consume ISR write units.
+export const dynamic = 'force-dynamic';
 
 type Params = Promise<{ country: string; indicator: string }>;
 

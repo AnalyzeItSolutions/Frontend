@@ -9,12 +9,8 @@ import { BIDI, GENERAL_CATEGORY, codes, decomposition, isVisible, scriptName, uP
 import { UNICODE_VERSION, blockOf, charAt, charFromSlug, charPath, charsIn, displayName, glyph, type Char } from '../../lib/unicode/unicode';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
 
-// ~34k pages, rendered on first visit from the bundled Unicode index and cached; nothing changes until the next Unicode release.
-export const revalidate = 31536000;
-export const dynamicParams = true;
-export function generateStaticParams() {
-  return [];
-}
+// ~34k pages, rendered from the bundled Unicode index and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages.
+export const dynamic = 'force-dynamic';
 
 type Params = Promise<{ slug: string }>;
 

@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { COUNTRIES, DATA_SITEMAP_COUNT, DATA_SITEMAP_PER as PER, INDICATORS, allPairs } from '../../lib/wdi/wdi';
+import { COUNTRIES, DATA_SITEMAP_COUNT, DATA_SITEMAP_PER as PER, INDICATORS, allPairs, inSitemap } from '../../lib/wdi/wdi';
 import { SITE_URL } from '../../lib/site';
 
 // The /data and /indicators pages, split into files of at most DATA_SITEMAP_PER URLs (Google allows 50,000 per sitemap).
 // Served at /sitemaps/data/sitemap/<id>.xml and listed in robots.txt. Sitemap 0 holds the hubs and rankings.
-const PAIRS = [...allPairs()].map(([c, i]) => `/data/${c.slug}/${i.slug}`);
+const PAIRS = [...allPairs()].filter(([, , k]) => inSitemap(k)).map(([c, i]) => `/data/${c.slug}/${i.slug}`);
 
 export async function generateSitemaps() {
   return Array.from({ length: DATA_SITEMAP_COUNT }, (_, id) => ({ id }));

@@ -44,6 +44,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Programmatic pages are rendered per request; the CDN keeps them so crawls do not re-render or write ISR.
+        source: '/data/:country/:indicator',
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=2592000, stale-while-revalidate=604800' }],
+      },
+      {
+        source: '/unicode/:slug',
+        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=31536000, stale-while-revalidate=604800' }],
+      },
+      {
         // GIS + One Tap: allow referrer on http localhost; COOP for popup/FedCM fallbacks
         source: '/:path*',
         headers: [
