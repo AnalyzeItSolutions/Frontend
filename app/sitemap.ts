@@ -27,6 +27,8 @@ const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number
   { path: '/cases', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/metrics', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/methods', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/data', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/indicators', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/cases/usd-to-inr', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/cases/weather-mumbai', changeFrequency: 'monthly', priority: 0.8 },
   { path: '/cases/aapl-stock-price', changeFrequency: 'monthly', priority: 0.8 },

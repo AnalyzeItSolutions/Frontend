@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from './lib/site';
+import { DATA_SITEMAP_COUNT } from './lib/wdi/wdi';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -28,7 +29,7 @@ export default function robots(): MetadataRoute.Robots {
         '/api/',
       ],
     },
-    sitemap: `${SITE_URL}/sitemap.xml`,
+    sitemap: [`${SITE_URL}/sitemap.xml`, ...Array.from({ length: DATA_SITEMAP_COUNT }, (_, i) => `${SITE_URL}/sitemaps/data/sitemap/${i}.xml`)],
     host: SITE_URL,
   };
 }

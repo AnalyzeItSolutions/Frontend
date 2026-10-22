@@ -5,6 +5,7 @@ import { GUIDES } from '../guides.mjs';
 import { METRICS, METRIC_CATEGORIES } from './metrics.mjs';
 import { METHODS, METHOD_CATEGORIES, TOOLS, methodTools, methodValueText, metricTitle, summary } from './pages.mjs';
 import { excel } from './expr.mjs';
+import { INDICATORS, WDI_PAGES } from '../wdi/wdi';
 
 const DOCS: [string, string, string][] = [
   ['/docs/how-answers-work', 'How AnalyzeIt answers', 'Which tools and models produce an answer, and how figures are computed by code rather than guessed.'],
@@ -36,6 +37,10 @@ export function llmsTxt() {
     '## Statistics methods',
     `- [All methods](${SITE_URL}/methods): ${METHODS.length} methods worked on one 30-day dataset`,
     ...METHOD_CATEGORIES.flatMap((c) => METHODS.filter((m) => m.category === c.slug).map((m) => `- [${m.name}](${SITE_URL}/methods/${m.slug}): ${m.formula}`)),
+    '',
+    '## Country data (World Bank, CC BY 4.0)',
+    `- [Country data](${SITE_URL}/data): ${WDI_PAGES.toLocaleString('en-US')} pages, one per country and indicator, each with yearly history, chart, ranking and source`,
+    `- [Indicators by topic](${SITE_URL}/indicators): ${INDICATORS.length.toLocaleString('en-US')} World Development Indicators, each ranked by country`,
     '',
     '## Guides',
     ...GUIDES.map((g) => `- [${g.title}](${SITE_URL}/guides/${g.slug}): ${g.description}`),
