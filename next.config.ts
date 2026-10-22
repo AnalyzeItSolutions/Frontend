@@ -60,6 +60,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // The MCP connector lives on the API host. Assistants and crawlers that guess www.analyzeit.si/mcp get a 308,
+      // which keeps the POST method and body, instead of a 404.
+      { source: '/mcp', destination: 'https://api.analyzeit.si/mcp', permanent: true },
+      { source: '/mcp/:path*', destination: 'https://api.analyzeit.si/mcp/:path*', permanent: true },
       // Do NOT redirect /Dashboard ↔ /dashboard.
       // On case-insensitive macOS both paths are one folder; on Linux/Vercel
       // a permanent /Dashboard→/dashboard redirect fights Next case
