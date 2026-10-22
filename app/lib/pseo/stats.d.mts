@@ -1,0 +1,15 @@
+export function sum(xs: number[]): number;
+export function mean(xs: number[]): number;
+export function variance(xs: number[]): number;
+export function sd(xs: number[]): number;
+export function quantile(xs: number[], p: number): number;
+export function median(xs: number[]): number;
+export function skew(xs: number[]): number;
+export function kurt(xs: number[]): number;
+export function correl(xs: number[], ys: number[]): number;
+export function slope(ys: number[], xs: number[]): number;
+export function intercept(ys: number[], xs: number[]): number;
+export function rsq(ys: number[], xs: number[]): number;
+export function tTwoTailed(t: number, df: number): number;
+export function tUpper(p: number, df: number): number;
+export function welch(xs: number[], ys: number[]): { t: number; df: number; p: number };

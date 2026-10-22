@@ -21,7 +21,7 @@ function files(dir, acc = []) {
   return acc;
 }
 
-const PUBLIC_DIRS = ['app/docs', 'app/cases', 'app/changelog', 'app/demo', 'app/products', 'app/guides'];
+const PUBLIC_DIRS = ['app/docs', 'app/cases', 'app/changelog', 'app/demo', 'app/products', 'app/guides', 'app/metrics', 'app/methods', 'app/lib/pseo'];
 const BANNED = [
   [/Premium\+/, 'the top plan is called VIP'],
   [/high demand/i, 'do not blame demand for an outage'],

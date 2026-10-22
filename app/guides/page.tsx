@@ -25,7 +25,9 @@ export default function Page() {
       </ul>
       <p className="mt-10 text-sm text-[var(--text-secondary)]">
         Prefer to see it work? <Link href="/demo" className="text-[var(--text-primary)] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
-        <Link href="/cases" className="text-[var(--text-primary)] underline underline-offset-2">worked examples</Link>.
+        <Link href="/cases" className="text-[var(--text-primary)] underline underline-offset-2">worked examples</Link>. For formulas, see{' '}
+        <Link href="/metrics" className="text-[var(--text-primary)] underline underline-offset-2">business metrics</Link> and{' '}
+        <Link href="/methods" className="text-[var(--text-primary)] underline underline-offset-2">statistics methods</Link>.
       </p>
     </LegalLayout>
   );

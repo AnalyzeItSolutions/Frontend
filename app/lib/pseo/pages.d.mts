@@ -1,0 +1,36 @@
+import type { Metric, Results } from './expr.mjs';
+import type { Column } from './data.mjs';
+export type Tool = { slug: 'excel' | 'sql' | 'python'; name: string; short: string };
+export type Guide = { answer: string; layout: string[]; steps: string[]; code: { label: string; code: string }[]; notes: string[]; schema?: string };
+export const TOOLS: Tool[];
+export function tool(slug: string): Tool | undefined;
+export function lower(s: string): string;
+export function metricTitle(m: Metric): string;
+export function metricColumns(m: Metric): Column[];
+export function summary(m: Metric): Results & { overallText: string; worked: string };
+export function metricMeta(m: Metric): { title: string; description: string; overall: string };
+export function toolMeta(m: Metric, t: Tool): { title: string; description: string };
+export function metricFaq(m: Metric): { q: string; a: string }[];
+export function toolGuide(m: Metric, t: Tool): Guide;
+export function relatedMetrics(m: Metric): Metric[];
+export function categoryName(slug: string): string;
+export function allMetricPaths(): string[];
+
+export type Method = {
+  slug: string; name: string; category: string; unit: string; columns: string[]; compute: () => number; formula: string;
+  answer: string; why: string; read: string; pitfalls: string[]; related: string[];
+  excel?: string; excelScale?: number; sql?: string; sqlEngines?: string[]; pandas?: string; pandasVar?: string; tolerance?: number;
+};
+export const METHODS: Method[];
+export const METHOD_CATEGORIES: { slug: string; name: string }[];
+export function method(slug: string): Method | undefined;
+export function methodResults(m: Method): { value: number };
+export function methodTools(m: Method): ('excel' | 'sql' | 'python')[];
+export function methodCategoryName(slug: string): string;
+export function methodValueText(m: Method): string;
+export function methodMeta(m: Method): { title: string; description: string };
+export function methodToolMeta(m: Method, t: Tool): { title: string; description: string };
+export function methodToolGuide(m: Method, t: Tool): Guide;
+export function methodFaq(m: Method): { q: string; a: string }[];
+export function relatedMethods(m: Method): Method[];
+export function allMethodPaths(): string[];

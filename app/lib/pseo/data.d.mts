@@ -1,0 +1,12 @@
+export type Column = { key: string; label: string; unit: 'text' | 'inr' | 'count' };
+export type Row = Record<string, string | number>;
+export type Dataset = { name: string; title: string; columns: Column[]; rows: Row[] };
+export const DATA_UPDATED: string;
+export const MONTHLY_COLUMNS: Column[];
+export const MONTHLY: Row[];
+export const DAILY_COLUMNS: Column[];
+export const DAILY: Row[];
+export const DATASETS: Record<'monthly' | 'daily', Dataset>;
+export function toCsv(name: 'monthly' | 'daily'): string;
+export function colLetter(name: 'monthly' | 'daily', key: string): string;
+export function letter(n: number): string;
