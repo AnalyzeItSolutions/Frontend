@@ -1,15 +1,10 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { Navbar } from './Navbar';
 import { InspectDrawer, DrawerDetail } from './InspectDrawer';
 import { LandingProgressContext } from './LandingProgressContext';
-
-const SceneCanvas = dynamic(
-  () => import('../3d/SceneCanvas').then((mod) => mod.SceneCanvas),
-  { ssr: false }
-);
+import { CrystalBackdrop } from './CrystalBackdrop';
 
 export function LandingExperience({ children }: { children: React.ReactNode }) {
   const [showSkip, setShowSkip] = useState(true);
@@ -96,11 +91,7 @@ export function LandingExperience({ children }: { children: React.ReactNode }) {
       )}
 
       <InspectDrawer detail={inspectedDetail} onClose={() => setInspectedDetail(null)} />
-      <SceneCanvas
-        scrollProgressRef={scrollProgressRef}
-        isLoaded
-        isCanvasVisible={isCanvasVisible}
-      />
+      <CrystalBackdrop scrollProgressRef={scrollProgressRef} isVisible={isCanvasVisible} />
       <Navbar />
 
       <LandingProgressContext.Provider value={contextValue}>

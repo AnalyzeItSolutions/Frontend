@@ -1,0 +1,227 @@
+/* Landing backdrop. Only transform and opacity animate, so the compositor does the work. */
+.crystal-backdrop {
+  --p: 0;
+  --cb-bg: #F8F8F8;
+  --cb-sky-top: #D9D9D9;
+  --cb-horizon: #EFE1CF;
+  --cb-glow: rgba(238, 160, 120, 0.35);
+  --cb-mist: rgba(242, 216, 196, 0.55);
+  --cb-spire: #DCDCDA;
+  --cb-spark: #D9A07E;
+  --cb-ring: rgba(65, 65, 65, 0.22);
+  --cb-facet-a: #F4F4F2;
+  --cb-facet-b: #E2E2E0;
+  --cb-facet-c: #CFCFCD;
+  --cb-facet-d: #BDBDBB;
+  --cb-edge: rgba(65, 65, 65, 0.35);
+  --cb-heart: #F0A47C;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--cb-bg);
+  transition: opacity 500ms ease;
+  contain: strict;
+}
+
+.dark .crystal-backdrop {
+  --cb-bg: #1B1B1B;
+  --cb-sky-top: #161616;
+  --cb-horizon: #26211E;
+  --cb-glow: rgba(238, 138, 94, 0.22);
+  --cb-mist: rgba(70, 62, 72, 0.45);
+  --cb-spire: #232323;
+  --cb-spark: #E4E4E2;
+  --cb-ring: rgba(228, 228, 226, 0.22);
+  --cb-facet-a: #4A4A4A;
+  --cb-facet-b: #383838;
+  --cb-facet-c: #2C2C2C;
+  --cb-facet-d: #222222;
+  --cb-edge: rgba(228, 228, 226, 0.45);
+  --cb-heart: #EE8A5E;
+}
+
+.crystal-backdrop.is-hidden {
+  opacity: 0;
+}
+.crystal-backdrop.is-hidden * {
+  animation-play-state: paused !important;
+}
+
+.cb-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--cb-sky-top) 0%, var(--cb-horizon) 58%, var(--cb-bg) 100%);
+}
+
+/* Horizon warms as the visitor descends. */
+.cb-glow {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 38%;
+  height: 50%;
+  background: radial-gradient(ellipse at 50% 50%, var(--cb-glow), transparent 65%);
+  opacity: calc(0.55 + var(--p) * 0.45);
+  will-change: opacity;
+}
+
+.cb-mist {
+  position: absolute;
+  width: 90vw;
+  height: 34vh;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--cb-mist), transparent 70%);
+  will-change: transform;
+  animation: cb-drift 38s ease-in-out infinite alternate;
+}
+.cb-mist-a { left: -30vw; bottom: 6vh; }
+.cb-mist-b { right: -35vw; bottom: 14vh; animation-duration: 46s; animation-delay: -12s; }
+.cb-mist-c { left: 10vw; top: 6vh; height: 24vh; opacity: 0.6; animation-duration: 54s; animation-delay: -30s; }
+
+@keyframes cb-drift {
+  from { transform: translate3d(-4vw, 0, 0); }
+  to { transform: translate3d(6vw, -1.5vh, 0); }
+}
+
+.cb-sparks span {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--cb-spark);
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: cb-twinkle 6s ease-in-out infinite;
+}
+@keyframes cb-twinkle {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); }
+  50% { opacity: 0.75; transform: translate3d(0, -10px, 0); }
+}
+
+/* The crystal: sits right of centre on wide screens so the hero copy keeps the left. The descent pulls it closer. */
+.cb-stage {
+  position: absolute;
+  left: 62%;
+  top: 46%;
+  width: min(34vw, 420px);
+  aspect-ratio: 200 / 260;
+  transform:
+    translate3d(-50%, calc(-50% + var(--p) * -4vh), 0)
+    scale(calc(1 + var(--p) * 0.35))
+    rotate(calc(var(--p) * 18deg));
+  will-change: transform;
+}
+@media (max-width: 767px) {
+  .cb-stage { left: 50%; top: 38%; width: 62vw; opacity: 0.55; }
+}
+
+.cb-float {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  animation: cb-float 7s ease-in-out infinite;
+}
+@keyframes cb-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
+  50% { transform: translate3d(0, -2.5%, 0) rotate(1.5deg); }
+}
+
+.cb-crystal {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.cb-f { stroke: none; animation: cb-shimmer 9s ease-in-out infinite; }
+.cb-f1 { fill: var(--cb-facet-b); }
+.cb-f2 { fill: var(--cb-facet-a); animation-delay: -1s; }
+.cb-f3 { fill: var(--cb-facet-c); animation-delay: -2s; }
+.cb-f4 { fill: var(--cb-facet-c); animation-delay: -3s; }
+.cb-f5 { fill: var(--cb-facet-d); animation-delay: -4s; }
+.cb-f6 { fill: var(--cb-facet-a); animation-delay: -5s; }
+.cb-f7 { fill: var(--cb-facet-c); animation-delay: -6s; }
+.cb-f8 { fill: var(--cb-facet-b); animation-delay: -7s; }
+.cb-f9 { fill: var(--cb-facet-d); animation-delay: -8s; }
+/* Facets catch the light in turn, standing in for the old camera orbit. */
+@keyframes cb-shimmer {
+  0%, 100% { opacity: 0.92; }
+  50% { opacity: 0.62; }
+}
+
+.cb-heart {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cb-pulse 4.2s ease-in-out infinite;
+}
+@keyframes cb-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(0.9); }
+  50% { opacity: 0.95; transform: scale(1.05); }
+}
+
+.cb-edge {
+  stroke: var(--cb-edge);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.cb-edge-in { stroke-width: 0.8; opacity: 0.7; }
+
+/* Orbit rings: circles tilted into perspective, each with a bead that travels round. */
+.cb-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  aspect-ratio: 1;
+  border: 1px solid var(--cb-ring);
+  border-radius: 50%;
+  will-change: transform;
+}
+.cb-ring::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: calc(50% - 3px);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cb-heart);
+}
+.cb-ring-a { width: 150%; animation: cb-orbit-a 40s linear infinite; }
+.cb-ring-b { width: 190%; opacity: 0.8; animation: cb-orbit-b 60s linear infinite; }
+@keyframes cb-orbit-a {
+  from { transform: translate(-50%, -50%) perspective(900px) rotateX(72deg) rotateY(-10deg) rotateZ(0deg); }
+  to { transform: translate(-50%, -50%) perspective(900px) rotateX(72deg) rotateY(-10deg) rotateZ(360deg); }
+}
+@keyframes cb-orbit-b {
+  from { transform: translate(-50%, -50%) perspective(900px) rotateX(76deg) rotateY(14deg) rotateZ(360deg); }
+  to { transform: translate(-50%, -50%) perspective(900px) rotateX(76deg) rotateY(14deg) rotateZ(0deg); }
+}
+
+/* Spires rise as the visitor descends. */
+.cb-spires {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 32vh;
+  fill: var(--cb-spire);
+  transform: translate3d(0, calc((1 - var(--p)) * 6vh), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crystal-backdrop *,
+  .crystal-backdrop *::before,
+  .crystal-backdrop *::after {
+    animation: none !important;
+  }
+  .cb-stage { transform: translate3d(-50%, -50%, 0); }
+  .cb-ring-a { transform: translate(-50%, -50%) perspective(900px) rotateX(72deg) rotateY(-10deg); }
+  .cb-ring-b { transform: translate(-50%, -50%) perspective(900px) rotateX(76deg) rotateY(14deg); }
+  .cb-spires { transform: none; }
+  .cb-sparks span { opacity: 0.35; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .cb-mist, .cb-glow { display: none; }
+}
