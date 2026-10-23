@@ -1,14 +1,46 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Navbar } from './Navbar';
 import { InspectDrawer, DrawerDetail } from './InspectDrawer';
 import { LandingProgressContext } from './LandingProgressContext';
 import { CrystalBackdrop } from './CrystalBackdrop';
 
+const SceneCanvas = dynamic(
+  () => import('../3d/SceneCanvas').then((mod) => mod.SceneCanvas),
+  { ssr: false }
+);
+
+type BackdropTier = 'pending' | 'webgl' | 'css';
+
+/**
+ * The 3D scene needs a real GPU. Software rasterizers (SwiftShader, llvmpipe) draw every frame on the CPU and
+ * freeze the page, and Reduce Motion asks for stillness; both get the CSS crystal, which never downloads three.js.
+ */
+function pickBackdropTier(): BackdropTier {
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'css';
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2) return 'css';
+    const canvas = document.createElement('canvas');
+    // failIfMajorPerformanceCaveat refuses software-only contexts.
+    const gl = (canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true }) ||
+      canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true })) as WebGLRenderingContext | null;
+    if (!gl) return 'css';
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return /swiftshader|llvmpipe|software|basic render/i.test(renderer) ? 'css' : 'webgl';
+  } catch {
+    return 'css';
+  }
+}
+
 export function LandingExperience({ children }: { children: React.ReactNode }) {
   const [showSkip, setShowSkip] = useState(true);
   const [isCanvasVisible, setIsCanvasVisible] = useState(true);
+  const [tier, setTier] = useState<BackdropTier>('pending');
+  useEffect(() => setTier(pickBackdropTier()), []);
   const [inspectedDetail, setInspectedDetail] = useState<DrawerDetail | null>(null);
   const scrollProgressRef = useRef(0);
 
@@ -91,7 +123,14 @@ export function LandingExperience({ children }: { children: React.ReactNode }) {
       )}
 
       <InspectDrawer detail={inspectedDetail} onClose={() => setInspectedDetail(null)} />
-      <CrystalBackdrop scrollProgressRef={scrollProgressRef} isVisible={isCanvasVisible} />
+      {tier === 'css' ? (
+        <CrystalBackdrop scrollProgressRef={scrollProgressRef} isVisible={isCanvasVisible} />
+      ) : (
+        <div className="fixed inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#DADADA] via-[#E3E3E3] to-[#F8F8F8] dark:from-[#1F1F1F] dark:via-[#1B1B1B] dark:to-[#1B1B1B]" />
+      )}
+      {tier === 'webgl' && (
+        <SceneCanvas scrollProgressRef={scrollProgressRef} isLoaded isCanvasVisible={isCanvasVisible} />
+      )}
       <Navbar />
 
       <LandingProgressContext.Provider value={contextValue}>
