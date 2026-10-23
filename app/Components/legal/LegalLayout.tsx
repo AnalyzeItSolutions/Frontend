@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { BrandLogo } from '../ui/Brand';
-import { ThemeToggle } from '../ui/ThemeToggle';
+import { Navbar } from '../landing/Navbar';
 import { Footer } from '../landing/Footer';
 import { OperatorBlock } from './OperatorBlock';
 
@@ -52,28 +51,9 @@ export function LegalLayout({
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text-primary)] flex flex-col transition-colors duration-300">
-      <nav className="flex items-center justify-between px-6 sm:px-10 py-5 border-b border-[var(--border)]">
-        <Link href="/" className="flex items-center gap-2 group">
-          <BrandLogo size={26} />
-        </Link>
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <Link
-            href="/login"
-            className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] hover:text-brand transition-colors"
-          >
-            Sign in
-          </Link>
-          <Link
-            href="/login?tab=register"
-            className="hidden sm:inline-flex text-xs font-medium px-4 py-1.5 rounded-full bg-[var(--brand)] hover:bg-[var(--brand-hover)] text-[var(--brand-ink)] transition-colors"
-          >
-            Create account
-          </Link>
-        </div>
-      </nav>
+      <Navbar />
 
-      <main id="main-content" className="flex-1 w-full max-w-3xl mx-auto px-6 py-14 sm:py-20">
+      <main id="main-content" className="flex-1 w-full max-w-3xl mx-auto px-6 pt-32 pb-14 sm:pt-40 sm:pb-20">
         {eyebrow !== false ? (
           <p className="font-mono text-[11px] uppercase tracking-widest text-[var(--text-muted)] mb-3">
             {eyebrow}
