@@ -22,7 +22,7 @@ export function HeroAnswer() {
         {example.question}
       </div>
       <div className="rounded-3xl border border-[#414141]/10 bg-[#F8F8F8]/95 p-4 shadow-sm backdrop-blur-md dark:border-[var(--border)] dark:bg-[#1B1B1B]/92 sm:p-5">
-        <FindingCards data={parsed} />
+        <FindingCards data={parsed} headingLevel={2} />
       </div>
       <figcaption className="mt-2 text-xs leading-relaxed text-[var(--text-secondary)]">
         This is {example.dataset}. Bring your own data to see yours. Open &ldquo;Show the working&rdquo; on a card for the exact figures and the query behind it.

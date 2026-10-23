@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useId, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useId, useState } from 'react';
+import type React from 'react';
 import {
   breakdownLine,
   checkedLine,
@@ -21,6 +22,16 @@ import {
 } from '../../lib/mathFindings.mjs';
 import { FindingChart } from './FindingChart';
 import { MathStepRail } from './MathStepRail';
+
+/** Heading level of the "What stands out" title; card titles and detail headings sit one and two levels below it. */
+const HeadingBase = createContext<2 | 3>(3);
+
+function H({ level, ...props }: { level: 0 | 1 | 2 } & React.HTMLAttributes<HTMLHeadingElement>) {
+  const base = useContext(HeadingBase);
+  const Tag = `h${base + level}` as 'h2' | 'h3' | 'h4' | 'h5';
+  return <Tag {...props} />;
+}
+
 
 /**
  * What discovery found, as cards — plus Phase 1 math finding cards (Regression / Forecast / What-if)
@@ -52,7 +63,7 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
       <div className="mt-3 space-y-4 text-[var(--text-primary)]">
         {f.why.length ? (
           <section>
-            <h5 className="mb-1 font-semibold">What this is based on</h5>
+            <H level={2} className="mb-1 font-semibold">What this is based on</H>
             <ul className="list-disc space-y-1 pl-4">
               {f.why.map((w) => (
                 <li key={w}>{w}</li>
@@ -62,13 +73,13 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
         ) : null}
         {f.confidenceNote ? (
           <section>
-            <h5 className="mb-1 font-semibold">How sure we are: {f.confidenceLabel}</h5>
+            <H level={2} className="mb-1 font-semibold">How sure we are: {f.confidenceLabel}</H>
             <p style={{ color: 'var(--finding-soft)' }}>{f.confidenceNote}</p>
           </section>
         ) : null}
         {f.reasoning.length ? (
           <section>
-            <h5 className="mb-1 font-semibold">The exact reasoning</h5>
+            <H level={2} className="mb-1 font-semibold">The exact reasoning</H>
             <p className="mb-1">{f.headline}</p>
             <ul className="list-disc space-y-1 pl-4">
               {f.reasoning.map((r) => (
@@ -79,7 +90,7 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
         ) : null}
         {f.figures.length ? (
           <section>
-            <h5 className="mb-1 font-semibold">The numbers</h5>
+            <H level={2} className="mb-1 font-semibold">The numbers</H>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <caption className="sr-only">Figures behind this finding</caption>
@@ -104,7 +115,7 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
           </section>
         ) : null}
         <section>
-          <h5 className="mb-1 font-semibold">Where the data came from</h5>
+          <H level={2} className="mb-1 font-semibold">Where the data came from</H>
           {f.source.origin === 'online' ? (
             <div style={{ color: 'var(--finding-soft)' }}>
               <ul className="space-y-0.5">
@@ -129,7 +140,7 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
         </section>
         {source && source.notes.length ? (
           <section>
-            <h5 className="mb-1 font-semibold">How the data was read</h5>
+            <H level={2} className="mb-1 font-semibold">How the data was read</H>
             <ul className="list-disc space-y-1 pl-4">
               {source.notes.map((n) => (
                 <li key={n}>{n}</li>
@@ -139,7 +150,7 @@ function Working({ f, source }: { f: Finding; source?: FindingsScope['sources'][
         ) : null}
         {f.sql ? (
           <section>
-            <h5 className="mb-1 font-semibold">The query that was run (read-only)</h5>
+            <H level={2} className="mb-1 font-semibold">The query that was run (read-only)</H>
             <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-md bg-[var(--surface-3)] p-2 text-[11px] leading-snug">{f.sql}</pre>
           </section>
         ) : null}
@@ -288,9 +299,9 @@ function MathFindingCard({
           {showWorking ? <ConfidencePill f={f} /> : null}
         </div>
       </div>
-      <h4 id={`${id}-t`} className="text-[15px] font-medium leading-snug text-[var(--text-primary)]">
+      <H level={1} id={`${id}-t`} className="text-[15px] font-medium leading-snug text-[var(--text-primary)]">
         {title}
-      </h4>
+      </H>
 
       {unwired ? (
         <MathUnwiredEmpty methodLabel={math.methodLabel} />
@@ -366,9 +377,9 @@ function FindingCard({ f, source, onAsk, disabled }: { f: Finding; source?: Find
         </span>
         <ConfidencePill f={f} />
       </div>
-      <h4 id={`${id}-t`} className="text-[15px] font-medium leading-snug text-[var(--text-primary)]">
+      <H level={1} id={`${id}-t`} className="text-[15px] font-medium leading-snug text-[var(--text-primary)]">
         {f.title}
-      </h4>
+      </H>
       <FindingChart finding={f} />
       {f.soWhat ? <p className="text-sm text-[var(--text-primary)]">{f.soWhat}</p> : null}
       {from ? (
@@ -402,8 +413,11 @@ export function FindingCards({
   disabled,
   signedIn,
   onRetryMath,
+  headingLevel = 3,
 }: {
   data: ParsedFindings;
+  /** 2 when the cards sit directly under a page's h1, as in the landing hero. */
+  headingLevel?: 2 | 3;
   onAsk?: (q: string) => void;
   disabled?: boolean;
   /** Guest views leave this false — no retry chrome. */
@@ -439,10 +453,11 @@ export function FindingCards({
   };
 
   return (
+    <HeadingBase.Provider value={headingLevel}>
     <section aria-label={hasMath ? 'Math findings' : 'What stands out in your data'} className="mt-3 space-y-3">
       <header className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <h3 className="text-sm font-semibold text-[var(--text-primary)]">{hasMath ? 'Analysis steps' : 'What stands out'}</h3>
+          <H level={0} className="text-sm font-semibold text-[var(--text-primary)]">{hasMath ? 'Analysis steps' : 'What stands out'}</H>
           {line ? (
             <p className="text-xs" style={{ color: 'var(--finding-soft)' }}>
               {line}
@@ -495,5 +510,6 @@ export function FindingCards({
         </p>
       ))}
     </section>
+    </HeadingBase.Provider>
   );
 }
