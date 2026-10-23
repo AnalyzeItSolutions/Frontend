@@ -61,3 +61,20 @@ test('plans: sends the plan with its hash and reports progress and the result', 
   const c2 = createExtensionClient(fakeWindow());
   assert.equal((await c2.runPlan({ id: 'x', steps: [], mode: 'fill_only', plan_sha256: '' })).ok, false);
 });
+
+test('links and unlinks the account through the extension, and tracks the relay state', async () => {
+  const w = fakeWindow();
+  const c = createExtensionClient(w);
+  assert.equal((await c.linkAccount({ token: 'brl_x', api: 'https://api.analyzeit.si' })).ok, false, 'not without the extension');
+  w.deliver({ source: 'analyzeit-extension', type: 'hello', version: '0.2.0', relay: { linked: false } });
+  const p = c.linkAccount({ token: 'brl_' + 'a'.repeat(30), api: 'https://api.analyzeit.si' });
+  assert.deepEqual(w.sent.at(-1), { source: 'analyzeit-app', type: 'link-account', token: 'brl_' + 'a'.repeat(30), api: 'https://api.analyzeit.si' });
+  w.deliver({ source: 'analyzeit-extension', type: 'account-link', ok: true, relay: { linked: true } });
+  assert.equal((await p).ok, true);
+  assert.equal(c.state.relay.linked, true);
+  const u = c.unlinkAccount();
+  assert.equal(w.sent.at(-1).type, 'unlink-account');
+  w.deliver({ source: 'analyzeit-extension', type: 'account-link', ok: true, relay: { linked: false } });
+  assert.equal((await u).ok, true);
+  assert.equal(c.state.relay.linked, false);
+});

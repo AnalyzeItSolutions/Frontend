@@ -42,3 +42,8 @@ export const setPlanSettings = (auto_read: boolean) => call<{ auto_read: boolean
 export const approvePlan = (p: BrowserPlan) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(p.id)}/approve`, { plan_sha256: p.plan_sha256 });
 export const cancelPlan = (id: string) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/cancel`);
 export const reportPlan = (id: string, body: { ok: boolean; reason?: string; cancelled?: boolean; results?: unknown[] }) => call<BrowserPlan>('POST', `/browser-plans/${encodeURIComponent(id)}/result`, body);
+
+export const API_ORIGIN = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+export const linkBrowser = (label: string) => call<{ id: string; token: string }>('POST', '/browser-relay/link', { label });
+export const listBrowserLinks = () => call<{ links: Array<{ id: string; label: string; online: boolean; last_seen: number | null }> }>('GET', '/browser-relay/links').then((r) => r.links);
+export const unlinkBrowser = (id: string) => call<{ revoked: number }>('DELETE', `/browser-relay/links/${encodeURIComponent(id)}`);

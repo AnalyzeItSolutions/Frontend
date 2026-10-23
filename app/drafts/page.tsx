@@ -27,7 +27,7 @@ import { getPlanSettings, setPlanSettings, addVoiceSamples, approveDraft, approv
 
 type Client = ReturnType<typeof createExtensionClient>;
 
-const OFFLINE: ExtensionState = { connected: false, version: null, platforms: {}, paused: false, autoRead: false };
+const OFFLINE: ExtensionState = { connected: false, version: null, platforms: {}, paused: false, autoRead: false, relay: { linked: false } };
 let shared: Client | null = null;
 function getClient(): Client | null {
   if (typeof window === 'undefined') return null;
