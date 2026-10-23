@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
       <header className="fixed top-5 sm:top-6 left-0 right-0 z-40 flex justify-center px-4 sm:px-6 pointer-events-none">
         <nav
           aria-label="Main"
-          className={`pointer-events-auto flex w-full max-w-full lg:w-auto items-center justify-between gap-3 sm:gap-8 px-4 sm:px-7 py-2.5 sm:py-3 rounded-full transition-all duration-300 bg-[var(--surface)]/95 backdrop-blur-md shadow-[var(--shadow-sm)] text-[var(--text-primary)] border border-[var(--border)] ${
+          className={`pointer-events-auto flex w-full max-w-full xl:w-auto items-center justify-between gap-3 sm:gap-8 px-4 sm:px-7 py-2.5 sm:py-3 rounded-full transition-all duration-300 bg-[var(--surface)]/95 backdrop-blur-md shadow-[var(--shadow-sm)] text-[var(--text-primary)] border border-[var(--border)] ${
             scrolled
               ? 'shadow-md shadow-black/10'
               : 'shadow-xs'
@@ -86,7 +86,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-5 text-sm font-medium tracking-wide text-[var(--text-primary)]">
+          <div className="hidden xl:flex items-center gap-5 text-sm font-medium tracking-wide whitespace-nowrap text-[var(--text-primary)]">
             {SECTION_LINKS.map((s) => (
               <Link
                 key={s.id}
@@ -131,7 +131,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-11 h-11 -mr-2 flex flex-col items-center justify-center gap-1 text-[var(--text-primary)] cursor-pointer"
+              className="xl:hidden w-11 h-11 -mr-2 flex flex-col items-center justify-center gap-1 text-[var(--text-primary)] cursor-pointer"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
               aria-controls="site-mobile-menu"
@@ -155,7 +155,7 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div
           id="site-mobile-menu"
-          className="fixed inset-0 z-30 bg-[var(--bg)]/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-6 text-sm font-mono tracking-widest uppercase lg:hidden text-[var(--text-primary)]"
+          className="fixed inset-0 z-30 bg-[var(--bg)]/98 backdrop-blur-2xl flex flex-col items-center justify-center gap-6 text-sm font-mono tracking-widest uppercase xl:hidden text-[var(--text-primary)]"
         >
           {SECTION_LINKS.map((s) => (
             <Link
