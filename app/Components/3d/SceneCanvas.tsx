@@ -28,20 +28,51 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
   const clearColor = isDark ? '#1B1B1B' : '#F8F8F8';
 
   useEffect(() => {
-    setMounted(true);
-
     try {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const lowCores = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 2;
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      // failIfMajorPerformanceCaveat refuses software-only contexts.
+      const gl = (canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true }) ||
+        canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true })) as WebGLRenderingContext | null;
+      // Software rasterizers (SwiftShader, llvmpipe) run every frame on the main thread and freeze the page.
+      const info = gl?.getExtension('WEBGL_debug_renderer_info');
+      const renderer = info && gl ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+      const software = /swiftshader|llvmpipe|software|basic render/i.test(renderer);
+      gl?.getExtension('WEBGL_lose_context')?.loseContext();
 
-      if (prefersReduced || lowCores || !gl) {
+      if (prefersReduced || lowCores || !gl || software) {
         setIsCapable(false);
+        return;
       }
     } catch {
-      setIsCapable(true);
+      setIsCapable(false);
+      return;
     }
+
+    // Mount the scene once the page is idle so it never competes with first paint and hydration.
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    const start = () => setMounted(true);
+    let timer = 0;
+    let idle = 0;
+    const schedule = () => {
+      if (w.requestIdleCallback) idle = w.requestIdleCallback(start, { timeout: 2500 });
+      else timer = window.setTimeout(start, 1200);
+    };
+    if (document.readyState === 'complete') schedule();
+    else window.addEventListener('load', schedule, { once: true });
+    return () => {
+      window.removeEventListener('load', schedule);
+      window.clearTimeout(timer);
+      if (idle) (window as Window & { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback?.(idle);
+    };
+  }, []);
+
+  const [pageVisible, setPageVisible] = useState(true);
+  useEffect(() => {
+    const onVis = () => setPageVisible(document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
   }, []);
 
   if (!mounted || !isCapable) {
@@ -59,6 +90,7 @@ export const SceneCanvas: React.FC<SceneCanvasProps> = ({
       style={{ background: clearColor }}
     >
       <Canvas
+        frameloop={isCanvasVisible && pageVisible ? 'always' : 'never'}
         camera={{ position: [0, 2.8, 11.5], fov: 48, near: 0.1, far: 200 }}
         gl={{
           antialias: true,

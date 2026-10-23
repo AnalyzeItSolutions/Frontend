@@ -10,6 +10,13 @@ import { SITE_DESCRIPTION, SITE_NAME, SITE_TAGLINE, SITE_URL } from "./lib/site"
 import { buildSessionBootScript } from "./lib/personalHost.mjs";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Inter, Outfit, Playfair_Display, Space_Mono } from "next/font/google";
+
+// Self-hosted by next/font: no render-blocking request to fonts.googleapis.com.
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter-nf", display: "swap" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit-nf", display: "swap", preload: false });
+const playfair = Playfair_Display({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-playfair-nf", display: "swap", preload: false });
+const spaceMono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], style: ["normal", "italic"], variable: "--font-mono-nf", display: "swap", preload: false });
 
 /** Public AdSense publisher ID — omit meta when unset (no hardcoded publisher). */
 const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "";
@@ -119,7 +126,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className="h-full antialiased selection:bg-[var(--brand)]/30 selection:text-[#414141] dark:selection:bg-[var(--brand)]/30 dark:selection:text-[#EDEDED]"
+      className={`${inter.variable} ${outfit.variable} ${playfair.variable} ${spaceMono.variable} h-full antialiased selection:bg-[var(--brand)]/30 selection:text-[#414141] dark:selection:bg-[var(--brand)]/30 dark:selection:text-[#EDEDED]`}
     >
       <head>
         {/* AdSense ownership is proven by the google-adsense-account meta tag (see metadata) and /ads.txt. The ad script itself is loaded by
@@ -130,12 +137,6 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
-          rel="stylesheet"
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: buildSessionBootScript(),
