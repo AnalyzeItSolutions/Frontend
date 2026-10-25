@@ -13,7 +13,7 @@ const link = 'text-brand hover:underline';
 export default function FeaturesPage() {
   return (
     <LegalLayout
-      title="What AnalyzeIt does"
+      title="Online data analysis tool: what AnalyzeIt does"
       eyebrow={false}
       showHeroUpdated={false}
       subtitle="Ask a question, get an answer with the numbers and sources behind it."
@@ -61,7 +61,8 @@ export default function FeaturesPage() {
       <LegalSection title="Try it">
         <p>
           <Link href="/demo" className={link}>See a live demo</Link>, browse{' '}
-          <Link href="/cases" className={link}>worked examples</Link>, or{' '}
+          <Link href="/cases" className={link}>worked examples</Link>,{' '}
+          <Link href="/data-analysis-software" className={link}>how to choose data analysis software</Link>, or{' '}
           <Link href="/login" className={link}>start free</Link>. Plans are on the{' '}
           <Link href="/products" className={link}>products page</Link>.
         </p>

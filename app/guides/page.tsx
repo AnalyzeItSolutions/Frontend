@@ -24,6 +24,10 @@ export default function Page() {
         ))}
       </ul>
       <p className="mt-10 text-sm text-[var(--text-secondary)]">
+        New to choosing software? Start with{' '}
+        <Link href="/data-analysis-software" className="text-[var(--text-primary)] underline underline-offset-2">data analysis software: which kind fits your job</Link>.
+      </p>
+      <p className="mt-4 text-sm text-[var(--text-secondary)]">
         Prefer to see it work? <Link href="/demo" className="text-[var(--text-primary)] underline underline-offset-2">Try the live demo</Link> or browse the{' '}
         <Link href="/cases" className="text-[var(--text-primary)] underline underline-offset-2">worked examples</Link>. For formulas, see{' '}
         <Link href="/metrics" className="text-[var(--text-primary)] underline underline-offset-2">business metrics</Link> and{' '}

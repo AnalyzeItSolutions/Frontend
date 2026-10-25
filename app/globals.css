@@ -727,7 +727,7 @@ textarea:focus-visible {
 
 .legal-prose strong {
   font-weight: 600;
-  color: #414141;
+  color: var(--text-primary);
 }
 
 details > summary {

@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+import { SITE_NAME, SITE_URL } from './lib/site';
 import { LandingExperience } from './Components/landing/LandingExperience';
 import { HeroSection } from './Components/landing/HeroSection';
 import { MemorySection } from './Components/landing/MemorySection';
@@ -11,6 +13,25 @@ import { PricingTeaserSection } from './Components/landing/PricingTeaserSection'
 import { FAQSection } from './Components/landing/FAQSection';
 import { ClosingCTASection } from './Components/landing/ClosingCTASection';
 import { Footer } from './Components/landing/Footer';
+
+// The home page leads with the search phrase people use; the brand tagline stays in the hero.
+const HOME_TITLE = 'AI data analytics tool you can check — AnalyzeIt';
+const HOME_DESCRIPTION =
+  'Ask your business data in plain language and check every number: the source and the working are shown. Five free runs, no account needed.';
+
+export const metadata: Metadata = {
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  openGraph: {
+    type: 'website',
+    locale: 'en_IN',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+  },
+  twitter: { title: HOME_TITLE, description: HOME_DESCRIPTION },
+};
 
 export default function Home() {
   return (
