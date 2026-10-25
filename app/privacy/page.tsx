@@ -84,7 +84,7 @@ export default function PrivacyPage() {
       <LegalSection title="4. Retention and cookies">
         <p>
           Account and workspace data are kept while your account is active. Data sent for cloud
-          compute is not retained: it exists in the service's memory only while that one analysis
+          compute is not retained: it exists in the service&apos;s memory only while that one analysis
           runs. Essential storage
           (session token, theme) is used so the product can function. See the{' '}
           <a href="/cookies" className="text-brand hover:underline">
