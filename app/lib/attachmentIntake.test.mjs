@@ -14,6 +14,12 @@ test('plan keeps supported files and says why others were skipped', () => {
   assert.match(skipped[3].reason, /already attached/);
 });
 
+test('plan takes images, which the server reads with OCR', () => {
+  const { take, skipped } = planIntake([f('chart.png'), f('Invoice.JPG'), f('scan.tiff')]);
+  assert.deepEqual(take.map((x) => x.name), ['chart.png', 'Invoice.JPG', 'scan.tiff']);
+  assert.equal(skipped.length, 0);
+});
+
 test('plan respects the room left on the message and files already attached', () => {
   const have = [{ filename: 'x.csv', size_bytes: 100 }, ...Array.from({ length: 7 }, (_, i) => ({ filename: `h${i}.csv`, size_bytes: i }))];
   const { take, skipped } = planIntake([f('x.csv'), f('n1.csv'), f('n2.csv'), f('n3.csv')], have);

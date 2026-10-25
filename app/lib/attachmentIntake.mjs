@@ -3,7 +3,9 @@
 
 export const MAX_FILES_PER_MESSAGE = 10;
 export const MAX_FILE_BYTES = 15 * 1024 * 1024;
-export const SUPPORTED_EXTENSIONS = ['csv', 'tsv', 'txt', 'dsv', 'psv', 'tab', 'json', 'ndjson', 'jsonl', 'xlsx', 'xlsm', 'pdf', 'twb', 'twbx'];
+export const SUPPORTED_EXTENSIONS = ['csv', 'tsv', 'txt', 'dsv', 'psv', 'tab', 'json', 'ndjson', 'jsonl', 'xlsx', 'xlsm', 'pdf', 'twb', 'twbx',
+  // Images: the server reads their text (OCR).
+  'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tif', 'tiff', 'gif'];
 
 const extOf = (name) => {
   const m = /\.([a-z0-9]+)$/i.exec(String(name || ''));
