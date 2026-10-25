@@ -1,4 +1,4 @@
-// Copy of AnalyzeItTech/Extension app-client/analyzeit-extension.js; keep the two in sync.
+// Copy of AnalyzeItSolutions/Extension app-client/analyzeit-extension.js; keep the two in sync.
 // Drop-in client for the AnalyzeIt web app (and anything else on an AnalyzeIt origin) to talk to the browser extension.
 // Framework-free ES module. Same message contract the stub app in test/stub/app.html uses.
 //
