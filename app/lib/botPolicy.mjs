@@ -2,10 +2,12 @@
 // that send no visitors. They are listed in robots.txt and refused with 403 by the proxy,
 // since many of them ignore robots.txt.
 //
-// Kept on purpose (never add these): search engines (Googlebot, Bingbot, DuckDuckBot, Applebot,
-// YandexBot), AdSense (Mediapartners-Google, AdsBot-Google), AI assistants that cite and link
+// Matching is on crawler names only; no browser user agent contains them, so people are never refused.
+// Kept on purpose (never add these): every search engine (Googlebot, Bingbot, DuckDuckBot, Applebot,
+// YandexBot, Baiduspider, PetalBot, Sogou, Seekport, Qwant, Mojeek, Yeti, Slurp), AdSense (Mediapartners-Google, AdsBot-Google), AI assistants that cite and link
 // pages (OAI-SearchBot, ChatGPT-User, GPTBot, Claude-SearchBot, Claude-User, ClaudeBot,
-// PerplexityBot, Perplexity-User, Google-Extended) and link previews (facebookexternalhit,
+// PerplexityBot, Perplexity-User, Google-Extended, DuckAssistBot, YouBot, MistralAI-User,
+// meta-externalfetcher, Amazonbot, CCBot which feeds many AI models) and link previews (facebookexternalhit,
 // Twitterbot, LinkedInBot, Slackbot, WhatsApp, Discordbot, TelegramBot).
 export const BLOCKED_BOTS = [
   // SEO tools
@@ -24,10 +26,8 @@ export const BLOCKED_BOTS = [
   'linkdexbot',
   'spbot',
   'Screaming Frog SEO Spider',
-  'SeekportBot',
   // bulk scrapers and data resellers
   'Bytespider',
-  'CCBot',
   'Diffbot',
   'omgili',
   'omgilibot',
@@ -35,11 +35,9 @@ export const BLOCKED_BOTS = [
   'Timpibot',
   'magpie-crawler',
   'Scrapy',
-  'PetalBot',
   'ZoominfoBot',
   'DataProvider',
   'MauiBot',
-  'Amazonbot',
   'meta-externalagent',
   'FacebookBot',
   'cohere-ai',
@@ -48,7 +46,6 @@ export const BLOCKED_BOTS = [
   'img2dataset',
   'VelenPublicWebCrawler',
   'Kangaroo Bot',
-  'Sogou',
 ];
 
 const pattern = new RegExp(BLOCKED_BOTS.map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'i');

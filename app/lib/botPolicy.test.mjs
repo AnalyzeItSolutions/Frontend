@@ -17,6 +17,29 @@ const KEPT = [
   'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; ClaudeBot/1.0; +claudebot@anthropic.com)',
   'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; PerplexityBot/1.0; +https://perplexity.ai/perplexitybot)',
   'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
+  'Mozilla/5.0 (compatible; YandexBot/3.0; +http://yandex.com/bots)',
+  'Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)',
+  'Mozilla/5.0 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)',
+  'Sogou web spider/4.0(+http://www.sogou.com/docs/help/webmasters.htm#07)',
+  'Mozilla/5.0 (compatible; SeekportBot; +https://bot.seekport.com)',
+  'Mozilla/5.0 (compatible; Qwantbot/1.0; +https://help.qwant.com/bot/)',
+  'Mozilla/5.0 (compatible; MojeekBot/0.11; +https://www.mojeek.com/bot.html)',
+  'Mozilla/5.0 (compatible; Yeti/1.1; +https://naver.me/spd)',
+  'Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-SearchBot/1.0; +Claude-SearchBot@anthropic.com)',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-User/1.0; +Claude-User@anthropic.com)',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; GPTBot/1.1; +https://openai.com/gptbot',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Perplexity-User/1.0; +https://perplexity.ai/perplexity-user)',
+  'DuckAssistBot/1.2; (+http://duckduckgo.com/duckassistbot.html)',
+  'Mozilla/5.0 (compatible; YouBot/1.0; +https://about.you.com/youbot/)',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots)',
+  'meta-externalfetcher/1.1 (+https://developers.facebook.com/docs/sharing/webmasters/crawler)',
+  'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Amazonbot/0.1; +https://developer.amazon.com/support/amazonbot) Chrome/119.0.6045.214 Safari/537.36',
+  'CCBot/2.0 (https://commoncrawl.org/faq/)',
+  'Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  'Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0',
+  'Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36',
   'Twitterbot/1.0',
   'LinkedInBot/1.0 (compatible; Mozilla/5.0; Apache-HttpClient +http://www.linkedin.com)',
   'Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)',
@@ -30,14 +53,12 @@ const BLOCKED = [
   'Mozilla/5.0 (compatible; SemrushBot/7~bl; +http://www.semrush.com/bot.html)',
   'Mozilla/5.0 (compatible; MJ12bot/v1.4.8; http://mj12bot.com/)',
   'Mozilla/5.0 (Linux; Android 5.0) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36 (compatible; Bytespider; spider-feedback@bytedance.com)',
-  'CCBot/2.0 (https://commoncrawl.org/faq/)',
   'Mozilla/5.0 (compatible; DataForSeoBot/1.0; +https://dataforseo.com/dataforseo-bot)',
   'meta-externalagent/1.1 (+https://developers.facebook.com/docs/sharing/webmasters/crawler)',
-  'Mozilla/5.0 (compatible; PetalBot;+https://webmaster.petalsearch.com/site/petalbot)',
 ];
 
 describe('bot policy', () => {
-  it('keeps search engines, AdSense, AI assistants, link previews and browsers', () => {
+  it('keeps every search engine, AI search and assistant fetcher, AdSense, AI assistants, link previews and browsers', () => {
     for (const ua of KEPT) assert.equal(isBlockedBot(ua), false, ua);
   });
   it('refuses SEO tools, scrapers and no-return crawlers', () => {
