@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function SecurityPage() {
   return (
-    <LegalLayout title="Security" updated="September 11, 2026">
+    <LegalLayout title="Security" updated="October 25, 2026">
       <p>
         AnalyzeIt is built so that product features stay behind an account, credentials stay
         scoped, and workspace data is only loaded for the signed-in user.
@@ -67,6 +67,16 @@ export default function SecurityPage() {
           never rows. Sign-in happens in your browser (no password is typed into the app), and the
           session token is stored in an owner-only file on that computer. Queries you run on local data are
           read-only and limited to your own datasets.
+        </p>
+        <p>
+          <strong>Cloud compute</strong> is off unless you turn it on (<code>analyzeit compute cloud</code>).
+          With it on, your data still stays stored on your computer; for each question an assistant asks,
+          the app sends only the columns that one analysis needs, over HTTPS, to the AnalyzeIt compute
+          service. The service checks your sign-in, runs the same analysis and the same rules as the app
+          (no rows, no identifiers, no group of fewer than 3 records in what an assistant receives) in
+          memory, returns the result to your computer and keeps nothing: no file, no database and no log
+          of the data. If it cannot be reached, the analysis runs on your computer. Private datasets are
+          never sent.
         </p>
         <p>
           Updates are signed with a private key that is kept off our build servers; the app and

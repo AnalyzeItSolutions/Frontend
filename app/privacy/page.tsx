@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalLayout title="Privacy Policy" updated="September 11, 2026">
+    <LegalLayout title="Privacy Policy" updated="October 25, 2026">
       <p>
         {LEGAL_NAME} (“we”, “us”) provides AnalyzeIt, an analytics workspace for signed-in users.
         This policy explains what we collect, why, and the choices you have.
@@ -28,6 +28,14 @@ export default function PrivacyPage() {
           <li>
             <strong>Connector data:</strong> credentials and synced records from sources you connect.
             Credentials are encrypted at rest when a vault key is configured.
+          </li>
+          <li>
+            <strong>Data on your computer:</strong> datasets you import into the AnalyzeIt desktop app or
+            command line stay stored on your computer, in an encrypted vault, and are not uploaded to be
+            kept. If you turn on cloud compute (off by default), then for each question an assistant asks,
+            only the columns that one analysis needs are sent over HTTPS to our compute service, analysed
+            in memory and returned; the service keeps no copy and does not log the data (only the time,
+            status and size of the request). Results are saved on your computer.
           </li>
           <li>
             <strong>Billing data:</strong> plan selection, transaction identifiers, and payment
@@ -66,7 +74,9 @@ export default function PrivacyPage() {
 
       <LegalSection title="4. Retention and cookies">
         <p>
-          Account and workspace data are kept while your account is active. Essential storage
+          Account and workspace data are kept while your account is active. Data sent for cloud
+          compute is not retained: it exists in the service's memory only while that one analysis
+          runs. Essential storage
           (session token, theme) is used so the product can function. See the{' '}
           <a href="/cookies" className="text-brand hover:underline">
             Cookie Policy
