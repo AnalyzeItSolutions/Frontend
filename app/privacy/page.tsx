@@ -38,6 +38,15 @@ export default function PrivacyPage() {
             status and size of the request). Results are saved on your computer.
           </li>
           <li>
+            <strong>Reports of unanswered questions:</strong> when you are signed in to the desktop app or
+            command line and AnalyzeIt cannot answer a question about your data, it sends a short report so
+            we can build the missing analysis: the reason, the question with your dataset&apos;s values masked
+            (names, ids, emails, long numbers), the dataset&apos;s row count and column names and types, and the
+            program version. It never includes rows. The question as you wrote it is included only if you
+            turn that on (<code>analyzeit misses share full</code>); <code>analyzeit misses share off</code>{' '}
+            stops reports. Reports are kept for 180 days and are never used to train models.
+          </li>
+          <li>
             <strong>Billing data:</strong> plan selection, transaction identifiers, and payment
             status processed by Razorpay. We do not store full card numbers.
           </li>
