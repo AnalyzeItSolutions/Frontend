@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { COUNTRY_COOKIE, normalizeCountry } from './app/lib/countryProfile.mjs';
+import { isBlockedBot } from './app/lib/botPolicy.mjs';
 import { AUTH_COOKIE, SESSION_COOKIE, decideHostRequest, publicHost } from './app/lib/personalHost.mjs';
 
 const PROTECTED_PREFIXES = [
@@ -26,8 +27,15 @@ function hasSession(request: NextRequest): boolean {
   return Boolean(request.cookies.get(SESSION_COOKIE)?.value);
 }
 
+// Paths the host, sign-in and country logic below runs on; every other path only gets the bot check.
+const ROUTED = /^\/(?:$|products$|login(?:\/|$)|auth(?:\/|$)|dashboard(?:\/|$)|digest(?:\/|$)|research(?:\/|$)|globe(?:\/|$)|connectors(?:\/|$)|objects(?:\/|$)|profile(?:\/|$)|billing(?:\/|$)|new-project(?:\/|$)|project(?:\/|$)|ops(?:\/|$)|memory(?:\/|$)|embeddings(?:\/|$)|onboarding(?:\/|$))/i;
+
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  if (pathname !== '/robots.txt' && isBlockedBot(request.headers.get('user-agent'))) {
+    return new NextResponse('Forbidden', { status: 403, headers: { 'Content-Type': 'text/plain' } });
+  }
+  if (!ROUTED.test(pathname)) return NextResponse.next();
   const hostHeader = publicHost(request.headers.get('host'), request.headers.get('x-forwarded-host'));
   const decision = decideHostRequest({
     hostHeader,
@@ -115,5 +123,7 @@ export const config = {
     '/embeddings',
     '/onboarding/:path*',
     '/onboarding',
+    // Everything else, for the bot check only (static build files excluded).
+    '/((?!_next/static|_next/image).*)',
   ],
 };

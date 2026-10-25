@@ -1,10 +1,13 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from './lib/site';
 import { DATA_SITEMAP_COUNT } from './lib/wdi/wdi';
+import { BLOCKED_BOTS } from './lib/botPolicy.mjs';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
+    rules: [
+      { userAgent: BLOCKED_BOTS, disallow: '/' },
+      {
       userAgent: '*',
       allow: '/',
       disallow: [
@@ -28,7 +31,8 @@ export default function robots(): MetadataRoute.Robots {
         '/approve',
         '/api/',
       ],
-    },
+      },
+    ],
     sitemap: [`${SITE_URL}/sitemap.xml`, ...Array.from({ length: DATA_SITEMAP_COUNT }, (_, i) => `${SITE_URL}/sitemaps/data/sitemap/${i}.xml`), `${SITE_URL}/sitemaps/unicode/sitemap.xml`],
     host: SITE_URL,
   };
