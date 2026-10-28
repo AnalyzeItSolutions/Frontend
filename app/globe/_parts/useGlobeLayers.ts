@@ -9,7 +9,7 @@ import { interpretLayerPayload, mergeLayerRefresh } from '../../Components/globe
 import { buildLiveOverlays } from '../../Components/globe/liveOverlays.mjs';
 import { useGlobe } from '../../Components/globe/useGlobe';
 import type { SourcePoint } from '../../Components/globe/types';
-import { DEFAULT_LAYERS, LIVE_LAYER_IDS, type LayerHealth, type LayerId } from './layers';
+import { DEFAULT_LAYERS, LAYERS, LIVE_LAYER_IDS, type LayerHealth, type LayerId } from './layers';
 
 type Events = Array<Record<string, unknown>>;
 type CacheEntry = {
@@ -143,7 +143,7 @@ export function useGlobeLayers(days: number, requestedProject: string) {
             cache.current[id] = {
               events: next.events,
               path: next.path,
-              health: { status: next.status, message: next.message },
+              health: { status: next.status, message: next.message, truncated: payload.truncated === true },
               fetchedAt: Date.now(),
             };
             rebuild();
@@ -198,6 +198,10 @@ export function useGlobeLayers(days: number, requestedProject: string) {
   }, [layers, rebuild]);
 
   const anyLayerOn = useMemo(() => Object.values(layers).some(Boolean), [layers]);
+  const cappedLayers = useMemo(
+    () => LAYERS.filter((l) => layerHealth[l.id]?.truncated).map((l) => l.label),
+    [layerHealth],
+  );
 
   return {
     layers,
@@ -210,5 +214,6 @@ export function useGlobeLayers(days: number, requestedProject: string) {
     fieldEvents,
     projectId,
     anyLayerOn,
+    cappedLayers,
   };
 }

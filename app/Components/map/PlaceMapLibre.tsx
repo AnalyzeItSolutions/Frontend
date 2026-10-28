@@ -25,7 +25,7 @@ import type {
   RasterOverlay,
   SourcePoint,
 } from '../globe/types';
-import { ensureMapLibreWorker, isFrontFacing } from './maplibreSetup';
+import { ensureMapLibreWorker, isVisibleOnGlobe } from './maplibreSetup';
 
 import { LAYER_COLORS } from '../globe/layerColors.mjs';
 import { flyEase } from './mapMotion';
@@ -415,23 +415,22 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         publish(null); // null = all visible (flat map)
         return;
       }
-      const c = map.getCenter();
       const next = new Set<string>();
       // Hubs and catalog sources of the full globe live in a map layer, which the globe projection hides on the
       // far side by itself; only the remaining DOM markers need this culling.
       if (variant !== 'full') {
         for (const hub of GLOBE_HUBS) {
-          if (isFrontFacing(c.lat, c.lng, hub.lat, hub.lon)) next.add(`hub:${hub.name}`);
+          if (isVisibleOnGlobe(map, hub.lat, hub.lon)) next.add(`hub:${hub.name}`);
         }
       }
       for (const p of sourcePoints) {
         if (variant === 'full' && isLayerKind(p.kind)) continue;
-        if (isFrontFacing(c.lat, c.lng, p.lat, p.lon)) next.add(p.id);
+        if (isVisibleOnGlobe(map, p.lat, p.lon)) next.add(p.id);
       }
       for (const p of comparePlaces) {
-        if (isFrontFacing(c.lat, c.lng, p.lat, p.lon)) next.add(`cmp:${p.lat},${p.lon}`);
+        if (isVisibleOnGlobe(map, p.lat, p.lon)) next.add(`cmp:${p.lat},${p.lon}`);
       }
-      if (selected && isFrontFacing(c.lat, c.lng, selected.lat, selected.lon)) {
+      if (selected && isVisibleOnGlobe(map, selected.lat, selected.lon)) {
         next.add(`sel:${selected.lat},${selected.lon}`);
       }
       publish(next);

@@ -8,9 +8,10 @@ import {
   IconPlayerPlay,
   IconPlayerSkipBack,
   IconPlayerSkipForward,
+  IconRepeat,
 } from '@tabler/icons-react';
 import { DAY_OPTIONS, cursorTime, formatCursor, windowBounds } from './scene.mjs';
-import { TRAILS, type activityBuckets } from './timeline.mjs';
+import { TRAILS, trailsFor, type activityBuckets } from './timeline.mjs';
 import { TimelineChart } from './TimelineChart';
 
 type Activity = ReturnType<typeof activityBuckets>;
@@ -26,6 +27,11 @@ interface Props {
   onStep: (direction: number, slices?: number) => void;
   speed: number;
   onSpeed: () => void;
+  /** Replay starts over at the beginning instead of stopping at "now". */
+  loop: boolean;
+  onLoop: (on: boolean) => void;
+  /** Layers whose source hit its row cap: the start of the window is missing for them. */
+  capped: string[];
   trail: string;
   onTrail: (id: string) => void;
   activity: Activity;
@@ -109,6 +115,16 @@ export function TimeControls(p: Props) {
         <button type="button" className={`${chip} ${off} font-mono`} onClick={p.onSpeed} title="Playback speed" aria-label={`Playback speed ${p.speed}x`}>
           {p.speed}×
         </button>
+        <button
+          type="button"
+          className={`${iconBtn} ${p.loop ? 'border-[var(--border-strong)] bg-[var(--surface-2)]' : ''}`}
+          aria-label="Loop replay"
+          aria-pressed={p.loop}
+          title="Loop: start over when the replay reaches now"
+          onClick={() => p.onLoop(!p.loop)}
+        >
+          <IconRepeat size={13} aria-hidden />
+        </button>
         <button type="button" className={`${chip} ${off} ml-auto inline-flex items-center gap-1`} onClick={p.onPeak ?? undefined} disabled={!p.onPeak} title="Jump to the strongest event in this window">
           <IconBolt size={12} aria-hidden />
           Peak
@@ -120,7 +136,7 @@ export function TimeControls(p: Props) {
 
       <div className="mt-1.5 flex items-center gap-1" role="radiogroup" aria-label="Trail length">
         <span className="mr-0.5 text-[10px] uppercase tracking-wider text-[var(--text-muted)]" title="Only show events this recent before the playhead">Trail</span>
-        {TRAILS.map((t) => (
+        {trailsFor(p.days).map((t) => (
           <button key={t.id} type="button" role="radio" aria-checked={p.trail === t.id} onClick={() => p.onTrail(t.id)} className={`${chip} ${p.trail === t.id ? on : off}`}>
             {t.label}
           </button>
@@ -130,6 +146,12 @@ export function TimeControls(p: Props) {
       <p className="mt-1 text-[11px] text-[var(--text-muted)]" aria-live="polite">
         {summary}
       </p>
+      {p.capped.length ? (
+        <p className="mt-1 text-[11px] text-[var(--text-muted)]">
+          {p.capped.join(', ')}: more events than the feed returns at once; the start of this window is incomplete.
+          A shorter window shows all of them.
+        </p>
+      ) : null}
     </div>
   );
 }

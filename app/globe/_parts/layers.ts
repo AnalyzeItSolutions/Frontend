@@ -24,7 +24,8 @@ export type LayerId =
   | 'ocean'
   | 'weather_alerts';
 
-export type LayerHealth = { status: string; message?: string | null };
+/** `truncated`: the source hit its row cap, so the oldest part of the window is missing. */
+export type LayerHealth = { status: string; message?: string | null; truncated?: boolean };
 
 export const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = [
   { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: LAYER_COLORS.catalog, coverage: 'limited' },
