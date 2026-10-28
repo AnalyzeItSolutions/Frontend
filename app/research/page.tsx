@@ -51,8 +51,9 @@ import { DataChangeCard, type DataChangeStatus } from '../Components/chat/DataCh
 import { decideBulkChange, decideDataChange, setAgentAccess, undoBulkChange } from '../lib/agentAccessApi';
 import { BulkChangeCard, type BulkChangeStatus } from '../Components/chat/BulkChangeCard';
 import { ExternalActionCard } from '../Components/chat/ExternalActionCard';
+import { TaskPlanCard } from '../Components/chat/TaskPlanCard';
 import { ConnectAccountDialog } from '../Components/chat/ConnectAccountDialog';
-import { decideExternalAction, editExternalAction, saveActionFile, type ExternalAction } from '../lib/externalActionsApi';
+import { decideExternalAction, decideTaskPlan, editExternalAction, editTaskPlanStep, saveActionFile, type ExternalAction, type TaskPlan } from '../lib/externalActionsApi';
 import { SECRET_WARNING, explainActionError, looksLikeSecret } from '../lib/externalActions.mjs';
 import { explainBulkError, parseBulkProposal, type BulkProposal } from '../lib/bulkChange.mjs';
 import { explainApplyError, type ChangeProposal } from '../lib/dataChange.mjs';
@@ -162,6 +163,8 @@ interface ChatMessage {
   dataChange?: { action_id: string; project_id: string; proposal: ChangeProposal; status: DataChangeStatus; error?: string };
   /** Things the assistant wants to do on the user's own accounts; each runs only after the user approves it here. */
   externalActions?: Array<{ action: ExternalAction; busy?: boolean; error?: string }>;
+  /** Several actions in order that the assistant proposed; they run only after the user approves the whole plan here. */
+  taskPlans?: Array<{ plan: TaskPlan; busy?: boolean; error?: string }>;
   /** The assistant needs an account the user has not connected yet (opens the secure form, never asks for a login in chat). */
   needAccount?: { service: string };
   bulkChange?: { action_id: string; project_id: string; proposal: BulkProposal; status: BulkChangeStatus; result?: { changed?: number; skipped?: number; restored?: number; left_alone?: number } | null; error?: string };
@@ -1381,6 +1384,18 @@ function ChatInner() {
               return;
             }
 
+            if (event.event === 'task_plan_proposal' && event.payload.plan && typeof event.payload.plan === 'object') {
+              const proposed = event.payload.plan as TaskPlan;
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId && !(m.taskPlans ?? []).some((x) => x.plan.id === proposed.id)
+                    ? { ...m, taskPlans: [...(m.taskPlans ?? []), { plan: proposed }] }
+                    : m,
+                ),
+              );
+              return;
+            }
+
             if (event.event === 'external_account_required') {
               const service = typeof event.payload.service === 'string' ? event.payload.service : '';
               setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, needAccount: { service } } : m)));
@@ -1757,6 +1772,39 @@ function ChatInner() {
     } catch (err) {
       const status = (err as { status?: number }).status ?? 0;
       patchExternal(msgId, actionId, (x) => ({ ...x, busy: false, error: explainActionError(status, err instanceof Error ? err.message : undefined) }));
+      return false;
+    }
+  };
+
+  type PlanEntry = { plan: TaskPlan; busy?: boolean; error?: string };
+  const patchPlan = (msgId: string, planId: string, patch: (x: PlanEntry) => PlanEntry) =>
+    patchMessage(msgId, (m) => ({ ...m, taskPlans: (m.taskPlans ?? []).map((x) => (x.plan.id === planId ? patch(x) : x)) }));
+
+  /** Approve or deny the whole plan exactly as shown: the server only accepts the hash over every step the person saw. */
+  const decidePlan = async (msgId: string, planId: string, decision: 'approve' | 'deny') => {
+    const cur = messages.find((m) => m.id === msgId)?.taskPlans?.find((x) => x.plan.id === planId);
+    if (!cur) return;
+    patchPlan(msgId, planId, (x) => ({ ...x, busy: true, error: undefined }));
+    try {
+      const next = await decideTaskPlan(planId, decision, cur.plan.plan_sha256);
+      patchPlan(msgId, planId, () => ({ plan: next }));
+    } catch (err) {
+      const status = (err as { status?: number }).status ?? 0;
+      patchPlan(msgId, planId, (x) => ({ ...x, busy: false, error: explainActionError(status, err instanceof Error ? err.message : undefined) }));
+    }
+  };
+
+  const editPlanStep = async (msgId: string, planId: string, step: number, params: Record<string, string | number>): Promise<boolean> => {
+    const cur = messages.find((m) => m.id === msgId)?.taskPlans?.find((x) => x.plan.id === planId);
+    if (!cur) return false;
+    patchPlan(msgId, planId, (x) => ({ ...x, busy: true, error: undefined }));
+    try {
+      const next = await editTaskPlanStep(planId, step, params, cur.plan.plan_sha256);
+      patchPlan(msgId, planId, () => ({ plan: next }));
+      return true;
+    } catch (err) {
+      const status = (err as { status?: number }).status ?? 0;
+      patchPlan(msgId, planId, (x) => ({ ...x, busy: false, error: explainActionError(status, err instanceof Error ? err.message : undefined) }));
       return false;
     }
   };
@@ -2144,6 +2192,18 @@ function ChatInner() {
                           onApprove={() => void decideExternal(msg.id, x.action.id, 'approve')}
                           onDeny={() => void decideExternal(msg.id, x.action.id, 'deny')}
                           onSaveFile={() => void saveActionFile(x.action.id, String((x.action.result?.detail as { filename?: string } | undefined)?.filename || 'download'))}
+                        />
+                      ))}
+
+                      {!isUser && msg.taskPlans?.map((x) => (
+                        <TaskPlanCard
+                          key={x.plan.id}
+                          plan={x.plan}
+                          busy={Boolean(x.busy)}
+                          error={x.error}
+                          onSaveStep={(step, params) => editPlanStep(msg.id, x.plan.id, step, params)}
+                          onApprove={() => void decidePlan(msg.id, x.plan.id, 'approve')}
+                          onDeny={() => void decidePlan(msg.id, x.plan.id, 'deny')}
                         />
                       ))}
 

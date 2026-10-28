@@ -1,4 +1,5 @@
-// Pure helpers for actions the assistant proposes on the person's own accounts (post, follow, message, download).
+// Pure helpers for actions the assistant proposes on the person's own accounts (post, follow, message, add a task, download),
+// alone or as a task plan of several steps approved once.
 // No React, so they are unit-tested with `node --test`.
 
 const RISK = {
@@ -28,6 +29,55 @@ export function statusText(status) {
     case 'expired': return 'Expired. Nothing was sent. Ask again if you still want it.';
     default: return status || '';
   }
+}
+
+const PLAN_FINAL = ['done', 'failed', 'denied', 'cancelled', 'expired'];
+
+export function isPlanFinal(status) {
+  return PLAN_FINAL.includes(status);
+}
+
+export function planStatusText(status, steps) {
+  const list = steps || [];
+  const done = list.filter((s) => s.status === 'done').length;
+  switch (status) {
+    case 'pending': return `Waiting for your approval (${list.length} steps)`;
+    case 'running': return `Working on it… ${done} of ${list.length} done`;
+    case 'done': return `All ${list.length} steps done`;
+    case 'failed': {
+      const bad = list.find((s) => s.status === 'failed');
+      return bad ? `Stopped at step ${bad.n}. ${done} of ${list.length} done; later steps were not sent.` : 'Stopped. Later steps were not sent.';
+    }
+    default: return statusText(status);
+  }
+}
+
+export function stepStatusText(status) {
+  if (status === 'skipped') return 'Not run';
+  if (status === 'pending') return 'Waiting';
+  return statusText(status);
+}
+
+/** The highest risk among the steps decides the plan's label. */
+export function planRisk(steps) {
+  const r = (steps || []).map((s) => s.risk);
+  return r.includes('high') ? 'high' : r.includes('medium') ? 'medium' : 'low';
+}
+
+/** Split text around {{step N.key}} so the card can show where an earlier step's result goes. */
+export function splitStepRefs(text) {
+  const s = String(text ?? '');
+  const out = [];
+  const re = /\{\{\s*step\s*(\d)\s*\.\s*([a-z_]{1,20})\s*\}\}/g;
+  let last = 0;
+  let m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) out.push({ text: s.slice(last, m.index) });
+    out.push({ ref: { step: Number(m[1]), key: m[2] }, text: m[0] });
+    last = m.index + m[0].length;
+  }
+  if (last < s.length) out.push({ text: s.slice(last) });
+  return out;
 }
 
 /** Form state for the editor: every field as a string. */

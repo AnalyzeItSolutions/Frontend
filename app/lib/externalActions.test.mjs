@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   draftFromParams, draftProblems, explainActionError, isFinal, looksLikeSecret, paramsFromDraft, safeLink, sameParams, statusText,
+  isPlanFinal, planRisk, planStatusText, splitStepRefs, stepStatusText,
 } from './externalActions.mjs';
 
 const fields = [
@@ -68,4 +69,31 @@ test('error wording', () => {
   assert.match(explainActionError(409), /changed/);
   assert.match(explainActionError(429), /minute/);
   assert.equal(explainActionError(500, 'Boom'), 'Boom');
+});
+
+test('plan status wording says what ran and what was never sent', () => {
+  const steps = [{ n: 1, status: 'done' }, { n: 2, status: 'failed' }, { n: 3, status: 'skipped' }];
+  assert.match(planStatusText('failed', steps), /Stopped at step 2\. 1 of 3 done; later steps were not sent/);
+  assert.equal(planStatusText('pending', steps), 'Waiting for your approval (3 steps)');
+  assert.equal(planStatusText('done', steps), 'All 3 steps done');
+  assert.match(planStatusText('denied', steps), /Nothing was sent/);
+  assert.equal(stepStatusText('skipped'), 'Not run');
+  assert.equal(isPlanFinal('running'), false);
+  assert.equal(isPlanFinal('cancelled'), true);
+});
+
+test('plan risk is the highest step risk', () => {
+  assert.equal(planRisk([{ risk: 'low' }, { risk: 'medium' }]), 'medium');
+  assert.equal(planRisk([{ risk: 'low' }, { risk: 'high' }]), 'high');
+  assert.equal(planRisk([]), 'low');
+});
+
+test('references to earlier steps are found in text', () => {
+  assert.deepEqual(splitStepRefs('Pay here: {{step 1.url}} thanks'), [
+    { text: 'Pay here: ' },
+    { ref: { step: 1, key: 'url' }, text: '{{step 1.url}}' },
+    { text: ' thanks' },
+  ]);
+  assert.deepEqual(splitStepRefs('plain'), [{ text: 'plain' }]);
+  assert.deepEqual(splitStepRefs(42), [{ text: '42' }]);
 });
