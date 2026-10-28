@@ -190,7 +190,7 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
           className="min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-brand"
         />
         {status === 'running' ? (
-          <button type="button" onClick={stop} aria-label="Stop" className="btn-secondary flex h-9 w-9 items-center justify-center rounded-xl">
+          <button type="button" onClick={stop} aria-label="Stop" className="btn-secondary flex h-9! min-h-0! w-9 shrink-0 items-center justify-center rounded-xl! p-0!">
             <IconPlayerStop size={16} />
           </button>
         ) : (
@@ -198,7 +198,7 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
             type="submit"
             disabled={!question.trim()}
             aria-label="Send"
-            className="btn-primary flex h-9 w-9 items-center justify-center rounded-xl disabled:opacity-50"
+            className="btn-primary flex h-9! min-h-0! w-9 shrink-0 items-center justify-center rounded-xl! p-0! disabled:opacity-50"
           >
             <IconSend size={16} />
           </button>
