@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import type { ExternalAction } from '../../lib/externalActionsApi';
-import { draftFromParams, draftProblems, isFinal, paramsFromDraft, riskLabel, safeLink, statusText } from '../../lib/externalActions.mjs';
+import { isFinal, riskLabel, safeLink, statusText } from '../../lib/externalActions.mjs';
+import { ActionParamsForm } from './ActionParamsForm';
 
 /**
  * Something the assistant wants to do on one of your accounts. You see the exact content, can edit it, then approve or deny — right here.
@@ -26,20 +27,11 @@ export function ExternalActionCard({
   onSaveFile: () => void;
 }) {
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState<Record<string, string>>({});
-  const problems = editing ? draftProblems(action.fields, draft) : {};
   const final = isFinal(action.status);
   const link = safeLink((action.result?.detail as { url?: unknown } | undefined)?.url);
   const tone = action.status === 'done' ? 'text-emerald-600 dark:text-emerald-400' : action.status === 'failed' ? 'text-red-500' : 'text-[var(--text-muted)]';
 
-  const startEdit = () => {
-    setDraft(draftFromParams(action.fields, action.params));
-    setEditing(true);
-  };
-  const save = async () => {
-    if (Object.keys(problems).length) return;
-    if (await onSaveEdit(paramsFromDraft(action.fields, draft))) setEditing(false);
-  };
+  const startEdit = () => setEditing(true);
 
   return (
     <div role="group" aria-label={`Proposed action: ${action.title}`} className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3">
@@ -56,47 +48,7 @@ export function ExternalActionCard({
       ) : null}
 
       {editing ? (
-        <form
-          className="mt-3 space-y-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            void save();
-          }}
-        >
-          {action.fields.map((f) => {
-            const id = `xa-${action.id}-${f.name}`;
-            const v = draft[f.name] ?? '';
-            const set = (val: string) => setDraft((d) => ({ ...d, [f.name]: val }));
-            return (
-              <div key={f.name}>
-                <label htmlFor={id} className="block text-xs font-medium text-[var(--text-secondary)]">
-                  {f.label}{f.required ? '' : ' (optional)'}
-                </label>
-                {f.kind === 'longtext' || f.kind === 'json' ? (
-                  <textarea id={id} rows={f.kind === 'longtext' ? 4 : 3} value={v} onChange={(e) => set(e.target.value)} disabled={busy}
-                    className="mt-1 w-full resize-y rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2 py-1.5 text-sm outline-none focus:border-[var(--brand)]" />
-                ) : f.kind === 'choice' ? (
-                  <select id={id} value={v} onChange={(e) => set(e.target.value)} disabled={busy}
-                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2 py-1.5 text-sm outline-none focus:border-[var(--brand)]">
-                    {f.choices.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                ) : (
-                  <input id={id} type="text" inputMode={f.kind === 'int' ? 'numeric' : undefined} value={v} onChange={(e) => set(e.target.value)} disabled={busy}
-                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2 py-1.5 text-sm outline-none focus:border-[var(--brand)]" />
-                )}
-                <div className="mt-0.5 flex justify-between gap-2 text-[11px] text-[var(--text-muted)]">
-                  <span>{problems[f.name] ? <span role="alert" className="text-red-500">{problems[f.name]}</span> : f.help}</span>
-                  {f.kind === 'longtext' || f.kind === 'text' ? <span>{v.length}/{f.max_len}</span> : null}
-                </div>
-              </div>
-            );
-          })}
-          <div className="flex items-center gap-2">
-            <button type="submit" disabled={busy || Object.keys(problems).length > 0} className="btn-primary text-xs disabled:opacity-50">{busy ? 'Saving…' : 'Save changes'}</button>
-            <button type="button" disabled={busy} onClick={() => setEditing(false)} className="btn-secondary text-xs disabled:opacity-50">Cancel</button>
-          </div>
-          <p className="text-[11px] text-[var(--text-muted)]">After saving you will review it once more. Nothing is sent until you approve.</p>
-        </form>
+        <ActionParamsForm idPrefix={`xa-${action.id}`} fields={action.fields} params={action.params} busy={busy} onSave={onSaveEdit} onCancel={() => setEditing(false)} />
       ) : (
         <dl className="mt-2 space-y-2">
           {action.fields.filter((f) => action.params[f.name] !== undefined && action.params[f.name] !== '').map((f) => (

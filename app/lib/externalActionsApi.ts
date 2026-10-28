@@ -128,3 +128,65 @@ export async function saveActionFile(id: string, fallbackName: string): Promise<
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
+
+export type TaskPlanStatus = 'pending' | 'running' | 'done' | 'failed' | 'denied' | 'cancelled' | 'expired';
+export type TaskPlanStepStatus = 'pending' | 'running' | 'done' | 'failed' | 'skipped';
+
+export interface TaskPlanStep {
+  n: number;
+  action: string;
+  title: string;
+  risk: 'low' | 'medium' | 'high';
+  provider: string;
+  provider_name: string;
+  account: { id: string; label: string } | null;
+  summary: string;
+  params: Record<string, string | number>;
+  fields: ActionField[];
+  status: TaskPlanStepStatus;
+  action_id: string | null;
+  result: { summary?: string; detail?: Record<string, unknown> } | null;
+  error: string | null;
+}
+
+/** Several actions in order, approved once. A step may carry {{step N.url}} from an earlier step, filled in just before it runs. */
+export interface TaskPlan {
+  id: string;
+  kind: 'task_plan';
+  title: string;
+  status: TaskPlanStatus;
+  risk: 'low' | 'medium' | 'high';
+  steps: TaskPlanStep[];
+  /** Approval is bound to this hash over every step the person is looking at. */
+  plan_sha256: string;
+  edited: boolean;
+  expires_at: string;
+  error: string | null;
+}
+
+export async function getTaskPlan(id: string): Promise<TaskPlan> {
+  const res = await fetch(`${API_V1}/task-plans/${encodeURIComponent(id)}`, { headers: { ...getAuthHeaders() }, cache: 'no-store' });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not load this plan');
+  return res.json();
+}
+
+/** Save an edit to one step. The plan comes back with a new hash; approving needs that new hash. */
+export async function editTaskPlanStep(id: string, step: number, params: Record<string, unknown>, baseSha256: string): Promise<TaskPlan> {
+  const res = await fetch(`${API_V1}/task-plans/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: { ...json, ...getAuthHeaders() },
+    body: JSON.stringify({ step, params, base_sha256: baseSha256 }),
+  });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not save your changes');
+  return res.json();
+}
+
+export async function decideTaskPlan(id: string, decision: 'approve' | 'deny', baseSha256: string): Promise<TaskPlan> {
+  const res = await fetch(`${API_V1}/task-plans/${encodeURIComponent(id)}/decision`, {
+    method: 'POST',
+    headers: { ...json, ...getAuthHeaders() },
+    body: JSON.stringify({ decision, base_sha256: baseSha256 }),
+  });
+  if (!res.ok) throw await apiErrorFrom(res, decision === 'approve' ? 'Could not run this plan' : 'Could not deny this plan');
+  return res.json();
+}

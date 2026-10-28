@@ -18,3 +18,8 @@ export function safeLink(url: unknown): string | null;
 export function looksLikeSecret(text: string): boolean;
 export const SECRET_WARNING: string;
 export function explainActionError(status: number, message?: string): string;
+export function isPlanFinal(status: string): boolean;
+export function planStatusText(status: string, steps: Array<{ n: number; status: string }>): string;
+export function stepStatusText(status: string): string;
+export function planRisk(steps: Array<{ risk: string }>): 'low' | 'medium' | 'high';
+export function splitStepRefs(text: unknown): Array<{ text: string; ref?: { step: number; key: string } }>;
