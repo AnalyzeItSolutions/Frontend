@@ -19,6 +19,9 @@ export const ATTACHMENT_ACCEPT_ATTR = [
   '.pdf',
   '.png', '.jpg', '.jpeg', '.webp', '.bmp', '.tif', '.tiff', '.gif',
   '.twb', '.twbx',
+  // Audio and video: the server transcribes the speech and describes what a video shows (any format ffmpeg reads).
+  '.mp3', '.wav', '.m4a', '.aac', '.ogg', '.oga', '.opus', '.flac', '.wma', '.aiff', '.aif', '.aifc', '.amr', '.weba', '.mka', '.caf', '.ac3', '.mp2',
+  '.mp4', '.mov', '.m4v', '.mkv', '.webm', '.avi', '.wmv', '.flv', '.f4v', '.mpeg', '.mpg', '.mpe', '.3gp', '.3g2', '.mts', '.m2ts', '.ogv', '.vob', '.asf', '.qt', '.mxf', '.divx',
 ].join(',');
 
 export interface ChatAttachment {
@@ -33,6 +36,9 @@ export interface ChatAttachment {
   extracted_summary?: string;
   notes?: string[];
   page_count?: number | null;
+  /** Set for audio/video uploads: what the streams turned out to hold, and how long the recording is. */
+  media_kind?: 'audio' | 'video' | null;
+  duration_seconds?: number | null;
 }
 
 export async function uploadChatAttachment(

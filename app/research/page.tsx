@@ -9,6 +9,8 @@ import {
   IconCopy,
   IconFile,
   IconLayoutDashboard,
+  IconMicrophone,
+  IconMovie,
   IconPlugConnected,
   IconPlus,
   IconSearch,
@@ -93,7 +95,7 @@ import {
   uploadChatAttachment,
   type ChatAttachment,
 } from '../lib/attachmentsApi';
-import { intakeMessage, planIntake, sendableIds, uploadAll } from '../lib/attachmentIntake.mjs';
+import { intakeMessage, isMediaFile, planIntake, sendableIds, uploadAll } from '../lib/attachmentIntake.mjs';
 import { ComposerModeControl } from '../Components/research/ComposerModeControl';
 import { ResearchEmptyState } from '../Components/research/ResearchEmptyState';
 import { SourceChips, type ResearchSource } from '../Components/research/SourceChips';
@@ -252,6 +254,15 @@ function isZeroTokenFinal(payload: Record<string, unknown>): boolean {
   if (usage && usage.zero_token === true) return true;
   const route = payload.route;
   return typeof route === 'string' && isZeroTokenSuccessRoute(route);
+}
+
+/** 754 → "12:34", 3725 → "1:02:05": the length of an attached recording. */
+function formatMediaDuration(seconds: number): string {
+  const s = Math.max(0, Math.floor(seconds));
+  const h = Math.floor(s / 3600);
+  const mm = String(Math.floor((s % 3600) / 60)).padStart(h ? 2 : 1, '0');
+  const ss = String(s % 60).padStart(2, '0');
+  return h ? `${h}:${mm}:${ss}` : `${mm}:${ss}`;
 }
 
 function formatBudgetCount(n: number): string {
@@ -423,7 +434,8 @@ function ChatInner() {
   const [pendingAttachments, setPendingAttachments] = useState<ChatAttachment[]>([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
   const [accountsOpen, setAccountsOpen] = useState<{ service?: string } | null>(null);
-  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
+  // media: an audio/video file is in the batch, which is transcribed on upload and takes longer.
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number; media?: boolean } | null>(null);
   const pendingAttachmentsRef = useRef<ChatAttachment[]>([]);
   pendingAttachmentsRef.current = pendingAttachments;
   const abortRef = useRef(false);
@@ -711,12 +723,13 @@ function ChatInner() {
         return;
       }
       setUploadingAttachment(true);
-      setUploadProgress({ done: 0, total: take.length });
+      const media = take.some((file) => isMediaFile(file.name));
+      setUploadProgress({ done: 0, total: take.length, media });
       setError(null);
       try {
         // Chat attachments use ephemeral scope until the user promotes to a project.
         const results = await uploadAll(take, (file) => uploadChatAttachment(projectId, file, runId), {
-          onProgress: (done, total) => setUploadProgress({ done, total }),
+          onProgress: (done, total) => setUploadProgress({ done, total, media }),
         });
         const uploaded = results.flatMap((r) => (r.attachment ? [r.attachment] : []));
         setPendingAttachments((prev) => {
@@ -2379,8 +2392,17 @@ function ChatInner() {
                           }`}
                           title={att.notes?.[0] || att.status}
                         >
-                          <IconFile size={13} className="shrink-0 text-brand" />
+                          {att.media_kind === 'video' ? (
+                            <IconMovie size={13} className="shrink-0 text-brand" />
+                          ) : att.media_kind === 'audio' ? (
+                            <IconMicrophone size={13} className="shrink-0 text-brand" />
+                          ) : (
+                            <IconFile size={13} className="shrink-0 text-brand" />
+                          )}
                           <span className="truncate">{att.filename}</span>
+                          {att.duration_seconds ? (
+                            <span className="shrink-0 tabular-nums text-[var(--text-muted)]">{formatMediaDuration(att.duration_seconds)}</span>
+                          ) : null}
                           {att.status === 'parsed' ? (
                             <span className="text-[11px] uppercase tracking-wide text-[#4A7C59]">ready</span>
                           ) : null}
@@ -2407,7 +2429,7 @@ function ChatInner() {
                     disabled={inputLocked || uploadingAttachment}
                     className="order-2 flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-[var(--text-muted)] hover:bg-[var(--surface-2)] hover:text-[var(--text)] disabled:opacity-40 sm:order-none"
                     aria-label="Attach files"
-                    title="Attach files (CSV, PDF, XLSX, JSON… up to 10, or drop them here)"
+                    title="Attach files (CSV, PDF, XLSX, JSON, images, audio, video… up to 10, or drop them here)"
                   >
                     {uploadingAttachment ? (
                       <span className="h-4 w-4 animate-pulse rounded-full bg-[var(--brand)]/40" />
@@ -2455,7 +2477,9 @@ function ChatInner() {
                         : pendingAttachments.length
                           ? pendingAttachments.length > 1 ? 'Ask about the attached files…' : 'Ask about the attached file…'
                           : uploadingAttachment
-                            ? uploadProgress ? `Uploading ${uploadProgress.done} of ${uploadProgress.total}…` : 'Uploading…'
+                            ? uploadProgress
+                              ? `Uploading ${uploadProgress.done} of ${uploadProgress.total}${uploadProgress.media ? ' · transcribing audio/video' : ''}…`
+                              : 'Uploading…'
                             : composerMode === 'research'
                               ? 'Research a question, place, or trend…'
                               : 'Message AnalyzeIt… or drop a file here'

@@ -240,7 +240,7 @@ describe('data step', () => {
     assert.deepEqual(listed, [...ONBOARDING_FILE_EXTENSIONS]);
     assert.equal(fileChoiceError('sales.csv'), null);
     assert.equal(fileChoiceError('notes.PDF'), null);
-    assert.equal(fileChoiceError('deck.pptx'), 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, image, or Tableau file.');
+    assert.equal(fileChoiceError('deck.pptx'), 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, image, Tableau, audio, or video file.');
     assert.equal(fileChoiceError(''), 'Choose a file to upload.');
   });
 
