@@ -437,6 +437,21 @@ function ChatInner() {
   const [pendingAttachments, setPendingAttachments] = useState<ChatAttachment[]>([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
   const [accountsOpen, setAccountsOpen] = useState<{ service?: string } | null>(null);
+  /** Back from Google's consent screen: say what happened once, then drop the flag from the address. */
+  const [googleNotice, setGoogleNotice] = useState<{ ok: boolean; text: string } | null>(null);
+  useEffect(() => {
+    const ok = params.get('google');
+    const err = params.get('google_error');
+    if (!ok && !err) return;
+    setGoogleNotice(
+      err
+        ? { ok: false, text: err }
+        : ok === 'partial'
+          ? { ok: true, text: 'Google is connected, but not every permission was ticked. Reconnect and allow Calendar, Gmail send and Sheets to use them all.' }
+          : { ok: true, text: 'Google is connected. Ask me to add a calendar event, send an email or add a row to a sheet; you approve each one.' },
+    );
+    router.replace('/research');
+  }, [params, router]);
   // media: an audio/video file is in the batch, which is transcribed on upload and takes longer.
   const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number; media?: boolean } | null>(null);
   const pendingAttachmentsRef = useRef<ChatAttachment[]>([]);
@@ -1889,6 +1904,15 @@ function ChatInner() {
             <div className="relative z-10">
             <SessionStartAd enabled={!adsFree} />
             <ConnectAccountDialog open={accountsOpen !== null} onClose={() => setAccountsOpen(null)} initialService={accountsOpen?.service} />
+            {googleNotice ? (
+              <div role={googleNotice.ok ? 'status' : 'alert'} className="mx-auto mt-3 flex max-w-3xl items-start justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-xs">
+                <p className={googleNotice.ok ? 'text-[var(--text-secondary)]' : 'text-red-500'}>{googleNotice.text}</p>
+                <div className="flex shrink-0 gap-2">
+                  {!googleNotice.ok ? <button type="button" onClick={() => { setGoogleNotice(null); setAccountsOpen({ service: 'google' }); }} className="underline underline-offset-2">Try again</button> : null}
+                  <button type="button" onClick={() => setGoogleNotice(null)} aria-label="Dismiss">✕</button>
+                </div>
+              </div>
+            ) : null}
 
             {promoteNudge?.eligible && promoteNudge.message && (
               <div className="mx-4 mt-3 rounded-[var(--radius-card,14px)] border border-[var(--coral,#E4E4E2)]/30 bg-[var(--coral,#E4E4E2)]/8 px-4 py-3 sm:mx-6">

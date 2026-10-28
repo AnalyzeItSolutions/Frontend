@@ -41,6 +41,8 @@ export interface ProviderSpec {
   id: string;
   name: string;
   note: string;
+  /** Connected through the service's own sign-in page (no fields are typed here). */
+  oauth?: boolean;
   actions: string[];
   fields: ProviderField[];
 }
@@ -80,6 +82,13 @@ export async function connectAccount(provider: string, label: string, fields: Re
   });
   if (!res.ok) throw await apiErrorFrom(res, 'Could not save the account');
   return res.json();
+}
+
+/** Where to send the browser for Google's own consent screen. Google returns to /research?google=connected (or google_error). */
+export async function googleAuthorizeUrl(): Promise<string> {
+  const res = await fetch(`${API_V1}/external/google/authorize`, { headers: { ...getAuthHeaders() }, cache: 'no-store' });
+  if (!res.ok) throw await apiErrorFrom(res, 'Could not start Google sign-in');
+  return (await res.json()).url;
 }
 
 export async function removeAccount(id: string): Promise<void> {
