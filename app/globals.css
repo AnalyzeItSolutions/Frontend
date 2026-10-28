@@ -501,6 +501,14 @@ em.font-serif {
   transition: color 0.18s ease;
 }
 
+/* Laptop widths (lg up to xl): tighter links so the whole row fits beside the actions. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  .app-topnav-link {
+    font-size: 0.8125rem;
+    padding-inline: 0.4rem;
+  }
+}
+
 .app-topnav-link:hover {
   color: var(--text-primary);
 }
