@@ -713,7 +713,7 @@ function DataStep({
           <div>
             <h2 className="font-serif text-2xl text-[var(--text-primary)]">Upload a file</h2>
             <p className="mt-1 text-sm leading-relaxed text-[var(--text-secondary)]">
-              CSV, spreadsheet, JSON, text, PDF, or Tableau. The file is sent to your account with the usual chat upload.
+              CSV, spreadsheet, JSON, text, PDF, image, Tableau, audio, or video. The file is sent to your account with the usual chat upload; speech in a recording is transcribed.
             </p>
           </div>
         </div>

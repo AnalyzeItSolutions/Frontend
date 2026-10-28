@@ -3,26 +3,35 @@
 
 export const MAX_FILES_PER_MESSAGE = 10;
 export const MAX_FILE_BYTES = 15 * 1024 * 1024;
+// Audio and video: a few minutes of video is already over 15 MB. Matches media_max_upload_mb on Backend A.
+export const MAX_MEDIA_BYTES = 100 * 1024 * 1024;
+// The server transcribes the speech and, for a video, describes sampled frames.
+export const MEDIA_EXTENSIONS = ['mp3', 'wav', 'm4a', 'aac', 'ogg', 'oga', 'opus', 'flac', 'wma', 'aiff', 'aif', 'aifc', 'amr', 'weba', 'mka', 'caf', 'ac3', 'mp2',
+  'mp4', 'mov', 'm4v', 'mkv', 'webm', 'avi', 'wmv', 'flv', 'f4v', 'mpeg', 'mpg', 'mpe', '3gp', '3g2', 'mts', 'm2ts', 'ogv', 'vob', 'asf', 'qt', 'mxf', 'divx'];
 export const SUPPORTED_EXTENSIONS = ['csv', 'tsv', 'txt', 'dsv', 'psv', 'tab', 'json', 'ndjson', 'jsonl', 'xlsx', 'xlsm', 'pdf', 'twb', 'twbx',
   // Images: the server reads their text (OCR).
-  'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tif', 'tiff', 'gif'];
+  'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tif', 'tiff', 'gif', ...MEDIA_EXTENSIONS];
 
 const extOf = (name) => {
   const m = /\.([a-z0-9]+)$/i.exec(String(name || ''));
   return m ? m[1].toLowerCase() : '';
 };
 
+/** True for an audio or video file, which the server transcribes (and takes longer to read). */
+export const isMediaFile = (name) => MEDIA_EXTENSIONS.includes(extOf(name));
+
 /** Split picked files into the ones to upload and the ones skipped, each skipped file with its reason. */
-export function planIntake(files, alreadyAttached = [], { maxFiles = MAX_FILES_PER_MESSAGE, maxBytes = MAX_FILE_BYTES } = {}) {
+export function planIntake(files, alreadyAttached = [], { maxFiles = MAX_FILES_PER_MESSAGE, maxBytes = MAX_FILE_BYTES, maxMediaBytes = MAX_MEDIA_BYTES } = {}) {
   const have = new Set(alreadyAttached.map((a) => `${a.filename}|${a.size_bytes ?? ''}`));
   const take = [];
   const skipped = [];
   const room = Math.max(0, maxFiles - alreadyAttached.length);
   for (const file of Array.isArray(files) ? files : []) {
     const name = file?.name || 'file';
+    const limit = isMediaFile(name) ? maxMediaBytes : maxBytes;
     if (!file || file.size === 0) skipped.push({ name, reason: 'is empty' });
     else if (!SUPPORTED_EXTENSIONS.includes(extOf(name))) skipped.push({ name, reason: `is not a supported type (use ${SUPPORTED_EXTENSIONS.map((e) => '.' + e).join(' ')})` });
-    else if (file.size > maxBytes) skipped.push({ name, reason: `is larger than ${Math.round(maxBytes / 1048576)} MB` });
+    else if (file.size > limit) skipped.push({ name, reason: `is larger than ${Math.round(limit / 1048576)} MB` });
     else if (have.has(`${name}|${file.size}`) || take.some((t) => t.name === name && t.size === file.size)) skipped.push({ name, reason: 'is already attached' });
     else if (take.length >= room) skipped.push({ name, reason: `was not added (at most ${maxFiles} files per message)` });
     else take.push(file);

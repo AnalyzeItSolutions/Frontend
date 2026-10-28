@@ -72,6 +72,8 @@ export const ONBOARDING_FILE_EXTENSIONS = [
   'pdf',
   'png', 'jpg', 'jpeg', 'webp', 'bmp', 'tif', 'tiff', 'gif',
   'twb', 'twbx',
+  'mp3', 'wav', 'm4a', 'aac', 'ogg', 'oga', 'opus', 'flac', 'wma', 'aiff', 'aif', 'aifc', 'amr', 'weba', 'mka', 'caf', 'ac3', 'mp2',
+  'mp4', 'mov', 'm4v', 'mkv', 'webm', 'avi', 'wmv', 'flv', 'f4v', 'mpeg', 'mpg', 'mpe', '3gp', '3g2', 'mts', 'm2ts', 'ogv', 'vob', 'asf', 'qt', 'mxf', 'divx',
 ];
 
 const DRIVE_PROVIDERS = new Set(['google_drive', 'gdrive', 'googledrive']);
@@ -171,7 +173,7 @@ export function fileChoiceError(filename) {
   if (!name) return 'Choose a file to upload.';
   const ext = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
   if (!ONBOARDING_FILE_EXTENSIONS.includes(ext)) {
-    return 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, image, or Tableau file.';
+    return 'This file type can’t be uploaded. Use a CSV, spreadsheet, JSON, text, PDF, image, Tableau, audio, or video file.';
   }
   return null;
 }

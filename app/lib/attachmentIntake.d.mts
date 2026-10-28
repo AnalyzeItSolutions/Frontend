@@ -2,11 +2,14 @@ import type { ChatAttachment } from './attachmentsApi';
 
 export const MAX_FILES_PER_MESSAGE: number;
 export const MAX_FILE_BYTES: number;
+export const MAX_MEDIA_BYTES: number;
+export const MEDIA_EXTENSIONS: string[];
+export function isMediaFile(name: string): boolean;
 export const SUPPORTED_EXTENSIONS: string[];
 export function planIntake(
   files: File[],
   alreadyAttached?: Array<{ filename: string; size_bytes?: number }>,
-  opts?: { maxFiles?: number; maxBytes?: number },
+  opts?: { maxFiles?: number; maxBytes?: number; maxMediaBytes?: number },
 ): { take: File[]; skipped: Array<{ name: string; reason: string }> };
 export interface UploadResult { file: File; attachment?: ChatAttachment; error?: string }
 export function uploadAll(

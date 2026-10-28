@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { planIntake, uploadAll, intakeMessage, sendableIds } from './attachmentIntake.mjs';
+import { planIntake, uploadAll, intakeMessage, sendableIds, isMediaFile } from './attachmentIntake.mjs';
 
 const f = (name, size = 100) => ({ name, size });
 
@@ -46,4 +46,14 @@ test('message names every problem and failed files are not sent', () => {
   assert.match(msg, /z\.pdf: No text found/);
   assert.equal(intakeMessage([], [{ file: f('a.csv'), attachment: { status: 'parsed', filename: 'a.csv' } }]), '');
   assert.deepEqual(sendableIds([att, { attachment_id: 'ok', status: 'parsed' }]), ['ok']);
+});
+
+test('plan takes audio and video of many formats, with their own larger size limit', () => {
+  const { take, skipped } = planIntake([f('call.mp3'), f('Demo.MOV'), f('talk.mp4', 80 * 1048576), f('clip.mkv'), f('note.m4a'), f('raw.webm'), f('huge.avi', 101 * 1048576)]);
+  assert.deepEqual(take.map((x) => x.name), ['call.mp3', 'Demo.MOV', 'talk.mp4', 'clip.mkv', 'note.m4a', 'raw.webm']);
+  assert.equal(skipped.length, 1);
+  assert.match(skipped[0].reason, /larger than 100 MB/);
+  assert.ok(isMediaFile('song.FLAC'));
+  assert.ok(!isMediaFile('code.ts'));
+  assert.ok(!isMediaFile('sales.csv'));
 });
