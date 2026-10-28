@@ -475,12 +475,7 @@ em.font-serif {
 
 .app-topnav-links {
   min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.app-topnav-links::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {
@@ -501,8 +496,8 @@ em.font-serif {
   transition: color 0.18s ease;
 }
 
-/* Laptop widths (lg up to xl): tighter links so the whole row fits beside the actions. */
-@media (min-width: 1024px) and (max-width: 1279.98px) {
+/* Below xl: tighter links, so the whole row fits on narrower windows before the menu button takes over. */
+@media (max-width: 1279.98px) {
   .app-topnav-link {
     font-size: 0.8125rem;
     padding-inline: 0.4rem;

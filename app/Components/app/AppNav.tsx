@@ -14,6 +14,7 @@ import {
 } from '@tabler/icons-react';
 import { clearAuthSession, getStoredUser, logout, planTierLabel, type UserProfile } from '../../lib/auth';
 import { ThemeToggle } from '../ui/ThemeToggle';
+import { useFitsInRow } from '../ui/useFitsInRow';
 import { IncognitoToggle } from '../ui/IncognitoToggle';
 import {
   APP_NAV_LINKS,
@@ -95,11 +96,16 @@ export function AppNav({
   const router = useRouter();
   const user = useSyncExternalStore(subscribeStoredUser, readStoredUser, readServerUser);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileRequested, setMobileOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const layoutId = useId();
   const current = resolveActiveNav(active);
   const showAccountChip = surface === 'app' || Boolean(user);
+  // The links stay in one row while they fit; only when they would overlap does the menu button take over.
+  const linksSpaceRef = useRef<HTMLElement>(null);
+  const linksRowRef = useRef<HTMLDivElement>(null);
+  const linksFit = useFitsInRow(linksRowRef, linksSpaceRef);
+  const mobileOpen = mobileRequested && linksFit === false;
 
   useEffect(() => {
     if (!menuOpen && !mobileOpen) return;
@@ -170,41 +176,47 @@ export function AppNav({
         </Link>
 
         <LayoutGroup id={layoutId}>
-          <nav className="app-topnav-links hidden flex-1 items-center gap-1 lg:flex xl:gap-2" aria-label="Primary">
-            {surface === 'marketing'
-              ? MARKETING_SECTION_LINKS.map((link) => (
-                  <a
-                    key={link.id}
-                    href={`#${link.id}`}
-                    className="app-topnav-link relative shrink-0"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      onMarketingClick(link.id);
-                    }}
-                  >
-                    {link.label}
-                  </a>
-                ))
-              : APP_NAV_LINKS.map((link) => {
-                  const activeLink = isAppLinkActive(link.id, current);
-                  return (
-                    <Link
+          <nav ref={linksSpaceRef} className="app-topnav-links mr-2 flex flex-1 items-center" aria-label="Primary">
+            <div
+              ref={linksRowRef}
+              className={`flex w-max items-center gap-1 xl:gap-2${linksFit ? '' : ' invisible'}`}
+              aria-hidden={linksFit ? undefined : true}
+            >
+              {surface === 'marketing'
+                ? MARKETING_SECTION_LINKS.map((link) => (
+                    <a
                       key={link.id}
-                      href={link.href}
-                      data-active={activeLink}
+                      href={`#${link.id}`}
                       className="app-topnav-link relative shrink-0"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        onMarketingClick(link.id);
+                      }}
                     >
                       {link.label}
-                      {activeLink ? (
-                        <motion.span
-                          layoutId="app-nav-underline"
-                          className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[var(--coral,#E4E4E2)]"
-                          transition={{ type: 'spring', stiffness: 420, damping: 32 }}
-                        />
-                      ) : null}
-                    </Link>
-                  );
-                })}
+                    </a>
+                  ))
+                : APP_NAV_LINKS.map((link) => {
+                    const activeLink = isAppLinkActive(link.id, current);
+                    return (
+                      <Link
+                        key={link.id}
+                        href={link.href}
+                        data-active={activeLink}
+                        className="app-topnav-link relative shrink-0"
+                      >
+                        {link.label}
+                        {activeLink ? (
+                          <motion.span
+                            layoutId="app-nav-underline"
+                            className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-[var(--coral,#E4E4E2)]"
+                            transition={{ type: 'spring', stiffness: 420, damping: 32 }}
+                          />
+                        ) : null}
+                      </Link>
+                    );
+                  })}
+            </div>
           </nav>
         </LayoutGroup>
 
@@ -311,10 +323,10 @@ export function AppNav({
 
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)] lg:hidden"
+            className={`${linksFit === false ? 'inline-flex' : 'hidden'} h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)]`}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((open) => !open)}
+            onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <IconX size={18} /> : <IconMenu2 size={18} />}
           </button>
@@ -325,7 +337,7 @@ export function AppNav({
         {mobileOpen ? (
           <motion.div
             key="mobile-nav"
-            className="fixed inset-0 z-[90] lg:hidden"
+            className="fixed inset-0 z-[90]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
