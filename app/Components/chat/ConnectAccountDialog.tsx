@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  connectAccount, listAccounts, listProviders, removeAccount, type ExternalAccount, type ProviderSpec,
+  connectAccount, googleAuthorizeUrl, listAccounts, listProviders, removeAccount, type ExternalAccount, type ProviderSpec,
 } from '../../lib/externalActionsApi';
 
 /**
@@ -97,6 +97,17 @@ export function ConnectAccountDialog({
     }
   };
 
+  const continueWithGoogle = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      window.location.assign(await googleAuthorizeUrl());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not start Google sign-in');
+      setBusy(false);
+    }
+  };
+
   const remove = async (a: ExternalAccount) => {
     if (!window.confirm(`Remove ${a.label}? Anything waiting for approval on it is cancelled.`)) return;
     try {
@@ -130,6 +141,17 @@ export function ConnectAccountDialog({
             </select>
             {spec ? <p className="mt-1 text-[11px] text-[var(--text-muted)]">Can: {spec.actions.join(', ').toLowerCase()}.{spec.note ? ` ${spec.note}` : ''}</p> : null}
           </div>
+          {spec?.oauth ? (
+            <div className="space-y-2">
+              <p className="text-xs text-[var(--text-secondary)]">
+                You sign in on Google&apos;s own page and choose what to allow. AnalyzeIt never sees your Google password, and you can remove access any time here or at myaccount.google.com/permissions.
+              </p>
+              <button type="button" onClick={() => void continueWithGoogle()} disabled={busy} className="btn-primary w-full text-sm disabled:opacity-50">
+                {busy ? 'Opening Google…' : 'Continue with Google'}
+              </button>
+            </div>
+          ) : null}
+          {spec?.oauth ? null : (<>
           <div>
             <label htmlFor="conn-label" className="block text-xs font-medium text-[var(--text-secondary)]">Name it (the assistant sees this)</label>
             <input id="conn-label" type="text" maxLength={60} value={label} onChange={(e) => setLabel(e.target.value)} placeholder={spec ? `e.g. ${spec.name} — work` : ''}
@@ -166,6 +188,7 @@ export function ConnectAccountDialog({
             );
           })}
           <button type="submit" disabled={busy || !spec} className="btn-primary w-full text-sm disabled:opacity-50">{busy ? 'Saving…' : 'Save securely'}</button>
+          </>)}
           {saved ? <p role="status" className="text-xs text-emerald-600 dark:text-emerald-400">{saved}</p> : null}
           {error ? <p role="alert" className="text-xs text-red-500">{error}</p> : null}
         </form>
