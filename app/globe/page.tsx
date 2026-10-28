@@ -22,7 +22,7 @@ import { useGlobePlaces } from './_parts/useGlobePlaces';
 import { useGlobeLayers } from './_parts/useGlobeLayers';
 import { useGlobeRasters } from './_parts/useGlobeRasters';
 import { useGlobeScene } from './_parts/useGlobeScene';
-import { HISTOGRAM_BUCKETS, useGlobeTime } from './_parts/useGlobeTime';
+import { useGlobeTime } from './_parts/useGlobeTime';
 import { LAYERS } from './_parts/layers';
 import { useRails } from './_parts/useRails';
 import { useReplayOverlay } from './_parts/useReplayOverlay';
@@ -59,8 +59,8 @@ function GlobePageInner() {
   }, [holdRotation, setRotateHold]);
 
   const activity = useMemo(
-    () => activityBuckets(data.rawPoints, windowBounds(time.days), HISTOGRAM_BUCKETS),
-    [data.rawPoints, time.days],
+    () => activityBuckets(data.rawPoints, windowBounds(time.days), time.buckets),
+    [data.rawPoints, time.days, time.buckets],
   );
   const layerColors = useMemo(() => Object.fromEntries(LAYERS.map((l) => [l.id, l.color])), []);
   const peak = useMemo(() => peakEvent(data.rawPoints), [data.rawPoints]);
@@ -112,6 +112,9 @@ function GlobePageInner() {
             onStep={time.step}
             speed={time.speed}
             onSpeed={time.cycleSpeed}
+            loop={time.loop}
+            onLoop={time.setLoop}
+            capped={data.cappedLayers}
             trail={time.trail}
             onTrail={time.setTrail}
             activity={activity}

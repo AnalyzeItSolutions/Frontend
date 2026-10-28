@@ -13,7 +13,7 @@ export const DAY_OPTIONS = [1, 3, 7, 14, 30];
 export const DATA_VIEWS = ['pins', 'heat', 'density', 'bars'];
 export const PROJECTIONS = ['globe', 'mercator'];
 export const MAX_SCENE_PLACES = 8;
-export const TRAIL_IDS = ['24h', '6h'];
+export const TRAIL_IDS = ['3d', '24h', '6h', '1h'];
 
 const finite = (n) => typeof n === 'number' && Number.isFinite(n);
 const r = (n, d) => Number(n.toFixed(d));
