@@ -170,7 +170,7 @@ export function AppNav({
         </Link>
 
         <LayoutGroup id={layoutId}>
-          <nav className="app-topnav-links hidden flex-1 items-center gap-1 xl:flex xl:gap-2" aria-label="Primary">
+          <nav className="app-topnav-links hidden flex-1 items-center gap-1 lg:flex xl:gap-2" aria-label="Primary">
             {surface === 'marketing'
               ? MARKETING_SECTION_LINKS.map((link) => (
                   <a
@@ -311,7 +311,7 @@ export function AppNav({
 
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)] xl:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-secondary)] transition-colors hover:bg-[var(--surface-2)] hover:text-[var(--text-primary)] lg:hidden"
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((open) => !open)}
@@ -325,7 +325,7 @@ export function AppNav({
         {mobileOpen ? (
           <motion.div
             key="mobile-nav"
-            className="fixed inset-0 z-[90] xl:hidden"
+            className="fixed inset-0 z-[90] lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
