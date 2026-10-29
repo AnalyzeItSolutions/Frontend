@@ -12,3 +12,6 @@ export function activeLayerSummary(
 export function globeAskMessage(question: string, state?: AskState): string;
 export function askSuggestions(state?: AskState): string[];
 export function clampAnswer(text: string, max?: number): string;
+export function stripGlobeEcho(text: string): string;
+export function placesFromText(text: string): Array<{ name: string; lat: number; lon: number }>;
+export function flyTargetFromText(text: string): string | null;

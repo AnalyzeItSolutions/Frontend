@@ -5,9 +5,18 @@ import { useCallback, useRef, useState } from 'react';
 import { IconLoader2, IconPlayerStop, IconSend, IconX } from '@tabler/icons-react';
 import { ChatMarkdown } from '../chat/ChatMarkdown';
 import { ChatRequestError, streamChat, type StreamEvent } from '../../lib/chatApi';
+import { searchPlaces } from '../../lib/geoApi';
 import { parseExtras } from '../../lib/chatExtras.mjs';
 import { useSessionState } from '../../lib/sessionState';
-import { askSuggestions, clampAnswer, globeAskMessage, type AskState } from './askGlobe.mjs';
+import {
+  askSuggestions,
+  clampAnswer,
+  flyTargetFromText,
+  globeAskMessage,
+  placesFromText,
+  stripGlobeEcho,
+  type AskState,
+} from './askGlobe.mjs';
 import { useGlobe } from './useGlobe';
 
 type Place = { name: string; lat: number; lon: number };
@@ -59,7 +68,7 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
           onEvent: (ev: StreamEvent) => {
             if (ev.event === 'model_delta' && typeof ev.payload?.text === 'string') {
               streamed += ev.payload.text;
-              setAnswer(clampAnswer(streamed));
+              setAnswer(clampAnswer(stripGlobeEcho(streamed)));
             } else if (ev.event === 'permission_request') {
               setNeedsAccess(true);
             } else if (ev.event === 'final') {
@@ -68,8 +77,16 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
           },
         });
         const text = typeof box.final?.text === 'string' ? box.final.text : streamed;
-        setAnswer(clampAnswer(text));
-        const found = (parseExtras(box.final) as { places: Place[] }).places;
+        setAnswer(clampAnswer(stripGlobeEcho(text)));
+        let found = (parseExtras(box.final) as { places: Place[] }).places;
+        // An answer from the model's own knowledge carries no place pins: use the coordinates it wrote, else look up
+        // the place it names.
+        if (!found.length) found = placesFromText(text);
+        if (!found.length) {
+          const target = flyTargetFromText(text);
+          const hit = target ? (await searchPlaces(target, 1))[0] : undefined;
+          if (hit && !ac.signal.aborted) found = [{ name: hit.name || target!, lat: hit.lat, lon: hit.lon }];
+        }
         if (found.length) {
           setPlaces(found);
           ingestChatRun({ places: found });
@@ -123,7 +140,7 @@ export function GlobeAsk({ state, projectId, onFly }: Props) {
           </div>
           {answer ? (
             <div className="text-[13px] leading-relaxed text-[var(--text-primary)]">
-              <ChatMarkdown text={answer} />
+              <ChatMarkdown text={stripGlobeEcho(answer)} />
             </div>
           ) : status === 'running' ? (
             <p className="flex items-center gap-2 text-xs text-[var(--text-muted)]">

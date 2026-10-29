@@ -57,8 +57,66 @@ export function globeAskMessage(question, state = {}) {
   if (state.layers?.my_data && layers.some((l) => l.id === 'my_data')) {
     lines.push("'My data' pins are the user's own project records.");
   }
-  lines.push('Name the specific places your answer is about so the globe can fly to them.');
+  lines.push('Name the specific places your answer is about, with coordinates, so the globe can fly to them.');
+  lines.push('This note is context for you: do not repeat it or address the globe in your answer.');
   return `${base}\n\n[Globe view] ${lines.join(' ')}`;
+}
+
+/**
+ * Drop any paragraph in which the model echoes the "[Globe view]" note back ("[Globe view] Please fly to …"):
+ * it is an instruction to the page, not part of the answer.
+ */
+export function stripGlobeEcho(text) {
+  return String(text || '')
+    .split(/\n{2,}/)
+    .filter((para) => !/\[\s*globe view\s*\]/i.test(para))
+    .join('\n\n')
+    .trim();
+}
+
+const cleanName = (raw) =>
+  String(raw || '')
+    .replace(/[*_`#>\[\]]/g, '')
+    .replace(/^.*\b(?:near|in|at|to|of|the epicenter of)\s+/i, '')
+    .replace(/^\s*(?:and|or|then|plus)\s+/i, '')
+    .replace(/[\s,:;—–-]+$/, '')
+    .trim()
+    .split(/\s+/)
+    .slice(-4)
+    .join(' ');
+
+/**
+ * Places the answer names with coordinates, e.g. "Valdivia, Chile (39.5°S, 74.5°W)" or "Tokyo (35.68, 139.69)".
+ * Used when the agent answered from its own knowledge and sent no place pins. At most 5, first mention wins.
+ */
+export function placesFromText(text) {
+  const out = [];
+  const t = String(text || '');
+  const re =
+    /([^\n()]{0,80}?)\(\s*(?:approximately\s+|approx\.?\s+|~\s*)?(-?\d{1,2}(?:\.\d+)?)\s*°?\s*([NS])?\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*°?\s*([EW])?\s*\)/gi;
+  for (const m of t.matchAll(re)) {
+    const hemisphereGiven = Boolean(m[3] && m[5]);
+    // Without N/S/E/W both numbers need a decimal point, so "(5, 10)" or "(May 22, 1960)" is not read as a place.
+    const plainDecimals = !m[3] && !m[5] && m[2].includes('.') && m[4].includes('.');
+    if (!hemisphereGiven && !plainDecimals) continue;
+    let lat = Number(m[2]);
+    let lon = Number(m[4]);
+    if (m[3] && m[3].toUpperCase() === 'S') lat = -Math.abs(lat);
+    if (m[5] && m[5].toUpperCase() === 'W') lon = -Math.abs(lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) continue;
+    if (out.some((p) => Math.abs(p.lat - lat) < 0.01 && Math.abs(p.lon - lon) < 0.01)) continue;
+    const name = cleanName(m[1]) || `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+    out.push({ name, lat, lon });
+    if (out.length >= 5) break;
+  }
+  return out;
+}
+
+/** The place an answer says to fly to ("… fly to **Valdivia, Chile** …"), for looking it up by name; null when none. */
+export function flyTargetFromText(text) {
+  const m = /\bfly (?:the globe )?to\s+\**([^*(\n—–.;]{2,60})/i.exec(String(text || ''));
+  const name = m ? m[1].replace(/[\s,]+$/, '').trim() : '';
+  return name.length >= 2 ? name : null;
 }
 
 /** Starter questions that fit what is selected and which layers are showing. Max 4. */
