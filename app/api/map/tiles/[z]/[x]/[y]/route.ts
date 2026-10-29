@@ -39,7 +39,8 @@ export async function GET(
   try {
     const res = await fetch(upstream, {
       headers: { 'User-Agent': 'AnalyzeIt-MapProxy/1.0' },
-      next: { revalidate: 86400 },
+      // The CDN keeps the tile (Cache-Control below); storing it in the Data Cache as well bills a write per tile.
+      cache: 'no-store',
     });
     if (!res.ok) {
       return NextResponse.json(
@@ -52,7 +53,7 @@ export async function GET(
       status: 200,
       headers: {
         'Content-Type': res.headers.get('Content-Type') || 'image/png',
-        'Cache-Control': 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800',
+        'Cache-Control': 'public, max-age=604800, s-maxage=2592000, stale-while-revalidate=604800',
       },
     });
   } catch {

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from './Link';
 import { JsonLd } from '../seo/JsonLd';
 
 // Server-rendered building blocks for the /metrics and /methods pages. Everything here is plain HTML in the first response,
