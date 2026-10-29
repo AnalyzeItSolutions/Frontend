@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { activeLayerSummary, askSuggestions, clampAnswer, globeAskMessage } from './askGlobe.mjs';
+import { activeLayerSummary, askSuggestions, clampAnswer, flyTargetFromText, globeAskMessage, placesFromText, stripGlobeEcho } from './askGlobe.mjs';
 
 const state = {
   selected: { lat: 19.07, lon: 72.87, name: 'Mumbai', country: 'India' },
@@ -51,5 +51,35 @@ describe('clampAnswer', () => {
   it('truncates only very long text', () => {
     assert.equal(clampAnswer('short'), 'short');
     assert.ok(clampAnswer('x'.repeat(7000)).length <= 6001);
+  });
+});
+
+describe('Ask the globe answers without place pins', () => {
+  const answer =
+    '**Valdivia earthquake**, which struck **Chile** on May 22, 1960.\n\n' +
+    '- **Epicenter:** Near **Valdivia, Chile** (approximately 39.5°S, 74.5°W)\n\n' +
+    '[Globe view] Please fly to **Valdivia, Chile** (39.5°S, 74.5°W) — the epicenter.';
+
+  it('drops the echoed globe note from the answer', () => {
+    const shown = stripGlobeEcho(answer);
+    assert.doesNotMatch(shown, /Globe view|Please fly/);
+    assert.match(shown, /Epicenter/);
+  });
+
+  it('reads places written with coordinates, once each', () => {
+    assert.deepEqual(placesFromText(answer), [{ name: 'Valdivia, Chile', lat: -39.5, lon: -74.5 }]);
+    assert.deepEqual(
+      placesFromText('Tokyo (35.68, 139.69) and Paris (48.85°N, 2.35°E)').map((p) => p.name),
+      ['Tokyo', 'Paris'],
+    );
+  });
+
+  it('ignores number pairs that are not coordinates', () => {
+    assert.deepEqual(placesFromText('in 1960 (May 22, 1960) and (5, 10) or (120°N, 10°E)'), []);
+  });
+
+  it('finds the place to fly to by name', () => {
+    assert.equal(flyTargetFromText(answer), 'Valdivia, Chile');
+    assert.equal(flyTargetFromText('No places here.'), null);
   });
 });
