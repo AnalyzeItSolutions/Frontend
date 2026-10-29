@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  computerTaskShot, getComputerTask, resumeComputerTask, stopComputerTask,
+  computerTaskShot, downloadComputerTaskRecording, getComputerTask, resumeComputerTask, stopComputerTask,
   type ComputerTask,
 } from '../../lib/computerTasksApi';
 import { isTaskFinal, pollDelayMs, stepLabel, taskControls, taskStatusText } from '../../lib/computerTasks.mjs';
@@ -146,6 +146,12 @@ export function ComputerTaskCard({ taskId, onDone }: { taskId: string; onDone?: 
           </ol>
         ) : null}
 
+        {task.has_recording ? (
+          <button type="button" onClick={() => void downloadComputerTaskRecording(task.id)}
+            className="mt-2 inline-flex items-center gap-1 text-xs underline underline-offset-2 text-[var(--text-secondary)]">
+            Download the recording{task.recording_bytes ? ` (${Math.max(1, Math.round(task.recording_bytes / 1024 / 1024))} MB)` : ''}
+          </button>
+        ) : null}
         {error ? <p role="alert" className="mt-2 text-xs text-red-500">{error}</p> : null}
         {!isTaskFinal(task.status) ? (
           <p className="mt-2 text-[11px] text-[var(--text-muted)]">It never types a password and asks before anything that sends, buys, posts or deletes. You can Stop any time.</p>
