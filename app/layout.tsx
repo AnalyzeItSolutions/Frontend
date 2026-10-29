@@ -170,7 +170,8 @@ export default function RootLayout({
           </UIProvider>
         </ThemeProvider>
         <Analytics />
-        <SpeedInsights />
+        {/* A 10% sample is plenty for Core Web Vitals trends; each data point is billed. */}
+        <SpeedInsights sampleRate={0.1} />
       </body>
     </html>
   );

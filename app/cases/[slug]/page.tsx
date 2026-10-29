@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { DocPage } from '../../Components/docs/DocPage';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';

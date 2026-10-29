@@ -123,7 +123,14 @@ export const config = {
     '/embeddings',
     '/onboarding/:path*',
     '/onboarding',
-    // Everything else, for the bot check only (static build files excluded).
-    '/((?!_next/static|_next/image).*)',
+    // Everything else, for the bot check only. Build files, public assets, map tiles and prefetches are left out:
+    // each proxy run is a billed invocation, and blocked crawlers fetch pages, not favicons or tiles.
+    {
+      source: '/((?!_next/static|_next/image|_vercel|api/map/tiles|.*\\.(?:ico|png|jpe?g|gif|webp|avif|svg|css|js|mjs|map|woff2?|ttf|webmanifest|wasm|pbf)$).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
+      ],
+    },
   ],
 };

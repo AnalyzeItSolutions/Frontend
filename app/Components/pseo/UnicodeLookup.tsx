@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import Link from './Link';
 import { useState } from 'react';
 import { uPlus, utf8 } from '../../lib/unicode/encode.mjs';
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../Components/pseo/Link';
 import { DocPage } from '../Components/docs/DocPage';
 import { CASE_GROUP_ORDER, LIVE_CASES } from '../lib/liveCases.mjs';
 
