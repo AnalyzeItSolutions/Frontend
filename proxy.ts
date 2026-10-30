@@ -27,7 +27,8 @@ function hasSession(request: NextRequest): boolean {
   return Boolean(request.cookies.get(SESSION_COOKIE)?.value);
 }
 
-// Paths the host, sign-in and country logic below runs on; every other path only gets the bot check.
+// Paths the host, sign-in and country logic below runs on. Other paths never reach the proxy: refused crawlers
+// are handled by a rewrite in next.config.ts, so public pages cost no proxy run.
 const ROUTED = /^\/(?:$|products$|login(?:\/|$)|auth(?:\/|$)|dashboard(?:\/|$)|digest(?:\/|$)|research(?:\/|$)|globe(?:\/|$)|connectors(?:\/|$)|objects(?:\/|$)|profile(?:\/|$)|billing(?:\/|$)|new-project(?:\/|$)|project(?:\/|$)|ops(?:\/|$)|memory(?:\/|$)|embeddings(?:\/|$)|onboarding(?:\/|$))/i;
 
 export function proxy(request: NextRequest) {
@@ -123,14 +124,5 @@ export const config = {
     '/embeddings',
     '/onboarding/:path*',
     '/onboarding',
-    // Everything else, for the bot check only. Build files, public assets, map tiles and prefetches are left out:
-    // each proxy run is a billed invocation, and blocked crawlers fetch pages, not favicons or tiles.
-    {
-      source: '/((?!_next/static|_next/image|_vercel|api/map/tiles|.*\\.(?:ico|png|jpe?g|gif|webp|avif|svg|css|js|mjs|map|woff2?|ttf|webmanifest|wasm|pbf)$).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
   ],
 };

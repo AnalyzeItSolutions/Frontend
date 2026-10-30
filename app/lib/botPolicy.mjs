@@ -53,3 +53,9 @@ const pattern = new RegExp(BLOCKED_BOTS.map((name) => name.replace(/[.*+?^${}()|
 export function isBlockedBot(userAgent) {
   return Boolean(userAgent) && pattern.test(userAgent);
 }
+
+/** The same list for a next.config `has` header rule, which has no case-insensitive flag: each letter becomes [aA]. */
+export function blockedBotHeaderPattern() {
+  const anyCase = (name) => name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[a-z]/gi, (c) => `[${c.toLowerCase()}${c.toUpperCase()}]`);
+  return `.*(?:${BLOCKED_BOTS.map(anyCase).join('|')}).*`;
+}
