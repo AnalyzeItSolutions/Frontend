@@ -28,6 +28,7 @@ const LAYER_LABELS = {
   hotspots: 'Fire hotspots',
   news_events: 'News events',
   ports: 'Ports and chokepoints',
+  wind: 'Wind',
 };
 
 const placeName = (p) => String(p?.name || '').trim() || `${Number(p?.lat).toFixed(2)}, ${Number(p?.lon).toFixed(2)}`;
@@ -147,6 +148,7 @@ export function askSuggestions(state = {}) {
   if (has('news_events')) out.push('Which cities are in the news most in the last hour, and why?');
   if (has('hotspots')) out.push('Where are the largest fires burning in the last 24 hours?');
   if (has('flights')) out.push('Where is air traffic densest right now?');
+  if (has('wind')) out.push('Where are the strongest winds right now?');
   if (!out.length) out.push('What is the most important thing on the globe today?', 'Where should I look first?');
   return [...new Set(out)].slice(0, 4);
 }

@@ -471,7 +471,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         }
         features.push({
           type: 'Feature',
-          properties: { id: path.id, color: path.color || '#f43f5e' },
+          properties: { id: path.id, color: path.color || '#f43f5e', kind: path.kind || 'track' },
           geometry: { type: 'LineString', coordinates: ring },
         });
         ring = [];
@@ -619,6 +619,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       id: 'globe-overlay-paths',
       type: 'line',
       source: 'globe-overlay-paths',
+      filter: ['==', ['get', 'kind'], 'track'],
       layout: {
         'line-cap': 'round',
         'line-join': 'round',
@@ -627,6 +628,37 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         'line-color': '#f43f5e',
         'line-width': 3.25,
         'line-opacity': 0.9,
+      },
+    }),
+    [],
+  );
+
+  // Wind is thousands of lines, drawn by MapLibre; the SVG overlay is for the odd orbit track only.
+  const orbitPaths = useMemo(() => overlayPaths.filter((p) => !p.kind), [overlayPaths]);
+
+  const areaLineLayer = useMemo(
+    (): LineLayerSpecification => ({
+      id: 'globe-area-line',
+      type: 'line',
+      source: 'globe-overlay-paths',
+      filter: ['==', ['get', 'kind'], 'area'],
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': '#facc15', 'line-width': 2.5, 'line-dasharray': [2, 1.5], 'line-opacity': 0.95 },
+    }),
+    [],
+  );
+
+  const windLineLayer = useMemo(
+    (): LineLayerSpecification => ({
+      id: 'globe-wind-lines',
+      type: 'line',
+      source: 'globe-overlay-paths',
+      filter: ['==', ['get', 'kind'], 'wind'],
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'color'],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 0, 0.8, 4, 1.6, 7, 2.4],
+        'line-opacity': 0.75,
       },
     }),
     [],
@@ -741,7 +773,9 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
 
         {overlayPaths.length > 0 ? (
           <Source id="globe-overlay-paths" type="geojson" data={pathGeoJson}>
+            <Layer {...windLineLayer} />
             <Layer {...pathLineLayer} />
+            <Layer {...areaLineLayer} />
           </Source>
         ) : null}
 
@@ -855,7 +889,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         ) : null}
       </Map>
 
-      <OrbitSvgOverlay map={mapInstance} paths={overlayPaths} mapProjection={mapProjection} />
+      <OrbitSvgOverlay map={mapInstance} paths={orbitPaths} mapProjection={mapProjection} />
 
       {mapProjection === 'globe' ? (
         <>

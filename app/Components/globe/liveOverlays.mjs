@@ -14,6 +14,23 @@ import { eventCoordinates, pathCoordinates } from './dataQuality.mjs';
  */
 import { FIELD_LAYERS } from './fieldImage.mjs';
 
+/** Wind speed (m/s) to a colour: calm blue through fresh teal and strong amber to gale red. */
+export const WIND_STOPS = [
+  [0, '#93c5fd'],
+  [4, '#5eead4'],
+  [8, '#a3e635'],
+  [12, '#fbbf24'],
+  [17, '#f97316'],
+  [24, '#ef4444'],
+];
+
+export function windColor(speed) {
+  const s = Number(speed);
+  let out = WIND_STOPS[0][1];
+  for (const [at, colour] of WIND_STOPS) if (Number.isFinite(s) && s >= at) out = colour;
+  return out;
+}
+
 /** Layers with thousands of pins: never labelled, or the globe turns into text. */
 export const DENSE_LAYERS = new Set(['flights', 'hotspots', 'news_events', 'orbits']);
 
@@ -58,7 +75,8 @@ export function mapLayerEventsToPoints(layerId, events, opts = {}) {
       ev.title ||
       (mag != null ? `M${mag.toFixed(1)} · ${ev.place || layerId}` : ev.place || layerId);
     points.push({
-      id: `${layerId}:${ev.id || `${coords.lat},${coords.lon}`}`,
+      // Newer layers send ids already prefixed with the layer ("flights:abc"); do not prefix twice.
+      id: String(ev.id || '').startsWith(`${layerId}:`) ? String(ev.id) : `${layerId}:${ev.id || `${coords.lat},${coords.lon}`}`,
       lat: coords.lat,
       lon: coords.lon,
       label,
@@ -192,6 +210,15 @@ export function buildLiveOverlays(enabledLayers, layerPayloads) {
   push('news_events', layerPayloads?.news_events?.events, { host: 'news_events' });
   push('orbits', layerPayloads?.orbits?.events, { host: 'orbits' });
   push('ports', layerPayloads?.ports?.events, { host: 'ports' });
+
+  if (enabledLayers?.wind) {
+    const lines = layerPayloads?.wind?.lines || [];
+    counts.wind = lines.length;
+    for (const line of lines) {
+      if (!Array.isArray(line.coordinates) || line.coordinates.length < 2) continue;
+      paths.push({ id: line.id, kind: 'wind', color: windColor(line.speed_ms), coordinates: line.coordinates });
+    }
+  }
 
   if (enabledLayers?.iss) {
     const coordinates = pathCoordinates(layerPayloads?.iss?.path || []);

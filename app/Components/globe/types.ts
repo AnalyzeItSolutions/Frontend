@@ -34,6 +34,8 @@ export interface OverlayPath {
   id: string;
   coordinates: Array<[number, number]>;
   color?: string;
+  /** 'wind' streamlines are drawn thin, one colour per line; anything else is a track like the ISS orbit. */
+  kind?: 'wind' | 'area';
 }
 
 /** A live raster layer drawn under the pins (weather radar, satellite cloud imagery). */

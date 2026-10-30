@@ -18,6 +18,8 @@ import { LayerList } from './_parts/LayerList';
 import { PlacePanel } from './_parts/PlacePanel';
 import { SearchControls } from './_parts/SearchControls';
 import { SidePanelBody } from './_parts/SidePanelBody';
+import { AreaPanel } from './_parts/AreaPanel';
+import { useAreaDraw } from './_parts/useAreaDraw';
 import { useGlobePlaces } from './_parts/useGlobePlaces';
 import { useGlobeLayers } from './_parts/useGlobeLayers';
 import { useGlobeRasters } from './_parts/useGlobeRasters';
@@ -37,7 +39,10 @@ function GlobePageInner() {
   const rails = useRails();
   const time = useGlobeTime();
   const data = useGlobeLayers(time.days, requestedProject);
-  const places = useGlobePlaces();
+  const area = useAreaDraw(data.rawPoints);
+  const places = useGlobePlaces(area.onMapClick);
+  const { setExtraPaths } = data;
+  useEffect(() => setExtraPaths(area.path ? [area.path] : []), [area.path, setExtraPaths]);
   const { replayCounts, shown } = useReplayOverlay(data.rawPoints, time.cursor, time.days, time.trail);
   useGlobeRasters(data.layers.radar, data.layers.clouds, data.fieldEvents);
   const { shared, shareScene } = useGlobeScene({
@@ -102,6 +107,7 @@ function GlobePageInner() {
             replayCounts={replayCounts}
             loading={data.layersLoading}
           />
+          <AreaPanel area={area} onAsk={(prompt) => places.sendToResearch(prompt)} />
           <TimeControls
             days={time.days}
             onDays={time.setDays}

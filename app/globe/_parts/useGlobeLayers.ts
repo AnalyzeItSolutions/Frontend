@@ -8,13 +8,14 @@ import { LIVE_LAYER_POLL_MS } from '../../Components/globe/globePerf';
 import { interpretLayerPayload, mergeLayerRefresh } from '../../Components/globe/dataQuality.mjs';
 import { buildLiveOverlays } from '../../Components/globe/liveOverlays.mjs';
 import { useGlobe } from '../../Components/globe/useGlobe';
-import type { SourcePoint } from '../../Components/globe/types';
+import type { OverlayPath, SourcePoint } from '../../Components/globe/types';
 import { DEFAULT_LAYERS, LAYERS, LIVE_LAYER_IDS, type LayerHealth, type LayerId } from './layers';
 
 type Events = Array<Record<string, unknown>>;
 type CacheEntry = {
   events: Events;
   path: Array<{ lat?: number; lon?: number }> | null;
+  lines: Events | null;
   health: LayerHealth;
   fetchedAt: number;
 };
@@ -40,6 +41,8 @@ export function useGlobeLayers(days: number, requestedProject: string) {
   const [myDataTick, setMyDataTick] = useState(0);
 
   const cache = useRef<Partial<Record<LayerId, CacheEntry>>>({});
+  /** Lines drawn with the layers but not from them (the area being drawn). */
+  const extraPaths = useRef<OverlayPath[]>([]);
   const epoch = useRef(0);
   const abort = useRef<AbortController | null>(null);
   const myDataTimer = useRef<number | null>(null);
@@ -75,19 +78,19 @@ export function useGlobeLayers(days: number, requestedProject: string) {
   /** Draw whatever is cached for the layers that are on right now. */
   const rebuild = useCallback(() => {
     const on = layersRef.current;
-    const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }> }> = {};
+    const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }>; lines?: Events }> = {};
     const health: Partial<Record<LayerId, LayerHealth>> = {};
     for (const id of LIVE_LAYER_IDS) {
       const entry = cache.current[id];
       if (!on[id] || !entry) continue;
-      merged[id] = { events: entry.events, ...(entry.path ? { path: entry.path } : {}) };
+      merged[id] = { events: entry.events, ...(entry.path ? { path: entry.path } : {}), ...(entry.lines ? { lines: entry.lines } : {}) };
       health[id] = entry.health;
     }
     const { points, paths, counts } = buildLiveOverlays(on, merged);
     setLayerCounts(counts);
     setLayerHealth(health);
     setRawPoints(points as SourcePoint[]);
-    setOverlayPaths(paths);
+    setOverlayPaths([...paths, ...extraPaths.current]);
     setFieldEvents((prev) => {
       const weather = on.weather ? cache.current.weather?.events ?? EMPTY : EMPTY;
       const air = on.air_quality ? cache.current.air_quality?.events ?? EMPTY : EMPTY;
@@ -143,6 +146,7 @@ export function useGlobeLayers(days: number, requestedProject: string) {
             cache.current[id] = {
               events: next.events,
               path: next.path,
+              lines: next.lines,
               health: { status: next.status, message: next.message, truncated: payload.truncated === true },
               fetchedAt: Date.now(),
             };
@@ -197,6 +201,14 @@ export function useGlobeLayers(days: number, requestedProject: string) {
     rebuild();
   }, [layers, rebuild]);
 
+  const setExtraPaths = useCallback(
+    (paths: OverlayPath[]) => {
+      extraPaths.current = paths;
+      rebuild();
+    },
+    [rebuild],
+  );
+
   const anyLayerOn = useMemo(() => Object.values(layers).some(Boolean), [layers]);
   const cappedLayers = useMemo(
     () => LAYERS.filter((l) => layerHealth[l.id]?.truncated).map((l) => l.label),
@@ -215,5 +227,6 @@ export function useGlobeLayers(days: number, requestedProject: string) {
     projectId,
     anyLayerOn,
     cappedLayers,
+    setExtraPaths,
   };
 }

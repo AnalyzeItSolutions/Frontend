@@ -24,4 +24,5 @@ export const LAYER_COLORS = {
   news_events: '#a78bfa',
   orbits: '#fda4af',
   ports: '#2dd4bf',
+  wind: '#5eead4',
 };

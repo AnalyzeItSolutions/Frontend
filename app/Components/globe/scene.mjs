@@ -8,7 +8,7 @@ export const LAYER_IDS = [
   'catalog', 'earthquakes', 'disasters', 'wildfires', 'storms', 'volcanoes',
   'weather', 'air_quality', 'markets', 'iss', 'space_weather', 'radar', 'clouds', 'my_data',
   'fireballs', 'aurora_oval', 'ocean', 'weather_alerts',
-  'flights', 'hotspots', 'news_events', 'orbits', 'ports',
+  'flights', 'hotspots', 'news_events', 'orbits', 'ports', 'wind',
 ];
 export const DAY_OPTIONS = [1, 3, 7, 14, 30];
 export const DATA_VIEWS = ['pins', 'heat', 'density', 'bars'];
