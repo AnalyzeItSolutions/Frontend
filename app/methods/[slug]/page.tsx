@@ -8,6 +8,7 @@ import { DATASETS, DATA_UPDATED } from '../../lib/pseo/data.mjs';
 import { fmt } from '../../lib/pseo/expr.mjs';
 import { METHODS, TOOLS, method, methodCategoryName, methodFaq, methodMeta, methodTools, methodValueText, relatedMethods } from '../../lib/pseo/pages.mjs';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { withBrand } from '../../lib/seo/snippets.mjs';
 
 export const dynamicParams = false;
 
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!m) return {};
   const meta = methodMeta(m);
   return {
-    title: `${meta.title} — ${SITE_NAME}`,
+    title: withBrand(meta.title),
     description: meta.description,
     alternates: { canonical: `/methods/${m.slug}` },
     openGraph: { title: meta.title, description: meta.description, url: `${SITE_URL}/methods/${m.slug}`, type: 'article' },

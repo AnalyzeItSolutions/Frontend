@@ -6,7 +6,8 @@ import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { AnswerBox, DataTable, Faq, LinkList, Section, linkCls } from '../../Components/pseo/Blocks';
 import { UnitConverter } from '../../Components/pseo/UnitConverter';
 import { PAIRS, convert, factorOf, formula, nice, pair, tableInputs } from '../../lib/convert/units.mjs';
-import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site';
+import { convertSnippet } from '../../lib/seo/snippets.mjs';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -20,9 +21,10 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const p = pair((await params).pair);
   if (!p) return {};
   const one = nice(convert(p, 1));
+  const { title, description } = convertSnippet({ fromPlural: p.from.plural, toPlural: p.to.plural, fromSymbol: p.from.symbol, toSymbol: p.to.symbol, fromName: p.from.name, toWord: one === '1' ? p.to.name : p.to.plural, one });
   return {
-    title: `${cap(p.from.plural)} to ${p.to.plural} (${p.from.symbol} to ${p.to.symbol}): converter and formula — ${SITE_NAME}`,
-    description: `1 ${p.from.name} = ${one} ${one === '1' ? p.to.name : p.to.plural}. Convert ${p.from.plural} to ${p.to.plural} with the exact formula, a calculator and a conversion table.`.slice(0, 160),
+    title,
+    description,
     alternates: { canonical: `/convert/${p.slug}` },
   };
 }

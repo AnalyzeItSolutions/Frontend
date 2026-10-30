@@ -6,7 +6,8 @@ import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { AnswerBox, Section, linkCls } from '../../Components/pseo/Blocks';
 import { fmtValue, kindOf, lowerFirst } from '../../lib/wdi/describe.mjs';
 import { INDICATORS, cellsFor, definition, indicator } from '../../lib/wdi/wdi';
-import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site';
+import { indicatorSnippet } from '../../lib/seo/snippets.mjs';
 
 export const revalidate = 2592000;
 export const dynamicParams = true;
@@ -19,10 +20,15 @@ type Params = Promise<{ indicator: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const ind = indicator((await params).indicator);
   if (!ind) return {};
-  const n = cellsFor(ind).filter((e) => !e.country.aggregate).length;
+  const economies = cellsFor(ind).filter((e) => !e.country.aggregate);
+  // The year most economies last reported: what the ranking mostly reflects.
+  const years = new Map<number, number>();
+  for (const e of economies) years.set(e.cell[3], (years.get(e.cell[3]) ?? 0) + 1);
+  const year = [...years].sort((a, b) => b[1] - a[1] || b[0] - a[0])[0]?.[0];
+  const { title, description } = indicatorSnippet({ indicator: ind.name, year, economies: economies.length });
   return {
-    title: `${ind.name} by country — ${SITE_NAME}`,
-    description: `${ind.name}: latest World Bank figures for ${n} economies, ranked, with each country's yearly history and the official definition.`.slice(0, 160),
+    title,
+    description,
     alternates: { canonical: `/indicators/${ind.slug}` },
   };
 }

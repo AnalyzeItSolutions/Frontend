@@ -10,6 +10,7 @@ import { excel, fmt } from '../../lib/pseo/expr.mjs';
 import { METRICS, metric } from '../../lib/pseo/metrics.mjs';
 import { TOOLS, categoryName, lower, metricColumns, metricFaq, metricMeta, metricTitle, relatedMetrics, summary } from '../../lib/pseo/pages.mjs';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { withBrand } from '../../lib/seo/snippets.mjs';
 
 export const dynamicParams = false;
 
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!m) return {};
   const meta = metricMeta(m);
   return {
-    title: `${meta.title} — ${SITE_NAME}`,
+    title: withBrand(meta.title),
     description: meta.description,
     alternates: { canonical: `/metrics/${m.slug}` },
     openGraph: { title: meta.title, description: meta.description, url: `${SITE_URL}/metrics/${m.slug}`, type: 'article' },
