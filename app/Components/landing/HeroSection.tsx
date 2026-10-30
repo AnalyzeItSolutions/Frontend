@@ -7,7 +7,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-[88vh] flex flex-col justify-between pt-[calc(var(--nav-h,96px)+32px)] pb-20 px-5 sm:px-8 md:px-16 max-w-7xl mx-auto pointer-events-none scroll-mt-[calc(var(--nav-h,96px)+16px)]"
+      className="relative min-h-[min(88vh,960px)] flex flex-col justify-between pt-[calc(var(--nav-h,96px)+32px)] pb-20 px-5 sm:px-8 md:px-16 max-w-7xl mx-auto pointer-events-none scroll-mt-[calc(var(--nav-h,96px)+16px)]"
     >
       <div className="flex items-center justify-between pointer-events-auto">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[var(--surface)]/90 backdrop-blur-md border border-[var(--border)] text-xs font-medium tracking-wide text-[var(--text-secondary)]">
@@ -22,6 +22,9 @@ export const HeroSection: React.FC = () => {
           className="max-w-2xl lg:max-w-xl space-y-6 rounded-3xl bg-[var(--surface)]/92 backdrop-blur-md border border-[var(--border)] p-6 sm:p-8 shadow-[var(--shadow-md)]"
         >
           <h1 className="font-heading text-4xl sm:text-5xl md:text-[3.4rem] tracking-tight text-[var(--text-primary)] font-normal leading-[1.08]">
+            <span className="block mb-3 font-sans text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+              AI data analysis that shows its working
+            </span>
             Remember everything.{' '}
             <em className="font-heading not-italic text-[var(--accent-text)]">Re‑read nothing.</em>
           </h1>

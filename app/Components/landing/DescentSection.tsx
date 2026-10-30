@@ -150,6 +150,10 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
   const landing = React.useContext(LandingProgressContext);
   const onInspect = onInspectProp ?? landing.setInspectedDetail;
   const [reduceMotion, setReduceMotion] = useState(false);
+  // The server HTML shows every card; the slide-in starts only once the page is interactive, so crawlers
+  // and no-JS readers never get text at opacity 0.
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -188,10 +192,12 @@ export const DescentSection: React.FC<DescentSectionProps> = ({
         return (
           <div
             key={item.id}
-            className="relative min-h-screen w-full flex items-center px-6 md:px-16 pt-[calc(var(--nav-h,96px)+24px)] pb-24 max-w-7xl mx-auto pointer-events-none"
+            className="relative min-h-[min(100vh,1000px)] w-full flex items-center px-6 md:px-16 pt-[calc(var(--nav-h,96px)+24px)] pb-24 max-w-7xl mx-auto pointer-events-none"
           >
             <motion.article
-              initial={{ opacity: 0, x: isLeft ? -36 : 36 }}
+              // Remounted once on hydration: Motion reads `initial` only on mount.
+              key={hydrated ? 'animated' : 'static'}
+              initial={hydrated ? { opacity: 0, x: isLeft ? -36 : 36 } : false}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: false, amount: 0.4 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}

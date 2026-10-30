@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <LegalLayout title="Tools." eyebrow={false} showHeroUpdated={false} quietOperator subtitle="Small, private utilities for working with data and code. Each one runs in your browser and is tested against the examples on its page.">
+    <LegalLayout title="Free data and developer tools." eyebrow={false} showHeroUpdated={false} quietOperator subtitle="Small, private utilities for working with data and code. Each one runs in your browser and is tested against the examples on its page.">
       <JsonLd data={breadcrumbs(SITE_URL, [{ name: 'Home', path: '/' }, { name: 'Tools', path: '/tools' }])} />
       {TOOL_CATEGORIES.map((c) => (
         <Section key={c} title={c}>

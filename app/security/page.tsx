@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { LegalLayout, LegalSection } from '../Components/legal/LegalLayout';
 
 export const metadata: Metadata = {
-  title: 'Security — AnalyzeIt',
-  description: 'How AnalyzeIt protects accounts, credentials, and workspace data.',
+  title: 'AnalyzeIt security: accounts, credentials, read-only access',
+  description: 'How AnalyzeIt protects accounts and connector credentials, keeps data access read-only and scoped to you, and keeps your data out of public model training.',
+  alternates: { canonical: '/security' },
+  category: 'Security',
 };
 
 export default function SecurityPage() {

@@ -3,7 +3,7 @@ import { Navbar } from '../Components/landing/Navbar';
 import { TryoutClient } from './TryoutClient';
 
 export const metadata: Metadata = {
-  title: 'Try AnalyzeIt: 5 free runs',
+  title: 'Try AnalyzeIt free: ask your data a question, no signup',
   description: 'Ask AnalyzeIt a question and get a real answer, no account needed. Five free runs, then create a free account to keep going.',
   alternates: { canonical: '/try' },
 };

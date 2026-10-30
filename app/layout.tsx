@@ -26,6 +26,17 @@ export const metadata: Metadata = {
   title: `${SITE_NAME} — ${SITE_TAGLINE}`,
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
+  // <meta name="category">: an optional hint some crawlers and directories read; schema.org applicationCategory below says the same.
+  category: "Data analytics software",
+  classification: "Business software / Data analysis",
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  // Let search and answer engines quote as much as they need and show large previews.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-snippet": -1, "max-image-preview": "large", "max-video-preview": -1 },
+  },
   ...(ADSENSE_CLIENT
     ? {
         other: {
@@ -89,6 +100,7 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
       logo: `${SITE_URL}/apple-touch-icon.png`,
@@ -96,11 +108,22 @@ const jsonLd = {
     },
     {
       "@type": "SoftwareApplication",
+      "@id": `${SITE_URL}/#software`,
       name: SITE_NAME,
       applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
+      applicationSubCategory: "Data analytics",
+      operatingSystem: "Web, macOS, Windows, Linux",
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      featureList: [
+        "Ask questions about your data in plain English",
+        "Every figure computed in code, with the source and query shown",
+        "Find what changed and why: drivers, segments, outliers",
+        "Forecasts with a tested range",
+        "Connect Stripe, GitHub, Salesforce, Postgres and SQLite",
+        "Desktop app and command-line tool",
+      ],
       offers: {
         "@type": "Offer",
         price: "0",
@@ -110,9 +133,12 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
       name: SITE_NAME,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
+      inLanguage: "en",
+      publisher: { "@id": `${SITE_URL}/#organization` },
     },
   ],
 };

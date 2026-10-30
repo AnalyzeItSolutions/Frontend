@@ -9,6 +9,7 @@ import { INDICATORS, WDI_PAGES } from '../wdi/wdi';
 import { TOOLS as DEV_TOOLS } from '../tools/tools.mjs';
 import { PAIRS } from '../convert/units.mjs';
 import { CHAR_COUNT, UNICODE_VERSION } from '../unicode/unicode';
+import { FAQS } from '../homeFaqs';
 
 const DOCS: [string, string, string][] = [
   ['/docs/how-answers-work', 'How AnalyzeIt answers', 'Which tools and models produce an answer, and how figures are computed by code rather than guessed.'],
@@ -27,10 +28,23 @@ export function llmsTxt() {
     '',
     'AnalyzeIt is an analytics assistant for small online and direct-to-consumer brands: ask questions about your sales, payments and customers in plain words and get answers computed by code, with the working shown. The reference pages below define business metrics and statistics methods, each with a worked example on downloadable sample data and Excel, SQL and Python code that is tested against that data.',
     '',
+    '## Key facts',
+    '- Category: AI data analysis software (business application), with general research, writing and coding help',
+    '- How answers are made: figures are computed in code; the source, query and working are shown with each answer',
+    '- Platforms: web app, desktop app (macOS, Windows, Linux) and a command-line tool',
+    '- Pricing: Free plan, plus Premium and VIP billed through Razorpay in local currency; five runs without an account',
+    '- Data access: connectors are read-only; private business data is not used to train public models',
+    '- Built in India',
+    '',
     '## Product',
     `- [Home](${SITE_URL}/): what AnalyzeIt does`,
+    `- [Try it](${SITE_URL}/try): five free runs, no account`,
     `- [Live demo](${SITE_URL}/demo): try it without an account`,
     `- [Features](${SITE_URL}/features)`,
+    `- [Pricing](${SITE_URL}/products): Free, Premium and VIP plans`,
+    `- [Download](${SITE_URL}/download): desktop app and CLI`,
+    `- [Security](${SITE_URL}/security): accounts, credentials and read-only access`,
+    `- [About](${SITE_URL}/about): who runs AnalyzeIt`,
     ...DOCS.map(([p, t, d]) => `- [${t}](${SITE_URL}${p}): ${d}`),
     '',
     '## Business metrics',
@@ -57,6 +71,8 @@ export function llmsTxt() {
     `- [monthly.csv](${SITE_URL}/sample-data/monthly.csv): six months of a made-up subscription brand, used by every metric page`,
     `- [daily.csv](${SITE_URL}/sample-data/daily.csv): 30 made-up days of store orders, used by every method page`,
     '',
+    '## Frequently asked questions',
+    ...FAQS.flatMap((f) => [`### ${f.question}`, f.answer, '']),
     '## Optional',
     `- [Full text of the metric and method pages](${SITE_URL}/llms-full.txt)`,
     `- [Changelog](${SITE_URL}/changelog)`,
