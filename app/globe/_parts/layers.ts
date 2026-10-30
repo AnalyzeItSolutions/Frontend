@@ -1,5 +1,6 @@
 import type { PlaceContext } from '../../lib/geoApi';
 import { LAYER_COLORS } from '../../Components/globe/layerColors.mjs';
+import { LAYER_CATALOG } from '../../Components/globe/layerCatalog.mjs';
 
 export type Selected = { lat: number; lon: number; name?: string; country?: string };
 export type ComparePlace = Selected & { id: string; context?: PlaceContext | null };
@@ -33,32 +34,9 @@ export type LayerId =
 /** `truncated`: the source hit its row cap, so the oldest part of the window is missing. */
 export type LayerHealth = { status: string; message?: string | null; truncated?: boolean };
 
-export const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = [
-  { id: 'catalog', label: 'Sources', hint: 'Where agencies and statistics offices sit — a fixed reference list, not live data', color: LAYER_COLORS.catalog, coverage: 'limited' },
-  { id: 'earthquakes', label: 'Earthquakes', hint: 'USGS M2.5+ · every quake in the window, updated by the minute', color: LAYER_COLORS.earthquakes, coverage: 'complete' },
-  { id: 'disasters', label: 'Disasters', hint: 'GDACS alerts worldwide', color: LAYER_COLORS.disasters, coverage: 'complete' },
-  { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', color: LAYER_COLORS.wildfires, coverage: 'complete' },
-  { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', color: LAYER_COLORS.storms, coverage: 'complete' },
-  { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', color: LAYER_COLORS.volcanoes, coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', color: LAYER_COLORS.weather, coverage: 'complete' },
-  { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', color: LAYER_COLORS.air_quality, coverage: 'complete' },
-  { id: 'iss', label: 'Satellites', hint: 'ISS + selected Celestrak sats — not a full catalog', color: LAYER_COLORS.iss, coverage: 'limited' },
-  { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', color: LAYER_COLORS.radar, coverage: 'complete' },
-  { id: 'clouds', label: 'Live clouds', hint: 'GOES-East and Himawari satellite imagery (NASA GIBS) · refreshed every 10 min · Americas, Atlantic, East Asia and Oceania', color: LAYER_COLORS.clouds, coverage: 'limited' },
-  { id: 'space_weather', label: 'Space Weather', hint: 'NOAA SWPC alerts · scales · flares', color: LAYER_COLORS.space_weather, coverage: 'complete' },
-  { id: 'my_data', label: 'My data', hint: 'Your project’s records with a location — lat/lon fields or place names', color: LAYER_COLORS.my_data, coverage: 'complete' },
-  { id: 'weather_alerts', label: 'Severe alerts', hint: 'US National Weather Service · severe & extreme with a mapped area', color: LAYER_COLORS.weather_alerts, coverage: 'limited' },
-  { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: LAYER_COLORS.ocean, coverage: 'limited' },
-  { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: LAYER_COLORS.aurora_oval, coverage: 'complete' },
-  { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: LAYER_COLORS.fireballs, coverage: 'limited' },
-  { id: 'flights', label: 'Flights', hint: 'Every airborne aircraft OpenSky’s receivers see · one global snapshot, up to 15 min old · thin over oceans', color: LAYER_COLORS.flights, coverage: 'limited' },
-  { id: 'orbits', label: 'All satellites', hint: 'Every active satellite in the CelesTrak catalog · positions computed each minute', color: LAYER_COLORS.orbits, coverage: 'complete' },
-  { id: 'hotspots', label: 'Fire hotspots', hint: 'NASA FIRMS VIIRS · every detection in the last 24 h, grouped into 1° cells', color: LAYER_COLORS.hotspots, coverage: 'complete' },
-  { id: 'news_events', label: 'News events', hint: 'GDELT · cities named in the last hour of world news, with links', color: LAYER_COLORS.news_events, coverage: 'complete' },
-  { id: 'wind', label: 'Wind', hint: 'Surface wind 10 m up from NOAA’s GFS model · streamlines coloured by speed · new run every 6 h', color: LAYER_COLORS.wind, coverage: 'complete' },
-  { id: 'ports', label: 'Ports & chokepoints', hint: 'Major container and energy ports and shipping chokepoints — a fixed reference list, not live traffic', color: LAYER_COLORS.ports, coverage: 'limited' },
-  { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: LAYER_COLORS.markets, coverage: 'limited' },
-];
+export const LAYERS: { id: LayerId; label: string; hint: string; color: string; coverage: 'complete' | 'limited' }[] = (
+  LAYER_CATALOG as Array<{ id: LayerId; label: string; hint: string; coverage: 'complete' | 'limited' }>
+).map((l) => ({ ...l, color: (LAYER_COLORS as Record<string, string>)[l.id] }));
 
 export const DEFAULT_LAYERS: Record<LayerId, boolean> = {
   catalog: false,

@@ -167,7 +167,8 @@ describe('bug #7 — source invariants in globe/ (page + _parts)', () => {
   });
 
   it('offers flights only as the full global snapshot, with its coverage stated', () => {
-    assert.match(pageSource, /id: 'flights'.*global snapshot.*thin over oceans/);
+    const catalog = fs.readFileSync(path.join(__dirname, 'layerCatalog.mjs'), 'utf8');
+    assert.match(catalog, /id: 'flights'.*global snapshot.*thin over oceans/);
   });
 
   it('never labels the dense world layers', () => {
