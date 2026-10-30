@@ -23,6 +23,11 @@ const LAYER_LABELS = {
   aurora_oval: 'Aurora oval',
   ocean: 'Ocean buoys',
   weather_alerts: 'Severe weather alerts',
+  flights: 'Flights',
+  orbits: 'All satellites',
+  hotspots: 'Fire hotspots',
+  news_events: 'News events',
+  ports: 'Ports and chokepoints',
 };
 
 const placeName = (p) => String(p?.name || '').trim() || `${Number(p?.lat).toFixed(2)}, ${Number(p?.lon).toFixed(2)}`;
@@ -125,7 +130,10 @@ export function askSuggestions(state = {}) {
   const sel = state.selected ? placeName(state.selected) : null;
   const cmp = (state.compare || []).map(placeName);
   if (cmp.length >= 2) out.push(`Compare ${cmp.slice(0, 3).join(' and ')}: risks, economy, what to watch.`);
-  if (sel) out.push(`What is happening in ${sel} right now?`);
+  if (sel && state.selectedIsEvent) {
+    const where = `${Number(state.selected.lat).toFixed(2)}, ${Number(state.selected.lon).toFixed(2)}`;
+    out.push(`What should I know about “${sel}” at ${where}?`);
+  } else if (sel) out.push(`What is happening in ${sel} right now?`);
   const on = activeLayerSummary(state.layers, state.layerCounts);
   const has = (id) => on.some((l) => l.id === id);
   if (has('earthquakes')) out.push('Which of the earthquakes shown matter most, and why?');
@@ -135,6 +143,10 @@ export function askSuggestions(state = {}) {
   if (has('ocean')) out.push('Where are the roughest seas right now?');
   if (has('aurora_oval')) out.push('Where could I see the aurora tonight?');
   if (has('markets')) out.push('Which markets are moving the most today?');
+  if (has('ports')) out.push('Which shipping chokepoints are near hazards on the map?');
+  if (has('news_events')) out.push('Which cities are in the news most in the last hour, and why?');
+  if (has('hotspots')) out.push('Where are the largest fires burning in the last 24 hours?');
+  if (has('flights')) out.push('Where is air traffic densest right now?');
   if (!out.length) out.push('What is the most important thing on the globe today?', 'Where should I look first?');
   return [...new Set(out)].slice(0, 4);
 }

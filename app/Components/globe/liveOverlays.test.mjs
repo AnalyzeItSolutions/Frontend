@@ -164,9 +164,26 @@ describe('bug #7 — source invariants in globe/ (page + _parts)', () => {
     assert.ok(!pageSource.includes('iss:ctx'));
   });
 
-  it('does not offer a flights globe layer', () => {
-    assert.doesNotMatch(pageSource, /id: 'flights'/);
-    assert.doesNotMatch(pageSource, /OpenSky\/ADS-B/);
+  it('offers flights only as the full global snapshot, with its coverage stated', () => {
+    assert.match(pageSource, /id: 'flights'.*global snapshot.*thin over oceans/);
+  });
+
+  it('never labels the dense world layers', () => {
+    const { points } = buildLiveOverlays(
+      { orbits: true, hotspots: true, news_events: true, ports: true },
+      {
+        orbits: { events: [{ id: 'orbits:1', lat: 1, lon: 2, title: 'SAT' }] },
+        hotspots: { events: [{ id: 'hotspots:1,2', lat: 1.5, lon: 2.5, title: '3 fire detections' }] },
+        news_events: { events: [{ id: 'news_events:9', lat: 19, lon: 72, title: 'Mumbai', links: ['https://x.test/a'] }] },
+        ports: { events: [{ id: 'ports:Singapore', lat: 1.26, lon: 103.84, title: 'Port of Singapore', kind: 'container' }] },
+      },
+    );
+    const byHost = Object.fromEntries(points.map((p) => [p.host, p]));
+    assert.equal(byHost.orbits.showLabel, false);
+    assert.equal(byHost.hotspots.showLabel, false);
+    assert.equal(byHost.news_events.meta.links[0], 'https://x.test/a');
+    assert.equal(byHost.ports.showLabel, true);
+    assert.equal(byHost.ports.label, 'Port of Singapore');
   });
 });
 

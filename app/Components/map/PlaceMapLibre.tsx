@@ -28,12 +28,16 @@ import type {
 import { ensureMapLibreWorker, isVisibleOnGlobe } from './maplibreSetup';
 
 import { LAYER_COLORS } from '../globe/layerColors.mjs';
+import { DENSE_LAYERS } from '../globe/liveOverlays.mjs';
 import { flyEase } from './mapMotion';
 import { OrbitSvgOverlay } from './OrbitSvgOverlay';
 import { EventMarker, SourcePin } from './MapMarkers';
 import { pauseMapLoop, resumeMapLoop } from './mapLoop';
 import { useAutoRotate } from './useAutoRotate';
 import { ensurePlaneIcon } from './mapImages';
+
+/** Live layers drawn as small ringless dots (flights have their own arrow layer). */
+const DENSE_HOSTS = [...DENSE_LAYERS].filter((h) => h !== 'flights');
 
 ensureMapLibreWorker();
 
@@ -508,13 +512,31 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
       type: 'circle',
       source: 'globe-live-events',
       filter: ['!=', ['get', 'host'], 'flights'],
+      // Thousands of fire cells, satellites or news places as full pins would hide the globe: small dots, no ring.
       paint: {
-        'circle-radius': ['interpolate', ['linear'], ['zoom'], 0, 3.5, 3, 5, 6, 7],
+        'circle-radius': [
+          'interpolate', ['linear'], ['zoom'],
+          0, ['case', ['in', ['get', 'host'], ['literal', DENSE_HOSTS]], 1.6, 3.5],
+          3, ['case', ['in', ['get', 'host'], ['literal', DENSE_HOSTS]], 2.4, 5],
+          6, ['case', ['in', ['get', 'host'], ['literal', DENSE_HOSTS]], 4, 7],
+        ],
         'circle-color': ['get', 'color'],
-        'circle-stroke-width': 1,
+        'circle-stroke-width': ['case', ['in', ['get', 'host'], ['literal', DENSE_HOSTS]], 0, 1],
         'circle-stroke-color': '#ffffff',
         'circle-opacity': 0.92,
       },
+    }),
+    [],
+  );
+
+  // The dense layers' dots are 2-4 px; a clear 7 px circle under them makes one easy to click.
+  const liveEventHitLayer = useMemo(
+    (): CircleLayerSpecification => ({
+      id: 'globe-live-hit',
+      type: 'circle',
+      source: 'globe-live-events',
+      filter: ['in', ['get', 'host'], ['literal', DENSE_HOSTS]],
+      paint: { 'circle-radius': 7, 'circle-color': '#000000', 'circle-opacity': 0 },
     }),
     [],
   );
@@ -646,7 +668,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
         }}
         attributionControl={hideChrome ? false : { compact: true }}
         interactive={interactive}
-        interactiveLayerIds={variant === 'full' ? ['globe-live-events', 'globe-live-flights', 'globe-source-hit'] : undefined}
+        interactiveLayerIds={variant === 'full' ? ['globe-live-events', 'globe-live-flights', 'globe-live-hit', 'globe-source-hit'] : undefined}
         dragPan={interactive}
         dragRotate={interactive}
         scrollZoom={interactive}
@@ -733,6 +755,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
 
         {variant === 'full' && dataView === 'pins' && liveEventGeoJson.features.length > 0 ? (
           <Source id="globe-live-events" type="geojson" data={liveEventGeoJson}>
+            <Layer {...liveEventHitLayer} />
             <Layer {...liveEventLayer} />
             <Layer {...liveFlightLayer} />
           </Source>

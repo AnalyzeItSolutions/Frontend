@@ -83,3 +83,11 @@ describe('Ask the globe answers without place pins', () => {
     assert.equal(flyTargetFromText('No places here.'), null);
   });
 });
+
+describe('starter questions for a selected live pin', () => {
+  it('asks about the pin, not "what is happening in 9 fire detections"', () => {
+    const qs = askSuggestions({ selected: { lat: -17.5, lon: 23.5, name: '9 fire detections' }, selectedIsEvent: true });
+    assert.equal(qs[0], 'What should I know about “9 fire detections” at -17.50, 23.50?');
+    assert.ok(!qs.some((q) => q.includes('happening in 9 fire')));
+  });
+});

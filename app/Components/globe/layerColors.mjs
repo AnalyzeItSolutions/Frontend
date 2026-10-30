@@ -20,4 +20,8 @@ export const LAYER_COLORS = {
   markets: '#8b5cf6',
   elevation: '#727272',
   flights: '#0284c7',
+  hotspots: '#ea580c',
+  news_events: '#a78bfa',
+  orbits: '#fda4af',
+  ports: '#2dd4bf',
 };

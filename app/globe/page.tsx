@@ -199,6 +199,7 @@ function GlobePageInner() {
           <GlobeAsk
             state={{
               selected: places.selected,
+              selectedIsEvent: Boolean(places.selectedEvent),
               compare: places.compare,
               layers: data.layers,
               layerCounts: data.layerCounts,

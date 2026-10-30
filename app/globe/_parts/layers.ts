@@ -22,7 +22,12 @@ export type LayerId =
   | 'fireballs'
   | 'aurora_oval'
   | 'ocean'
-  | 'weather_alerts';
+  | 'weather_alerts'
+  | 'flights'
+  | 'hotspots'
+  | 'news_events'
+  | 'orbits'
+  | 'ports';
 
 /** `truncated`: the source hit its row cap, so the oldest part of the window is missing. */
 export type LayerHealth = { status: string; message?: string | null; truncated?: boolean };
@@ -45,6 +50,11 @@ export const LAYERS: { id: LayerId; label: string; hint: string; color: string; 
   { id: 'ocean', label: 'Ocean buoys', hint: 'NOAA NDBC waves & wind · stations that report', color: LAYER_COLORS.ocean, coverage: 'limited' },
   { id: 'aurora_oval', label: 'Aurora oval', hint: 'NOAA OVATION forecast · cells at 5%+', color: LAYER_COLORS.aurora_oval, coverage: 'complete' },
   { id: 'fireballs', label: 'Fireballs', hint: 'NASA CNEOS bolides · last 6 months', color: LAYER_COLORS.fireballs, coverage: 'limited' },
+  { id: 'flights', label: 'Flights', hint: 'Every airborne aircraft OpenSky’s receivers see · one global snapshot, up to 15 min old · thin over oceans', color: LAYER_COLORS.flights, coverage: 'limited' },
+  { id: 'orbits', label: 'All satellites', hint: 'Every active satellite in the CelesTrak catalog · positions computed each minute', color: LAYER_COLORS.orbits, coverage: 'complete' },
+  { id: 'hotspots', label: 'Fire hotspots', hint: 'NASA FIRMS VIIRS · every detection in the last 24 h, grouped into 1° cells', color: LAYER_COLORS.hotspots, coverage: 'complete' },
+  { id: 'news_events', label: 'News events', hint: 'GDELT · cities named in the last hour of world news, with links', color: LAYER_COLORS.news_events, coverage: 'complete' },
+  { id: 'ports', label: 'Ports & chokepoints', hint: 'Major container and energy ports and shipping chokepoints — a fixed reference list, not live traffic', color: LAYER_COLORS.ports, coverage: 'limited' },
   { id: 'markets', label: 'Markets', hint: 'Live headline index of each major exchange country', color: LAYER_COLORS.markets, coverage: 'limited' },
 ];
 
@@ -67,6 +77,11 @@ export const DEFAULT_LAYERS: Record<LayerId, boolean> = {
   aurora_oval: false,
   ocean: false,
   weather_alerts: false,
+  flights: false,
+  hotspots: false,
+  news_events: false,
+  orbits: false,
+  ports: false,
 };
 
 /** Layers backed by a server request (radar/clouds are tiles, catalog is a fixed list). */
@@ -86,6 +101,11 @@ export const LIVE_LAYER_IDS: LayerId[] = [
   'aurora_oval',
   'ocean',
   'weather_alerts',
+  'flights',
+  'hotspots',
+  'news_events',
+  'orbits',
+  'ports',
 ];
 
 export const isRasterLayer = (id: LayerId) => id === 'radar' || id === 'clouds';
