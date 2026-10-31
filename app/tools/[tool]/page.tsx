@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
@@ -7,6 +7,7 @@ import { AnswerBox, Code, LinkList, Section, linkCls } from '../../Components/ps
 import { ToolRunner } from '../../Components/pseo/ToolRunner';
 import { TOOLS, tool } from '../../lib/tools/tools.mjs';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { withBrand } from '../../lib/seo/snippets.mjs';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -18,7 +19,7 @@ type Params = Promise<{ tool: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const t = tool((await params).tool);
   if (!t) return {};
-  return { title: `${t.name}: free, runs in your browser — ${SITE_NAME}`, description: t.description, alternates: { canonical: `/tools/${t.slug}` } };
+  return { title: withBrand(`${t.name}: free, runs in your browser`), description: t.description, alternates: { canonical: `/tools/${t.slug}` } };
 }
 
 export default async function Page({ params }: { params: Params }) {

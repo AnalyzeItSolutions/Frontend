@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../Components/pseo/Link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
+import { unicodeSnippet } from '../../lib/seo/snippets.mjs';
 import { AnswerBox, DataTable, Faq, LinkList, Section, linkCls } from '../../Components/pseo/Blocks';
 import { CopyButton } from '../../Components/pseo/CopyButton';
 import { BIDI, GENERAL_CATEGORY, codes, decomposition, isVisible, scriptName, uPlus, utf8 } from '../../lib/unicode/encode.mjs';
 import { UNICODE_VERSION, blockOf, charAt, charFromSlug, charPath, charsIn, displayName, glyph, type Char } from '../../lib/unicode/unicode';
-import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site';
 
 // ~34k pages, rendered from the bundled Unicode index and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages.
 export const dynamic = 'force-dynamic';
@@ -23,13 +24,13 @@ const ref = (cp: number) => {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const c = charFromSlug((await params).slug);
   if (!c) return {};
-  const g = shown(c);
-  const what = c.emoji ? 'emoji' : 'character';
-  const title = `${g ? `${g} ` : ''}${displayName(c)} (${uPlus(c.cp)}): ${c.emoji ? 'emoji codes' : 'Unicode character'}, HTML and UTF-8`;
   const bytes = utf8(c.cp).map((b) => b.toString(16).toUpperCase().padStart(2, '0')).join(' ');
+  // A named entity (&rarr;) is what people search for; the numeric reference otherwise.
+  const html = c.entities?.length ? `&${c.entities[0].replace(/^&|;$/g, '')};` : `&#${c.cp};`;
+  const { title, description } = unicodeSnippet({ glyph: shown(c), name: displayName(c), uplus: uPlus(c.cp), html, bytes, emoji: !!c.emoji });
   return {
-    title: `${title} — ${SITE_NAME}`,
-    description: `${g ? `${g} is ` : ''}the ${what} ${c.name} (${uPlus(c.cp)}). HTML &#${c.cp};, UTF-8 ${bytes}, and its code in CSS, JavaScript, Python and more.`.slice(0, 160),
+    title,
+    description,
     alternates: { canonical: charPath(c) },
   };
 }

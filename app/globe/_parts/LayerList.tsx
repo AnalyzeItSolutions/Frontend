@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { IconLayersSubtract, IconLoader2, IconSearch } from '@tabler/icons-react';
 import { layerHealthView } from '../../Components/globe/globeVisual.mjs';
 import { useGlobe } from '../../Components/globe/useGlobe';
+import { LAYER_GROUPS } from '../../Components/globe/layerCatalog.mjs';
 import { LAYERS, isRasterLayer, type LayerHealth, type LayerId } from './layers';
 
 export function LayerHealthBadge({ count, health }: { count: number; health?: LayerHealth }) {
@@ -69,7 +70,13 @@ export function LayerList({
         />
       </label>
       <div className="globe-layer-scroll mt-1.5" role="group" aria-label="Map layers">
-        {visible.map((layer) => {
+        {(filter.trim() ? [{ id: 'all', label: '' }] : LAYER_GROUPS).map((group) => {
+          const rows = visible.filter((l) => group.id === 'all' || l.group === group.id);
+          if (!rows.length) return null;
+          return (
+            <div key={group.id} className="globe-layer-group">
+              {group.label ? <p className="globe-layer-group-title">{group.label}</p> : null}
+              {rows.map((layer) => {
           const on = layers[layer.id];
           const count = isRasterLayer(layer.id)
             ? 1
@@ -93,6 +100,9 @@ export function LayerList({
               {layer.coverage !== 'complete' ? <span className="globe-layer-coverage">{layer.coverage}</span> : null}
               {on ? <LayerHealthBadge count={count} health={layerStatus(layer.id, layerHealth, loading)} /> : null}
             </button>
+          );
+              })}
+            </div>
           );
         })}
       </div>

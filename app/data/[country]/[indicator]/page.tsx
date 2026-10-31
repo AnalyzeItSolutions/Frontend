@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../../Components/seo/JsonLd';
@@ -8,6 +8,7 @@ import { LineChart } from '../../../Components/pseo/LineChart';
 import { lowerFirst, changeSentence, fmtExact, fmtValue, kindOf, ordinal, rankAmong, summarize } from '../../../lib/wdi/describe.mjs';
 import { COUNTRIES, apiUrl, cell, cellsFor, country, countryIso3, definition, fetchSeries, indicator, indicatorsFor, sourceUrl } from '../../../lib/wdi/wdi';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
+import { dataSnippet } from '../../../lib/seo/snippets.mjs';
 
 // 221k pages: rendered per request and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages,
 // so a crawl of the whole set does not consume ISR write units.
@@ -26,12 +27,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const r = resolve(p.country, p.indicator);
   if (!r) return {};
   const { c, ind, k } = r;
-  const kind = kindOf(ind.name);
-  const title = `${c.name}: ${ind.name}, ${k[2]}–${k[3]}`;
-  const description = `${c.name}'s ${lowerFirst(ind.name)} was ${fmtValue(k[4], kind)} in ${k[3]}. ${k[1]} years of World Bank data with chart and ranking.`;
+  // Same ranking rule as the page: economies reporting the same latest year, at least ten of them.
+  const sameYear = cellsFor(ind).filter((e) => !e.country.aggregate && e.cell[3] === k[3]).map((e) => ({ value: e.cell[4] }));
+  const rank = !c.aggregate && sameYear.length >= 10 ? rankAmong(sameYear, k[4]) : null;
+  const { title, description } = dataSnippet({ country: c.name, indicator: ind.name, value: fmtValue(k[4], kindOf(ind.name)), year: k[3], first: k[2], obs: k[1], rank });
   return {
-    title: `${title} — ${SITE_NAME}`,
-    description: description.length > 160 ? `${c.name}: ${ind.name} was ${fmtValue(k[4], kind)} in ${k[3]}. World Bank data, ${k[2]}–${k[3]}.`.slice(0, 160) : description,
+    title,
+    description,
     alternates: { canonical: `/data/${c.slug}/${ind.slug}` },
     openGraph: { title, description, url: `${SITE_URL}/data/${c.slug}/${ind.slug}`, type: 'article' },
   };

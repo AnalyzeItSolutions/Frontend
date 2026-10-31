@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Globe embed demo</title>
+  <link rel="stylesheet" href="/dist/analyzeit-globe.css" />
+  <style>html, body { margin: 0; height: 100%; background: #0b0d10; } #globe { height: 100vh; }</style>
+</head>
+<body>
+  <div id="globe"></div>
+  <script type="module">
+    import { mountGlobeApp } from '/dist/analyzeit-globe.mjs';
+    const basemap = await fetch('/dist/world-110m.geojson').then((r) => r.json());
+    window.globe = mountGlobeApp(document.getElementById('globe'), {
+      basemap,
+      workerUrl: new URL('/dist/maplibre-gl-worker.mjs', location.href).href,
+      layers: ['earthquakes', 'ports'],
+      fetchLayer: async (id) => {
+        const res = await fetch(`/v1/geo/events?layers=${encodeURIComponent(id)}&min_magnitude=2.5`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return (await res.json()).layers?.[id] || { events: [] };
+      },
+    });
+  </script>
+</body>
+</html>

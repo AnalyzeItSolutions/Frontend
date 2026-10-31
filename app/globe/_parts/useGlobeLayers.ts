@@ -8,13 +8,14 @@ import { LIVE_LAYER_POLL_MS } from '../../Components/globe/globePerf';
 import { interpretLayerPayload, mergeLayerRefresh } from '../../Components/globe/dataQuality.mjs';
 import { buildLiveOverlays } from '../../Components/globe/liveOverlays.mjs';
 import { useGlobe } from '../../Components/globe/useGlobe';
-import type { SourcePoint } from '../../Components/globe/types';
+import type { OverlayPath, SourcePoint } from '../../Components/globe/types';
 import { DEFAULT_LAYERS, LAYERS, LIVE_LAYER_IDS, type LayerHealth, type LayerId } from './layers';
 
 type Events = Array<Record<string, unknown>>;
 type CacheEntry = {
   events: Events;
   path: Array<{ lat?: number; lon?: number }> | null;
+  lines: Events | null;
   health: LayerHealth;
   fetchedAt: number;
 };
@@ -28,7 +29,7 @@ const EMPTY: Events = [];
  * redraws, and a layer that arrives early is drawn without waiting for a slow one.
  */
 export function useGlobeLayers(days: number, requestedProject: string) {
-  const { setOverlayPaths, setShowCatalog } = useGlobe();
+  const { setOverlayPaths, setShowCatalog, getView } = useGlobe();
   const [layers, setLayers] = useState<Record<LayerId, boolean>>(DEFAULT_LAYERS);
   const [layerCounts, setLayerCounts] = useState<Partial<Record<LayerId, number>>>({});
   const [layerHealth, setLayerHealth] = useState<Partial<Record<LayerId, LayerHealth>>>({});
@@ -40,6 +41,11 @@ export function useGlobeLayers(days: number, requestedProject: string) {
   const [myDataTick, setMyDataTick] = useState(0);
 
   const cache = useRef<Partial<Record<LayerId, CacheEntry>>>({});
+  /** Where the view was when flights were last asked for (their fallback covers 250 nm around it). */
+  const flightsAt = useRef<{ lat: number; lon: number } | null>(null);
+  const flightsNearOnly = useRef(false);
+  /** Lines drawn with the layers but not from them (the area being drawn). */
+  const extraPaths = useRef<OverlayPath[]>([]);
   const epoch = useRef(0);
   const abort = useRef<AbortController | null>(null);
   const myDataTimer = useRef<number | null>(null);
@@ -75,19 +81,19 @@ export function useGlobeLayers(days: number, requestedProject: string) {
   /** Draw whatever is cached for the layers that are on right now. */
   const rebuild = useCallback(() => {
     const on = layersRef.current;
-    const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }> }> = {};
+    const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }>; lines?: Events }> = {};
     const health: Partial<Record<LayerId, LayerHealth>> = {};
     for (const id of LIVE_LAYER_IDS) {
       const entry = cache.current[id];
       if (!on[id] || !entry) continue;
-      merged[id] = { events: entry.events, ...(entry.path ? { path: entry.path } : {}) };
+      merged[id] = { events: entry.events, ...(entry.path ? { path: entry.path } : {}), ...(entry.lines ? { lines: entry.lines } : {}) };
       health[id] = entry.health;
     }
     const { points, paths, counts } = buildLiveOverlays(on, merged);
     setLayerCounts(counts);
     setLayerHealth(health);
     setRawPoints(points as SourcePoint[]);
-    setOverlayPaths(paths);
+    setOverlayPaths([...paths, ...extraPaths.current]);
     setFieldEvents((prev) => {
       const weather = on.weather ? cache.current.weather?.events ?? EMPTY : EMPTY;
       const air = on.air_quality ? cache.current.air_quality?.events ?? EMPTY : EMPTY;
@@ -118,7 +124,9 @@ export function useGlobeLayers(days: number, requestedProject: string) {
         }
       }
       try {
-        const data = await fetchGlobeEvents({ layers: [id], minMagnitude: 2.5, days, signal });
+        const view = id === 'flights' ? getView() : null;
+        if (view) flightsAt.current = { lat: view.lat, lon: view.lng };
+        const data = await fetchGlobeEvents({ layers: [id], minMagnitude: 2.5, days, near: view ? { lat: view.lat, lon: view.lng } : null, signal });
         const bucket = (data.layers || {}) as Record<string, Record<string, unknown>>;
         return bucket[id] || { events: [] };
       } catch (err) {
@@ -126,7 +134,7 @@ export function useGlobeLayers(days: number, requestedProject: string) {
         return { fetchError: err instanceof Error ? err.message : 'Could not load layer' };
       }
     },
-    [days, projectId],
+    [days, projectId, getView],
   );
 
   /** Fetch the given layers in parallel; each one is drawn as soon as it lands. */
@@ -140,9 +148,17 @@ export function useGlobeLayers(days: number, requestedProject: string) {
             const payload = await fetchOne(id, signal);
             if (payload === null || signal.aborted || myEpoch !== epoch.current) return;
             const next = mergeLayerRefresh(cache.current[id], interpretLayerPayload(payload));
+            if (id === 'flights') flightsNearOnly.current = payload.near_only === true;
+            if (next.status === 'loading') {
+              // The server is still downloading this layer for the first time: ask again shortly.
+              window.setTimeout(() => {
+                if (layersRef.current[id] && !signal.aborted) void refresh([id], signal, myEpoch);
+              }, 20_000);
+            }
             cache.current[id] = {
               events: next.events,
               path: next.path,
+              lines: next.lines,
               health: { status: next.status, message: next.message, truncated: payload.truncated === true },
               fetchedAt: Date.now(),
             };
@@ -192,10 +208,32 @@ export function useGlobeLayers(days: number, requestedProject: string) {
     return () => window.clearInterval(timer);
   }, [refresh]);
 
+  // Flights from the "around your view" fallback follow the view: moved far enough, ask again for the new place.
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const signal = abort.current?.signal;
+      const was = flightsAt.current;
+      const view = getView();
+      if (!signal || !layersRef.current.flights || !flightsNearOnly.current || !was || !view || document.hidden) return;
+      const dLat = Math.abs(view.lat - was.lat);
+      const dLon = Math.abs(((view.lng - was.lon + 540) % 360) - 180);
+      if (dLat > 3 || dLon > 3 / Math.max(Math.cos((view.lat * Math.PI) / 180), 0.2)) void refresh(['flights'], signal, epoch.current);
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, [getView, refresh]);
+
   // Radar / clouds / catalog change nothing about the data, only the redraw.
   useEffect(() => {
     rebuild();
   }, [layers, rebuild]);
+
+  const setExtraPaths = useCallback(
+    (paths: OverlayPath[]) => {
+      extraPaths.current = paths;
+      rebuild();
+    },
+    [rebuild],
+  );
 
   const anyLayerOn = useMemo(() => Object.values(layers).some(Boolean), [layers]);
   const cappedLayers = useMemo(
@@ -215,5 +253,6 @@ export function useGlobeLayers(days: number, requestedProject: string) {
     projectId,
     anyLayerOn,
     cappedLayers,
+    setExtraPaths,
   };
 }

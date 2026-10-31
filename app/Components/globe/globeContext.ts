@@ -53,6 +53,8 @@ export interface GlobeContextValue {
   /** Live event overlays (earthquakes, flights, …) from the full Globe page. */
   overlayPoints: SourcePoint[];
   setOverlayPoints: Dispatch<SetStateAction<SourcePoint[]>>;
+  /** Where the map is looking right now (null before it has loaded). */
+  getView: () => GlobeCamera | null;
   overlayPaths: OverlayPath[];
   setOverlayPaths: Dispatch<SetStateAction<OverlayPath[]>>;
   /** Live raster imagery (radar, satellite) drawn under the pins. */

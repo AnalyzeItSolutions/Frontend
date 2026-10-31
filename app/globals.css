@@ -852,6 +852,15 @@ details > summary::-webkit-details-marker {
   max-height: 16.5rem;
   overflow: auto;
 }
+.globe-layer-group + .globe-layer-group { margin-top: 6px; }
+.globe-layer-group-title {
+  margin: 4px 2px 2px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
 .globe-layer-toggle {
   display: flex;
   align-items: center;

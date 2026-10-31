@@ -7,8 +7,10 @@ import { loadMarketingQuote } from '../lib/marketingQuote.mjs';
 import { ProductsPlans } from './ProductsPlans';
 
 export const metadata: Metadata = {
-  title: 'Products & pricing — AnalyzeIt',
-  description: 'AnalyzeIt plans: Free, Premium and VIP, billed via Razorpay in your local currency (INR in India). The exact price is confirmed at checkout.',
+  title: 'Pricing: Free, Premium and VIP plans — AnalyzeIt',
+  description: 'AnalyzeIt pricing: a Free plan plus Premium and VIP, billed via Razorpay in your local currency (INR in India). The exact price is confirmed at checkout.',
+  alternates: { canonical: '/products' },
+  category: 'Pricing',
 };
 
 export const dynamic = 'force-dynamic';

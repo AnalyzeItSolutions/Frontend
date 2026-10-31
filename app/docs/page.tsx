@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { DOC_LINKS, DocPage } from '../Components/docs/DocPage';
 
 export const metadata: Metadata = {
-  title: 'Docs — AnalyzeIt',
-  description: 'How AnalyzeIt answers questions, what each plan includes, what memory means, which connectors exist, and what changed recently.',
+  title: 'AnalyzeIt docs: how answers, memory, plans and connectors work',
+  description: 'How AnalyzeIt answers questions and shows its working, what each plan includes, how memory saves tokens, which connectors exist, and what changed recently.',
+  category: 'Documentation',
   alternates: { canonical: '/docs' },
 };
 

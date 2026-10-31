@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { Section, linkCls } from '../../Components/pseo/Blocks';
 import { fmtValue, kindOf } from '../../lib/wdi/describe.mjs';
 import { COUNTRIES, TOPICS, country, countryIso3, indicatorsFor } from '../../lib/wdi/wdi';
-import { SITE_NAME, SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site';
+import { countrySnippet } from '../../lib/seo/snippets.mjs';
 
 export const revalidate = 2592000;
 export const dynamicParams = true;
@@ -19,10 +20,10 @@ type Params = Promise<{ country: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const c = country((await params).country);
   if (!c) return {};
-  const n = indicatorsFor(c).length;
+  const { title, description } = countrySnippet({ country: c.name, indicators: indicatorsFor(c).length });
   return {
-    title: `${c.name} data: ${n} economic and social indicators — ${SITE_NAME}`,
-    description: `Latest World Bank figures for ${c.name}: GDP, population, health, education, environment, trade and more, ${n} indicators with yearly history.`.slice(0, 160),
+    title,
+    description,
     alternates: { canonical: `/data/${c.slug}` },
   };
 }

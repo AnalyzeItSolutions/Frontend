@@ -5,7 +5,7 @@ import { EMAIL, LEGAL_NAME, REGISTERED_ADDRESS } from '../lib/legalEntity';
 
 export const metadata: Metadata = {
   title: 'About AnalyzeIt, an analytics workspace built in India',
-  description: 'AnalyzeIt is an independent analytics workspace built in India. Who runs it, what it is for, and how to reach us.',
+  description: 'AnalyzeIt is an independent analytics workspace built in India for teams with data but no data team. Who runs it, how it works, and how to reach us.',
   alternates: { canonical: '/about' },
 };
 

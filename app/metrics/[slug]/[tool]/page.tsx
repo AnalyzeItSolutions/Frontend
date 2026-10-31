@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Link from '../../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../../Components/seo/JsonLd';
@@ -9,6 +9,7 @@ import { fmt } from '../../../lib/pseo/expr.mjs';
 import { METRICS, metric } from '../../../lib/pseo/metrics.mjs';
 import { TOOLS, lower, metricColumns, metricTitle, relatedMetrics, summary, tool, toolGuide, toolMeta } from '../../../lib/pseo/pages.mjs';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
+import { withBrand } from '../../../lib/seo/snippets.mjs';
 
 export const dynamicParams = false;
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!m || !t) return {};
   const meta = toolMeta(m, t);
   return {
-    title: `${meta.title} — ${SITE_NAME}`,
+    title: withBrand(meta.title),
     description: meta.description,
     alternates: { canonical: `/metrics/${m.slug}/${t.slug}` },
     openGraph: { title: meta.title, description: meta.description, url: `${SITE_URL}/metrics/${m.slug}/${t.slug}`, type: 'article' },

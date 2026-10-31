@@ -11,17 +11,20 @@ import { ComparisonSection } from './Components/landing/ComparisonSection';
 import { UseCasesSection } from './Components/landing/UseCasesSection';
 import { PricingTeaserSection } from './Components/landing/PricingTeaserSection';
 import { FAQSection } from './Components/landing/FAQSection';
+import { FAQS } from './lib/homeFaqs';
 import { ClosingCTASection } from './Components/landing/ClosingCTASection';
 import { Footer } from './Components/landing/Footer';
 
 // The home page leads with the search phrase people use; the brand tagline stays in the hero.
-const HOME_TITLE = 'AI data analytics tool you can check — AnalyzeIt';
+const HOME_TITLE = 'AI Data Analysis Tool That Shows Its Working | AnalyzeIt';
 const HOME_DESCRIPTION =
-  'Ask your business data in plain language and check every number: the source and the working are shown. Five free runs, no account needed.';
+  'Ask your business data questions in plain English. AnalyzeIt runs the maths in code and shows the source, query and working. Five free runs, no account.';
 
 export const metadata: Metadata = {
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
+  alternates: { canonical: '/' },
+  category: 'Data analytics software',
   openGraph: {
     type: 'website',
     locale: 'en_IN',
@@ -33,9 +36,37 @@ export const metadata: Metadata = {
   twitter: { title: HOME_TITLE, description: HOME_DESCRIPTION },
 };
 
+// Answer engines and AI search read the FAQ as question/answer pairs; the same text is visible on the page.
+const homeJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/#webpage`,
+      url: SITE_URL,
+      name: HOME_TITLE,
+      description: HOME_DESCRIPTION,
+      inLanguage: 'en',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      about: { '@id': `${SITE_URL}/#software` },
+      speakable: { '@type': 'SpeakableSpecification', cssSelector: ['#hero h1', '#hero-card p', '#faq summary'] },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/#faq`,
+      mainEntity: FAQS.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <LandingExperience>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }} />
       <main className="relative z-10">
         <HeroSection />
         <MemorySection />

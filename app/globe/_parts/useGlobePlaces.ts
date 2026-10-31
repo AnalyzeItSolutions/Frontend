@@ -10,7 +10,8 @@ import { fetchPlaceContext, searchPlaces, type GeoSearchHit, type PlaceContext }
 import { placeId, placeLabel, type ComparePlace, type Selected } from './layers';
 
 /** The selected place, its context card, place search, the compare list and the hand-off to Chat. */
-export function useGlobePlaces() {
+/** `interceptClick` sees every map click first and returns true to keep it (drawing an area uses this). */
+export function useGlobePlaces(interceptClick?: (lat: number, lon: number) => boolean) {
   const router = useRouter();
   const { flyToLatLon, selectedPoint, setOnMapPlaceSelect, setComparePlaces, setActiveHub } = useGlobe();
   const [selected, setSelected] = useState<Selected | null>(null);
@@ -129,9 +130,13 @@ export function useGlobePlaces() {
     setComparePlaces(compare.map((p) => ({ lat: p.lat, lon: p.lon, name: p.name })));
   }, [compare, setComparePlaces]);
 
+  const interceptRef = useRef(interceptClick);
+  interceptRef.current = interceptClick;
+
   // Clicking the map: an event shows its own card, a plain place loads context.
   useEffect(() => {
     setOnMapPlaceSelect((place) => {
+      if (interceptRef.current?.(place.lat, place.lon)) return;
       setActiveHub(null);
       if (!selectionLoadsPlaceContext(place)) {
         setSelectedEvent(place.event!);

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { describe, it } from 'node:test';
-import { BLOCKED_BOTS, isBlockedBot } from './botPolicy.mjs';
+import { BLOCKED_BOTS, blockedBotHeaderPattern, isBlockedBot } from './botPolicy.mjs';
 
 const KEPT = [
   'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
@@ -67,6 +67,14 @@ describe('bot policy', () => {
   it('lets requests without a user agent through', () => {
     assert.equal(isBlockedBot(''), false);
     assert.equal(isBlockedBot(null), false);
+  });
+  it('the next.config rewrite refuses exactly what isBlockedBot refuses, in any letter case', () => {
+    const rule = new RegExp(`^${blockedBotHeaderPattern()}$`);
+    for (const ua of [...KEPT, ...BLOCKED]) assert.equal(rule.test(ua), isBlockedBot(ua), ua);
+    for (const ua of BLOCKED) assert.equal(rule.test(ua.toLowerCase()), true, ua);
+    const config = fs.readFileSync(path.resolve(import.meta.dirname, '../../next.config.ts'), 'utf8');
+    assert.match(config, /value: blockedBotHeaderPattern\(\)/);
+    assert.match(config, /destination: '\/blocked\.txt'/);
   });
   it('robots.txt names the same list the proxy refuses', () => {
     const robots = fs.readFileSync(path.resolve(import.meta.dirname, '../robots.ts'), 'utf8');

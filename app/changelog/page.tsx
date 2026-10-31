@@ -3,8 +3,9 @@ import { DocPage } from '../Components/docs/DocPage';
 import { CHANGELOG } from '../lib/changelog.mjs';
 
 export const metadata: Metadata = {
-  title: 'Changelog — AnalyzeIt',
-  description: 'What shipped in AnalyzeIt and when, including what is still rolling out.',
+  title: 'AnalyzeIt changelog: what shipped and when',
+  description: 'Dated release notes for AnalyzeIt: new analyses, connectors, desktop app and CLI changes, and features that are still rolling out, marked as such.',
+  category: 'Release notes',
   alternates: { canonical: '/changelog' },
 };
 

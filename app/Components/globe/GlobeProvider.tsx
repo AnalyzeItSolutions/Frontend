@@ -200,9 +200,12 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
     else engineRef.current?.resume();
   }, [paused, mapReady]);
 
+  const getView = useCallback(() => engineRef.current?.getView() ?? null, []);
+
   const value = useMemo<GlobeContextValue>(
     () => ({
       variant,
+      getView,
       camera,
       activePoints,
       archivePoints,
@@ -247,6 +250,7 @@ export function GlobeProvider({ children }: { children: ReactNode }) {
     }),
     [
       variant,
+      getView,
       camera,
       activePoints,
       archivePoints,

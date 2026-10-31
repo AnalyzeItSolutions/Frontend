@@ -1,0 +1,14 @@
+{
+  "name": "@analyzeit/globe-embed",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The AnalyzeIt globe for the desktop app, the extension and other non-Next.js pages",
+  "scripts": {
+    "build": "node build.mjs",
+    "sync": "node build.mjs --sync"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

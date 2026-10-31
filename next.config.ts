@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { blockedBotHeaderPattern } from "./app/lib/botPolicy.mjs";
 
 // Report-only first: violations show in the browser console without blocking anything.
 // Promote to `Content-Security-Policy` once a production pass shows no legitimate violations.
@@ -39,18 +40,24 @@ const nextConfig: NextConfig = {
         source: '/ads.txt',
         headers: [
           { key: 'Content-Type', value: 'text/plain; charset=utf-8' },
-          { key: 'Cache-Control', value: 'public, max-age=300, must-revalidate' },
+          { key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=86400' },
           { key: 'Content-Disposition', value: 'inline' },
         ],
       },
+      // Programmatic pages are rendered per request; the CDN keeps them so crawls do not re-render or write ISR.
+      // Vercel-CDN-Cache-Control, not Cache-Control: Next replaces Cache-Control on dynamic pages with
+      // "private, no-store", which made every crawler hit a full server render.
       {
-        // Programmatic pages are rendered per request; the CDN keeps them so crawls do not re-render or write ISR.
         source: '/data/:country/:indicator',
-        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=2592000, stale-while-revalidate=604800' }],
+        headers: [{ key: 'Vercel-CDN-Cache-Control', value: 'max-age=2592000, stale-while-revalidate=604800' }],
+      },
+      {
+        source: '/data/:country',
+        headers: [{ key: 'Vercel-CDN-Cache-Control', value: 'max-age=2592000, stale-while-revalidate=604800' }],
       },
       {
         source: '/unicode/:slug',
-        headers: [{ key: 'Cache-Control', value: 'public, s-maxage=31536000, stale-while-revalidate=604800' }],
+        headers: [{ key: 'Vercel-CDN-Cache-Control', value: 'max-age=31536000, stale-while-revalidate=604800' }],
       },
       {
         // GIS + One Tap: allow referrer on http localhost; COOP for popup/FedCM fallbacks
@@ -66,6 +73,19 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+  async rewrites() {
+    return {
+      // Refused crawlers get a static text file from the CDN. This used to be a proxy run on every page view
+      // (a billed invocation even for cached pages). robots.txt stays readable so they can see the disallow.
+      beforeFiles: [
+        {
+          source: '/:path((?!robots\\.txt$|blocked\\.txt$).*)',
+          has: [{ type: 'header', key: 'user-agent', value: blockedBotHeaderPattern() }],
+          destination: '/blocked.txt',
+        },
+      ],
+    };
   },
   async redirects() {
     return [

@@ -67,10 +67,14 @@ export function pathCoordinates(points) {
  */
 export function interpretLayerPayload(payload) {
   if (!payload || typeof payload !== 'object') {
-    return { status: 'error', message: 'Layer response missing', events: null, path: null };
+    return { status: 'error', message: 'Layer response missing', events: null, path: null, lines: null };
   }
   if (payload.fetchError) {
-    return { status: 'error', message: String(payload.fetchError), events: null, path: null };
+    return { status: 'error', message: String(payload.fetchError), events: null, path: null, lines: null };
+  }
+  // A world layer downloading for the first time: not a failure, it arrives on the next try.
+  if (payload.warming) {
+    return { status: 'loading', message: String(payload.error || 'Loading…'), events: null, path: null, lines: null };
   }
   if (payload.available === false || (typeof payload.error === 'string' && payload.error.trim())) {
     return {
@@ -78,15 +82,19 @@ export function interpretLayerPayload(payload) {
       message: String(payload.error || 'Layer unavailable'),
       events: null,
       path: null,
+      lines: null,
     };
   }
   const events = Array.isArray(payload.events) ? payload.events : [];
   const path = Array.isArray(payload.path) ? payload.path : null;
+  // Line layers (wind) carry their data as `lines`, with no pins.
+  const lines = Array.isArray(payload.lines) ? payload.lines : null;
   return {
-    status: events.length ? 'ok' : 'empty',
+    status: events.length || lines?.length ? 'ok' : 'empty',
     message: null,
     events,
     path,
+    lines,
   };
 }
 
@@ -96,18 +104,30 @@ export function interpretLayerPayload(payload) {
  * @param {ReturnType<typeof interpretLayerPayload>} interpreted
  */
 export function mergeLayerRefresh(previous, interpreted) {
+  if (interpreted.status === 'loading') {
+    return {
+      events: Array.isArray(previous?.events) ? previous.events : [],
+      path: previous?.path || null,
+      lines: Array.isArray(previous?.lines) ? previous.lines : null,
+      status: 'loading',
+      message: interpreted.message,
+    };
+  }
   if (interpreted.status === 'error') {
     const kept = Array.isArray(previous?.events) ? previous.events : [];
+    const keptLines = Array.isArray(previous?.lines) ? previous.lines : null;
     return {
       events: kept,
       path: previous?.path || null,
-      status: kept.length ? 'stale' : 'error',
+      lines: keptLines,
+      status: kept.length || keptLines?.length ? 'stale' : 'error',
       message: interpreted.message,
     };
   }
   return {
     events: interpreted.events || [],
     path: interpreted.path,
+    lines: interpreted.lines || null,
     status: interpreted.status,
     message: null,
   };

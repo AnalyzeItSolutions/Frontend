@@ -14,6 +14,26 @@ import { eventCoordinates, pathCoordinates } from './dataQuality.mjs';
  */
 import { FIELD_LAYERS } from './fieldImage.mjs';
 
+/** Wind speed (m/s) to a colour: calm blue through fresh teal and strong amber to gale red. */
+export const WIND_STOPS = [
+  [0, '#93c5fd'],
+  [4, '#5eead4'],
+  [8, '#a3e635'],
+  [12, '#fbbf24'],
+  [17, '#f97316'],
+  [24, '#ef4444'],
+];
+
+export function windColor(speed) {
+  const s = Number(speed);
+  let out = WIND_STOPS[0][1];
+  for (const [at, colour] of WIND_STOPS) if (Number.isFinite(s) && s >= at) out = colour;
+  return out;
+}
+
+/** Layers with thousands of pins: never labelled, or the globe turns into text. */
+export const DENSE_LAYERS = new Set(['flights', 'hotspots', 'news_events', 'orbits']);
+
 export function detailsMeta(ev) {
   const out = {};
   for (const [k, v] of Object.entries(ev.details || {})) out[`d:${k}`] = v;
@@ -52,9 +72,11 @@ export function mapLayerEventsToPoints(layerId, events, opts = {}) {
     const mag = ev.mag != null ? Number(ev.mag) : null;
     const label =
       ev.label ||
+      ev.title ||
       (mag != null ? `M${mag.toFixed(1)} · ${ev.place || layerId}` : ev.place || layerId);
     points.push({
-      id: `${layerId}:${ev.id || `${coords.lat},${coords.lon}`}`,
+      // Newer layers send ids already prefixed with the layer ("flights:abc"); do not prefix twice.
+      id: String(ev.id || '').startsWith(`${layerId}:`) ? String(ev.id) : `${layerId}:${ev.id || `${coords.lat},${coords.lon}`}`,
       lat: coords.lat,
       lon: coords.lon,
       label,
@@ -62,13 +84,15 @@ export function mapLayerEventsToPoints(layerId, events, opts = {}) {
       host,
       pulse: opts.pulseMag != null && mag != null && mag >= opts.pulseMag,
       showLabel:
-        host === 'my_data'
+        DENSE_LAYERS.has(host)
+          ? false
+          : host === 'my_data'
           ? (events || []).length <= 40 // a labelled forest of 1,000 customer pins is unreadable
           : host === 'iss'
           ? ev.type === 'iss' || Boolean(ev.norad_id === 25544)
           : host !== 'flights',
       category: ev.category,
-      trackDeg: ev.track_deg != null ? Number(ev.track_deg) : undefined,
+      trackDeg: ev.track_deg != null ? Number(ev.track_deg) : ev.heading != null ? Number(ev.heading) : undefined,
       meta: {
         type: ev.type,
         callsign: ev.callsign,
@@ -127,6 +151,8 @@ export function mapLayerEventsToPoints(layerId, events, opts = {}) {
         elevation_m: ev.elevation_m,
         date: ev.date,
         tsunami: ev.tsunami,
+        links: Array.isArray(ev.links) ? ev.links : undefined,
+        port_kind: ev.kind,
         ...(layerId === 'my_data' ? myDataMeta(ev) : {}),
         ...detailsMeta(ev),
       },
@@ -180,6 +206,19 @@ export function buildLiveOverlays(enabledLayers, layerPayloads) {
   push('aurora_oval', layerPayloads?.aurora_oval?.events, { host: 'aurora_oval' });
   push('ocean', layerPayloads?.ocean?.events, { host: 'ocean' });
   push('weather_alerts', layerPayloads?.weather_alerts?.events, { host: 'weather_alerts' });
+  push('hotspots', layerPayloads?.hotspots?.events, { host: 'hotspots' });
+  push('news_events', layerPayloads?.news_events?.events, { host: 'news_events' });
+  push('orbits', layerPayloads?.orbits?.events, { host: 'orbits' });
+  push('ports', layerPayloads?.ports?.events, { host: 'ports' });
+
+  if (enabledLayers?.wind) {
+    const lines = layerPayloads?.wind?.lines || [];
+    counts.wind = lines.length;
+    for (const line of lines) {
+      if (!Array.isArray(line.coordinates) || line.coordinates.length < 2) continue;
+      paths.push({ id: line.id, kind: 'wind', color: windColor(line.speed_ms), coordinates: line.coordinates });
+    }
+  }
 
   if (enabledLayers?.iss) {
     const coordinates = pathCoordinates(layerPayloads?.iss?.path || []);

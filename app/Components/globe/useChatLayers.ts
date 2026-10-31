@@ -35,13 +35,15 @@ export function useChatLayers() {
       if (!ids.length) return [];
       const ac = new AbortController();
       abortRef.current = ac;
-      const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }> }> = {};
+      const merged: Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }>; lines?: Events }> = {};
       await Promise.all(
         ids.map(async (id) => {
           try {
             const data = await fetchGlobeEvents({ layers: [id], days: 7, minMagnitude: 2.5, signal: ac.signal });
-            const bucket = ((data.layers || {}) as Record<string, { events?: Events; path?: Array<{ lat?: number; lon?: number }> }>)[id];
-            if (bucket) merged[id] = { events: bucket.events || [], ...(bucket.path ? { path: bucket.path } : {}) };
+            const bucket = ((data.layers || {}) as Record<string, { available?: boolean; events?: Events; path?: Array<{ lat?: number; lon?: number }>; lines?: Events }>)[id];
+            if (bucket && bucket.available !== false) {
+              merged[id] = { events: bucket.events || [], ...(bucket.path ? { path: bucket.path } : {}), ...(bucket.lines ? { lines: bucket.lines } : {}) };
+            }
           } catch {
             /* a layer that will not load is simply not drawn */
           }

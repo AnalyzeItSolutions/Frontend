@@ -13,7 +13,9 @@ import {
   mergeDisplayPoints,
   overlaysContainPlaceContextExtras,
   selectionLoadsPlaceContext,
+  windColor,
 } from './liveOverlays.mjs';
+import { interpretLayerPayload, mergeLayerRefresh } from './dataQuality.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // The Globe page is split into small files under globe/_parts; the invariants cover all of them.
@@ -164,9 +166,27 @@ describe('bug #7 — source invariants in globe/ (page + _parts)', () => {
     assert.ok(!pageSource.includes('iss:ctx'));
   });
 
-  it('does not offer a flights globe layer', () => {
-    assert.doesNotMatch(pageSource, /id: 'flights'/);
-    assert.doesNotMatch(pageSource, /OpenSky\/ADS-B/);
+  it('offers flights only as the full global snapshot, with its coverage stated', () => {
+    const catalog = fs.readFileSync(path.join(__dirname, 'layerCatalog.mjs'), 'utf8');
+    assert.match(catalog, /id: 'flights'.*global snapshot.*thin over oceans/);
+  });
+
+  it('never labels the dense world layers', () => {
+    const { points } = buildLiveOverlays(
+      { orbits: true, hotspots: true, news_events: true, ports: true },
+      {
+        orbits: { events: [{ id: 'orbits:1', lat: 1, lon: 2, title: 'SAT' }] },
+        hotspots: { events: [{ id: 'hotspots:1,2', lat: 1.5, lon: 2.5, title: '3 fire detections' }] },
+        news_events: { events: [{ id: 'news_events:9', lat: 19, lon: 72, title: 'Mumbai', links: ['https://x.test/a'] }] },
+        ports: { events: [{ id: 'ports:Singapore', lat: 1.26, lon: 103.84, title: 'Port of Singapore', kind: 'container' }] },
+      },
+    );
+    const byHost = Object.fromEntries(points.map((p) => [p.host, p]));
+    assert.equal(byHost.orbits.showLabel, false);
+    assert.equal(byHost.hotspots.showLabel, false);
+    assert.equal(byHost.news_events.meta.links[0], 'https://x.test/a');
+    assert.equal(byHost.ports.showLabel, true);
+    assert.equal(byHost.ports.label, 'Port of Singapore');
   });
 });
 
@@ -219,5 +239,29 @@ describe('newer live layers (fireballs, aurora, ocean, alerts)', () => {
     assert.equal(on.points.length, 4);
     const off = buildLiveOverlays({ ocean: true }, payloads);
     assert.deepEqual(off.points.map((p) => p.host), ['ocean']);
+  });
+});
+
+describe('wind layer (streamlines, no pins)', () => {
+  it('turns lines into thin coloured paths and counts them', () => {
+    const lines = [
+      { id: 'wind:1', speed_ms: 2, coordinates: [[0, 0], [1, 0.2], [2, 0.3]] },
+      { id: 'wind:2', speed_ms: 20, coordinates: [[10, 10], [11, 10]] },
+      { id: 'wind:bad', speed_ms: 5, coordinates: [[1, 1]] },
+    ];
+    const { points, paths, counts } = buildLiveOverlays({ wind: true }, { wind: { events: [], lines } });
+    assert.equal(points.length, 0);
+    assert.equal(counts.wind, 3);
+    assert.deepEqual(paths.map((p) => [p.id, p.kind]), [['wind:1', 'wind'], ['wind:2', 'wind']]);
+    assert.equal(paths[0].color, windColor(2));
+    assert.notEqual(paths[0].color, paths[1].color);
+  });
+
+  it('keeps the last wind lines when a refresh fails', () => {
+    const first = mergeLayerRefresh(null, interpretLayerPayload({ available: true, events: [], lines: [{ id: 'a' }] }));
+    assert.equal(first.status, 'ok');
+    const failed = mergeLayerRefresh(first, interpretLayerPayload({ available: false, error: 'timeout' }));
+    assert.equal(failed.status, 'stale');
+    assert.equal(failed.lines.length, 1);
   });
 });

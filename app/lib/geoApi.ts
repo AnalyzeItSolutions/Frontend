@@ -505,10 +505,13 @@ export async function fetchGlobeEvents(opts?: {
   layers?: string[];
   minMagnitude?: number;
   days?: number;
+  /** Centre of the view, for flights' "around where you look" fallback. */
+  near?: { lat: number; lon: number } | null;
   signal?: AbortSignal;
 }): Promise<GlobeEventsResponse> {
   const params = new URLSearchParams();
   params.set('layers', (opts?.layers || ['earthquakes']).join(','));
+  if (opts?.near) params.set('near', `${opts.near.lat.toFixed(1)},${opts.near.lon.toFixed(1)}`);
   if (opts?.minMagnitude != null) params.set('min_magnitude', String(opts.minMagnitude));
   if (opts?.days != null) params.set('days', String(opts.days));
   const linked = combineSignals(opts?.signal, GLOBE_EVENTS_TIMEOUT_MS);
