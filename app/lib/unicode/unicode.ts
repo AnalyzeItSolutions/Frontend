@@ -1,6 +1,6 @@
 import charsJson from './chars.json';
 import metaJson from './meta.json';
-import { titleCase } from './encode.mjs';
+import { chartUrlFor, titleCase } from './encode.mjs';
 
 // Unicode Character Database index behind /unicode (built by scripts/seo/build_unicode_index.py). Everything a character
 // page shows is in this bundle, so pages need no network call.
@@ -34,6 +34,8 @@ export const charFromSlug = (slug: string) => {
 export const block = (slug: string) => blockBySlug.get(slug);
 export const blockOf = (c: Char) => (c.block == null ? undefined : BLOCKS[c.block]);
 export const charsIn = (b: Block) => CHARS.filter((c) => c.block === b.index);
+/** The Unicode Consortium's code chart (PDF) for a block, named by the block's first code point. Checked 2026-10-31: every block has one except High Private Use Surrogates. */
+export const chartUrl = (b: Block) => chartUrlFor(b.start);
 export const glyph = (c: Char) => String.fromCodePoint(c.cp);
 /** Display name: the emoji's CLDR name when it has one, otherwise the Unicode name in Title Case. */
 export const displayName = (c: Char) => (c.emoji ? c.emoji.charAt(0).toUpperCase() + c.emoji.slice(1) : /^[A-Z0-9 -]+$/.test(c.name) ? titleCase(c.name) : c.name);

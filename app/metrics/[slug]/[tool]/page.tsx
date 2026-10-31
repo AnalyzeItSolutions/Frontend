@@ -3,6 +3,8 @@ import Link from '../../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../../Components/seo/JsonLd';
+import { GUIDE_FOR_TOOL } from '../../../lib/links/graph.mjs';
+import { GuideList } from '../../../Components/pseo/Related';
 import { AnswerBox, Bullets, Code, DataTable, LinkList, Section, SourceNote, linkCls } from '../../../Components/pseo/Blocks';
 import { DATASETS, DATA_UPDATED } from '../../../lib/pseo/data.mjs';
 import { fmt } from '../../../lib/pseo/expr.mjs';
@@ -117,6 +119,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
       <Section title={`Related metrics in ${t.name}`}>
         <LinkList items={relatedMetrics(m).map((r) => ({ href: `/metrics/${r.slug}/${t.slug}`, label: `How to calculate ${lower(r.name)} in ${t.name}` }))} />
       </Section>
+
+      <GuideList slugs={[GUIDE_FOR_TOOL[t.slug], 'find-what-changed-in-your-data'].filter(Boolean)} title={`Learn more about ${t.short}`} />
 
       <SourceNote dataset="monthly" />
     </LegalLayout>

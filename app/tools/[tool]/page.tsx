@@ -3,6 +3,8 @@ import Link from '../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
+import { TOOL_GUIDES } from '../../lib/links/graph.mjs';
+import { GuideList } from '../../Components/pseo/Related';
 import { AnswerBox, Code, LinkList, Section, linkCls } from '../../Components/pseo/Blocks';
 import { ToolRunner } from '../../Components/pseo/ToolRunner';
 import { TOOLS, tool } from '../../lib/tools/tools.mjs';
@@ -46,6 +48,7 @@ export default async function Page({ params }: { params: Params }) {
           <p className="text-xs text-[var(--text-muted)]">These examples are run by the tool itself in our automated tests, so the results shown are what it really returns.</p>
         </Section>
       ) : null}
+      <GuideList slugs={TOOL_GUIDES[t.slug] ?? ['free-online-data-analysis-tools']} title="Guides that use this" />
       <Section title="More tools">
         <LinkList items={related.map((x) => ({ href: `/tools/${x.slug}`, label: x.name }))} />
         <p>

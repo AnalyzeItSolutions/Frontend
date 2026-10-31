@@ -3,6 +3,8 @@ import Link from '../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
+import { METRIC_GUIDES, METRIC_METHODS } from '../../lib/links/graph.mjs';
+import { GuideList, MethodList } from '../../Components/pseo/Related';
 import { AnswerBox, Bullets, Code, DataTable, Faq, LinkList, Section, SourceNote, linkCls } from '../../Components/pseo/Blocks';
 import { MetricCalculator } from '../../Components/pseo/MetricCalculator';
 import { DATASETS, DATA_UPDATED } from '../../lib/pseo/data.mjs';
@@ -128,6 +130,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       </Section>
 
       <Faq items={metricFaq(m)} />
+
+      <MethodList slugs={METRIC_METHODS} title="Check how stable it is" />
+      <p className="text-sm text-[var(--text-secondary)]">
+        A metric moves for ordinary reasons as well as real ones. These methods separate the two: the spread shows what a normal month looks like, the moving average smooths it,
+        the z-score flags a month that is out of line and the trend line shows the direction.
+      </p>
+      <GuideList slugs={METRIC_GUIDES} title="Guides" />
 
       <SourceNote dataset="monthly" />
     </LegalLayout>

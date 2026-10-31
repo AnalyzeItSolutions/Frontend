@@ -84,3 +84,6 @@ export function decomposition(field) {
 }
 
 export const scriptName = (s) => (s ? s.replace(/_/g, ' ') : null);
+
+/** The Unicode Consortium's code chart (PDF) for the block starting at `start`. Checked 2026-10-31: all but High Private Use Surrogates have one. */
+export const chartUrlFor = (start) => (start === 0xdb80 ? null : `https://www.unicode.org/charts/PDF/U${start.toString(16).toUpperCase().padStart(4, '0')}.pdf`);

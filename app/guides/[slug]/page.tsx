@@ -7,6 +7,8 @@ import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { Code, Faq } from '../../Components/pseo/Blocks';
 import { GUIDES, guide, readMinutes } from '../../lib/guides.mjs';
 import { withBrand } from '../../lib/seo/snippets.mjs';
+import { GUIDE_LINKS } from '../../lib/links/graph.mjs';
+import { GuideList, MethodList, MetricList, ToolList } from '../../Components/pseo/Related';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
 
 export const dynamicParams = false;
@@ -84,6 +86,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
   };
   // Related reading: the longer guides first (they link to each other), then the rest, capped so the list stays useful.
+  const links = (GUIDE_LINKS as Record<string, { guides: string[]; methods: string[]; metrics: string[]; tools: string[] }>)[g.slug] ?? { guides: [], methods: [], metrics: [], tools: [] };
   const others = [...GUIDES.filter((o) => o.slug !== g.slug)].sort((a, b) => Number(!!b.seoTitle) - Number(!!a.seoTitle)).slice(0, 8);
   return (
     <LegalLayout title={g.title} eyebrow={false} showHeroUpdated={false} quietOperator subtitle={`${readMinutes(g)} min read · ${new Date(g.published).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}`}>
@@ -112,16 +115,15 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <Link href="/demo" className="text-[var(--text-primary)] underline underline-offset-2">try the live demo</Link> with no account.
         </p>
       </article>
-      <section className="mt-10 max-w-2xl">
-        <h2 className="font-serif text-xl text-[#2D2D2D] dark:text-[#EDEDED]">More guides</h2>
-        <ul className="mt-2 list-disc space-y-1.5 pl-5 text-[15px]">
-          {others.map((o) => (
-            <li key={o.slug}>
-              <Link href={`/guides/${o.slug}`} className="text-[var(--text-primary)] underline underline-offset-2">{o.title}</Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div className="mt-10 max-w-2xl space-y-8">
+        <GuideList slugs={links.guides.length ? links.guides : others.map((o) => o.slug)} />
+        <MethodList slugs={links.methods} title="Methods used in this guide" />
+        <MetricList slugs={links.metrics} />
+        <ToolList slugs={links.tools} />
+        <p className="text-sm text-[var(--text-secondary)]">
+          <Link href="/guides" className="text-[var(--text-primary)] underline underline-offset-2">All guides</Link> · <Link href="/methods" className="text-[var(--text-primary)] underline underline-offset-2">Statistics methods</Link> · <Link href="/metrics" className="text-[var(--text-primary)] underline underline-offset-2">Business metrics</Link> · <Link href="/tools" className="text-[var(--text-primary)] underline underline-offset-2">Free tools</Link>
+        </p>
+      </div>
     </LegalLayout>
   );
 }

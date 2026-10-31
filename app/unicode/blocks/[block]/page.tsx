@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../../Components/seo/JsonLd';
 import { Section, linkCls } from '../../../Components/pseo/Blocks';
+import { ExternalRefs } from '../../../Components/pseo/Related';
 import { GENERAL_CATEGORY, isVisible, scriptName, uPlus } from '../../../lib/unicode/encode.mjs';
-import { BLOCKS, UNICODE_VERSION, block, charPath, charsIn, displayName, glyph } from '../../../lib/unicode/unicode';
+import { BLOCKS, UNICODE_VERSION, block, charPath, chartUrl, charsIn, displayName, glyph } from '../../../lib/unicode/unicode';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
 
 export const revalidate = 31536000;
@@ -61,6 +62,7 @@ export default async function Page({ params }: { params: Params }) {
           </table>
         </div>
       </Section>
+      {chartUrl(b) ? <ExternalRefs title="Official reference" refs={[[`Unicode code chart: ${b.name} (PDF, unicode.org)`, chartUrl(b)!]]} /> : null}
       <p>
         {prev ? <>Previous block: <Link href={`/unicode/blocks/${prev.slug}`} className={linkCls}>{prev.name}</Link>. </> : null}
         {next ? <>Next block: <Link href={`/unicode/blocks/${next.slug}`} className={linkCls}>{next.name}</Link>. </> : null}

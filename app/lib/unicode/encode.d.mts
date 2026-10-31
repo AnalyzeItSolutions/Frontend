@@ -9,3 +9,4 @@ export function titleCase(name: string): string;
 export function decomposition(field: string): { canonical: boolean; tag: string | null; cps: number[] } | null;
 export function scriptName(s: string | null): string | null;
 export function htmlRefWorks(cp: number): boolean;
+export function chartUrlFor(start: number): string | null;

@@ -4,10 +4,11 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { LegalLayout } from '../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { unicodeSnippet } from '../../lib/seo/snippets.mjs';
+import { ExternalRefs } from '../../Components/pseo/Related';
 import { AnswerBox, DataTable, Faq, LinkList, Section, linkCls } from '../../Components/pseo/Blocks';
 import { CopyButton } from '../../Components/pseo/CopyButton';
 import { BIDI, GENERAL_CATEGORY, codes, decomposition, isVisible, scriptName, uPlus, utf8 } from '../../lib/unicode/encode.mjs';
-import { UNICODE_VERSION, blockOf, charAt, charFromSlug, charPath, charsIn, displayName, glyph, type Char } from '../../lib/unicode/unicode';
+import { UNICODE_VERSION, blockOf, chartUrl, charAt, charFromSlug, charPath, charsIn, displayName, glyph, type Char } from '../../lib/unicode/unicode';
 import { SITE_URL } from '../../lib/site';
 
 // ~34k pages, rendered from the bundled Unicode index and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages.
@@ -131,6 +132,8 @@ export default async function Page({ params }: { params: Params }) {
           </p>
         </Section>
       ) : null}
+
+      {b && chartUrl(b) ? <ExternalRefs title="Official reference" refs={[[`Unicode code chart: ${b.name} (PDF, unicode.org)`, chartUrl(b)!]]} /> : null}
 
       <Faq items={faq} />
 

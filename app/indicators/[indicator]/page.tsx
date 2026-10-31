@@ -7,6 +7,7 @@ import { AnswerBox, Section, linkCls } from '../../Components/pseo/Blocks';
 import { fmtValue, kindOf, lowerFirst } from '../../lib/wdi/describe.mjs';
 import { INDICATORS, cellsFor, definition, indicator } from '../../lib/wdi/wdi';
 import { SITE_URL } from '../../lib/site';
+import { GuideList } from '../../Components/pseo/Related';
 import { indicatorSnippet } from '../../lib/seo/snippets.mjs';
 
 export const revalidate = 2592000;
@@ -91,10 +92,12 @@ export default async function Page({ params }: { params: Params }) {
           </ul>
         </Section>
       ) : null}
+      <GuideList slugs={['free-public-datasets-and-how-to-check-them', 'data-analysis-examples']} title="Reading data like this" />
       <Section title="Source">
         <p>
           World Bank, World Development Indicators, <code>{ind.id}</code>, CC BY 4.0. {ind.source ? <>Original source: {ind.source} </> : null}
-          <a href={`https://data.worldbank.org/indicator/${ind.id}`} className={linkCls} rel="noopener" target="_blank">View on data.worldbank.org</a>.
+          <a href={`https://data.worldbank.org/indicator/${ind.id}`} className={linkCls} rel="noopener" target="_blank">View on data.worldbank.org</a>; the full definition is in the World Bank&apos;s{' '}
+          <a href={`https://databank.worldbank.org/metadataglossary/world-development-indicators/series/${ind.id}`} className={linkCls} rel="noopener" target="_blank">metadata glossary</a>.
         </p>
       </Section>
     </LegalLayout>

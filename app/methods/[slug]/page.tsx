@@ -6,6 +6,9 @@ import { JsonLd, breadcrumbs } from '../../Components/seo/JsonLd';
 import { AnswerBox, Bullets, Code, DataTable, Faq, LinkList, Section, SourceNote, linkCls } from '../../Components/pseo/Blocks';
 import { DATASETS, DATA_UPDATED } from '../../lib/pseo/data.mjs';
 import { fmt } from '../../lib/pseo/expr.mjs';
+import { GUIDES } from '../../lib/guides.mjs';
+import { METHOD_REFS, NIST_HANDBOOK, guidesForMethod } from '../../lib/links/graph.mjs';
+import { ExternalRefs, GuideList } from '../../Components/pseo/Related';
 import { METHODS, TOOLS, method, methodCategoryName, methodFaq, methodMeta, methodTools, methodValueText, relatedMethods } from '../../lib/pseo/pages.mjs';
 import { SITE_NAME, SITE_URL } from '../../lib/site';
 import { withBrand } from '../../lib/seo/snippets.mjs';
@@ -80,6 +83,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           See <Link href="/methods" className={linkCls}>all statistics methods</Link> or the <Link href="/metrics" className={linkCls}>business metrics</Link> they are used on.
         </p>
       </Section>
+
+      <GuideList slugs={guidesForMethod(m.slug, GUIDES).map((g) => g.slug)} title="Guides that use it" />
+
+      <ExternalRefs refs={[...(METHOD_REFS[m.slug] ?? []), NIST_HANDBOOK]} />
 
       <Faq items={methodFaq(m)} />
 

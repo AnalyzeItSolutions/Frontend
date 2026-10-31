@@ -3,6 +3,8 @@ import Link from '../../../Components/pseo/Link';
 import { notFound } from 'next/navigation';
 import { LegalLayout } from '../../../Components/legal/LegalLayout';
 import { JsonLd, breadcrumbs } from '../../../Components/seo/JsonLd';
+import { GUIDE_FOR_TOOL } from '../../../lib/links/graph.mjs';
+import { GuideList } from '../../../Components/pseo/Related';
 import { AnswerBox, Bullets, Code, DataTable, LinkList, Section, SourceNote, linkCls } from '../../../Components/pseo/Blocks';
 import { DATASETS, DATA_UPDATED } from '../../../lib/pseo/data.mjs';
 import { fmt } from '../../../lib/pseo/expr.mjs';
@@ -107,6 +109,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string;
       <Section title="Related methods">
         <LinkList items={relatedMethods(m).filter((r) => methodTools(r).includes(t.slug)).map((r) => ({ href: `/methods/${r.slug}/${t.slug}`, label: `How to calculate ${lower(r.name.replace(/ \(.*\)$/, ''))} in ${t.name}` }))} />
       </Section>
+
+      <GuideList slugs={[GUIDE_FOR_TOOL[t.slug], 'data-analysis-methods-and-techniques'].filter(Boolean)} title={`Learn more about ${t.short}`} />
 
       <SourceNote dataset="daily" />
     </LegalLayout>

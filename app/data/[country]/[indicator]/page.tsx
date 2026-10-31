@@ -8,6 +8,7 @@ import { LineChart } from '../../../Components/pseo/LineChart';
 import { lowerFirst, changeSentence, fmtExact, fmtValue, kindOf, ordinal, rankAmong, summarize } from '../../../lib/wdi/describe.mjs';
 import { COUNTRIES, apiUrl, cell, cellsFor, country, countryIso3, definition, fetchSeries, indicator, indicatorsFor, sourceUrl } from '../../../lib/wdi/wdi';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
+import { GuideList } from '../../../Components/pseo/Related';
 import { dataSnippet } from '../../../lib/seo/snippets.mjs';
 import { analysisText } from '../../../lib/wdi/analysis.mjs';
 
@@ -196,6 +197,8 @@ export default async function Page({ params }: { params: Params }) {
           </p>
         </Section>
       ) : null}
+
+      <GuideList slugs={['free-public-datasets-and-how-to-check-them', 'data-analysis-examples', 'real-change-or-random-noise']} title="Reading data like this" />
 
       <Faq items={faq} />
 
