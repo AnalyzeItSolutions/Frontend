@@ -72,6 +72,10 @@ export function interpretLayerPayload(payload) {
   if (payload.fetchError) {
     return { status: 'error', message: String(payload.fetchError), events: null, path: null, lines: null };
   }
+  // A world layer downloading for the first time: not a failure, it arrives on the next try.
+  if (payload.warming) {
+    return { status: 'loading', message: String(payload.error || 'Loading…'), events: null, path: null, lines: null };
+  }
   if (payload.available === false || (typeof payload.error === 'string' && payload.error.trim())) {
     return {
       status: 'error',
@@ -100,6 +104,15 @@ export function interpretLayerPayload(payload) {
  * @param {ReturnType<typeof interpretLayerPayload>} interpreted
  */
 export function mergeLayerRefresh(previous, interpreted) {
+  if (interpreted.status === 'loading') {
+    return {
+      events: Array.isArray(previous?.events) ? previous.events : [],
+      path: previous?.path || null,
+      lines: Array.isArray(previous?.lines) ? previous.lines : null,
+      status: 'loading',
+      message: interpreted.message,
+    };
+  }
   if (interpreted.status === 'error') {
     const kept = Array.isArray(previous?.events) ? previous.events : [];
     const keptLines = Array.isArray(previous?.lines) ? previous.lines : null;

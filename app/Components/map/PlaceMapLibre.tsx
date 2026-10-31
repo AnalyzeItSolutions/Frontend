@@ -787,7 +787,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
           </Source>
         ) : null}
 
-        {variant === 'full' && dataView === 'pins' && liveEventGeoJson.features.length > 0 ? (
+        {dataView === 'pins' && liveEventGeoJson.features.length > 0 ? (
           <Source id="globe-live-events" type="geojson" data={liveEventGeoJson}>
             <Layer {...liveEventHitLayer} />
             <Layer {...liveEventLayer} />
@@ -818,7 +818,7 @@ export const PlaceMapLibre = forwardRef<GlobeMapHandle, PlaceMapLibreProps>(func
               p.kind !== 'hub' &&
               !(variant === 'full' && isLayerKind(p.kind)) &&
               (dataView === 'pins' || p.kind !== 'event') &&
-              !(variant === 'full' && dataView === 'pins' && p.kind === 'event'),
+              !(dataView === 'pins' && p.kind === 'event'), // events are drawn by the GPU layer, on the full and the chat globe
           )
           .map((point) => {
             const facing = isFacing(point.id);

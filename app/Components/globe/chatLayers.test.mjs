@@ -1,4 +1,4 @@
-import test from 'node:test';
+import test, { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { inferGlobeLayers } from './chatLayers.mjs';
 
@@ -16,4 +16,18 @@ test('caps the number of layers and ignores ordinary questions', () => {
 
 test('does not match inside other words', () => {
   assert.deepEqual(inferGlobeLayers('The brainstorm session was in a restaurant'), []);
+});
+
+describe('world layers in chat', () => {
+  it('maps world questions to the new layers', () => {
+    assert.deepEqual(inferGlobeLayers('How busy is air traffic over Europe right now?'), ['flights']);
+    assert.deepEqual(inferGlobeLayers('Which cities are in the news today?'), ['news_events']);
+    assert.deepEqual(inferGlobeLayers('Where is the jet stream?'), ['wind']);
+    assert.deepEqual(inferGlobeLayers('Show active fires burning in Brazil'), ['wildfires', 'hotspots']);
+  });
+
+  it('leaves business questions alone', () => {
+    assert.deepEqual(inferGlobeLayers("What's happening with my sales this week?"), []);
+    assert.deepEqual(inferGlobeLayers('Which products had the most refunds?'), []);
+  });
 });

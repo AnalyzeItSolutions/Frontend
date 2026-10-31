@@ -19,6 +19,7 @@ import { PlacePanel } from './_parts/PlacePanel';
 import { SearchControls } from './_parts/SearchControls';
 import { SidePanelBody } from './_parts/SidePanelBody';
 import { AreaPanel } from './_parts/AreaPanel';
+import { NearbyPanel } from './_parts/NearbyPanel';
 import { useAreaDraw } from './_parts/useAreaDraw';
 import { useGlobePlaces } from './_parts/useGlobePlaces';
 import { useGlobeLayers } from './_parts/useGlobeLayers';
@@ -106,6 +107,12 @@ function GlobePageInner() {
             layerHealth={data.layerHealth}
             replayCounts={replayCounts}
             loading={data.layersLoading}
+          />
+          <NearbyPanel
+            points={data.rawPoints}
+            myDataOn={data.layers.my_data}
+            onGo={(lat, lon, name) => places.goTo(lat, lon, { name, zoom: 6 })}
+            onAsk={(prompt) => places.sendToResearch(prompt)}
           />
           <AreaPanel area={area} onAsk={(prompt) => places.sendToResearch(prompt)} />
           <TimeControls
