@@ -18,9 +18,11 @@ import { LayerList } from './_parts/LayerList';
 import { PlacePanel } from './_parts/PlacePanel';
 import { SearchControls } from './_parts/SearchControls';
 import { SidePanelBody } from './_parts/SidePanelBody';
+import { AddToDashboard } from './_parts/AddToDashboard';
 import { AreaPanel } from './_parts/AreaPanel';
 import { NearbyPanel } from './_parts/NearbyPanel';
 import { useAreaDraw } from './_parts/useAreaDraw';
+import { useAreaWatches } from './_parts/useAreaWatches';
 import { useGlobePlaces } from './_parts/useGlobePlaces';
 import { useGlobeLayers } from './_parts/useGlobeLayers';
 import { useGlobeRasters } from './_parts/useGlobeRasters';
@@ -41,6 +43,7 @@ function GlobePageInner() {
   const time = useGlobeTime();
   const data = useGlobeLayers(time.days, requestedProject);
   const area = useAreaDraw(data.rawPoints);
+  const watching = useAreaWatches(requestedProject);
   const places = useGlobePlaces(area.onMapClick);
   const { setExtraPaths } = data;
   useEffect(() => setExtraPaths(area.path ? [area.path] : []), [area.path, setExtraPaths]);
@@ -114,7 +117,17 @@ function GlobePageInner() {
             onGo={(lat, lon, name) => places.goTo(lat, lon, { name, zoom: 6 })}
             onAsk={(prompt) => places.sendToResearch(prompt)}
           />
-          <AreaPanel area={area} onAsk={(prompt) => places.sendToResearch(prompt)} />
+          <AddToDashboard
+            project={watching.project}
+            layers={Object.entries(data.layers).filter(([, on]) => on).map(([id]) => id)}
+            outline={area.mode === 'done' && area.corners.length >= 3 ? area.corners.map((c) => [c.lon, c.lat] as [number, number]) : null}
+          />
+          <AreaPanel
+            area={area}
+            watching={watching}
+            onAsk={(prompt) => places.sendToResearch(prompt)}
+            onGo={(lat, lon) => places.goTo(lat, lon, { zoom: 4 })}
+          />
           <TimeControls
             days={time.days}
             onDays={time.setDays}

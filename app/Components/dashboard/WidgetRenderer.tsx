@@ -1,5 +1,6 @@
 'use client';
 
+import { GlobeViewWidget } from './GlobeViewWidget';
 import { TrendChart } from './TrendChart';
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -1902,6 +1903,7 @@ export const NATIVE_WIDGET_REGISTRY: Record<
   bubble_grid: BubbleGridWidget,
   multi_series_chart: MultiSeriesChartWidget,
   kpi_sparkline: KpiSparklineWidget,
+  globe_view: GlobeViewWidget,
 };
 
 // ── 5. Sandboxed HTML Harness Generator ─────────────────────────────────────

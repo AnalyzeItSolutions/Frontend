@@ -66,6 +66,8 @@ function style(basemap, theme) {
  *   workerUrl?: string,
  *   layers?: string[],
  *   theme?: 'dark' | 'light',
+ *   center?: { lat: number, lon: number, zoom?: number },
+ *   outline?: Array<[number, number]>,
  *   pollMs?: number,
  *   onSelect?: (pin: { id: string, layer: string, label: string, lat: number, lon: number, details: Record<string, string>, links: string[] } | null) => void,
  *   onUpdate?: (state: { counts: Record<string, number>, health: Record<string, { status: string, message?: string | null }>, loading: boolean }) => void,
@@ -76,8 +78,8 @@ export function createGlobe(el, opts) {
   const map = new maplibregl.Map({
     container: el,
     style: style(opts.basemap, opts.theme),
-    center: [20, 20],
-    zoom: 1.3,
+    center: opts.center ? [opts.center.lon, opts.center.lat] : [20, 20],
+    zoom: opts.center?.zoom ?? 1.3,
     attributionControl: false,   // (renderWorldCopies must stay on: with it off the globe projection draws no data)
   });
   map.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: 'Natural Earth · data via AnalyzeIt' }));
@@ -113,11 +115,17 @@ export function createGlobe(el, opts) {
       });
       map.getSource('lines')?.setData({
         type: 'FeatureCollection',
-        features: built.paths.map((p) => ({
-          type: 'Feature',
-          properties: { color: p.color || '#f43f5e', kind: p.kind || 'track' },
-          geometry: { type: 'LineString', coordinates: p.coordinates },
-        })),
+        features: [
+          ...built.paths.map((p) => ({
+            type: 'Feature',
+            properties: { color: p.color || '#f43f5e', kind: p.kind || 'track' },
+            geometry: { type: 'LineString', coordinates: p.coordinates },
+          })),
+          // A watched or drawn area the host wants shown, as [lon, lat] pairs.
+          ...(Array.isArray(opts.outline) && opts.outline.length >= 3
+            ? [{ type: 'Feature', properties: { color: '#facc15', kind: 'area' }, geometry: { type: 'LineString', coordinates: [...opts.outline, opts.outline[0]] } }]
+            : []),
+        ],
       });
     }
     opts.onUpdate?.({ counts, health, loading: inflight.size > 0 });

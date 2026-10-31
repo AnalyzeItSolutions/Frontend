@@ -24,6 +24,11 @@ export function useAreaDraw(points: SourcePoint[]) {
     setMode('off');
   }, []);
   const undo = useCallback(() => setCorners((prev) => prev.slice(0, -1)), []);
+  /** Show a saved area (a watch) as if it had just been drawn. */
+  const show = useCallback((ring: Corner[]) => {
+    setCorners(ring);
+    setMode(ring.length >= 3 ? 'done' : 'off');
+  }, []);
   const finish = useCallback(() => setMode((m) => (m === 'drawing' && corners.length >= 3 ? 'done' : m)), [corners.length]);
 
   /** True when the click was taken as a corner. */
@@ -57,5 +62,5 @@ export function useAreaDraw(points: SourcePoint[]) {
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }, [corners, summary]);
 
-  return { mode, corners, start, clear, undo, finish, onMapClick, path, summary, exportGeoJson };
+  return { mode, corners, start, clear, undo, finish, show, onMapClick, path, summary, exportGeoJson };
 }
