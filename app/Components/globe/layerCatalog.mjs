@@ -24,7 +24,7 @@ export const LAYER_CATALOG = [
   { id: 'wildfires', label: 'Wildfires', hint: 'NASA EONET open fires', group: 'hazards', coverage: 'complete' },
   { id: 'storms', label: 'Storms', hint: 'NASA EONET severe storms', group: 'weather', coverage: 'complete' },
   { id: 'volcanoes', label: 'Volcanoes', hint: 'NASA EONET volcanoes', group: 'hazards', coverage: 'complete' },
-  { id: 'weather', label: 'Weather', hint: 'Live temperature, wind, cloud and rain on a 10° world grid · refreshed every 3 h', group: 'weather', coverage: 'complete' },
+  { id: 'weather', label: 'Weather', hint: 'NOAA GFS model · temperature, humidity, cloud, rain and wind every 3° worldwide · new run every 6 h', group: 'weather', coverage: 'complete' },
   { id: 'air_quality', label: 'Air quality', hint: 'Live AQI and PM2.5 on a 10° world grid · refreshed every 3 h', group: 'weather', coverage: 'complete' },
   { id: 'iss', label: 'Space station', hint: 'Where the ISS is now and its track', group: 'space', coverage: 'complete' },
   { id: 'radar', label: 'Rain radar', hint: 'Live precipitation radar mosaic (RainViewer) · refreshed every 10 min', group: 'weather', coverage: 'complete' },
