@@ -6,6 +6,7 @@ import { DATASETS, toCsv } from '../../app/lib/pseo/data.mjs';
 import { METRICS } from '../../app/lib/pseo/metrics.mjs';
 import { excel, pandas, results, sql } from '../../app/lib/pseo/expr.mjs';
 import { METHODS, methodResults } from '../../app/lib/pseo/methods.mjs';
+import { GUIDE_CHECKS } from '../../app/lib/guidesDeep.mjs';
 
 const out = process.argv[2] || '.';
 fs.mkdirSync(out, { recursive: true });
@@ -32,5 +33,6 @@ for (const m of METHODS) {
     pandas: m.pandas ? { code: m.pandas, total: m.pandasVar } : null,
   });
 }
+items.push(...GUIDE_CHECKS); // snippets that appear only in /guides
 fs.writeFileSync(path.join(out, 'snippets.json'), JSON.stringify(items, null, 1));
 console.log(`${items.length} items written to ${out}`);

@@ -55,7 +55,10 @@ export default function Page() {
         </Section>
       ))}
       <p>
-        For business formulas such as conversion rate, CAC or churn, see <Link href="/metrics" className={linkCls}>business metrics</Link>.
+        For business formulas such as conversion rate, CAC or churn, see <Link href="/metrics" className={linkCls}>business metrics</Link>. New to analysis? Start with{' '}
+        <Link href="/guides/data-analysis-steps" className={linkCls}>how to do data analysis</Link>,{' '}
+        <Link href="/guides/data-analysis-methods-and-techniques" className={linkCls}>which method answers which question</Link> or{' '}
+        <Link href="/guides/data-analysis-examples" className={linkCls}>six worked examples</Link>.
       </p>
     </LegalLayout>
   );

@@ -62,7 +62,9 @@ export default function Page() {
         );
       })}
       <p>
-        Looking for the statistics underneath, such as standard deviation, correlation or a t-test? See the <Link href="/methods" className={linkCls}>statistics methods</Link>.
+        Looking for the statistics underneath, such as standard deviation, correlation or a t-test? See the <Link href="/methods" className={linkCls}>statistics methods</Link>, or the guides on{' '}
+        <Link href="/guides/excel-data-analysis" className={linkCls}>Excel data analysis</Link> and{' '}
+        <Link href="/guides/python-and-sql-for-data-analysis" className={linkCls}>Python and SQL</Link>.
       </p>
     </LegalLayout>
   );

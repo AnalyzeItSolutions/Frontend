@@ -2,9 +2,11 @@
 // and every claim about AnalyzeIt describes something that exists today (see /docs/discovery and the changelog).
 // Blocks: { p }, { h2 }, { ul: [...] }, { ol: [...] }.
 
-export const GUIDES_UPDATED = '2026-10-21';
+import { DEEP_GUIDES } from './guidesDeep.mjs';
 
-export const GUIDES = [
+export const GUIDES_UPDATED = '2026-10-31';
+
+const BASE_GUIDES = [
   {
     slug: 'find-what-changed-in-your-data',
     title: 'How to find out what changed in your sales data',
@@ -409,13 +411,25 @@ export const GUIDES = [
   },
 ];
 
+export const GUIDES = [...BASE_GUIDES, ...DEEP_GUIDES];
+
 export function guide(slug) {
   return GUIDES.find((g) => g.slug === slug) ?? null;
 }
 
+/** Plain text of one block, for counting words. Link syntax [text](/path) counts as its text. */
+export function blockText(b) {
+  const strip = (t) => String(t).replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
+  if (b.p) return [strip(b.p)];
+  if (b.h2) return [b.h2];
+  if (b.code) return [];
+  if (b.table) return [...b.table.head, ...b.table.rows.flat()].map(strip);
+  if (b.faq) return b.faq.flatMap((f) => [f.q, f.a]);
+  return [...(b.ul || []), ...(b.ol || [])].map(strip);
+}
+
 export function wordCount(g) {
-  const parts = g.blocks.flatMap((b) => (b.p ? [b.p] : b.h2 ? [b.h2] : [...(b.ul || []), ...(b.ol || [])]));
-  return parts.join(' ').split(/\s+/).filter(Boolean).length;
+  return g.blocks.flatMap(blockText).join(' ').split(/\s+/).filter(Boolean).length;
 }
 
 export function readMinutes(g) {

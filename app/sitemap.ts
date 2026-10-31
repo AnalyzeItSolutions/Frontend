@@ -50,7 +50,7 @@ const publicPaths: { path: string; changeFrequency: MetadataRoute.Sitemap[number
 ];
 
 // A "last modified" that always says "now" teaches search engines to ignore it, so only pages with a known date carry one.
-const knownDates: Record<string, string> = { '/docs/discovery': '2026-10-06', '/docs/tokens': '2026-10-16', '/guides': '2026-10-21', '/features': '2026-10-21', '/changelog': '2026-10-06', '/cases': LIVE_CASES_UPDATED, '/metrics': DATA_UPDATED, '/methods': DATA_UPDATED };
+const knownDates: Record<string, string> = { '/docs/discovery': '2026-10-06', '/docs/tokens': '2026-10-16', '/guides': '2026-10-31', '/features': '2026-10-21', '/changelog': '2026-10-06', '/cases': LIVE_CASES_UPDATED, '/metrics': DATA_UPDATED, '/methods': DATA_UPDATED };
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const fixed = publicPaths.map(({ path, changeFrequency, priority }) => ({
