@@ -160,7 +160,8 @@ export function createGlobe(el, opts) {
   map.on('mouseleave', 'pin-hit', () => { map.getCanvas().style.cursor = ''; });
 
   const timer = setInterval(() => {
-    if (typeof document !== 'undefined' && document.hidden) return;
+    // Nobody is looking: the window is hidden, or the host moved to another screen and hid the globe.
+    if ((typeof document !== 'undefined' && document.hidden) || !el.isConnected || el.offsetParent === null) return;
     for (const id of on) void load(id);
   }, opts.pollMs || 60_000);
 
