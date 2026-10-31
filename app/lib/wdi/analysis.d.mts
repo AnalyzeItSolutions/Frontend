@@ -1,0 +1,15 @@
+import type { Kind, P } from './describe.mjs';
+export type YearChange = { year: number; from: number; to: number; change: number };
+export type Unit = 'percent' | 'points' | 'units';
+export type LatestMove = YearChange & { unit: Unit; mean: number; sd: number; z: number; size: 'ordinary' | 'larger' | 'unusual'; n: number; firstYear: number };
+export type Moves = { unit: Unit; rise: YearChange | null; fall: YearChange | null };
+export type Trend = { from: number; to: number; n: number; slope: number; r2: number; direction: 'up' | 'down' | 'flat' };
+export type Projection = { year: number; value: number; error: number; naiveError: number; r2: number; from: number; testFrom: number; testTo: number };
+export const MIN_HISTORY: number;
+export function fitLine(pts: { year: number; value: number }[]): { slope: number; intercept: number; r2: number; at: (year: number) => number } | null;
+export function yearlyChanges(points: P[], kind: Kind, name?: string): { changes: YearChange[]; unit: Unit };
+export function latestMove(points: P[], kind: Kind, name?: string): LatestMove | null;
+export function biggestMoves(points: P[], kind: Kind, name?: string): Moves | null;
+export function recentTrend(points: P[]): Trend | null;
+export function projection(points: P[]): Projection | null;
+export function analysisText(a: { country: string; name: string; kind: Kind; points: P[] }): { move: string[]; biggest: string[]; trend: string[]; projection: string[] };

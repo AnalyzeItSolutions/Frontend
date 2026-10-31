@@ -9,6 +9,7 @@ import { lowerFirst, changeSentence, fmtExact, fmtValue, kindOf, ordinal, rankAm
 import { COUNTRIES, apiUrl, cell, cellsFor, country, countryIso3, definition, fetchSeries, indicator, indicatorsFor, sourceUrl } from '../../../lib/wdi/wdi';
 import { SITE_NAME, SITE_URL } from '../../../lib/site';
 import { dataSnippet } from '../../../lib/seo/snippets.mjs';
+import { analysisText } from '../../../lib/wdi/analysis.mjs';
 
 // 221k pages: rendered per request and cached at the CDN (Cache-Control in next.config.ts), not stored as ISR pages,
 // so a crawl of the whole set does not consume ISR write units.
@@ -65,10 +66,19 @@ export default async function Page({ params }: { params: Params }) {
   const neighbours = all.filter((e) => e.country.region === c.region && e.country.iso3 !== c.iso3 && !e.country.aggregate).slice(0, 15);
   const sameTopic = indicatorsFor(c).filter((x) => x.indicator.topic === ind.topic && x.indicator.id !== ind.id).sort((a, b) => b.cell[1] - a.cell[1]).slice(0, 15);
 
+  const an = analysisText({ country: c.name, name: lower, kind, points: series });
+  const hasAnalysis = an.move.length > 0 || an.biggest.length > 0 || an.trend.length > 0;
+  // The economies ranked just above and below this one, for the same year: real neighbours, each a page of its own.
+  const ranked = sameYear.filter((e) => Number.isFinite(e.value)).sort((a, b) => b.value - a.value);
+  const at = ranked.findIndex((e) => e.country.iso3 === c.iso3);
+  const closest = !c.aggregate && at >= 0 ? [...ranked.slice(Math.max(0, at - 3), at), ...ranked.slice(at + 1, at + 4)] : [];
+
   const faq = [
     { q: `What is ${c.name}'s ${lower}?`, a: `${fmtValue(s.latest.value, kind)} in ${s.latest.year}, according to the World Bank (World Development Indicators).` },
     ...(since ? [{ q: `How has it changed since ${s.first.year}?`, a: `It is ${since}. The highest value was ${fmtValue(s.max.value, kind)} in ${s.max.year} and the lowest ${fmtValue(s.min.value, kind)} in ${s.min.year}.` }] : []),
     ...(rank ? [{ q: `How does ${c.name} rank?`, a: `${ordinal(rank.rank)} highest of ${rank.of} economies with data for ${s.latest.year}.` }] : []),
+    ...(an.move.length ? [{ q: `Is the latest change in ${lower} unusual for ${c.name}?`, a: an.move.join(' ') }] : []),
+    ...(an.projection.length ? [{ q: `Where is ${c.name}'s ${lower} heading?`, a: `${an.trend.join(' ')} ${an.projection.join(' ')}` }] : []),
     { q: 'Where does this data come from?', a: `The World Bank's World Development Indicators, licensed CC BY 4.0. Original source: ${ind.source || 'see the World Bank indicator page'}.` },
   ];
   const dataset = {
@@ -118,6 +128,28 @@ export default async function Page({ params }: { params: Params }) {
         </p>
       </Section>
 
+      {hasAnalysis ? (
+        <Section title="What the numbers say">
+          {an.move.map((t) => <p key={t}>{t}</p>)}
+          {an.biggest.map((t) => <p key={t}>{t}</p>)}
+          {an.trend.map((t) => <p key={t}>{t}</p>)}
+          <p className="text-xs text-[var(--text-muted)]">
+            Worked out from the yearly values above. How the checks work: <Link href="/methods/standard-deviation" className={linkCls}>standard deviation</Link>,{' '}
+            <Link href="/methods/z-score" className={linkCls}>z-scores</Link> and <Link href="/methods/linear-regression" className={linkCls}>straight-line trends</Link>.
+          </p>
+        </Section>
+      ) : null}
+
+      {an.projection.length ? (
+        <Section title="A straight-line projection, tested first">
+          {an.projection.map((t) => <p key={t}>{t}</p>)}
+          <p className="text-xs text-[var(--text-muted)]">
+            See <Link href="/methods/linear-trend-forecast" className={linkCls}>how a linear trend forecast works</Link> and the guide on{' '}
+            <Link href="/guides/forecast-without-fooling-yourself" className={linkCls}>forecasting without fooling yourself</Link>.
+          </p>
+        </Section>
+      ) : null}
+
       {rank || comparisons.length ? (
         <Section title="How it compares">
           {rank ? (
@@ -131,6 +163,12 @@ export default async function Page({ params }: { params: Params }) {
           {comparisons.length ? (
             <DataTable head={['', 'Value', 'Year']} rows={[[c.name, fmtValue(s.latest.value, kind), String(s.latest.year)], ...comparisons.map((x) => [x.country.name, fmtValue(x.value, kind), String(x.year)])]} />
           ) : null}
+        </Section>
+      ) : null}
+
+      {closest.length ? (
+        <Section title={`Closest to ${c.name} in the ${s.latest.year} ranking`}>
+          <LinkList items={closest.map((e) => ({ href: `/data/${e.country.slug}/${ind.slug}`, label: e.country.name, note: `${ordinal(ranked.indexOf(e) + 1)} of ${ranked.length}: ${fmtValue(e.value, kind)}` }))} />
         </Section>
       ) : null}
 
@@ -167,7 +205,8 @@ export default async function Page({ params }: { params: Params }) {
           <a href="https://creativecommons.org/licenses/by/4.0/" className={linkCls} rel="license noopener" target="_blank">CC BY 4.0</a>.
           {ind.source ? <> Original source: {ind.source}</> : null} Figures are fetched from the{' '}
           <a href={apiUrl(c, ind)} className={linkCls} rel="noopener" target="_blank">World Bank API</a> and refreshed monthly; see the series on{' '}
-          <a href={sourceUrl(c, ind)} className={linkCls} rel="noopener" target="_blank">data.worldbank.org</a>. Comparisons use the same World Bank release.
+          <a href={sourceUrl(c, ind)} className={linkCls} rel="noopener" target="_blank">data.worldbank.org</a>. The full definition and method are in the World Bank's{' '}
+          <a href={`https://databank.worldbank.org/metadataglossary/world-development-indicators/series/${ind.id}`} className={linkCls} rel="noopener" target="_blank">metadata glossary</a>. Comparisons use the same World Bank release.
         </p>
         <p>
           Want to ask your own questions of data like this? <Link href="/demo" className={linkCls}>Try AnalyzeIt</Link>: upload a file or ask about public data in plain words,
