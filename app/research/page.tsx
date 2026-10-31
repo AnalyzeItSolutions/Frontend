@@ -54,6 +54,7 @@ import { decideBulkChange, decideDataChange, setAgentAccess, undoBulkChange } fr
 import { BulkChangeCard, type BulkChangeStatus } from '../Components/chat/BulkChangeCard';
 import { ExternalActionCard } from '../Components/chat/ExternalActionCard';
 import { TaskPlanCard } from '../Components/chat/TaskPlanCard';
+import { ComputerTaskBlock } from '../Components/chat/ComputerTaskBlock';
 import { ConnectAccountDialog } from '../Components/chat/ConnectAccountDialog';
 import { decideExternalAction, decideTaskPlan, editExternalAction, editTaskPlanStep, saveActionFile, type ExternalAction, type TaskPlan } from '../lib/externalActionsApi';
 import { SECRET_WARNING, explainActionError, looksLikeSecret } from '../lib/externalActions.mjs';
@@ -167,6 +168,8 @@ interface ChatMessage {
   externalActions?: Array<{ action: ExternalAction; busy?: boolean; error?: string }>;
   /** Several actions in order that the assistant proposed; they run only after the user approves the whole plan here. */
   taskPlans?: Array<{ plan: TaskPlan; busy?: boolean; error?: string }>;
+  /** "Do it for me" goals the assistant proposed; each becomes a Start card, then the live view once the person starts it. */
+  computerTasks?: Array<{ goal: string }>;
   /** The assistant needs an account the user has not connected yet (opens the secure form, never asks for a login in chat). */
   needAccount?: { service: string };
   bulkChange?: { action_id: string; project_id: string; proposal: BulkProposal; status: BulkChangeStatus; result?: { changed?: number; skipped?: number; restored?: number; left_alone?: number } | null; error?: string };
@@ -1424,6 +1427,18 @@ function ChatInner() {
               return;
             }
 
+            if (event.event === 'computer_task_proposal' && typeof event.payload.goal === 'string' && event.payload.goal.trim()) {
+              const goal = event.payload.goal.trim();
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId && !(m.computerTasks ?? []).some((x) => x.goal === goal)
+                    ? { ...m, computerTasks: [...(m.computerTasks ?? []), { goal }] }
+                    : m,
+                ),
+              );
+              return;
+            }
+
             if (event.event === 'external_account_required') {
               const service = typeof event.payload.service === 'string' ? event.payload.service : '';
               setMessages((prev) => prev.map((m) => (m.id === assistantId ? { ...m, needAccount: { service } } : m)));
@@ -2242,6 +2257,10 @@ function ChatInner() {
                           onApprove={() => void decidePlan(msg.id, x.plan.id, 'approve')}
                           onDeny={() => void decidePlan(msg.id, x.plan.id, 'deny')}
                         />
+                      ))}
+
+                      {!isUser && msg.computerTasks?.map((x, i) => (
+                        <ComputerTaskBlock key={`${x.goal}-${i}`} goal={x.goal} projectId={projectId ?? undefined} />
                       ))}
 
                       {!isUser && msg.needAccount && (
